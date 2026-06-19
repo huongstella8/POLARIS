@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 Reading Practice Level 1</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#222}
+/* BRAND BAR */
+.brandbar{position:fixed;top:0;left:0;right:0;height:18px;background:#0d0d1a;display:flex;align-items:center;justify-content:center;z-index:300}
+.brandbar span{color:#6a7fdb;font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:.85}
+/* TOP BAR */
+.topbar{position:fixed;top:18px;left:0;right:0;height:54px;background:#1a1a2e;display:flex;align-items:center;padding:0 14px;gap:10px;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.apptitle{color:#fff;font-size:1.05rem;font-weight:700;white-space:nowrap;margin-right:6px}
+.tabs{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:5px 10px;border-radius:6px;cursor:pointer;font-size:.78rem;white-space:nowrap;border:1.5px solid transparent;color:#aaa;background:transparent;transition:.2s}
+.tab:hover{background:#2d2d4e;color:#fff}
+.tab.active{background:#4f8ef7;color:#fff;border-color:#4f8ef7}
+.tab.done{border-color:#27ae60;color:#27ae60}
+.tab.done.active{background:#27ae60;color:#fff}
+.timer-chip{background:#0f3460;color:#00e5ff;font-family:monospace;font-size:1rem;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap;min-width:70px;text-align:center}
+.rpt-btn{background:#e74c3c;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;white-space:nowrap}
+.rpt-btn:hover{background:#c0392b}
+.student-inputs{display:flex;gap:6px;flex-shrink:1;min-width:0}
+.stu-input{background:#0f1b3d;border:1px solid #2a3a6a;color:#c8d4f0;border-radius:5px;padding:3px 8px;font-size:.75rem;width:140px;outline:none;flex-shrink:1}
+.stu-input:focus{border-color:#4f8ef7}
+.stu-input::placeholder{color:#506090}
+/* SPLIT LAYOUT */
+.split{display:flex;height:calc(100vh - 72px);margin-top:72px;overflow:hidden}
+.textpanel{width:46%;background:#fff;overflow-y:auto;padding:22px 24px;border-right:2px solid #e0e6ed;flex-shrink:0}
+.qpanel{flex:1;background:#f8f9fc;overflow-y:auto;padding:22px 24px}
+/* TEXT PANEL */
+.ptitle{font-size:1.25rem;font-weight:800;color:#1a1a2e;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #4f8ef7}
+.rp{margin-bottom:12px;line-height:1.7;font-size:.95rem;color:#333}
+.gm{display:inline-block;background:#fff3cd;border:1.5px solid #f0c040;color:#856404;font-weight:700;font-size:.82rem;padding:1px 6px;border-radius:4px;margin:0 2px}
+/* QUESTIONS PANEL */
+.exbox{background:#fff;border-radius:10px;padding:18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8ecf0}
+.extitle{font-weight:700;color:#1a1a2e;font-size:1rem;margin-bottom:6px}
+.exinstr{color:#555;font-size:.88rem;margin-bottom:14px;padding:8px 12px;background:#f0f4ff;border-radius:6px;border-left:3px solid #4f8ef7}
+/* OPTIONS TABLE */
+.opttable{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:.88rem}
+.opttable td{padding:6px 8px;border:1px solid #e8ecf0;vertical-align:top}
+.opttable .olabel{font-weight:700;color:#4f8ef7;width:32px;text-align:center;background:#f0f4ff}
+/* GAP MATCH */
+.gap-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.9rem}
+.gap-label{font-weight:700;color:#666;width:58px;flex-shrink:0}
+.gap-sel{flex:1;padding:6px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem;background:#fff}
+/* MCQ */
+.mcq-opt{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:7px;margin-bottom:6px;cursor:pointer;border:1.5px solid #e0e6ed;background:#fff;transition:.15s}
+.mcq-opt:hover{background:#f0f4ff;border-color:#4f8ef7}
+.mcq-opt input[type=radio]{margin-top:3px;flex-shrink:0}
+.mcq-opt label{cursor:pointer;font-size:.9rem;line-height:1.5}
+/* TRUE FALSE */
+.tf-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:8px 10px;background:#fafbff;border-radius:7px;border:1px solid #e8ecf0}
+.tf-stmt{flex:1;font-size:.9rem;line-height:1.5}
+.tf-btns{display:flex;gap:6px;flex-shrink:0}
+.tf-btn{padding:4px 12px;border-radius:5px;border:1.5px solid #ccc;cursor:pointer;font-size:.85rem;font-weight:600;background:#fff;transition:.15s}
+.tf-btn:hover{background:#e8ecf0}
+.tf-btn.sel-T{background:#27ae60;color:#fff;border-color:#27ae60}
+.tf-btn.sel-F{background:#e74c3c;color:#fff;border-color:#e74c3c}
+/* SHORT ANSWER */
+.sa-row{margin-bottom:10px}
+.sa-q{font-size:.9rem;margin-bottom:4px;color:#333;line-height:1.5}
+.sa-inp{width:100%;padding:7px 10px;border:1.5px solid #ccd;border-radius:6px;font-size:.9rem}
+/* ORDERING */
+.ord-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:.9rem}
+.ord-letter{font-weight:700;color:#4f8ef7;width:24px;flex-shrink:0}
+.ord-inp{width:52px;padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;text-align:center;font-size:.9rem}
+.ord-text{flex:1;color:#333}
+/* PARA-FILL */
+.pf-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pf-num{font-weight:700;color:#666;width:22px;flex-shrink:0;font-size:.88rem}
+.pf-text{flex:1;font-size:.89rem;line-height:1.5;min-width:180px}
+.pf-para{width:52px;padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;text-align:center;font-size:.88rem}
+.pf-fill{width:110px;padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem}
+.pf-labels{display:flex;gap:8px;font-size:.75rem;color:#888;margin-bottom:6px;padding-left:30px}
+.pf-labels span{width:52px;text-align:center}
+/* NUMBER FILL */
+.nf-group{margin-bottom:14px}
+.nf-grouplabel{font-weight:700;color:#4f8ef7;font-size:.88rem;margin-bottom:6px;padding:4px 8px;background:#f0f4ff;border-radius:5px}
+.nf-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.nf-num{font-weight:700;color:#333;font-size:.85rem;width:80px;flex-shrink:0}
+.nf-inp{flex:1;padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem}
+/* HEADING/PERSON/TEXT MATCH - dropdown */
+.match-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.9rem}
+.match-label{font-weight:700;color:#4f8ef7;flex-shrink:0;min-width:28px}
+.match-text{flex:1;color:#333;line-height:1.4}
+.match-sel{padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem;min-width:80px}
+/* SUBMIT / REDO */
+.sub-row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.sub-btn{padding:10px 22px;background:#4f8ef7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.95rem;font-weight:700}
+.sub-btn:hover{background:#2d6fd4}
+.redo-btn{padding:8px 18px;background:#27ae60;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600}
+.redo-btn:hover{background:#1e8449}
+.attempt-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.atag{padding:3px 10px;border-radius:12px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid}
+.atag.best{background:#fff3cd;border-color:#f0c040;color:#856404}
+.atag.pass{background:#d5f5e3;border-color:#27ae60;color:#1a5632}
+.atag.fail{background:#fde8e8;border-color:#e74c3c;color:#922b21}
+/* RESULTS */
+.res-banner{padding:12px 16px;border-radius:8px;margin:12px 0;font-weight:700;font-size:1rem}
+.res-pass{background:#d5f5e3;color:#1a5632;border:1.5px solid #27ae60}
+.res-fail{background:#fde8e8;color:#922b21;border:1.5px solid #e74c3c}
+.q-result{margin-bottom:10px;border-radius:8px;overflow:hidden;border:1.5px solid #e8ecf0}
+.q-result-head{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:.88rem;font-weight:600}
+.q-result-head.correct{background:#d5f5e3;color:#1a5632}
+.q-result-head.wrong{background:#fde8e8;color:#922b21}
+.q-result-head.partial{background:#fff3cd;color:#856404}
+.expl-box{padding:12px 14px;background:#fafbff;border-top:1px solid #e8ecf0}
+.expl-loc{font-size:.82rem;color:#555;margin-bottom:5px}
+.expl-loc b{color:#4f8ef7}
+.expl-qt{font-size:.85rem;font-style:italic;color:#333;background:#f0f4ff;padding:5px 10px;border-radius:5px;margin-bottom:6px;border-left:3px solid #4f8ef7}
+.expl-para{font-size:.85rem;color:#333;margin-bottom:5px;line-height:1.55}
+.expl-para b{color:#1a1a2e}
+.expl-tip{font-size:.82rem;color:#555;background:#fffbf0;padding:5px 10px;border-radius:5px;border-left:3px solid #f0c040}
+.expl-tip b{color:#856404}
+.show-expl-btn{background:none;border:none;color:#4f8ef7;font-size:.82rem;cursor:pointer;padding:2px 6px;text-decoration:underline}
+/* SCORE BAR */
+.score-bar-wrap{background:#e8ecf0;border-radius:10px;height:10px;overflow:hidden;margin:10px 0}
+.score-bar{height:100%;border-radius:10px;transition:width .5s}
+.score-pct{font-size:1.4rem;font-weight:800}
+/* REPORT */
+.report-screen{padding:24px;max-width:900px;margin:0 auto}
+.report-screen h1{font-size:1.5rem;color:#1a1a2e;margin-bottom:20px;padding-bottom:10px;border-bottom:3px solid #4f8ef7}
+.sbox{background:#fff;border-radius:10px;padding:18px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8ecf0}
+.sbox h2{font-size:1.05rem;color:#1a1a2e;margin-bottom:12px;padding-bottom:8px;border-bottom:1.5px solid #e8ecf0}
+.rtable{width:100%;border-collapse:collapse;font-size:.88rem}
+.rtable th{background:#1a1a2e;color:#fff;padding:8px 10px;text-align:left}
+.rtable td{padding:8px 10px;border-bottom:1px solid #e8ecf0;vertical-align:top}
+.rtable tr:last-child td{border-bottom:none}
+.rtable tr:nth-child(even) td{background:#f8f9fc}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.78rem;font-weight:700}
+.badge-g{background:#d5f5e3;color:#1a5632}
+.badge-r{background:#fde8e8;color:#922b21}
+.badge-y{background:#fff3cd;color:#856404}
+.rec-item{padding:8px 12px;border-radius:7px;margin-bottom:7px;border-left:4px solid #4f8ef7;background:#f0f4ff;font-size:.9rem}
+.rec-item.warn{border-color:#e74c3c;background:#fde8e8}
+.rec-item.ok{border-color:#27ae60;background:#d5f5e3}
+.xbtn{padding:9px 18px;border:none;border-radius:7px;cursor:pointer;font-size:.88rem;font-weight:700;margin-right:8px;margin-bottom:6px}
+.xbtn.pdf{background:#1a1a2e;color:#fff}
+.xbtn.em{background:#e74c3c;color:#fff}
+.xbtn:hover{opacity:.88}
+.back-btn{background:#555;color:#fff;border:none;padding:7px 16px;border-radius:7px;cursor:pointer;font-size:.88rem;margin-bottom:16px}
+.back-btn:hover{background:#333}
+/* OVERALL SCORE CARD */
+.ov-card{display:flex;align-items:center;gap:20px;padding:16px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:10px;color:#fff;margin-bottom:14px}
+.ov-pct{font-size:3rem;font-weight:900;color:#4f8ef7}
+.ov-info{flex:1}
+.ov-info .ov-label{font-size:.85rem;color:#aaa;margin-bottom:2px}
+.ov-info .ov-pts{font-size:1.1rem;font-weight:700}
+.trend-up{color:#27ae60}
+.trend-dn{color:#e74c3c}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+
+var TEACHER='huongstella8@gmail.com';
+var studentName='';
+var studentEmail='';
+var P=[{"id": 1, "title": "Family & Friends", "topic": "Family Relationships", "emoji": "👨‍👩‍👧", "textHTML": "<div class='ptitle'>📖 Brotherly Love?</div><div class='rp'>\"I don't get on well with my brother. He's very different from me and we argue a lot.\"<br>\"I can't have secrets when my brother is around. He reads my text messages!\"<br>\"Sometimes I want to be alone. But my sister is always there!\"<br>\"My sister uses my things and she doesn't ask me first! I hate that!\"</div><div class='rp'>According to the website Getting Personal.co.uk, these problems are not unusual. <span class='gm'>[1]</span> In general, teenagers are not worried about their brothers and sisters when things go badly for them. And they are not proud of them when things go well!</div><div class='rp'>But most adults are very keen on their brothers and sisters and have a good relationship. So when does the situation change? <span class='gm'>[2]</span> For example, Madison is 28 years old. Her brother, Tyler, is 26. 'I remember big fights, horrible fights with Tyler,' says Madison. 'But now, our relationship is completely different. We go out together two or three times a month and we have a great time. We're interested in the same things. <span class='gm'>[3]</span>'</div><div class='rp'>But for teenage brothers and sisters with difficult relationships, what can they do? How can they get on well? Here are a few ideas.<br>► When your brother or sister uses your things, don't get angry about it – learn to share.<br>► Imagine your brother or sister is a friend – and be nice!<br>► Don't tell people your brother or sister's secrets. <span class='gm'>[4]</span></div><div class='rp'>Of course, the other answer is: just wait ten years!</div>", "exercises": [{"type": "gap-match", "title": "Exercise 1", "instr": "Match gaps (1–4) in the text with sentences (A–E). There is one extra sentence.", "opts": [{"l": "A", "t": "According to the website, the answer is: around the age of 25."}, {"l": "B", "t": "But other brothers and sisters get on well from an early age."}, {"l": "C", "t": "We get on well – and we don't argue."}, {"l": "D", "t": "Give your brother or sister some time alone when they need it."}, {"l": "E", "t": "Most teenagers have a difficult relationship with their brothers and sisters."}], "numGaps": 4, "answers": {"1": "E", "2": "A", "3": "C", "4": "D"}, "extra": "B", "expls": {"1": {"loc": "Para 2 – after 'these problems are not unusual'", "quote": "In general, teenagers are not worried about their brothers and sisters…", "para": "Sentence E summarises the website's main finding about teenagers' difficult sibling relationships, flowing naturally from the website citation.", "tip": "Gap after source citation → find the sentence stating that source's key finding. Paraphrase: 'not unusual' ≈ 'difficult relationship is common'."}, "2": {"loc": "Para 3 – after 'So when does the situation change?'", "quote": "So when does the situation change?", "para": "Sentence A directly answers this question by naming the age (25). A gap after a question = look for the answer sentence.", "tip": "Question → Answer pattern. Spot question marks before gaps, then match to a sentence that answers it."}, "3": {"loc": "Para 3 – inside Madison's quote, after \"We're interested in the same things\"", "quote": "We're interested in the same things. [3]", "para": "Sentence C ('We get on well – and we don't argue') continues Madison's positive tone about her adult relationship.", "tip": "Match tone: Madison lists positives → choose a positive continuation. 'We get on well' fits 'great time / same things'."}, "4": {"loc": "Para 4 – last bullet point in the advice list", "quote": "► Don't tell people your brother or sister's secrets. [4]", "para": "Sentence D adds another practical tip (give space) with the same imperative structure as the other bullet points.", "tip": "All bullets use imperative verbs. D starts with 'Give' – same pattern. Extra B doesn't fit: text focuses on difficult relationships, not easy ones."}, "extra": {"loc": "N/A – B is the extra sentence", "quote": "", "para": "B introduces siblings who already get on well from an early age, but the entire text is about those with difficult teenage relationships. It doesn't connect to any gap.", "tip": "The extra option often introduces a side-point that doesn't match the text's argument or the context surrounding any gap."}}}, {"type": "single-mcq", "title": "Exercise 2", "instr": "Choose the best summary of the text: a, b or c.", "opts": [{"l": "a", "t": "A lot of teenagers do not get on well with their brothers and sisters. However, the relationship is usually good when they are adults."}, {"l": "b", "t": "Some teenagers get on well with their brothers and sisters. These people usually get on well when they are adults too."}, {"l": "c", "t": "A lot of teenagers do not get on well with their brothers and sisters. The relationship is usually bad when they are adults too, because people don't change."}], "answer": "a", "expl": {"loc": "Overall text – paragraphs 2 and 3", "quote": "these problems are not unusual… But most adults are very keen on their brothers and sisters", "para": "Option a captures both key facts: MOST teens struggle (b says 'some' – too narrow) and adults have GOOD relationships (c says bad – contradicts the text).", "tip": "For summary MCQs, eliminate options with factual contradictions. 'A lot' vs 'Some' and 'good' vs 'bad' as adults are the key differences."}}]}, {"id": 2, "title": "Daily Routines", "topic": "Journeys to School", "emoji": "🎒", "textHTML": "<div class='ptitle'>📖 The School Run</div><div class='rp'>How dangerous is your journey to school? Perhaps you have to walk across a busy road or ride your bike in traffic. But in general, your journey is probably safe. For some children, it's very different…</div><div class='rp'><b>1 – China (Banpo Elementary School)</b><br>Banpo Elementary School in China is on a mountain. The path to school is very narrow and dangerous. The children have to walk in a line. When they meet somebody, they have to stand against the mountain while the person passes. For the parents, it is very worrying. Fortunately, the head teacher walks with the children every morning.</div><div class='rp'><b>2 – Indonesia (Sumatra)</b><br>A group of children in Sumatra, Indonesia, have to cross a wide river every morning. The bridge across the river is broken, so about 20 children have to walk across a rope. The rope is ten metres above the water. After that, they have to walk ten kilometres through the jungle! And at the end of the school day, they do the same journey again.</div><div class='rp'><b>3 – Vietnam (Minh Hoa)</b><br>Students in Minh Hoa in Vietnam have to cross a river every day. There are no bridges or boats, so the children swim. They put their books and clothes in large plastic bags so they do not get wet. The bags also help the children stay safe (the water is 20 metres deep). When they reach the other side, they take their dry clothes out of the bag and put them on.</div><div class='rp'><b>4 – Colombia (near Bogotá)</b><br>Near Bogotá, some children have to cross a large valley to get to school. At the bottom is the Rio Negro, a huge river. There is only one way to cross: on a zip wire – a metal rope 800 metres long and 400 metres above the river. The journey only takes about one minute! Small children cannot travel alone, so their brother or sister puts them in a bag!</div>", "exercises": [{"type": "short-answer", "title": "Exercise 1", "instr": "Answer the questions based on the four journeys. Write short answers.", "questions": [{"text": "In which country is Banpo Elementary School located?", "answer": "China", "kw": ["china"], "expl": {"loc": "Journey 1, sentence 1", "quote": "Banpo Elementary School in China is on a mountain.", "para": "The country is stated directly in the first sentence of section 1. Straightforward factual retrieval.", "tip": "Scan for proper nouns (capital letters) near the school name. Country names always have capital letters."}}, {"text": "Why do the children in Sumatra have to walk across a rope?", "answer": "Because the bridge across the river is broken.", "kw": ["bridge", "broken"], "expl": {"loc": "Journey 2, sentence 2", "quote": "The bridge across the river is broken, so about 20 children have to walk across a rope.", "para": "'So' signals cause–effect: broken bridge → walk on rope. The question asks for the cause.", "tip": "Cause questions: look for 'because', 'so', or 'therefore' near the key noun (bridge)."}}, {"text": "What do students in Minh Hoa do to keep their books and school clothes dry?", "answer": "They put their books and clothes in large plastic bags.", "kw": ["plastic", "bag"], "expl": {"loc": "Journey 3, sentences 2–3", "quote": "They put their books and clothes in large plastic bags so they do not get wet.", "para": "'So they do not get wet' = 'to keep dry' – classic purpose paraphrase. The method is stated directly.", "tip": "'To keep dry' in the question paraphrases 'so they do not get wet'. Focus on purpose/result clauses."}}, {"text": "How do the children near Bogotá, Colombia cross the large valley?", "answer": "On a zip wire (a metal rope 800 metres long).", "kw": ["zip", "wire", "rope", "metal"], "expl": {"loc": "Journey 4, sentences 3–4", "quote": "There is only one way to cross the valley: on a zip wire. That's a metal rope, 800 metres long…", "para": "'How' = method. 'Zip wire' is introduced with a colon (:) after 'only one way'.", "tip": "Colon (:) after a method phrase signals the answer to a 'how' question."}}, {"text": "How long does the journey on the zip wire take?", "answer": "About one minute.", "kw": ["minute", "one", "1"], "expl": {"loc": "Journey 4, sentences 5–6", "quote": "The journey is very fast. In fact, it only takes about one minute!", "para": "'In fact' emphasises the surprising speed. 'How long' = duration → look for time expressions.", "tip": "Duration questions: scan for time words (minute, hour, day). 'In fact' often precedes the key surprising detail."}}]}]}, {"id": 3, "title": "Clothes", "topic": "Body Image & Social Media", "emoji": "👗", "textHTML": "<div class='ptitle'>📖 Impossible Images?</div><div class='rp'><b>1 – Maria Baker, Professor of Sociology</b><br>\"Female celebrities post selfies on social media; millions of teenage girls see them and try to copy them. They want to have the same artificial hairstyles and make-up. I really believe that this is becoming a big problem. Why? Because girls are worrying about their appearance all the time and they're becoming unhappy. And the problem is growing. For example, teenage girls today spend 90% more on make-up than ten years ago.\"</div><div class='rp'><b>2 – Sophie Ellis, Head Teacher</b><br>\"In my view, social networking websites like Facebook and Instagram are part of the problem. Teenagers take photos of their close friends all the time and put these photos on the internet. A bad photo gets unkind comments. So girls now think it's important to look good all the time. Today's teenage girls are embarrassed about looking natural or having untidy hair. They can't relax. I see this problem every day at school.\"</div><div class='rp'><b>3 – Bob French, Gym owner</b><br>\"To be honest, this isn't just a problem for girls. Boys have pressures too. They are surrounded by images of male celebrities with muscular bodies. Suddenly, an ordinary male body is not good enough, so they take dangerous drugs to make their bodies muscular. Others go on unnecessary diets – they buy special drinks because they want to be muscular. They talk about it a lot at the gym.\"</div><div class='rp'><b>4 – Luke Woods, Photographer</b><br>\"A lot of teenagers try to copy images in magazines and on websites. But it's very easy to change photos on a computer. So today's teenagers are trying to copy an image that is not real. However, these tricks are not a secret – some companies are refusing to change their photos. They use hashtags to advertise their 'real photos' on Twitter. Some people say social media is part of the problem. Personally, I think it can be part of the solution.\"</div><div class='rp'><b>5 – Anna Granger, Shop owner</b><br>\"In my opinion, people are worrying about this too much. A lot of girls come into my shop and buy make-up. But they aren't copying celebrities. They have their own ideas and their own look. It's a way of expressing your personality. And it can be fun too! Of course some of the images in magazines are fake. Teenagers know that – they aren't stupid!\"</div>", "exercises": [{"type": "heading-match", "title": "Exercise 1", "instr": "Match paragraphs (1–5) with headings (A–G). There are two extra headings.", "headings": [{"l": "A", "t": "Copying a lie?"}, {"l": "B", "t": "Body-building boys"}, {"l": "C", "t": "Enjoying their own style"}, {"l": "D", "t": "Smiling celebrities, worried girls"}, {"l": "E", "t": "From catwalk to clothes shop"}, {"l": "F", "t": "No escape from the camera"}, {"l": "G", "t": "Copying hairstyles from the past"}], "numParas": 5, "answers": {"1": "D", "2": "F", "3": "B", "4": "A", "5": "C"}, "extras": ["E", "G"], "expls": {"1": {"loc": "Para 1 – Maria Baker on celebrities and girls' unhappiness", "quote": "Female celebrities post selfies… millions of teenage girls… worrying about their appearance", "para": "D ('Smiling celebrities, worried girls') captures both parties: celebrities (appear happy) and the worried girls trying to copy them.", "tip": "Headings paraphrase: 'celebrities' → 'smiling celebrities'; 'worrying/unhappy' → 'worried girls'. Match key nouns and adjectives."}, "2": {"loc": "Para 2 – Sophie Ellis on constant photo pressure", "quote": "Teenagers take photos… A bad photo gets unkind comments… girls now think it's important to look good all the time", "para": "F ('No escape from the camera') paraphrases the constant photo-taking pressure. 'No escape' = can't avoid it; 'camera' = continuous photography.", "tip": "Paraphrase: 'they take photos all the time' → 'no escape from the camera'. Headings often paraphrase rather than copy text."}, "3": {"loc": "Para 3 – Bob French on boys and muscular body image", "quote": "this isn't just a problem for girls. Boys have pressures too… dangerous drugs to make their bodies muscular", "para": "B ('Body-building boys') matches: 'body-building' = working to get muscular; 'boys' = the paragraph is exclusively about male pressure.", "tip": "Single keyword: 'muscular' in text → 'body-building' in heading. The topic (boys, not girls) is the key distinguishing factor."}, "4": {"loc": "Para 4 – Luke Woods on manipulated photos", "quote": "it's very easy to change photos on a computer. So today's teenagers are trying to copy an image that is not real.", "para": "A ('Copying a lie?') paraphrases: 'copying' = students copying; 'a lie' = an image that is not real (manipulated). The question mark signals irony.", "tip": "'Not real' = 'a lie'. Photographers discuss photo editing; question mark shows the heading is ironic."}, "5": {"loc": "Para 5 – Anna Granger's positive view on girls' make-up choices", "quote": "they aren't copying celebrities. They have their own ideas and their own look. It's a way of expressing your personality.", "para": "C ('Enjoying their own style') = having own ideas and look, done for fun/self-expression, not copying others. Anna is the only positive voice.", "tip": "'Their own look' + 'fun' = 'enjoying their own style'. Positive, relaxed tone signals C rather than any problem-focused heading."}, "extras": {"loc": "E and G are the extra headings", "quote": "", "para": "E ('From catwalk to clothes shop') is not discussed – text mentions make-up, not fashion shows. G ('Copying hairstyles from the past') is irrelevant – 'artificial hairstyles' doesn't mean historical.", "tip": "Eliminate by asking: does the paragraph mention catwalks? Historical hairstyles? No → these are distractors not matching any paragraph's content."}}}, {"type": "person-match", "title": "Exercise 2", "instr": "Match the statements (a–i) with the people in the texts (1–5).", "people": [{"num": "1", "name": "Maria Baker"}, {"num": "2", "name": "Sophie Ellis"}, {"num": "3", "name": "Bob French"}, {"num": "4", "name": "Luke Woods"}, {"num": "5", "name": "Anna Granger"}], "statements": [{"l": "a", "text": "Bad photos on social networking sites often get unkind comments.", "answer": "2", "expl": {"loc": "Para 2 – Sophie Ellis", "quote": "A bad photo gets unkind comments.", "para": "This is almost a direct quote from Sophie's paragraph. Key words: 'bad photo', 'unkind comments', 'social networking'.", "tip": "Near-identical phrases to the text = direct quote match. Scan for exact or near-exact wording."}}, {"l": "b", "text": "Most images in magazines and on the internet are not real because the companies change the photos.", "answer": "4", "expl": {"loc": "Para 4 – Luke Woods", "quote": "it's very easy to change photos on a computer. So today's teenagers are trying to copy an image that is not real.", "para": "Luke (photographer) describes how companies manipulate photos. 'Not real' = 'companies change the photos' – paraphrase.", "tip": "Profession clue: a photographer naturally talks about photo editing. 'Change photos on a computer' → 'companies change the photos'."}}, {"l": "c", "text": "Some girls worry a lot about their appearance and this makes them unhappy.", "answer": "1", "expl": {"loc": "Para 1 – Maria Baker", "quote": "girls are worrying about their appearance all the time and they're becoming unhappy.", "para": "'Some girls worry a lot' paraphrases 'girls are worrying… all the time'. 'Unhappy' appears directly in the text.", "tip": "'All the time' → 'a lot'. 'Becoming unhappy' → 'makes them unhappy'. The sociology professor discusses psychological impact."}}, {"l": "d", "text": "Some boys take drugs to make their bodies look more muscular.", "answer": "3", "expl": {"loc": "Para 3 – Bob French", "quote": "they take dangerous drugs to make their bodies muscular.", "para": "Direct paraphrase: 'take dangerous drugs' → 'take drugs'; 'muscular' appears in both. Bob (gym owner) is the only one discussing male body image.", "tip": "The gym owner discusses drugs and masculinity. 'Dangerous drugs' → 'drugs'. Near-direct quote match."}}, {"l": "e", "text": "Girls wear make-up to express their personalities. It isn't a problem.", "answer": "5", "expl": {"loc": "Para 5 – Anna Granger", "quote": "It's a way of expressing your personality. And it can be fun too!", "para": "Anna is the only positive voice. 'Expressing personality' is a near-direct quote. She explicitly says people worry too much (= it isn't a problem).", "tip": "Tone identification: Anna is the only one who says it's NOT a problem. Any 'it's fine' statement → Anna (5)."}}, {"l": "f", "text": "Girls think it's important to look good all the time.", "answer": "2", "expl": {"loc": "Para 2 – Sophie Ellis", "quote": "So girls now think it's important to look good all the time.", "para": "Near-direct quote from Sophie's paragraph. 'Look good all the time' is a distinctive phrase found only in paragraph 2.", "tip": "Word-for-word scan: 'look good all the time' is distinctive – scan the text for this exact phrase."}}, {"l": "g", "text": "Some boys put their health in danger to try to look good.", "answer": "3", "expl": {"loc": "Para 3 – Bob French", "quote": "they take dangerous drugs to make their bodies muscular.", "para": "'Put their health in danger' = 'take dangerous drugs'. Bob (gym owner) is the only one discussing male health risks.", "tip": "Paraphrase: 'dangerous drugs' → 'put health in danger'. Risk/danger vocabulary points to Bob's paragraph."}}, {"l": "h", "text": "A lot of teenage girls are not happy to look natural or a bit untidy.", "answer": "2", "expl": {"loc": "Para 2 – Sophie Ellis", "quote": "Today's teenage girls are embarrassed about looking natural or having untidy hair.", "para": "'Not happy to look natural or untidy' = 'embarrassed about looking natural or having untidy hair' – direct paraphrase.", "tip": "'Embarrassed about' → 'not happy to'. 'Untidy hair' → 'a bit untidy'. Sophie's school observation matches this perfectly."}}, {"l": "i", "text": "Teenagers know that the photos in magazines are not real so it isn't a problem.", "answer": "5", "expl": {"loc": "Para 5 – Anna Granger", "quote": "Of course some of the images in magazines are fake. Teenagers know that – they aren't stupid!", "para": "Anna is dismissive: teens already know photos are fake, so no problem. This matches the 'it isn't a problem' tone.", "tip": "Optimistic/dismissive speaker = Anna only. Any statement saying 'it's fine / teens can handle it' → Anna (5)."}}]}]}, {"id": 4, "title": "Unusual Restaurants", "topic": "Unusual Places to Eat", "emoji": "🍽️", "textHTML": "<div class='ptitle'>📖 Out of the Ordinary</div><div class='rp'><b>A – Competing for customers</b><br>There are hundreds of restaurants in every big city. Often they serve similar food at similar prices – so how do they attract customers? Most restaurants try to offer good food and great service, and they hope customers come back again and again. But some restaurants offer a gimmick – something unusual to make their restaurant different from all the others.</div><div class='rp'><b>B – Location, location, location</b><br>Sometimes the gimmick is the restaurant's location. El Diablo, on the Spanish island of Lanzarote, is on a volcano. The chef uses heat from the volcano to cook the food. Or how about an underwater restaurant? At Ithaa, in the Maldives, you can have dinner five metres below the Indian Ocean and watch sharks and turtles. Or choose Dinner in the Sky – customers enjoy their meal 50 metres in the air. The company has restaurants in 45 different countries. It's an amazing experience but don't drop your knife or fork!</div><div class='rp'><b>C – Are you sitting comfortably?</b><br>People often complain about the seats in aeroplanes: they're uncomfortable and there isn't enough space. So surely a restaurant inside an aeroplane is a bad idea. Well maybe not. In Accra, the capital of Ghana, you can have lunch or dinner inside an old DC-10 aeroplane. The waiter brings your food on a trolley! Other restaurants offer extra comfort. At the Hammock Café in Sri Lanka, there are hammocks instead of chairs. And at B.E.D. in Miami, Florida, there are only beds – no tables, no chairs.</div><div class='rp'><b>D – Work for your food</b><br>People go to restaurants to eat, chat and relax. But some restaurants ask their customers to work for their food. Zauo is a popular restaurant in Tokyo, Japan. It is a fish restaurant, but the customers do not order their fish – they have to catch it. Inside the restaurant, all of the tables are on an artificial boat, with water all around. They choose their fish and then try to catch it!</div>", "exercises": [{"type": "para-fill", "title": "Exercises 1 & 2", "instr": "For each sentence: (1) write the paragraph letter (A–D) where the information appears, and (2) complete the blank with 1–2 words from the text.", "items": [{"text": "It is difficult for restaurants in big cities to attract ______ (1 word).", "para": "A", "fill": "customers", "kw": ["customer"], "expl": {"loc": "Para A, sentences 2–3", "quote": "Often they serve similar food at similar prices so how do they attract customers?", "para": "Para A asks 'how do they attract customers?' – so 'customers' fills the gap. The paragraph letter is A (competition between restaurants theme).", "tip": "'Attract customers' is the key phrase – scan for it directly. The answer word appears in the question sentence itself."}}, {"text": "A 'gimmick' is something to make your restaurant ______ (1 word).", "para": "A", "fill": "different", "kw": ["different"], "expl": {"loc": "Para A, last sentence", "quote": "something unusual to make their restaurant different from all the others.", "para": "'Different' fills the gap – 'make your restaurant different' is a near-direct quote. Para A defines 'gimmick'.", "tip": "Definitions always appear close to where the word first appears. Find 'gimmick' → the definition follows immediately."}}, {"text": "At Ithaa, you can have dinner at a table below the ______ (2 words).", "para": "B", "fill": "Indian Ocean", "kw": ["indian", "ocean"], "expl": {"loc": "Para B, Ithaa section", "quote": "you can have dinner five metres below the Indian Ocean", "para": "Para B covers location gimmicks including Ithaa. 'Below the Indian Ocean' is a 2-word proper noun phrase.", "tip": "Location details (ocean names, places) are proper nouns – scan for capital letters near the restaurant name."}}, {"text": "You can experience Dinner in the Sky in 45 different ______ (1 word).", "para": "B", "fill": "countries", "kw": ["countr"], "expl": {"loc": "Para B, Dinner in the Sky section", "quote": "The company has restaurants in 45 different countries.", "para": "'Countries' follows '45 different' directly in paragraph B.", "tip": "Numbers are easy anchors – scan for '45' in the text, the answer follows immediately."}}, {"text": "In Accra, you can have a meal inside an ______ (1 word).", "para": "C", "fill": "aeroplane", "kw": ["aeroplane", "airplane", "aeropla"], "expl": {"loc": "Para C, Accra section", "quote": "you can have lunch or dinner inside an old DC-10 aeroplane.", "para": "Para C is about seating comfort, including an aeroplane restaurant in Accra. 'Aeroplane' = 1 word.", "tip": "The sentence structure mirrors the text: 'In Accra, you can have a meal inside an ___' almost copies 'you can have lunch or dinner inside an old DC-10 aeroplane'."}}, {"text": "At B.E.D. in Miami, there aren't any tables or ______ (1 word) for the customers.", "para": "C", "fill": "chairs", "kw": ["chair"], "expl": {"loc": "Para C, B.E.D. section", "quote": "at B.E.D. in Miami, Florida, there are only beds – no tables, no chairs.", "para": "No chairs at B.E.D. – the text explicitly says 'no tables, no chairs'. 'Chairs' is the missing item.", "tip": "Para C lists unusual seating. 'No tables or ___' – think what normal restaurants have that B.E.D. doesn't: tables AND chairs."}}, {"text": "At Zauo, the customers don't order their fish, they ______ (2 words).", "para": "D", "fill": "catch it", "kw": ["catch"], "expl": {"loc": "Para D, last sentences", "quote": "the customers do not order their fish from the menu – they have to catch it.", "para": "'Don't order' = 'do not order' (paraphrase). Contrast: do not order… they have to catch it.", "tip": "Contrast signals (but, instead, not… they): 'they don't order, they ___' – the second half of the contrast is the answer."}}]}]}, {"id": 5, "title": "Unusual Cities", "topic": "Unusual Places to Live", "emoji": "🏙️", "textHTML": "<div class='ptitle'>📖 The Good, The Bad and The Ugly</div><div class='rp'><b>A – Green city: Curitiba, Brazil</b><br>Curitiba is a medium-sized city in the south of Brazil. Why is it unusual? Because many South American cities are very polluted. But Curitiba is the opposite: it is one of the cleanest and 'greenest' cities in the world. In most cities, cars cause a lot of pollution. But in Curitiba, only a quarter of the 1.7 million inhabitants use a car – the others use public transport. The bus system (BRT) is probably the best in the world. Tickets are cheap and journeys are fast. Nobody lives further than 400 metres from a bus stop. There are lots of parks: in fact, there are 50 square metres of green space per person!</div><div class='rp'><b>B – Artificial city: Neft Dashlari, Azerbaijan</b><br>Neft Dashlari is a man-made city in the Caspian Sea. It is about 65 km from the east coast of Azerbaijan and has a population of about 2,000. The most unusual thing is its location – it is in the sea, but not on an island. Neft Dashlari is about 70 years old and exists for one reason: oil. The city is in very bad condition. It has 300 kilometres of roads, but only 45 km are safe to use. The bridges are falling into the sea. But people still live and work there. It is probably one of the worst cities in the world, but salaries are much higher than in other places.</div><div class='rp'><b>C – Recycling city: Cairo, Egypt</b><br>Cairo, in the north of Egypt, is one of the biggest cities in Africa. It is the capital and has a population of nearly eight million. Like any city, it creates tonnes of rubbish every day. But amazingly, the city does not employ anybody to collect rubbish. Instead, a group of people called the Zabbaleen collect it. The Zabbaleen take the rubbish back to their town on the edge of Cairo. It is called Manshiyat Naser and has a population of about 60,000. There, the women and children sort the rubbish by hand. They recycle nearly 90% of the rubbish – far better than recycling centres in most western countries.</div>", "exercises": [{"type": "text-match", "title": "Exercise 1", "instr": "Match each question (1–7) with one of the texts (A, B or C).", "texts": [{"l": "A", "t": "Curitiba"}, {"l": "B", "t": "Neft Dashlari"}, {"l": "C", "t": "Cairo"}], "questions": [{"text": "Which city has more than a million inhabitants?", "answer": "A", "expl": {"loc": "Text A", "quote": "1.7 million inhabitants", "para": "Curitiba has 1.7 million (>1 million). Cairo has ~8 million which also qualifies – accept A or C, but A highlights the specific 1.7M figure most directly.", "tip": "Scan for population numbers. 'More than a million' = any figure above 1M. Text A uses the specific '1.7 million inhabitants' phrase."}}, {"text": "Which city is easy to travel around?", "answer": "A", "expl": {"loc": "Text A – BRT bus system", "quote": "the bus system is probably the best in the world… nobody lives further than 400 metres from a bus stop", "para": "'Easy to travel around' = excellent public transport: best bus system, cheap tickets, fast journeys, and 400m from any bus stop.", "tip": "Paraphrase: 'easy to travel' = 'best bus system', 'cheap and fast', '400m from a bus stop'. Transport quality = ease of travel."}}, {"text": "Which city is next to a much larger city?", "answer": "C", "expl": {"loc": "Text C – Manshiyat Naser on the edge of Cairo", "quote": "The Zabbaleen take the rubbish back to their town on the edge of Cairo.", "para": "Manshiyat Naser (pop. 60,000) is on the edge of Cairo (pop. ~8M). Small settlement next to much larger city.", "tip": "Key phrase: 'on the edge of Cairo'. Manshiyat Naser is a smaller town next to the much larger capital city."}}, {"text": "Which city is less than a hundred years old?", "answer": "B", "expl": {"loc": "Text B", "quote": "Neft Dashlari is about 70 years old", "para": "70 years old < 100 years. Neft Dashlari is the only city whose age is mentioned.", "tip": "'Less than a hundred years' = any number under 100. Scan for age/year mentions. '70 years old' is the only age stated."}}, {"text": "Which city has a good system of recycling?", "answer": "C", "expl": {"loc": "Text C", "quote": "They recycle nearly 90% of the rubbish, which is far better than recycling centres in most western countries.", "para": "'Good system of recycling' = 90% recycling rate, far better than western countries. Cairo's Zabbaleen system is text C's subject.", "tip": "'Good system of recycling' → 'recycle 90%', 'far better'. Topic word 'recycle' appears only in text C."}}, {"text": "Which city offers high salaries for workers?", "answer": "B", "expl": {"loc": "Text B", "quote": "salaries are much higher than in other places", "para": "'High salaries' = 'salaries are much higher'. Despite terrible conditions, workers stay because of high pay.", "tip": "'High salaries' paraphrases 'salaries are much higher'. The contrast with terrible living conditions is a key text feature."}}, {"text": "Which city has a lot of green spaces?", "answer": "A", "expl": {"loc": "Text A", "quote": "There are lots of parks in the city: in fact, there are 50 square metres of green space per person!", "para": "'A lot of green spaces' = 'lots of parks', '50 square metres of green space per person'.", "tip": "'Green spaces' almost directly matches 'green space' in the text. The city is even nicknamed 'Green city' in the title."}}]}, {"type": "number-fill", "title": "Exercise 2", "instr": "Explain the significance of these numbers and measurements from the texts.", "groups": [{"label": "Text A – Curitiba", "items": [{"num": "1.7 million", "meaning": "the population of Curitiba", "kw": ["population", "curitiba", "inhabit", "million"], "expl": {"loc": "Text A", "quote": "only a quarter of the 1.7 million inhabitants use a car", "para": "1.7 million = total population of Curitiba. It tells us the city's size.", "tip": "Numbers next to 'inhabitants' or 'population' = population figures. Pair the number with the city name."}}, {"num": "400 metres", "meaning": "nobody in the city lives further than 400 metres from a bus stop", "kw": ["bus", "stop", "400", "metre"], "expl": {"loc": "Text A", "quote": "nobody in the city lives further than 400 metres from a bus stop", "para": "400 metres = maximum distance any resident lives from a bus stop. Shows excellent transport coverage.", "tip": "Distances describe accessibility. 'No further than' = maximum distance. This shows how well-connected the bus system is."}}, {"num": "50 square metres", "meaning": "the amount of green space per person in Curitiba", "kw": ["green", "park", "space", "person", "per", "50"], "expl": {"loc": "Text A", "quote": "there are 50 square metres of green space per person", "para": "50 sq metres = per-person allocation of park/green space, showing Curitiba's environmental quality.", "tip": "'Per person' or 'per capita' phrases indicate measurements of individual share."}}]}, {"label": "Text B – Neft Dashlari", "items": [{"num": "2,000", "meaning": "the population of Neft Dashlari", "kw": ["population", "neft", "2000", "2,000", "inhabit"], "expl": {"loc": "Text B", "quote": "it has a population of about 2,000", "para": "2,000 = the small population of the artificial oil city.", "tip": "Small numbers near 'population' indicate the city's modest size relative to typical cities."}}, {"num": "70", "meaning": "Neft Dashlari is about 70 years old", "kw": ["year", "old", "age", "70"], "expl": {"loc": "Text B", "quote": "Neft Dashlari is about 70 years old", "para": "70 = approximate age of the city in years. This shows it is relatively new and explains it 'less than 100 years' in Exercise 1.", "tip": "Numbers near 'years old' = the age of a place."}}, {"num": "300 km", "meaning": "the total length of roads in Neft Dashlari (though only 45 km are safe)", "kw": ["road", "kilometre", "km", "300"], "expl": {"loc": "Text B", "quote": "it has 300 kilometres of roads, but only 45 kilometres are safe to use", "para": "300 km = total roads. But only 45 km are usable, showing the city's poor condition.", "tip": "'Kilometres of roads' = length of road network. The contrast with 45 km safe roads is the important detail."}}]}, {"label": "Text C – Cairo", "items": [{"num": "eight million", "meaning": "the population of Cairo", "kw": ["cairo", "population", "million", "eight", "inhabit"], "expl": {"loc": "Text C", "quote": "It is the capital and has a population of nearly eight million.", "para": "Eight million = Cairo's population, making it one of Africa's biggest cities.", "tip": "'Population of' is the clearest signal. Pair the number with the city name."}}, {"num": "60,000", "meaning": "the population of Manshiyat Naser (the Zabbaleen's town on the edge of Cairo)", "kw": ["manshiyat", "naser", "population", "60", "60000"], "expl": {"loc": "Text C", "quote": "It is called Manshiyat Naser and has a population of about 60,000.", "para": "60,000 = population of Manshiyat Naser, the recycling community on the edge of Cairo.", "tip": "Two populations in text C – match the number to the correct location name."}}, {"num": "90%", "meaning": "the percentage of rubbish recycled by the Zabbaleen", "kw": ["recycle", "recycl", "percent", "90", "rubbish"], "expl": {"loc": "Text C", "quote": "They recycle nearly 90% of the rubbish", "para": "90% = the recycling rate, far better than western countries. Shows how effective the Zabbaleen system is.", "tip": "Percentages describe rates or proportions. '90% of the rubbish' = recycling efficiency indicator."}}]}]}]}, {"id": 6, "title": "Stranger than Fiction?", "topic": "Animals That Were Myths", "emoji": "🦑", "textHTML": "<div class='ptitle'>📖 Real Animals That Were Once a Myth</div><div class='rp'><b>1 – Giant Squid</b><br>In Ancient Greek times, there were stories about huge sea monsters with very long arms. Similar stories appeared in the Middle Ages. These monsters lived in very deep water, but sometimes they attacked sailors. For hundreds of years, scientists were not sure if these creatures were real or myth. But that changed in 1873. A giant squid attacked a small boat near the east coast of North America. The fishermen used an axe to cut off two of the giant squid's arms – they were six metres long! They showed the arms to scientists at a local museum. The scientists were amazed! Today, everyone knows giant squid are real, but people rarely see them. In fact, only one video exists of a giant squid in its natural habitat.</div><div class='rp'><b>2 – Gorillas</b><br>About 2,500 years ago, an Ancient Greek explorer called Hanno travelled to Africa. On one island near the coast, there was a group of strange people with black hair on their faces and bodies. He asked the local people for information: they were gorillae, they answered. These 'people' were violent, bad-tempered and very strong. And for hundreds of years, there were similar stories about strange creatures – half human, half animal – in the forests of Africa. The first scientific description of gorillas only appeared in the 19th century. And mountain gorillas were a complete mystery until a German soldier discovered them in 1902!</div><div class='rp'><b>3 – Okapi</b><br>The Ancient Egyptians were familiar with the okapi, a strange creature from the forests of Africa. It looked like a mix between a zebra and a horse. In the 19th century, the famous British journalist Henry Stanley described the same animal. An English politician in central Africa, Henry Johnston, was very interested in Stanley's description. In 1901, Johnston finally managed to get a complete okapi skin. He sent it to London and the scientists were amazed. Later, they realised the okapi is not a type of zebra – it is actually a relative of the giraffe.</div><div class='rp'><b>4 – Komodo Dragons</b><br>During the First World War (1914–18), a pilot crashed into the sea near Indonesia. Luckily, he could swim and reached one of the smaller islands. On the island, he discovered a horrible monster. It looked like a dragon: very big with short legs and a long tongue. It attacked and killed large animals. The pilot survived and described the monster to his friends. They laughed at him! But the animal was real: it was a Komodo dragon, the largest lizard in the world. In 1927, London Zoo opened its new Reptile House with the first pair of Komodo dragons in Europe.</div>", "exercises": [{"type": "true-false", "title": "Exercise 1", "instr": "Read section 1 (Giant Squid). Decide if these statements are True (T) or False (F).", "statements": [{"text": "A: The first people to describe a giant squid were the Ancient Greeks.", "answer": "T", "expl": {"loc": "Para 1 – Giant Squid, sentence 1", "quote": "In Ancient Greek times, there were stories about huge sea monsters with very long arms.", "para": "TRUE: Ancient Greeks were the first – 'In Ancient Greek times' comes before 'Middle Ages' and '1873' in the text.", "tip": "Timeline order: Ancient Greece → Middle Ages → 1873. The first event mentioned is the first chronologically."}}, {"text": "B: The first people to describe a giant squid were sailors in the Middle Ages.", "answer": "F", "expl": {"loc": "Para 1 – sentences 1–2", "quote": "In Ancient Greek times, there were stories… Similar stories appeared in the Middle Ages.", "para": "FALSE: Ancient Greeks came BEFORE sailors in the Middle Ages. 'Similar' means a repetition, not the first description.", "tip": "'Similar stories appeared' = not the FIRST stories. The word 'similar' tells you this is a repeat of something already described."}}, {"text": "C: The first people to describe a giant squid were two fishermen in 1873.", "answer": "F", "expl": {"loc": "Para 1 – sentence 6", "quote": "But that changed in 1873. A giant squid attacked a small boat…", "para": "FALSE: 1873 is when scientists got PROOF (the arms), not the first description. Descriptions existed since Ancient Greek times.", "tip": "Distinguish 'first description' (Ancient Greece) from 'first physical proof' (1873). The question asks about describing, not proving."}}]}, {"type": "mcq-list", "title": "Exercise 2", "instr": "Circle the correct answers (a–c).", "questions": [{"text": "People finally realised giant squid were real when…", "opts": [{"l": "a", "t": "stories from the Middle Ages matched the stories from Ancient Greece."}, {"l": "b", "t": "some fishermen showed the arms of a giant squid to scientists."}, {"l": "c", "t": "somebody filmed a video of one."}], "answer": "b", "expl": {"loc": "Para 1 – sentences 7–9", "quote": "The fishermen… used an axe to cut off two of the giant squid's arms… They showed the arms to the scientists at a local museum.", "para": "Option b: showing arms to scientists = the moment of proof. Option a is wrong (matching stories ≠ proof). Option c is wrong (video exists today but wasn't the original proof).", "tip": "'Finally realised' = the turning point. Look for the moment of physical proof, not the first stories."}}, {"text": "Who first used the word 'gorillae'?", "opts": [{"l": "a", "t": "Ancient Greeks"}, {"l": "b", "t": "Africans"}, {"l": "c", "t": "Germans"}], "answer": "b", "expl": {"loc": "Para 2 – sentences 3–4", "quote": "He asked the local people for information about them: they were gorillae, they answered.", "para": "The LOCAL African people told Hanno the word 'gorillae' – they ANSWERED. Hanno (Greek) ASKED; Africans answered.", "tip": "Read carefully: Hanno (Greek) asked; the local people (Africans) answered with 'gorillae'. The Africans provided the word, not the Greeks."}}, {"text": "Scientists realised that the okapi were not a myth when…", "opts": [{"l": "a", "t": "they discovered Ancient Egyptian descriptions."}, {"l": "b", "t": "they studied Henry Stanley's description."}, {"l": "c", "t": "they received an okapi skin from Henry Johnston."}], "answer": "c", "expl": {"loc": "Para 3 – sentences 5–6", "quote": "in 1901 Johnston finally managed to get a complete okapi skin. He sent it to London and the scientists there were amazed.", "para": "The physical skin (c) convinced scientists. Option a (Egyptian descriptions) existed but weren't proof. Option b (Stanley's description) was one journalist's account, not physical evidence.", "tip": "Physical evidence > written descriptions for scientific proof. 'The scientists were amazed' signals the turning point after receiving the skin."}}, {"text": "After a pilot discovered Komodo Dragons during WWI, he…", "opts": [{"l": "a", "t": "shared the story with his friends."}, {"l": "b", "t": "informed London Zoo about the animal."}, {"l": "c", "t": "tried to catch one."}], "answer": "a", "expl": {"loc": "Para 4 – sentences 8–9", "quote": "The pilot survived and later he described the monster to his friends. They laughed at him!", "para": "Option a: he told his friends. Option b is wrong – London Zoo only got Komodo dragons in 1927, years later. Option c is not mentioned.", "tip": "'Described the monster to his friends' = 'shared the story'. Timeline: WWI pilot found them (1914–18), Zoo got them in 1927 = much later, unrelated to the pilot."}}]}]}, {"id": 7, "title": "Dancing Man", "topic": "Social Media & Kindness", "emoji": "💃", "textHTML": "<div class='ptitle'>📖 People Power</div><div class='rp'>In March 2015, a British man went to a gig in London. He liked the music and he began to dance. Because he was a large man, other people noticed his dancing. A few of them laughed and took photos of him. When the man saw their reaction, he stopped dancing and looked sad. A few days later, the photos appeared on a well-known internet forum. There were very unkind comments about the man's dancing. The man was a victim of cyberbullying. But that wasn't the end of the story; it was only the beginning.</div><div class='rp'>A group of people on social media, including an American writer called Cassandra Fairbanks, were angry about the cyberbullying. <span class='gm'>[1]</span> But they didn't know who he was! However, it quickly became a viral story and Twitter users started a hashtag campaign: #FindDancingMan! <span class='gm'>[2]</span> Sean O'Brien was his name. He was originally from Liverpool but lived in London.</div><div class='rp'>Cassandra Fairbanks and her friends began to organise a party for Sean in Los Angeles. They also set up an online fundraising page to pay for Sean's ticket to the USA. <span class='gm'>[3]</span> They gave the extra money to anti-bullying charities.</div><div class='rp'>By this time, the story of 'Dancing Man' was well known. When Sean opened his own Twitter account (@dancingmanfound) he quickly got more than 80,000 followers. Celebrities offered to help with the party and American TV shows wanted to speak to Sean.</div><div class='rp'>The party took place at a nightclub in Hollywood in May 2015. About 1,000 people were there and they danced to music from celebrity DJ Moby. <span class='gm'>[4]</span> Before the party, he appeared on Today, one of the most popular shows on American TV. On the show, he danced with Meghan Trainor. The day after the party, he threw the first ball of an important baseball match. So in the end, a story about cyberbullying became a story about kindness. 'It really shows the power of people,' said Cassandra Fairbanks.</div>", "exercises": [{"type": "ordering", "title": "Exercise 1", "instr": "Put these events in the order in which they happened (1–7).", "events": [{"l": "a", "text": "Cassandra Fairbanks raised money for Sean O'Brien's plane ticket."}, {"l": "b", "text": "Photos of Sean O'Brien appeared on an internet forum."}, {"l": "c", "text": "Sean O'Brien threw the ball to start a baseball game."}, {"l": "d", "text": "Sean O'Brien danced at a gig."}, {"l": "e", "text": "There was a big party for Sean O'Brien in Hollywood."}, {"l": "f", "text": "Cassandra Fairbanks started a campaign on Twitter."}, {"l": "g", "text": "Sean O'Brien appeared on an American TV show."}], "answers": {"a": "4", "b": "2", "c": "7", "d": "1", "e": "6", "f": "3", "g": "5"}, "expls": {"a": {"loc": "Para 3", "quote": "They also set up an online fundraising page to pay for Sean's ticket", "para": "Raising money (4) happened after finding Sean via Twitter (3) and before the party (6).", "tip": "Follow the narrative flow: gig(1) → photos(2) → campaign(3) → money(4) → TV(5) → party(6) → baseball(7)."}, "b": {"loc": "Para 1", "quote": "A few days later, the photos appeared on a well-known internet forum.", "para": "Photos appeared (2) a few days after the gig (1). 'A few days later' is the time connector.", "tip": "'A few days later' follows the gig directly. Time connectors show sequence."}, "c": {"loc": "Para 5 (last)", "quote": "The day after the party, he threw the first ball of an important baseball match.", "para": "Baseball (7) happened 'the day after the party' (6), making it the final event.", "tip": "'The day after the party' = immediately after event 6 → must be last (7)."}, "d": {"loc": "Para 1, sentence 1", "quote": "In March 2015, a British man went to a gig in London. He… began to dance.", "para": "The gig (1) is the very first event – 'In March 2015' opens the entire story.", "tip": "Opening sentence of the text = first event in the timeline. Always start here."}, "e": {"loc": "Para 5", "quote": "The party took place at a nightclub in Hollywood in May 2015.", "para": "The party (6) is the climax, in May 2015, after the TV appearance (5).", "tip": "'Before the party, he appeared on TV' tells you: TV(5) → party(6). Sequence confirmed by 'before'."}, "f": {"loc": "Para 2", "quote": "Twitter users started a hashtag campaign: #FindDancingMan!", "para": "The Twitter campaign (3) started after the photos appeared (2) and led to finding Sean and raising money (4).", "tip": "Campaign → finding Sean → raising money. Three sequential steps linked by narrative flow."}, "g": {"loc": "Para 5", "quote": "Before the party, he appeared on Today, one of the most popular shows on American TV.", "para": "'Before the party' = TV appearance (5) happened just before the party (6).", "tip": "Key time phrase: 'Before the party' tells you g comes just before e. Use time phrases to anchor events."}}}, {"type": "gap-match", "title": "Exercise 2", "instr": "Match gaps (1–4) in the text with sentences (A–E). There is one extra sentence.", "opts": [{"l": "A", "t": "This quickly raised more than $20,000."}, {"l": "B", "t": "After one day, they found him."}, {"l": "C", "t": "Two days later, he returned to England."}, {"l": "D", "t": "Afterwards, Sean said, 'It was the best night of my life!'"}, {"l": "E", "t": "They wanted to help the man."}], "numGaps": 4, "answers": {"1": "E", "2": "B", "3": "A", "4": "D"}, "extra": "C", "expls": {"1": {"loc": "Para 2 – after 'angry about the cyberbullying'", "quote": "Cassandra Fairbanks… were angry about the cyberbullying. [1] But they didn't know who he was!", "para": "E ('They wanted to help the man') connects anger at cyberbullying to the desire to help. The next 'But they didn't know who he was' shows the obstacle.", "tip": "Logic: angry → want to help [1] → BUT don't know who he is. The 'but' after the gap signals a problem with the plan stated in [1]."}, "2": {"loc": "Para 2 – after the #FindDancingMan campaign", "quote": "#FindDancingMan! [2] Sean O'Brien was his name.", "para": "B ('After one day, they found him') bridges the search campaign and revealing his name. 'After one day' shows speed.", "tip": "The gap is between the search campaign and revealing his name. Only B makes this logical connection."}, "3": {"loc": "Para 3 – after setting up the fundraising page", "quote": "They also set up an online fundraising page… [3] They gave the extra money to anti-bullying charities.", "para": "A ('This quickly raised more than $20,000') states the result of the fundraising page. The 'extra' money then went to charities.", "tip": "Cause → result: fundraising page [3] → raised $20,000 → extra to charities. A provides the missing result."}, "4": {"loc": "Para 5 – after the party with DJ Moby", "quote": "About 1,000 people were there and they danced… [4] Before the party, he appeared on Today…", "para": "D ('Afterwards, Sean said…') fits after the party description. 'Afterwards' refers to after the party. The text then moves back to 'Before the party' for context.", "tip": "'Afterwards' + personal quote = natural reaction after the party. The text then uses 'Before the party' to add context about earlier events."}, "extra": {"loc": "C is the extra sentence", "quote": "", "para": "C ('Two days later, he returned to England') is never needed – the text does not mention Sean returning home. The story focuses on USA events.", "tip": "The extra introduces new information not hinted at anywhere in the text. If a sentence adds something the text doesn't need, it's the extra."}}}]}, {"id": 8, "title": "Against the Odds", "topic": "Disabled Athletes", "emoji": "🏆", "textHTML": "<div class='ptitle'>📖 Against the Odds</div><div class='rp'><b>1 – THE CYCLIST: Christian Haettich</b><br>In 1976, at the age of fifteen, Christian Haettich had a serious car accident. He lost his left arm and his left leg. For the next few years, he found it very difficult to live with his disability. But in 1984 he saw a man with one leg cycle up a steep hill. 'I can do that,' he thought, and he learned to cycle. It was really difficult – he fell off his bike many times – but he kept trying. In 1985, he began to compete in races for disabled cyclists. His ambition was to compete in the Paralympic Games in Sydney in 2000. But then the rules changed and Christian could not take part because his disability did not match the new rules. So Christian found a new challenge: cycling up mountains. Now he cycles around 27,000 kilometres every year!</div><div class='rp'><b>2 – THE RACING DRIVER: Mike Newman</b><br>British driver Mike Newman enjoys breaking speed records. In 2013 he broke two – the land speed and the water speed records. This achievement is more amazing because Mike cannot see. He was born with a serious eye disease and became completely blind at the age of eight. For many years, Mike did not think it was possible to take part in motor sports. But at the age of forty, he started riding motorbikes and then tried cars. 'I love the engines, the smells, the noises,' he says. He set new land speed records in 2003 and 2005. In 2013, he set a new record. Imagine driving a car at 300 kilometres per hour with your eyes closed! When he isn't breaking records, Mike runs a charity called Speed of Sight, helping other blind people take part in motor sports.</div><div class='rp'><b>3 – THE SKIER: Alana Nichols</b><br>Alana Nichols was a very sporty child. She loved volleyball and basketball. As a teenager, Alana's ambition was to study sports at university. But then, at the age of seventeen, she broke her back in a serious snowboarding accident. She couldn't walk. For two years, she did not know what to do with her life. But at the age of nineteen, she discovered wheelchair basketball. She became part of the USA national team and in 2008 they won a gold medal at the Paralympics in Beijing. Alana realised other sports were possible for her. She tried surfing and kayaking. Then she tried skiing. At the 2010 winter Paralympics, she won four medals for skiing – two gold, a silver and a bronze – becoming the only athlete to win gold at both summer and winter Paralympic Games. Then, in 2014, she won another silver medal.</div>", "exercises": [{"type": "mcq-list", "title": "Exercise 1", "instr": "Choose the correct answer a, b or c.", "questions": [{"text": "Christian Haettich became disabled in the year…", "opts": [{"l": "a", "t": "1976"}, {"l": "b", "t": "1984"}, {"l": "c", "t": "1985"}], "answer": "a", "expl": {"loc": "Para 1 – Christian, sentence 1", "quote": "In 1976, at the age of fifteen, Christian Haettich had a serious car accident.", "para": "1976 = the year of his accident (became disabled). 1984 = when he saw the cyclist. 1985 = when he started competing.", "tip": "Dates trap: three years are mentioned. 'Became disabled' = accident year (1976), not when he started sport."}}, {"text": "Christian Haettich didn't compete in the Paralympic Games in Sydney because…", "opts": [{"l": "a", "t": "he wasn't good enough for the French team."}, {"l": "b", "t": "he didn't have the right kind of disability."}, {"l": "c", "t": "he preferred to cycle up mountains instead."}], "answer": "b", "expl": {"loc": "Para 1 – Christian, sentences 9–10", "quote": "the rules changed and Christian could not take part because his disability did not match the new rules.", "para": "Option b: 'disability did not match the new rules' = 'didn't have the right kind of disability'. Option a is wrong – he trained hard for the team. Option c is what he did AFTER failing to qualify.", "tip": "Paraphrase: 'disability did not match the new rules' → 'didn't have the right kind of disability'. Watch out for options that state what happened afterwards."}}, {"text": "Mike Newman's problems with his eyes began…", "opts": [{"l": "a", "t": "when he was eight years old."}, {"l": "b", "t": "when he was forty."}, {"l": "c", "t": "when he was born."}], "answer": "c", "expl": {"loc": "Para 2 – Mike Newman, sentence 4", "quote": "He was born with a serious eye disease and became completely blind at the age of eight.", "para": "Option c: 'born with a serious eye disease' = problems began at birth. He became BLIND at eight, but the EYE DISEASE started at birth.", "tip": "Distinguish: born WITH disease (c=birth) vs became BLIND at 8 (a=misleading). The question asks when 'problems with eyes' began – that's at birth."}}, {"text": "Mike Newman did not start driving cars until after forty because…", "opts": [{"l": "a", "t": "somebody told him it was not possible."}, {"l": "b", "t": "he did not know about the charity for blind people in motor sports."}, {"l": "c", "t": "he did not know that blind people could take part in motor sports."}], "answer": "c", "expl": {"loc": "Para 2 – Mike Newman, sentence 5", "quote": "For many years, Mike did not think it was possible to take part in motor sports.", "para": "Option c: 'did not think it was possible' = he didn't know blind people could take part. Option a says someone told him – no one did. Option b mentions a charity – he RUNS Speed of Sight now, but the text doesn't say he learned about it first.", "tip": "'Did not think it was possible' → 'did not know blind people could take part'. His own belief limited him, not someone else's statement."}}, {"text": "According to the text, which sport did Alana Nichols take part in before her accident?", "opts": [{"l": "a", "t": "basketball"}, {"l": "b", "t": "skiing"}, {"l": "c", "t": "snowboarding"}], "answer": "a", "expl": {"loc": "Para 3 – Alana, sentences 1–3", "quote": "She loved volleyball and basketball… she broke her back in a serious snowboarding accident.", "para": "Option a: basketball (and volleyball) were sports she loved BEFORE the accident. Snowboarding (c) caused the accident. Skiing (b) came AFTER the accident.", "tip": "Timeline: basketball (before) → snowboarding accident → skiing (after). The question asks about BEFORE the accident."}}, {"text": "In which sport has Alana Nichols won her most recent medals?", "opts": [{"l": "a", "t": "surfing"}, {"l": "b", "t": "basketball"}, {"l": "c", "t": "skiing"}], "answer": "c", "expl": {"loc": "Para 3 – Alana, last sentences", "quote": "she won four medals for skiing… Then, in 2014, she won another silver medal.", "para": "Skiing (c): the 2014 silver is the most recent medal mentioned. Basketball gold was 2008. Surfing is mentioned but no medals are given.", "tip": "'Most recent' = the last medal in the timeline. 2014 skiing silver is the final achievement listed in the text."}}]}, {"type": "person-match", "title": "Exercise 2", "instr": "Write Christian, Mike or Alana for each description.", "people": [{"num": "Christian", "name": "Christian"}, {"num": "Mike", "name": "Mike"}, {"num": "Alana", "name": "Alana"}], "statements": [{"l": "a", "text": "became disabled at the youngest age.", "answer": "Mike", "expl": {"loc": "Para 2 – Mike Newman", "quote": "He was born with a serious eye disease", "para": "Mike was born with his disability (age 0). Christian was 15. Alana was 17. Born = youngest.", "tip": "Compare ages: Mike=birth(0), Christian=15, Alana=17. Born with a condition = youngest possible age (0)."}}, {"l": "b", "text": "broke records in 2005 and 2013.", "answer": "Mike", "expl": {"loc": "Para 2 – Mike Newman", "quote": "He set new land speed records in 2003 and 2005… So in 2013, Mike had to set a new record.", "para": "Mike broke records in 2005 and 2013. These specific years only appear in Mike's paragraph.", "tip": "Scan for years 2005 and 2013 – both appear in Mike's paragraph only. Year-scanning is efficient for this type of question."}}, {"l": "c", "text": "took part in a lot of different sports as a child.", "answer": "Alana", "expl": {"loc": "Para 3 – Alana Nichols", "quote": "She loved volleyball and basketball.", "para": "Alana played volleyball AND basketball before her accident – two different sports as a child. Christian only cycled. Mike didn't do childhood sports.", "tip": "'Different sports as a child' = multiple sports. Only Alana mentions two pre-accident sports (volleyball + basketball)."}}, {"l": "d", "text": "found it difficult to learn his/her sport.", "answer": "Christian", "expl": {"loc": "Para 1 – Christian Haettich", "quote": "It was really difficult – he fell off his bike many times – but he kept trying.", "para": "Christian struggled to learn cycling. Mike and Alana are not described as finding their sports difficult to learn.", "tip": "'Fell off many times' = found it difficult. Persistence language ('kept trying') confirms the struggle."}}, {"l": "e", "text": "took part in the Paralympic Games.", "answer": "Alana", "expl": {"loc": "Para 3 – Alana Nichols", "quote": "in 2008 they won a gold medal at the Paralympics in Beijing… At the 2010 winter Paralympics…", "para": "Alana competed in 2008 Beijing AND 2010/2014 Winter Paralympics. Christian DIDN'T compete (rules changed). Mike does speed records, not Paralympics.", "tip": "Christian's story explicitly says he could NOT take part – eliminate him immediately. Mike does speed records, not Paralympics."}}, {"l": "f", "text": "started doing his/her sport after seeing another disabled sports person.", "answer": "Christian", "expl": {"loc": "Para 1 – Christian Haettich", "quote": "in 1984 he saw a man with one leg cycle up a steep hill. 'I can do that,' he thought, and he learned to cycle.", "para": "Christian was inspired by SEEING another disabled cyclist. This is the classic 'inspiration' story.", "tip": "'Started after seeing another disabled person' = direct match with 'he saw a man with one leg cycle… and he learned to cycle'. Very direct text evidence."}}]}]}, {"id": 9, "title": "In the Middle of Nowhere", "topic": "Remote Island Life", "emoji": "🏝️", "textHTML": "<div class='ptitle'>📖 Island Home</div><div class='rp'>It is one of the hardest places in the world to visit. First, you have to fly to Tahiti, an island in the South Pacific Ocean. Then you have to travel by boat – for nine days! During that time, you hardly ever see another boat or plane. And the final part of the journey is the most dangerous, because of the rocks. Over the years, they have caused hundreds of boats to sink. You can still see some of the wrecks on the beaches.</div><div class='rp'>But finally, you arrive at the tiny tropical island of Palmerston, part of the Cook Islands. <span class='gm'>[1]</span> The island is very beautiful, with white sandy beaches and clear blue water. There are no cars. The main road in Palmerston is only about a hundred metres long and is made of sand, with only about six buildings. There is a small school, but there are no shops. The families on Palmerston don't use money in their daily lives. <span class='gm'>[2]</span> They only use money to buy things from other countries.</div><div class='rp'>A ship visits the island twice a year and brings basic supplies, like rice and fuel. The islanders need money to pay for this, so they catch and freeze fish. <span class='gm'>[3]</span> But sometimes the ship doesn't come. Recently, eighteen months passed without a visit from the ship. But that wasn't a problem: they could eat coconuts and fish.</div><div class='rp'>These days, the islanders access the internet for one or two hours a day and they can even get a mobile phone signal – sometimes. But everyday experiences, like a visit to the dentist, can be a problem because the island is so remote. The nearest dentist is on Rarotonga, the capital of the Cook Islands. <span class='gm'>[4]</span> And when the dentist has finished, you sometimes have to wait six months for a boat home!</div><div class='rp'>Some of the islanders love the remoteness and think their home is paradise, but others have decided to leave. In the past 50 years, the population of Palmerston has dropped from 300 to just 62. About 20 of these are children. Their life is very happy and relaxed, but as they get older, some of them want a university education. <span class='gm'>[5]</span> They often plan to come home again after their studies – but in reality, they rarely return.</div><div class='rp'>But, for the people who stay on the island, daily life is easy. Nobody works very hard and there is a lot of free time. In the evenings, children swim in the beautiful blue ocean or play volleyball on the beach. The adults watch TV (there is one TV on the island) or chat. There is a policeman on Palmerston, but there isn't any crime, so he makes musical instruments instead!</div>", "exercises": [{"type": "gap-match", "title": "Exercise 1", "instr": "Match gaps (1–5) in the text with sentences (A–G). There are two extra sentences.", "opts": [{"l": "A", "t": "They then sell them to the ship and buy the things they need."}, {"l": "B", "t": "Visitors usually stay here when they are spending some time on the island."}, {"l": "C", "t": "They work together, look after each other and share."}, {"l": "D", "t": "When you get there, you will get a very warm welcome."}, {"l": "E", "t": "It takes four days to reach it by boat."}, {"l": "F", "t": "They understand that, but they are not happy about it."}, {"l": "G", "t": "This means going abroad to study."}], "numGaps": 5, "answers": {"1": "D", "2": "C", "3": "A", "4": "E", "5": "G"}, "extra": "BF", "expls": {"1": {"loc": "Para 2 – after arriving at Palmerston", "quote": "But finally, you arrive at the tiny tropical island of Palmerston… [1] The island is very beautiful…", "para": "D ('When you get there, you will get a very warm welcome') fits after arrival – a welcoming sentence naturally follows. D uses 'you' matching the tourist narrative style of the text.", "tip": "Gap 1 comes right after arrival. A 'welcome' sentence flows naturally. D uses 'you' matching 'you arrive' narrative."}, "2": {"loc": "Para 2 – after 'don't use money in daily lives'", "quote": "The families on Palmerston don't use money in their daily lives. [2] They only use money to buy things from other countries.", "para": "C ('They work together, look after each other and share') explains HOW they manage without money – through community cooperation. The next sentence specifies the exception (foreign goods).", "tip": "'Don't use money' → HOW? → [2] they share/cooperate → BUT they do use money for foreign goods. C describes the self-sufficient community lifestyle."}, "3": {"loc": "Para 3 – after 'they catch and freeze fish'", "quote": "the islanders need money… so they catch and freeze fish. [3] But sometimes the ship doesn't come.", "para": "A ('They then sell them to the ship and buy the things they need') completes the economic chain: catch fish → sell to ship → buy supplies.", "tip": "Economic sequence: catch/freeze fish [3] → sell to ship → buy what they need. A provides the crucial middle step before the ship discussion."}, "4": {"loc": "Para 4 – after 'nearest dentist is on Rarotonga'", "quote": "The nearest dentist is on Rarotonga… [4] And when the dentist has finished, you sometimes have to wait six months for a boat home!", "para": "E ('It takes four days to reach it by boat') explains the journey to the dentist. 'Four days' makes the following 'wait six months for a boat home' even more dramatic.", "tip": "Nearest dentist → how far? → [4] distance by boat → then wait months to return. Logical problem → detail sequence."}, "5": {"loc": "Para 5 – after 'want a university education'", "quote": "some of them want a university education. [5] They often plan to come home again after their studies", "para": "G ('This means going abroad to study') explains the consequence of wanting university – there is none on the island, so they must leave.", "tip": "'University education' → [5] what does that mean? → G: going abroad. Then: they plan to return but rarely do."}, "extra": {"loc": "B and F are the extra sentences", "quote": "", "para": "B ('Visitors usually stay here') – the text mentions no accommodation or visitor lodging. F ('They understand that, but are not happy') – the text says children 'plan to come home' which is more hopeful than F's disappointed tone.", "tip": "Extra sentences introduce details not referenced anywhere in the text. Check: is accommodation mentioned? Expressed unhappiness about leaving? No → B and F are extras."}}}, {"type": "short-answer", "title": "Exercise 2", "instr": "Answer these questions about Palmerston Island.", "questions": [{"text": "Why is part of the journey to Palmerston very dangerous?", "answer": "Because of the rocks (which have caused hundreds of boats to sink).", "kw": ["rock", "sink", "boat", "hundred"], "expl": {"loc": "Para 1, sentences 4–6", "quote": "the final part of the journey is the most dangerous, because of the rocks. Over the years, they have caused hundreds of boats to sink.", "para": "'Because of the rocks' is the direct answer. 'Have caused hundreds of boats to sink' gives further evidence of danger.", "tip": "The question paraphrases 'the most dangerous' – find the danger word then the reason (because)."}}, {"text": "How many buildings are on the main road in Palmerston?", "answer": "About six buildings.", "kw": ["six", "6", "build"], "expl": {"loc": "Para 2", "quote": "The main road in Palmerston is only about a hundred metres long and is made of sand, with only about six buildings.", "para": "'About six buildings' – the number is stated directly. The question asks specifically about buildings ON the main road.", "tip": "Number questions: scan for the specific number and its context. 'About six' = roughly six, not exactly six."}}, {"text": "How often do the islanders usually receive supplies?", "answer": "Twice a year (by ship).", "kw": ["twice", "year", "two"], "expl": {"loc": "Para 3, sentence 1", "quote": "A ship visits the island twice a year and brings basic supplies, like rice and fuel.", "para": "'How often' = frequency. 'Twice a year' is the direct answer.", "tip": "Frequency answers use: once/twice/three times + a day/week/month/year. Scan for these patterns."}}, {"text": "What problems do the islanders experience with internet and mobile phone signals?", "answer": "Internet only 1–2 hours a day; mobile phone signal only works sometimes.", "kw": ["hour", "sometimes", "signal", "internet", "one", "two"], "expl": {"loc": "Para 4, sentences 1–2", "quote": "the islanders access the internet for one or two hours a day and they can even get a mobile phone signal – sometimes.", "para": "Two problems: (1) internet limited to 1–2 hours/day; (2) mobile signal only available sometimes.", "tip": "The word 'and' often joins two separate problems. List both: internet (limited hours) AND mobile (inconsistent signal)."}}, {"text": "How has the number of people living on the island changed in the past five decades?", "answer": "The population has dropped from 300 to just 62.", "kw": ["300", "62", "drop", "fell", "declin", "population"], "expl": {"loc": "Para 5, sentence 2", "quote": "In the past 50 years, the population of Palmerston has dropped from 300 to just 62.", "para": "'Five decades' = 50 years. The answer states the change: 300 → 62. The word 'just' emphasises the dramatic decline.", "tip": "'Five decades' paraphrases '50 years'. 'Changed' paraphrases 'dropped'. Pair the time phrase with the direction of change."}}]}]}];
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+var state={cur:0,submitted:false,userAnswers:{},showReport:false,viewAttempt:null};
+var attempts=P.map(function(){return [];});
+var timers=P.map(function(){return 0;});
+var timerInterval=null,timerRunning=false;
+
+// ─── TIMER ────────────────────────────────────────────────────────────────
+function startTimer(){
+  if(timerRunning)return;
+  timerRunning=true;
+  timerInterval=setInterval(function(){
+    if(!state.submitted){
+      timers[state.cur]++;
+      var el=document.getElementById('timer');
+      if(el)el.textContent=fmt(timers[state.cur]);
+    }
+  },1000);
+}
+function stopTimer(){timerRunning=false;clearInterval(timerInterval);timerInterval=null;}
+function fmt(s){var m=Math.floor(s/60),sec=s%60;return(m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+
+// ─── COLLECT ANSWERS ──────────────────────────────────────────────────────
+function collectAnswers(){
+  var p=P[state.cur],ans={};
+  p.exercises.forEach(function(ex,ei){
+    var id='p'+p.id+'e'+ei;
+    if(ex.type==='gap-match'){
+      ans[ei]={};
+      for(var g=1;g<=ex.numGaps;g++){
+        var el=document.getElementById(id+'g'+g);
+        ans[ei][g]=el?el.value.trim().toUpperCase():'';
+      }
+    } else if(ex.type==='single-mcq'){
+      var sel=document.querySelector('input[name="'+id+'mcq"]:checked');
+      ans[ei]=sel?sel.value:'';
+    } else if(ex.type==='true-false'){
+      ans[ei]={};
+      ex.statements.forEach(function(st,si){
+        var sel=document.querySelector('input[name="'+id+'tf'+si+'"]:checked');
+        ans[ei][si]=sel?sel.value:'';
+      });
+    } else if(ex.type==='short-answer'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){
+        var el=document.getElementById(id+'sa'+qi);
+        ans[ei][qi]=el?el.value.trim():'';
+      });
+    } else if(ex.type==='mcq-list'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){
+        var sel=document.querySelector('input[name="'+id+'mcq'+qi+'"]:checked');
+        ans[ei][qi]=sel?sel.value:'';
+      });
+    } else if(ex.type==='heading-match'){
+      ans[ei]={};
+      for(var n=1;n<=ex.numParas;n++){
+        var el=document.getElementById(id+'hm'+n);
+        ans[ei][n]=el?el.value.trim().toUpperCase():'';
+      }
+    } else if(ex.type==='person-match'){
+      ans[ei]={};
+      ex.statements.forEach(function(st,si){
+        var el=document.getElementById(id+'pm'+si);
+        ans[ei][si]=el?el.value.trim():'';
+      });
+    } else if(ex.type==='text-match'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){
+        var el=document.getElementById(id+'tm'+qi);
+        ans[ei][qi]=el?el.value.trim().toUpperCase():'';
+      });
+    } else if(ex.type==='ordering'){
+      ans[ei]={};
+      ex.events.forEach(function(ev,vi){
+        var el=document.getElementById(id+'or'+vi);
+        ans[ei][ev.l]=el?el.value.trim():'';
+      });
+    } else if(ex.type==='para-fill'){
+      ans[ei]={};
+      ex.items.forEach(function(item,ii){
+        var pe=document.getElementById(id+'pf'+ii+'p');
+        var fe=document.getElementById(id+'pf'+ii+'f');
+        ans[ei][ii]={para:pe?pe.value.trim().toUpperCase():'',fill:fe?fe.value.trim():''};
+      });
+    } else if(ex.type==='number-fill'){
+      ans[ei]={};
+      var gi=0;
+      ex.groups.forEach(function(g){
+        g.items.forEach(function(item){
+          var el=document.getElementById(id+'nf'+gi);
+          ans[ei][gi]=el?el.value.trim():'';
+          gi++;
+        });
+      });
+    }
+  });
+  return ans;
+}
+
+// ─── SCORE ────────────────────────────────────────────────────────────────
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,'');}
+
+function scoreEx(ex,ea){
+  var score=0,total=0,results=[];
+  if(ex.type==='gap-match'){
+    for(var g=1;g<=ex.numGaps;g++){
+      total++;
+      var ua=(ea[g]||'').toUpperCase();
+      var ca=ex.answers[String(g)].toUpperCase();
+      var ok=ua===ca;
+      if(ok)score++;
+      results.push({q:'Gap '+g,user:ua,correct:ca,ok:ok,expl:ex.expls[String(g)]});
+    }
+    if(ex.expls&&ex.expls.extra){results.push({q:'Extra sentence',user:'',correct:ex.extra,ok:true,expl:ex.expls.extra,info:true});}
+  } else if(ex.type==='single-mcq'){
+    total=1;
+    var ua=(ea||'').toLowerCase();
+    var ca=ex.answer.toLowerCase();
+    var ok=ua===ca;
+    if(ok)score=1;
+    results.push({q:'Summary choice',user:ua,correct:ca,ok:ok,expl:ex.expl});
+  } else if(ex.type==='true-false'){
+    ex.statements.forEach(function(st,si){
+      total++;
+      var ua=(ea[si]||'').toUpperCase();
+      var ca=st.answer.toUpperCase();
+      var ok=ua===ca;
+      if(ok)score++;
+      results.push({q:st.text,user:ua,correct:ca,ok:ok,expl:st.expl});
+    });
+  } else if(ex.type==='short-answer'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toLowerCase();
+      var kws=q.kw||[];
+      var ok=kws.some(function(k){return ua.indexOf(k.toLowerCase())>=0;});
+      if(!ok&&ua.length>1)ok=norm(ua).indexOf(norm(q.answer))>=0;
+      if(ok)score++;
+      results.push({q:q.text,user:ea[qi]||'',correct:q.answer,ok:ok,expl:q.expl});
+    });
+  } else if(ex.type==='mcq-list'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toLowerCase();
+      var ca=q.answer.toLowerCase();
+      var ok=ua===ca;
+      if(ok)score++;
+      results.push({q:q.text,user:ua,correct:ca,ok:ok,expl:q.expl});
+    });
+  } else if(ex.type==='heading-match'){
+    for(var n=1;n<=ex.numParas;n++){
+      total++;
+      var ua=(ea[n]||'').toUpperCase();
+      var ca=ex.answers[String(n)].toUpperCase();
+      var ok=ua===ca;
+      if(ok)score++;
+      results.push({q:'Paragraph '+n,user:ua,correct:ca,ok:ok,expl:ex.expls[String(n)]});
+    }
+  } else if(ex.type==='person-match'){
+    ex.statements.forEach(function(st,si){
+      total++;
+      var ua=(ea[si]||'').trim();
+      var ca=st.answer;
+      var ok=norm(ua)===norm(ca)||norm(ua)===norm(st.answer);
+      if(ok)score++;
+      results.push({q:st.text,user:ua,correct:ca,ok:ok,expl:st.expl});
+    });
+  } else if(ex.type==='text-match'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toUpperCase();
+      var ca=q.answer.toUpperCase();
+      var ok=ua===ca||(qi===0&&(ua==='A'||ua==='C'));
+      if(ok)score++;
+      results.push({q:q.text,user:ua,correct:ca,ok:ok,expl:q.expl});
+    });
+  } else if(ex.type==='ordering'){
+    ex.events.forEach(function(ev){
+      total++;
+      var ua=(ea[ev.l]||'').trim();
+      var ca=ex.answers[ev.l];
+      var ok=ua===ca;
+      if(ok)score++;
+      results.push({q:ev.text,user:ua,correct:ca,ok:ok,expl:ex.expls[ev.l]});
+    });
+  } else if(ex.type==='para-fill'){
+    ex.items.forEach(function(item,ii){
+      var ua=ea[ii]||{para:'',fill:''};
+      // Para letter
+      total++;
+      var okP=ua.para.toUpperCase()===item.para.toUpperCase();
+      if(okP)score++;
+      // Fill word
+      total++;
+      var fillU=ua.fill.toLowerCase().replace(/[^a-z0-9 ]/g,'');
+      var kws=item.kw||[];
+      var okF=kws.some(function(k){return fillU.indexOf(k.toLowerCase())>=0;});
+      if(!okF)okF=norm(fillU)===norm(item.fill);
+      if(okF)score++;
+      var okBoth=okP&&okF;
+      results.push({q:'Item '+(ii+1)+': '+item.text,
+        user:'Para '+ua.para+' / "'+ua.fill+'"',
+        correct:'Para '+item.para+' / "'+item.fill+'"',
+        ok:okBoth,partial:(!okBoth&&(okP||okF)),okP:okP,okF:okF,expl:item.expl});
+    });
+  } else if(ex.type==='number-fill'){
+    var gi=0;
+    ex.groups.forEach(function(g){
+      g.items.forEach(function(item){
+        total++;
+        var ua=(ea[gi]||'').toLowerCase();
+        var kws=item.kw||[];
+        var ok=kws.some(function(k){return ua.indexOf(k.toLowerCase())>=0;});
+        if(!ok&&ua.length>2)ok=norm(ua).indexOf(norm(item.meaning).substring(0,8))>=0;
+        if(ok)score++;
+        results.push({q:item.num+' ('+g.label+')',user:ea[gi]||'',correct:item.meaning,ok:ok,expl:item.expl});
+        gi++;
+      });
+    });
+  }
+  return{score:score,total:total,results:results};
+}
+
+function scoreAll(userAns){
+  var p=P[state.cur],totalScore=0,totalMax=0,exResults=[];
+  p.exercises.forEach(function(ex,ei){
+    var r=scoreEx(ex,userAns[ei]||{});
+    totalScore+=r.score;totalMax+=r.total;exResults.push(r);
+  });
+  return{score:totalScore,total:totalMax,pct:totalMax>0?Math.round(totalScore/totalMax*100):0,exResults:exResults};
+}
+
+// ─── SUBMIT ────────────────────────────────────────────────────────────────
+function submitPractice(){
+  stopTimer();
+  var ua=collectAnswers();
+  state.userAnswers=ua;
+  state.submitted=true;
+  var sr=scoreAll(ua);
+  sr.time=timers[state.cur];
+  sr.attempt=attempts[state.cur].length+1;
+  attempts[state.cur].push(sr);
+  render();
+}
+
+function redoPractice(){
+  stopTimer();
+  timers[state.cur]=0;
+  state.submitted=false;
+  state.userAnswers={};
+  state.viewAttempt=null;
+  render();
+  setTimeout(startTimer,300);
+}
+
+function goPractice(i){
+  stopTimer();
+  state.cur=i;state.submitted=false;state.userAnswers={};state.viewAttempt=null;
+  render();
+  setTimeout(startTimer,300);
+}
+
+// ─── EXPLANATION RENDERER ─────────────────────────────────────────────────
+function EX(e){
+  if(!e)return '';
+  var h='<div class="expl-box">';
+  if(e.loc)h+='<div class="expl-loc">📍 <b>Location:</b> '+e.loc+'</div>';
+  if(e.quote)h+='<div class="expl-qt">💬 "'+e.quote+'"</div>';
+  if(e.para)h+='<div class="expl-para">🔄 <b>Why this answer:</b> '+e.para+'</div>';
+  if(e.tip)h+='<div class="expl-tip">🔍 <b>How to spot paraphrase:</b> '+e.tip+'</div>';
+  h+='</div>';
+  return h;
+}
+
+// ─── RENDER EXERCISE (input mode) ─────────────────────────────────────────
+function renderExInput(ex,ei,pid){
+  var id='p'+pid+'e'+ei;
+  var h='<div class="exbox"><div class="extitle">'+ex.title+'</div>';
+  h+='<div class="exinstr">'+ex.instr+'</div>';
+
+  if(ex.type==='gap-match'){
+    h+='<table class="opttable"><tr><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Label</th><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Sentence</th></tr>';
+    ex.opts.forEach(function(o){h+='<tr><td class="olabel">'+o.l+'</td><td>'+o.t+'</td></tr>';});
+    h+='</table>';
+    for(var g=1;g<=ex.numGaps;g++){
+      h+='<div class="gap-row"><span class="gap-label">Gap '+g+':</span>';
+      h+='<select class="gap-sel" id="'+id+'g'+g+'"><option value="">– choose –</option>';
+      ex.opts.forEach(function(o){h+='<option value="'+o.l+'">'+o.l+'</option>';});
+      h+='</select></div>';
+    }
+  } else if(ex.type==='single-mcq'){
+    ex.opts.forEach(function(o){
+      h+='<label class="mcq-opt"><input type="radio" name="'+id+'mcq" value="'+o.l+'"> <label>'+o.l.toUpperCase()+'. '+o.t+'</label></label>';
+    });
+  } else if(ex.type==='true-false'){
+    ex.statements.forEach(function(st,si){
+      h+='<div class="tf-row"><div class="tf-stmt">'+st.text+'</div><div class="tf-btns">';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="T" id="'+id+'tf'+si+'T" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BT" onclick="tfClick(\''+id+'tf'+si+'\',\'T\')">T</button>';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="F" id="'+id+'tf'+si+'F" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BF" onclick="tfClick(\''+id+'tf'+si+'\',\'F\')">F</button>';
+      h+='</div></div>';
+    });
+  } else if(ex.type==='short-answer'){
+    ex.questions.forEach(function(q,qi){
+      h+='<div class="sa-row"><div class="sa-q"><b>'+(qi+1)+'.</b> '+q.text+'</div>';
+      h+='<input class="sa-inp" id="'+id+'sa'+qi+'" placeholder="Type your answer…"></div>';
+    });
+  } else if(ex.type==='mcq-list'){
+    ex.questions.forEach(function(q,qi){
+      h+='<div style="margin-bottom:14px"><div class="sa-q"><b>'+(qi+1)+'.</b> '+q.text+'</div>';
+      q.opts.forEach(function(o){
+        h+='<label class="mcq-opt"><input type="radio" name="'+id+'mcq'+qi+'" value="'+o.l+'"> '+o.l.toUpperCase()+'. '+o.t+'</label>';
+      });
+      h+='</div>';
+    });
+  } else if(ex.type==='heading-match'){
+    h+='<table class="opttable"><tr><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Label</th><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Heading</th></tr>';
+    ex.headings.forEach(function(hd){h+='<tr><td class="olabel">'+hd.l+'</td><td>'+hd.t+'</td></tr>';});
+    h+='</table>';
+    for(var n=1;n<=ex.numParas;n++){
+      h+='<div class="match-row"><span class="match-label">Para '+n+':</span>';
+      h+='<select class="match-sel" id="'+id+'hm'+n+'"><option value="">– choose –</option>';
+      ex.headings.forEach(function(hd){h+='<option value="'+hd.l+'">'+hd.l+' – '+hd.t.substring(0,30)+'…</option>';});
+      h+='</select></div>';
+    }
+  } else if(ex.type==='person-match'){
+    h+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">';
+    ex.people.forEach(function(p){h+='<span style="background:#f0f4ff;border:1px solid #4f8ef7;padding:3px 10px;border-radius:12px;font-size:.85rem"><b>'+p.num+'</b> = '+p.name+'</span>';});
+    h+='</div>';
+    ex.statements.forEach(function(st,si){
+      h+='<div class="match-row"><span class="match-label" style="color:#856404"><b>'+st.l+')</b></span>';
+      h+='<span class="match-text">'+st.text+'</span>';
+      h+='<select class="match-sel" id="'+id+'pm'+si+'"><option value="">–</option>';
+      ex.people.forEach(function(p){h+='<option value="'+p.num+'">'+p.num+'</option>';});
+      h+='</select></div>';
+    });
+  } else if(ex.type==='text-match'){
+    h+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">';
+    ex.texts.forEach(function(t){h+='<span style="background:#f0f4ff;border:1px solid #4f8ef7;padding:3px 10px;border-radius:12px;font-size:.85rem"><b>'+t.l+'</b> = '+t.t+'</span>';});
+    h+='</div>';
+    ex.questions.forEach(function(q,qi){
+      h+='<div class="match-row"><span class="match-label"><b>'+(qi+1)+'.</b></span>';
+      h+='<span class="match-text">'+q.text+'</span>';
+      h+='<select class="match-sel" id="'+id+'tm'+qi+'"><option value="">–</option>';
+      ex.texts.forEach(function(t){h+='<option value="'+t.l+'">'+t.l+'</option>';});
+      h+='</select></div>';
+    });
+  } else if(ex.type==='ordering'){
+    h+='<p style="font-size:.82rem;color:#888;margin-bottom:8px">Enter the position number (1–7) for each event:</p>';
+    ex.events.forEach(function(ev,vi){
+      h+='<div class="ord-row"><span class="ord-letter">'+ev.l+')</span>';
+      h+='<input class="ord-inp" id="'+id+'or'+vi+'" type="number" min="1" max="'+ex.events.length+'" placeholder="#">';
+      h+='<span class="ord-text">'+ev.text+'</span></div>';
+    });
+  } else if(ex.type==='para-fill'){
+    h+='<div class="pf-labels"><span>Para</span><span style="width:110px">Fill word(s)</span></div>';
+    ex.items.forEach(function(item,ii){
+      h+='<div class="pf-row"><span class="pf-num">'+(ii+1)+'.</span>';
+      h+='<span class="pf-text">'+item.text+'</span>';
+      h+='<select class="pf-para" id="'+id+'pf'+ii+'p"><option value="">–</option>';
+      ['A','B','C','D'].forEach(function(l){h+='<option value="'+l+'">'+l+'</option>';});
+      h+='</select>';
+      h+='<input class="pf-fill" id="'+id+'pf'+ii+'f" placeholder="word(s)…">';
+      h+='</div>';
+    });
+  } else if(ex.type==='number-fill'){
+    ex.groups.forEach(function(g,gi2){
+      h+='<div class="nf-group"><div class="nf-grouplabel">'+g.label+'</div>';
+      var offset=0;
+      for(var x=0;x<gi2;x++)offset+=ex.groups[x].items.length;
+      g.items.forEach(function(item,ii){
+        var absIdx=offset+ii;
+        h+='<div class="nf-row"><span class="nf-num">'+item.num+'</span>';
+        h+='<input class="nf-inp" id="'+id+'nf'+absIdx+'" placeholder="Explain the significance…"></div>';
+      });
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+  return h;
+}
+
+// ─── RENDER RESULTS ────────────────────────────────────────────────────────
+function renderResults(sr){
+  var pct=sr.pct,p=P[state.cur];
+  var col=pct>=80?'#27ae60':pct>=60?'#f39c12':'#e74c3c';
+  var h='<div class="res-banner '+(pct>=60?'res-pass':'res-fail')+'">';
+  h+='Attempt '+sr.attempt+': <span style="font-size:1.4rem">'+pct+'%</span> ('+sr.score+'/'+sr.total+' points) — '+fmt(sr.time)+'</div>';
+
+  p.exercises.forEach(function(ex,ei){
+    var er=sr.exResults[ei];
+    h+='<div style="margin-bottom:6px;font-weight:700;color:#1a1a2e">'+ex.title+' ('+er.score+'/'+er.total+')</div>';
+    er.results.forEach(function(r){
+      if(r.info)return;
+      var cls=r.ok?'correct':(r.partial?'partial':'wrong');
+      var icon=r.ok?'✅':(r.partial?'⚠️':'❌');
+      h+='<div class="q-result"><div class="q-result-head '+cls+'">';
+      h+=icon+' '+r.q;
+      if(!r.ok){h+=' — Your answer: <b>'+r.user+'</b> | Correct: <b>'+r.correct+'</b>';}
+      h+='</div>';
+      if(r.expl)h+=EX(r.expl);
+      h+='</div>';
+    });
+  });
+  return h;
+}
+
+// ─── T/F CLICK HANDLER ────────────────────────────────────────────────────
+function tfClick(name,val){
+  document.getElementById(name+val).checked=true;
+  var other=val==='T'?'F':'T';
+  document.getElementById(name+'B'+val).className='tf-btn sel-'+val;
+  document.getElementById(name+'B'+other).className='tf-btn';
+}
+
+// ─── MAIN RENDER ──────────────────────────────────────────────────────────
+function render(){
+  var app=document.getElementById('app');
+  if(state.showReport){app.innerHTML=renderReportScreen();return;}
+
+  var p=P[state.cur];
+  // TABS
+  var tabsH='';
+  P.forEach(function(pr,i){
+    var cls='tab'+(i===state.cur?' active':'')+(attempts[i].length>0?' done':'');
+    tabsH+='<div class="'+cls+'" onclick="goPractice('+i+')">'+pr.emoji+' P'+pr.id+'</div>';
+  });
+
+  // ATTEMPT TAGS
+  var attH='';
+  if(attempts[state.cur].length>0){
+    attH='<div class="attempt-tags">';
+    attempts[state.cur].forEach(function(a,i){
+      var best=a.pct===Math.max.apply(null,attempts[state.cur].map(function(x){return x.pct;}));
+      var cls='atag '+(best?'best':a.pct>=60?'pass':'fail');
+      attH+='<div class="'+cls+'" onclick="viewAttempt('+i+')">Attempt '+(i+1)+': '+a.pct+'%</div>';
+    });
+    attH+='</div>';
+  }
+
+  // QPANEL content
+  var qContent='';
+  if(state.viewAttempt!==null&&!state.submitted){
+    var vsr=attempts[state.cur][state.viewAttempt];
+    qContent=attH+'<h3 style="margin-bottom:12px;color:#1a1a2e">📊 Attempt '+(state.viewAttempt+1)+' Results</h3>';
+    qContent+=renderResults(vsr);
+    qContent+='<div class="sub-row"><button class="redo-btn" onclick="redoPractice()">🔄 Try Again</button>';
+    qContent+='<button class="back-btn" onclick="backFromView()">← Back to Practice</button></div>';
+  } else if(state.submitted){
+    var sr=attempts[state.cur][attempts[state.cur].length-1];
+    qContent=attH+renderResults(sr);
+    qContent+='<div class="sub-row"><button class="redo-btn" onclick="redoPractice()">🔄 Try Again</button></div>';
+  } else {
+    qContent=attH;
+    p.exercises.forEach(function(ex,ei){qContent+=renderExInput(ex,ei,p.id);});
+    qContent+='<div class="sub-row"><button class="sub-btn" onclick="submitPractice()">✅ Submit & Check Answers</button></div>';
+  }
+
+  app.innerHTML=
+    '<div class="brandbar"><span>Huong Stella Paradigm</span></div>'+
+    '<div class="topbar">'+
+      '<div class="apptitle">📖 Reading Practice Level 1</div>'+
+      '<div class="tabs">'+tabsH+'</div>'+
+      '<div class="student-inputs">'+
+        '<input class="stu-input" placeholder="Tên học viên" value="'+studentName.replace(/"/g,'&quot;')+'" oninput="studentName=this.value">'+
+        '<input class="stu-input" placeholder="Email học viên" value="'+studentEmail.replace(/"/g,'&quot;')+'" oninput="studentEmail=this.value">'+
+      '</div>'+
+      '<div class="timer-chip" id="timer">'+fmt(timers[state.cur])+'</div>'+
+      '<button class="rpt-btn" onclick="showReportFn()">📊 Report</button>'+
+    '</div>'+
+    '<div class="split">'+
+      '<div class="textpanel">'+p.textHTML+'</div>'+
+      '<div class="qpanel">'+
+        '<div style="font-size:.8rem;color:#888;margin-bottom:8px">📌 '+p.topic+'</div>'+
+        '<h2 style="font-size:1.1rem;color:#1a1a2e;margin-bottom:12px">'+p.emoji+' Practice '+p.id+': '+p.title+'</h2>'+
+        qContent+
+      '</div>'+
+    '</div>';
+}
+
+function viewAttempt(i){state.viewAttempt=i;state.submitted=false;render();}
+function backFromView(){state.viewAttempt=null;render();}
+function showReportFn(){state.showReport=true;stopTimer();render();}
+function backFromReport(){state.showReport=false;render();setTimeout(startTimer,200);}
+
+// ─── REPORT SCREEN ─────────────────────────────────────────────────────────
+function renderReportScreen(){
+  var totScore=0,totMax=0,practiceRows='',typeErrors={},topicErrors={};
+
+  P.forEach(function(p,i){
+    var ats=attempts[i];
+    if(ats.length===0){
+      practiceRows+='<tr><td>P'+p.id+' – '+p.title+'</td><td colspan="4" style="color:#aaa;font-style:italic">Not attempted</td></tr>';
+      return;
+    }
+    var best=ats.reduce(function(b,a){return a.pct>b.pct?a:b;},ats[0]);
+    var last=ats[ats.length-1];
+    totScore+=last.score;totMax+=last.total;
+
+    var trend=ats.length>1?(last.pct>ats[ats.length-2].pct?'<span class="trend-up">↑</span>':'<span class="trend-dn">↓</span>'):'–';
+    var badge=best.pct>=80?'badge-g':best.pct>=60?'badge-y':'badge-r';
+    practiceRows+='<tr><td>'+p.emoji+' P'+p.id+' – '+p.title+'</td>';
+    practiceRows+='<td><span class="badge '+badge+'">'+best.pct+'%</span></td>';
+    practiceRows+='<td>'+last.pct+'%</td>';
+    practiceRows+='<td>'+fmt(best.time)+'</td>';
+    practiceRows+='<td>'+trend+'</td></tr>';
+
+    // Collect type/topic errors from last attempt
+    p.exercises.forEach(function(ex,ei){
+      var er=last.exResults[ei];
+      if(!typeErrors[ex.type])typeErrors[ex.type]={wrong:0,total:0};
+      typeErrors[ex.type].wrong+=er.total-er.score;
+      typeErrors[ex.type].total+=er.total;
+    });
+    if(!topicErrors[p.topic])topicErrors[p.topic]={wrong:0,total:0,title:p.title};
+    topicErrors[p.topic].wrong+=last.total-last.score;
+    topicErrors[p.topic].total+=last.total;
+  });
+
+  var ovPct=totMax>0?Math.round(totScore/totMax*100):0;
+  var ovBadge=ovPct>=80?'#27ae60':ovPct>=60?'#f39c12':'#e74c3c';
+
+  // Type error table
+  var typeRows='';
+  var typeList=Object.keys(typeErrors).map(function(k){
+    return{type:k,pct:Math.round(typeErrors[k].wrong/typeErrors[k].total*100),w:typeErrors[k].wrong,t:typeErrors[k].total};
+  }).sort(function(a,b){return b.pct-a.pct;});
+  typeList.forEach(function(t){
+    var typeName={
+      'gap-match':'Gap matching','single-mcq':'Multiple choice (single)',
+      'mcq-list':'Multiple choice (list)','true-false':'True / False',
+      'heading-match':'Heading matching','person-match':'Person matching',
+      'text-match':'Text matching','ordering':'Event ordering',
+      'short-answer':'Short answer','para-fill':'Paragraph + fill',
+      'number-fill':'Number significance'
+    }[t.type]||t.type;
+    var badge=t.pct>=40?'badge-r':t.pct>=20?'badge-y':'badge-g';
+    typeRows+='<tr><td>'+typeName+'</td><td>'+t.w+'/'+t.t+'</td><td><span class="badge '+badge+'">'+t.pct+'% error</span></td></tr>';
+  });
+
+  // Topic rows
+  var topicRows='';
+  Object.keys(topicErrors).forEach(function(k){
+    var t=topicErrors[k];
+    var errPct=Math.round(t.wrong/t.total*100);
+    var badge=errPct>=40?'badge-r':errPct>=20?'badge-y':'badge-g';
+    topicRows+='<tr><td>'+k+'</td><td><span class="badge '+badge+'">'+errPct+'% error</span></td></tr>';
+  });
+
+  // Recommendations
+  var recs=[];
+  typeList.forEach(function(t){
+    if(t.pct>=30){
+      var tips={
+        'gap-match':'Practice gap-fill: read the sentence before AND after each gap. Look for topic continuity and grammar signals (connectors like "but", "so", "however").',
+        'single-mcq':'For summary MCQs: identify the TWO main ideas of the text and eliminate options that are too narrow, too broad, or factually wrong.',
+        'mcq-list':'For MCQs: use process of elimination. Find the paragraph for each question first, then compare each option against the text.',
+        'true-false':'For True/False: read each statement very carefully. Look for words like "first", "only", "always" which are often key modifiers.',
+        'heading-match':'For heading matching: identify the MAIN idea of each paragraph (often in the first sentence). Match to the heading with the closest meaning.',
+        'person-match':'For person matching: underline who says what. Professions/roles help identify speakers. Paraphrase alert: the statement won\'t copy the text word-for-word.',
+        'text-match':'For text matching: read question keywords first, then scan each text for those keywords or their paraphrases.',
+        'ordering':'For ordering: find time words (first, then, later, after, before, next day). Map events to the chronological narrative.',
+        'short-answer':'For short answers: use keyword matching strategy. Include at least one specific word from the text in your answer.',
+        'para-fill':'For paragraph + fill: identify the KEY WORD in the sentence → scan each paragraph heading → then find the specific word in that paragraph.',
+        'number-fill':'For number significance: every number appears in context. Find the number in the text → read the whole sentence around it → paraphrase in your own words.'
+      };
+      recs.push({type:'warn',text:'<b>'+({
+        'gap-match':'Gap matching','single-mcq':'Summary MCQ','mcq-list':'Multiple choice',
+        'true-false':'True/False','heading-match':'Heading matching','person-match':'Person matching',
+        'text-match':'Text matching','ordering':'Event ordering','short-answer':'Short answer',
+        'para-fill':'Paragraph fill','number-fill':'Number significance'
+      }[t.type]||t.type)+'</b> ('+t.pct+'% error rate): '+(tips[t.type]||'Review this exercise type.')});
+    }
+  });
+
+  if(ovPct<60)recs.push({type:'warn',text:'<b>Overall score below 60%:</b> Focus on reading the WHOLE paragraph before answering. Don\'t answer from the first sentence alone.'});
+  if(ovPct>=60&&ovPct<80)recs.push({type:'',text:'<b>Good progress!</b> To move from 60% → 80%: practise spotting paraphrase (synonyms, grammar changes) between question wording and text.'});
+  if(ovPct>=80)recs.push({type:'ok',text:'<b>Excellent!</b> Maintain this level by timing yourself: aim to complete each practice in under 12 minutes.'});
+  recs.push({type:'',text:'<b>Vocabulary:</b> When you miss an answer, underline the key word in the question and find its paraphrase in the text. Build a "paraphrase notebook".'});
+  recs.push({type:'',text:'<b>Reading skill – skimming:</b> Read the questions FIRST, then skim the text to find the relevant section before reading carefully.'});
+
+  var recsH=recs.map(function(r){return '<div class="rec-item '+r.type+'">'+r.text+'</div>';}).join('');
+
+  var h='<div class="brandbar"><span>Huong Stella Paradigm</span></div>';
+  h+='<div style="padding:72px 0 0 0"></div>';
+  h+='<button class="back-btn" onclick="backFromReport()">← Back to Practice</button>';
+  h+='<div class="report-screen">';
+  h+='<h1>📊 Results Report</h1>';
+  h+='<div class="sbox"><div class="ov-card">';
+  h+='<div class="ov-pct" style="color:'+ovBadge+'">'+ovPct+'%</div>';
+  h+='<div class="ov-info"><div class="ov-label">Overall Score</div>';
+  h+='<div class="ov-pts">'+totScore+' / '+totMax+' points</div>';
+  h+='<div class="score-bar-wrap" style="margin-top:8px"><div class="score-bar" style="width:'+ovPct+'%;background:'+ovBadge+'"></div></div></div></div></div>';
+
+  h+='<div class="sbox"><h2>📋 Per-Practice Results</h2>';
+  h+='<table class="rtable"><tr><th>Practice</th><th>Best %</th><th>Last %</th><th>Best Time</th><th>Trend</th></tr>'+practiceRows+'</table></div>';
+
+  h+='<div class="sbox"><h2>❌ Error Rate by Question Type</h2>';
+  h+='<table class="rtable"><tr><th>Question Type</th><th>Errors</th><th>Error Rate</th></tr>'+typeRows+'</table></div>';
+
+  h+='<div class="sbox"><h2>📚 Error Rate by Topic</h2>';
+  h+='<table class="rtable"><tr><th>Topic</th><th>Error Rate</th></tr>'+topicRows+'</table></div>';
+
+  h+='<div class="sbox"><h2>💡 Recommendations</h2>'+recsH+'</div>';
+
+  h+='<div class="sbox"><h2>📤 Export & Share</h2>';
+  h+='<button class="xbtn pdf" onclick="exportPDF()">📄 Export Results (PDF)</button>';
+  h+='<button class="xbtn em" onclick="sendEmail()">📧 Send to Teacher</button>';
+  h+='</div></div>';
+  return h;
+}
+
+// ─── EXPORT PDF ────────────────────────────────────────────────────────────
+function exportPDF(){
+  var totScore=0,totMax=0;
+  var attempted=P.filter(function(p,i){return attempts[i].length>0;});
+
+  // Gather data
+  var practiceData=P.map(function(p,i){
+    var ats=attempts[i];
+    if(!ats.length)return null;
+    var best=ats.reduce(function(b,a){return a.pct>b.pct?a:b;},ats[0]);
+    var last=ats[ats.length-1];
+    totScore+=last.score;totMax+=last.total;
+    return{p:p,best:best,last:last,ats:ats};
+  });
+  var ovPct=totMax>0?Math.round(totScore/totMax*100):0;
+  var ovCol=ovPct>=80?'#1a7a4a':ovPct>=60?'#c07a00':'#b0180a';
+
+  // Build detail rows per practice
+  function detailRows(pd){
+    if(!pd)return'<tr><td colspan="5" style="color:#aaa;font-style:italic">Not attempted</td></tr>';
+    var rows='';
+    pd.p.exercises.forEach(function(ex,ei){
+      var er=pd.last.exResults[ei];
+      rows+='<tr><td colspan="5" style="background:#f0f4ff;font-weight:700;color:#1a1a2e;padding:5px 8px">'+ex.title+' — '+er.score+'/'+er.total+' pts</td></tr>';
+      er.results.forEach(function(r){
+        if(r.info)return;
+        var ok=r.ok;
+        var icon=ok?'✔':'✘';
+        var col=ok?'#155724':'#721c24';
+        var bg=ok?'#f0fff4':'#fff5f5';
+        rows+='<tr style="background:'+bg+'">';
+        rows+='<td style="color:'+col+';font-weight:700;width:28px;text-align:center">'+icon+'</td>';
+        rows+='<td style="max-width:220px">'+r.q+'</td>';
+        rows+='<td style="color:#555">'+r.user+'</td>';
+        rows+='<td style="color:#1a7a4a;font-weight:600">'+r.correct+'</td>';
+        rows+='<td style="font-size:.75rem;color:#666;max-width:200px">'+(r.expl&&r.expl.tip?'💡 '+r.expl.tip:'')+'</td>';
+        rows+='</tr>';
+      });
+    });
+    return rows;
+  }
+
+  // Type errors
+  var typeErrors={};
+  P.forEach(function(p,i){
+    var ats=attempts[i];if(!ats.length)return;
+    var last=ats[ats.length-1];
+    p.exercises.forEach(function(ex,ei){
+      var er=last.exResults[ei];
+      if(!typeErrors[ex.type])typeErrors[ex.type]={w:0,t:0};
+      typeErrors[ex.type].w+=er.total-er.score;
+      typeErrors[ex.type].t+=er.total;
+    });
+  });
+  var typeNames={'gap-match':'Gap matching','single-mcq':'MCQ (single)','mcq-list':'MCQ (list)',
+    'true-false':'True / False','heading-match':'Heading match','person-match':'Person match',
+    'text-match':'Text match','ordering':'Event ordering','short-answer':'Short answer',
+    'para-fill':'Paragraph fill','number-fill':'Number significance'};
+  var typeRows='';
+  Object.keys(typeErrors).sort(function(a,b){
+    return(typeErrors[b].w/typeErrors[b].t)-(typeErrors[a].w/typeErrors[a].t);
+  }).forEach(function(k){
+    var t=typeErrors[k];
+    var ep=Math.round(t.w/t.t*100);
+    var col=ep>=40?'#b0180a':ep>=20?'#c07a00':'#1a7a4a';
+    typeRows+='<tr><td>'+(typeNames[k]||k)+'</td><td>'+t.w+'/'+t.t+'</td>';
+    typeRows+='<td style="color:'+col+';font-weight:700">'+ep+'%</td></tr>';
+  });
+
+  var doc='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=794">';
+  doc+='<style>';
+  doc+='html,body{width:794px!important;max-width:794px!important;overflow-x:hidden}';
+  doc+='@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap");';
+  doc+='*{box-sizing:border-box;margin:0;padding:0}';
+  doc+='body{font-family:Inter,Arial,sans-serif;color:#222;background:#fff;font-size:11pt}';
+  doc+='@page{margin:18mm 15mm;size:A4}';
+  doc+='@media print{body{print-color-adjust:exact;-webkit-print-color-adjust:exact}}';
+  doc+='.cover{page-break-after:always;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:#fff;padding:40px}';
+  doc+='.cover .cover-brand{font-size:7.5pt;letter-spacing:.28em;text-transform:uppercase;color:#6a7fdb;position:absolute;top:36px;left:0;right:0;text-align:center}';
+  doc+='.cover .student-name{font-size:24pt;font-weight:900;color:#fff;margin-bottom:6px;letter-spacing:.02em}';
+  doc+='.cover .student-email{font-size:10.5pt;color:#9ab4e8;margin-bottom:32px}';
+  doc+='.cover h1{font-size:28pt;font-weight:900;margin-bottom:10px;line-height:1.2}';
+  doc+='.cover .sub{font-size:12pt;color:#aaa;margin-bottom:32px}';
+  doc+='.cover .score-big{font-size:64pt;font-weight:900;color:#4f8ef7;line-height:1}';
+  doc+='.cover .score-label{font-size:13pt;color:#aaa;margin-top:6px;margin-bottom:28px}';
+  doc+='.cover .meta{font-size:9.5pt;color:#888}';
+  doc+='.section{margin-bottom:28px}';
+  doc+='.section h2{font-size:13pt;font-weight:700;color:#1a1a2e;border-bottom:2.5px solid #4f8ef7;padding-bottom:5px;margin-bottom:12px}';
+  doc+='.pcard{border:1.5px solid #e0e6ed;border-radius:8px;margin-bottom:18px;overflow:hidden;page-break-inside:avoid}';
+  doc+='.pcard-head{background:#1a1a2e;color:#fff;padding:9px 14px;display:flex;align-items:center;justify-content:space-between}';
+  doc+='.pcard-head .ptitle{font-weight:700;font-size:11pt}';
+  doc+='.pcard-head .pscore{font-size:13pt;font-weight:900}';
+  doc+='.pcard-head .pbar-wrap{flex:1;margin:0 14px;background:rgba(255,255,255,.2);border-radius:6px;height:7px}';
+  doc+='.pcard-head .pbar{height:7px;border-radius:6px;background:#4f8ef7}';
+  doc+='table{width:100%;border-collapse:collapse;font-size:9pt}';
+  doc+='th{background:#1a1a2e;color:#fff;padding:6px 8px;text-align:left;font-weight:600}';
+  doc+='td{padding:5px 8px;border-bottom:1px solid #eee;vertical-align:top}';
+  doc+='.summary-tbl td:nth-child(3){font-weight:700}';
+  doc+='.page-break{page-break-before:always}';
+  doc+='</style>';
+  doc+='</head><body>';
+
+  // COVER PAGE
+  doc+='<div class="cover">';
+  doc+='<div class="cover-brand">Huong Stella Paradigm</div>';
+  doc+='<div class="student-name">'+(studentName||'Học viên')+'</div>';
+  if(studentEmail)doc+='<div class="student-email">'+studentEmail+'</div>';
+  doc+='<h1>Reading Practice<br>Level 1</h1>';
+  doc+='<div class="sub">Results Report</div>';
+  doc+='<div class="score-big" style="color:'+ovCol+'">'+ovPct+'%</div>';
+  doc+='<div class="score-label">Overall Score — '+totScore+' / '+totMax+' points</div>';
+  doc+='<div class="meta">'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</div>';
+  doc+='</div>';
+
+  // SUMMARY TABLE
+  doc+='<div class="section"><h2>📋 Practice Summary</h2>';
+  doc+='<table class="summary-tbl"><tr><th>Practice</th><th>Topic</th><th>Attempts</th><th>Best</th><th>Last</th><th>Best Time</th></tr>';
+  P.forEach(function(p,i){
+    var pd=practiceData[i];
+    if(!pd){doc+='<tr><td>'+p.emoji+' P'+p.id+' '+p.title+'</td><td>'+p.topic+'</td><td colspan="4" style="color:#aaa">Not attempted</td></tr>';return;}
+    var bestCol=pd.best.pct>=80?'#1a7a4a':pd.best.pct>=60?'#c07a00':'#b0180a';
+    doc+='<tr><td>'+p.emoji+' P'+p.id+' '+p.title+'</td><td>'+p.topic+'</td>';
+    doc+='<td style="text-align:center">'+pd.ats.length+'</td>';
+    doc+='<td style="font-weight:700;color:'+bestCol+'">'+pd.best.pct+'%</td>';
+    doc+='<td>'+pd.last.pct+'%</td>';
+    doc+='<td>'+fmt(pd.best.time)+'</td></tr>';
+  });
+  doc+='</table></div>';
+
+  // ERROR ANALYSIS
+  doc+='<div class="section"><h2>❌ Error Rate by Question Type</h2>';
+  doc+='<table><tr><th>Question Type</th><th>Errors</th><th>Error Rate</th></tr>'+typeRows+'</table></div>';
+
+  // DETAILED RESULTS PER PRACTICE
+  doc+='<div class="section page-break"><h2>📝 Detailed Results by Practice</h2>';
+  P.forEach(function(p,i){
+    var pd=practiceData[i];
+    var pct=pd?pd.last.pct:0;
+    var pCol=pct>=80?'#4f8ef7':pct>=60?'#f39c12':'#e74c3c';
+    doc+='<div class="pcard">';
+    doc+='<div class="pcard-head">';
+    doc+='<div class="ptitle">'+p.emoji+' P'+p.id+' — '+p.title+'<span style="font-weight:400;color:#aaa;font-size:9pt;margin-left:8px">'+p.topic+'</span></div>';
+    if(pd){
+      doc+='<div class="pbar-wrap"><div class="pbar" style="width:'+pct+'%;background:'+pCol+'"></div></div>';
+      doc+='<div class="pscore" style="color:'+pCol+'">'+pct+'%</div>';
+    }else{doc+='<div style="color:#aaa;font-size:9pt">Not attempted</div>';}
+    doc+='</div>';
+    doc+='<table><tr><th style="width:28px"></th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Tip</th></tr>';
+    doc+=detailRows(pd);
+    doc+='</table></div>';
+  });
+  doc+='</div>';
+
+  doc+='</body></html>';
+
+  var sname=(studentName||'Results').replace(/[^a-zA-Z0-9_\- ]/g,'_');
+  var filename=sname+'_Reading_Practice.pdf';
+
+  var runner=[
+    '<scr'+'ipt src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/scr'+'ipt>',
+    '<scr'+'ipt>',
+    'window.addEventListener("load",function(){',
+    '  html2pdf().from(document.body).set({',
+    '    margin:0,',
+    '    filename:"'+filename+'",',
+    '    image:{type:"jpeg",quality:0.96},',
+    '    html2canvas:{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#1a1a2e",windowWidth:794},',
+    '    jsPDF:{unit:"mm",format:[210,297],orientation:"portrait"},',
+    '    pagebreak:{mode:["css"],before:".page-break",after:".cover"}',
+    '  }).save().then(function(){setTimeout(function(){window.close();},800);});',
+    '});',
+    '<\/scr'+'ipt>',
+    '</body></html>'
+  ].join('\n');
+
+  var finalDoc=doc.replace('</body></html>',runner);
+  var w=window.open('','_blank','width=320,height=80,left='+Math.round(screen.width/2-160)+',top='+Math.round(screen.height/2-40));
+  if(!w){alert('Vui lòng cho phép popup để xuất PDF.');return;}
+  w.document.write('<html><head><title>Đang tạo PDF…</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;height:80px;font-family:Arial;font-size:13px;color:#333;background:#f5f5f5}</style></head><body>⏳ Đang tạo PDF, vui lòng chờ…</body></html>');
+  w.document.close();
+  var blob=new Blob([finalDoc],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  w.location.href=url;
+}
+
+function sendEmail(){
+  var lines=['Reading Practice Results','Date: '+new Date().toLocaleDateString(),''];
+  var totScore=0,totMax=0;
+  P.forEach(function(p,i){
+    var ats=attempts[i];
+    if(ats.length===0){lines.push('P'+p.id+' '+p.title+': Not attempted');return;}
+    var last=ats[ats.length-1];
+    totScore+=last.score;totMax+=last.total;
+    lines.push('P'+p.id+' '+p.title+': '+last.pct+'% ('+last.score+'/'+last.total+') – '+ats.length+' attempt(s)');
+  });
+  lines.push('');
+  lines.push('OVERALL: '+(totMax>0?Math.round(totScore/totMax*100):0)+'% ('+totScore+'/'+totMax+')');
+  var body=encodeURIComponent(lines.join('\n'));
+  var subj=encodeURIComponent('Reading Practice Results – '+new Date().toLocaleDateString());
+  window.location.href='mailto:'+TEACHER+'?subject='+subj+'&body='+body;
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────
+render();
+setTimeout(startTimer,500);
+
+
+</script>
+</body>
+</html>
