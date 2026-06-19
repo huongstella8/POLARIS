@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huong Stella Paradigm – Topic 1: People and Relationships</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FAF6EE;--ink:#1A1612;--warm-mid:#C4A882;--warm-light:#E8DCC8;
+  --accent1:#E8501A;--accent2:#2E7D5E;--accent3:#4A7FB5;--accent4:#C94F7C;
+  --accent5:#7B5EA7;--gold:#D4A827;--dark-bg:#12100E;--card-bg:#FFFFFF;
+  --border:#DDD4C4;--shadow:0 2px 12px rgba(26,22,18,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+#loginOverlay{position:fixed;inset:0;background:rgba(18,16,14,.85);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.login-box{background:var(--cream);border-radius:16px;padding:48px 40px;max-width:440px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.login-box h2{font-family:'Fraunces',serif;font-size:28px;color:var(--ink);margin-bottom:8px}
+.login-box p{color:#666;font-size:14px;margin-bottom:28px}
+.login-box label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.login-box input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;font-size:15px;font-family:'DM Sans',sans-serif;margin-bottom:18px;outline:none;transition:.2s}
+.login-box input:focus{border-color:var(--accent1)}
+.login-box button{width:100%;background:var(--ink);color:var(--cream);border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
+.login-box button:hover{background:var(--accent1)}
+.login-err{color:var(--accent1);font-size:13px;margin-top:-10px;margin-bottom:12px;display:none}
+#studentBar{display:none;background:var(--ink);color:var(--cream);padding:10px 24px;align-items:center;justify-content:space-between;font-size:13px;position:sticky;top:0;z-index:800;gap:12px;flex-wrap:wrap}
+#studentBar.show{display:flex}
+.bar-name{font-weight:600;font-size:14px}
+.bar-score{background:rgba(255,255,255,.1);border-radius:20px;padding:4px 14px;font-weight:700;font-size:13px}
+.bar-right{display:flex;align-items:center;gap:10px}
+.bar-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:var(--cream);border-radius:6px;padding:5px 14px;font-size:12px;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif}
+.bar-btn:hover{background:rgba(255,255,255,.15)}
+.bar-btn.export{border-color:var(--gold);color:var(--gold)}
+.bar-btn.export:hover{background:rgba(212,168,39,.15)}
+.hero{background:var(--dark-bg);color:var(--cream);padding:80px 24px 60px;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(232,80,26,.18),transparent 70%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.hero-tag{display:inline-block;background:rgba(232,80,26,.2);border:1px solid rgba(232,80,26,.4);border-radius:20px;padding:4px 16px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent1);margin-bottom:18px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(32px,6vw,56px);font-weight:700;line-height:1.1;margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--warm-mid)}
+.hero p{max-width:560px;margin:0 auto;font-size:16px;color:rgba(250,246,238,.7);line-height:1.6}
+.sticky-nav{position:sticky;top:0;background:var(--cream);border-bottom:2px solid var(--border);z-index:700;overflow-x:auto;scrollbar-width:none}
+.sticky-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;min-width:max-content;padding:0 16px}
+.nav-btn{background:none;border:none;padding:14px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:#888;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
+.nav-btn.active{color:var(--accent1);border-bottom-color:var(--accent1);font-weight:700}
+.nav-btn:hover:not(.active){color:var(--ink)}
+.module-panel{display:none;animation:fadeUp .35s ease both}
+.module-panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.panel-inner{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;margin-top:40px}
+.section-head h2{font-family:'Fraunces',serif;font-size:22px;color:var(--ink)}
+.section-head .pill{background:var(--ink);color:var(--cream);border-radius:12px;padding:3px 12px;font-size:12px;font-weight:700}
+.sub-head{font-family:'Fraunces',serif;font-size:18px;margin-bottom:12px;margin-top:8px;color:var(--ink)}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:32px}
+.vocab-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow);transition:.2s}
+.vocab-card:hover{box-shadow:0 4px 20px rgba(26,22,18,.12);transform:translateY(-1px)}
+.vocab-word{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.vocab-type{display:inline-block;border-radius:10px;padding:2px 9px;font-size:11px;font-weight:700;color:#fff;margin-bottom:7px;letter-spacing:.04em}
+.vocab-viet{font-size:14px;font-weight:600;color:#555;margin-bottom:4px}
+.vocab-example{font-size:12px;color:#888;font-style:italic;line-height:1.4}
+.country-table{width:100%;border-collapse:collapse;margin-bottom:28px;font-size:14px}
+.country-table th{background:var(--ink);color:var(--cream);padding:10px 14px;text-align:left;font-weight:600}
+.country-table td{padding:9px 14px;border-bottom:1px solid var(--border)}
+.country-table tr:nth-child(even) td{background:rgba(196,168,130,.08)}
+.grammar-box{background:var(--dark-bg);color:var(--cream);border-radius:12px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--gold)}
+.grammar-box h3{font-family:'Fraunces',serif;font-size:18px;color:var(--gold);margin-bottom:10px}
+.grammar-box p,.grammar-box li{font-size:14px;line-height:1.7;color:rgba(250,246,238,.85);margin-top:6px}
+.grammar-box ul{padding-left:20px;margin-top:8px}
+.grammar-box code{background:rgba(255,255,255,.08);border-radius:4px;padding:1px 7px;font-family:monospace;color:var(--warm-mid)}
+.ex-block{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;box-shadow:var(--shadow)}
+.ex-header{background:var(--ink);color:var(--cream);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ex-title{font-family:'Fraunces',serif;font-size:15px;font-weight:600}
+.ex-badge{background:rgba(255,255,255,.12);border-radius:12px;padding:3px 12px;font-size:12px;font-weight:700;min-width:60px;text-align:center}
+.ex-body{padding:20px 22px}
+.ex-footer{padding:12px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.q-block{margin-bottom:18px}
+.q-text{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:9px;line-height:1.5}
+.q-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--ink);color:var(--cream);border-radius:50%;font-size:11px;font-weight:700;margin-right:7px;flex-shrink:0;vertical-align:middle}
+.options{display:flex;flex-direction:column;gap:6px}
+.opt-btn{display:flex;align-items:center;gap:9px;padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;transition:.15s}
+.opt-btn:hover:not(:disabled){border-color:var(--accent3);background:rgba(74,127,181,.06)}
+.opt-btn.selected{border-color:var(--accent3);background:rgba(74,127,181,.1)}
+.opt-btn.correct{border-color:var(--accent2);background:rgba(46,125,94,.1);color:var(--accent2)}
+.opt-btn.wrong{border-color:var(--accent1);background:rgba(232,80,26,.08);color:var(--accent1)}
+.opt-btn:disabled{cursor:default}
+.opt-letter{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--border);font-size:11px;font-weight:700;flex-shrink:0}
+.explanation{display:none;margin-top:10px;padding:10px 14px;background:rgba(212,168,39,.1);border-left:3px solid var(--gold);border-radius:6px;font-size:13px;color:#555}
+.explanation.show{display:block}
+.gap-q{margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gap-q label{font-size:14px;flex:1 1 220px;line-height:1.5}
+.gap-input{border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:14px;font-family:'DM Sans',sans-serif;width:200px;outline:none;transition:.2s}
+.gap-input:focus{border-color:var(--accent3)}
+.gap-input.correct{border-color:var(--accent2);background:rgba(46,125,94,.08);color:var(--accent2)}
+.gap-input.wrong{border-color:var(--accent1);background:rgba(232,80,26,.06);color:var(--accent1)}
+.match-grid{display:grid;gap:10px}
+.match-item{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.match-eng{font-size:14px;font-weight:600;min-width:160px;flex:1 1 160px}
+.match-sel{border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:13px;font-family:'DM Sans',sans-serif;flex:2 1 200px;outline:none;background:#fff;cursor:pointer;max-width:400px}
+.match-sel.correct{border-color:var(--accent2);background:rgba(46,125,94,.08);color:var(--accent2)}
+.match-sel.wrong{border-color:var(--accent1);background:rgba(232,80,26,.06);color:var(--accent1)}
+.classify-item{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.classify-word{font-size:14px;font-weight:600;min-width:150px;flex:1 1 150px}
+.classify-sel{border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:13px;font-family:'DM Sans',sans-serif;width:180px;outline:none;background:#fff;cursor:pointer}
+.classify-sel.correct{border-color:var(--accent2);background:rgba(46,125,94,.08);color:var(--accent2)}
+.classify-sel.wrong{border-color:var(--accent1);background:rgba(232,80,26,.06);color:var(--accent1)}
+.btn-submit{background:var(--ink);color:var(--cream);border:none;border-radius:8px;padding:9px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-submit:hover{background:var(--accent1)}
+.btn-reset{background:transparent;color:var(--ink);border:1.5px solid var(--border);border-radius:8px;padding:8px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s}
+.btn-reset:hover{border-color:var(--ink)}
+/* ── BRAND HEADER ── */
+.login-brand{text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.login-brand-name{font-family:'Fraunces',serif;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent1);margin-bottom:4px}
+.login-brand-sub{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase}
+.login-box h2{font-family:'Fraunces',serif;font-size:26px;color:var(--ink);margin-bottom:2px}
+.login-topic{font-size:13px;color:var(--accent2);font-weight:600;margin-bottom:6px}
+/* ── RESULTS PANEL ── */
+#results-panel{display:none;max-width:960px;margin:0 auto;padding:40px 20px 80px;animation:fadeUp .35s ease both}
+#results-panel.active{display:block}
+.results-header{background:var(--dark-bg);color:var(--cream);border-radius:14px;padding:32px 36px;margin-bottom:28px;border-left:4px solid var(--gold);position:relative}
+.results-attempt{position:absolute;top:18px;right:24px;background:rgba(212,168,39,.2);border:1px solid var(--gold);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--gold);font-weight:700}
+.results-name{font-family:'Fraunces',serif;font-size:26px;margin-bottom:4px}
+.results-meta{font-size:13px;color:rgba(250,246,238,.6)}
+.results-grand{display:flex;align-items:center;gap:32px;margin-top:20px;flex-wrap:wrap}
+.grand-score{font-family:'Fraunces',serif;font-size:52px;font-weight:700;color:var(--gold);line-height:1}
+.grand-label{font-size:13px;color:rgba(250,246,238,.6)}
+.grand-pct{font-size:22px;font-weight:700;color:var(--warm-mid)}
+.grade-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:14px;font-weight:700;margin-top:8px}
+.grade-A{background:rgba(46,125,94,.25);color:#5ecfa0}
+.grade-B{background:rgba(74,127,181,.25);color:#7db8e8}
+.grade-C{background:rgba(212,168,39,.25);color:var(--gold)}
+.grade-D{background:rgba(232,80,26,.2);color:#f88}
+/* exercise breakdown table */
+.res-table{width:100%;border-collapse:collapse;margin-bottom:28px;font-size:14px}
+.res-table th{background:var(--ink);color:var(--cream);padding:10px 14px;text-align:left;font-weight:600}
+.res-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.res-table tr:nth-child(even) td{background:rgba(196,168,130,.06)}
+.res-pct-bar{height:6px;border-radius:3px;background:var(--border);margin-top:5px;overflow:hidden}
+.res-pct-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.tag-good{color:var(--accent2);font-weight:700}
+.tag-ok{color:#a07a00;font-weight:700}
+.tag-bad{color:var(--accent1);font-weight:700}
+/* analysis cards */
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+@media(max-width:640px){.analysis-grid{grid-template-columns:1fr}}
+.analysis-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
+.analysis-card h4{font-family:'Fraunces',serif;font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.analysis-card ul{padding-left:18px;font-size:13px;line-height:1.9;color:#555}
+.analysis-card.warn{border-top:3px solid var(--accent1)}
+.analysis-card.good{border-top:3px solid var(--accent2)}
+.analysis-card.suggest{border-top:3px solid var(--accent3)}
+/* answer detail */
+.detail-block{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.detail-head{background:var(--ink);color:var(--cream);padding:10px 16px;font-family:'Fraunces',serif;font-size:14px;display:flex;justify-content:space-between}
+.detail-body{padding:14px 16px}
+.detail-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
+.detail-row:last-child{border-bottom:none}
+.detail-q{color:var(--ink)}
+.detail-user.ok{color:var(--accent2);font-weight:600}
+.detail-user.bad{color:var(--accent1);font-weight:600}
+.detail-ans{color:#888}
+/* pdf action */
+.pdf-btn{background:var(--accent3);color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.pdf-btn:hover{background:#3a6fa3}
+/* print styles */
+@media print{
+  #studentBar,nav.sticky-nav,.ex-block .ex-footer,.btn-submit,.btn-reset,
+  #loginOverlay,.hero,.sticky-nav,#mod-0,#mod-1,#mod-2,#mod-3,#mod-4,
+  #mod-5,#mod-6,#mod-7,#mod-8{display:none!important}
+  #results-panel{display:block!important;padding:0}
+  body{background:#fff;color:#000}
+  .results-header{border-radius:0;page-break-after:avoid}
+  .detail-block{page-break-inside:avoid}
+  .pdf-btn,.bar-btn{display:none!important}
+}
+@media(max-width:600px){
+  .panel-inner{padding:24px 14px 60px}
+  .vocab-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .match-item,.gap-q,.classify-item{flex-direction:column;align-items:flex-start}
+  .match-sel,.gap-input{width:100%;max-width:100%}
+  .detail-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="login-brand">
+      <div class="login-brand-name">Huong Stella Paradigm</div>
+      <div class="login-brand-sub">English Learning System</div>
+    </div>
+    <div class="login-topic" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#aaa;font-weight:600;margin-bottom:4px">TOPIC-WISE PRACTICE</div>
+    <h2 style="font-size:22px;margin-bottom:4px">Topic 1 &mdash; People and Relationships</h2>
+    <p>Vocabulary and Grammar Focus</p>
+    <label for="inp-name">Full Name</label>
+    <input type="text" id="inp-name" placeholder="Your full name">
+    <label for="inp-email">Email Address</label>
+    <input type="email" id="inp-email" placeholder="your@email.com">
+    <div class="login-err" id="loginErr">Please enter your name and a valid email.</div>
+    <button onclick="startSession()">Start Practice &#8594;</button>
+  </div>
+</div>
+<div id="studentBar">
+  <div>
+    <span class="bar-name" id="barName"></span>
+    <span style="color:rgba(255,255,255,.5);margin:0 8px">|</span>
+    <span style="font-size:13px;color:rgba(255,255,255,.6)" id="barEmail"></span>
+  </div>
+  <div class="bar-right">
+    <span class="bar-score">Score: <span id="globalScore">0</span> pts</span>
+    <button class="bar-btn" onclick="showResults()">&#128202; Results &amp; Analysis</button>
+    <button class="bar-btn export" onclick="printResults()">&#128196; Export PDF</button>
+  </div>
+</div>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,246,238,.4);margin-bottom:8px">Huong Stella Paradigm</div>
+  <div class="hero-tag">TOPIC-WISE PRACTICE</div>
+  <h1>Topic 1 &mdash; <em>People and<br>Relationships</em></h1>
+  <p style="font-size:14px;font-weight:600;color:var(--warm-mid);margin-bottom:10px">Vocabulary and Grammar Focus</p>
+  <p>Master 350+ words across 9 modules with interactive exercises, auto-scoring, and instant feedback.</p>
+</div>
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showMod(0)">A &middot; Jobs &amp; Countries</button>
+    <button class="nav-btn" onclick="showMod(1)">B &middot; Family</button>
+    <button class="nav-btn" onclick="showMod(2)">C &middot; Personality</button>
+    <button class="nav-btn" onclick="showMod(3)">D &middot; Appearance</button>
+    <button class="nav-btn" onclick="showMod(4)">E &middot; Emotions</button>
+    <button class="nav-btn" onclick="showMod(5)">F &middot; Idioms</button>
+    <button class="nav-btn" onclick="showMod(6)">G &middot; Time &amp; Habits</button>
+    <button class="nav-btn" onclick="showMod(7)">H &middot; Life Stages</button>
+    <button class="nav-btn" onclick="showMod(8)">I &middot; Relationships</button>
+    <button class="nav-btn" id="nav-results" onclick="showResults()" style="border-bottom-color:var(--gold);color:var(--gold);font-weight:700">&#128202; Results</button>
+  </div>
+</nav>
+
+<!-- RESULTS PANEL -->
+<div id="results-panel">
+  <div class="results-header">
+    <div class="results-attempt" id="res-attempt">—</div>
+    <div class="results-name" id="res-name">—</div>
+    <div class="results-meta" id="res-meta">—</div>
+    <div class="results-grand">
+      <div>
+        <div class="grand-score" id="res-total">—</div>
+        <div class="grand-label">Total Points</div>
+      </div>
+      <div>
+        <div class="grand-pct" id="res-pct">—</div>
+        <div class="grand-label">Percentage</div>
+        <div id="res-grade"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score breakdown -->
+  <div class="section-head" style="margin-top:0"><h2>Exercise Breakdown</h2></div>
+  <table class="res-table">
+    <thead><tr><th>Exercise</th><th>Module</th><th>Score</th><th>Result</th></tr></thead>
+    <tbody id="res-breakdown"></tbody>
+  </table>
+
+  <!-- Analysis -->
+  <div class="section-head"><h2>Performance Analysis</h2></div>
+  <div class="analysis-grid">
+    <div class="analysis-card warn">
+      <h4>⚠️ Areas Needing Improvement</h4>
+      <ul id="res-weak"></ul>
+    </div>
+    <div class="analysis-card good">
+      <h4>✅ Strong Performance</h4>
+      <ul id="res-strong"></ul>
+    </div>
+    <div class="analysis-card suggest" style="grid-column:1/-1">
+      <h4>💡 Personalised Study Suggestions</h4>
+      <ul id="res-suggest"></ul>
+    </div>
+  </div>
+
+  <!-- Answer detail -->
+  <div class="section-head"><h2>Answer Review — Wrong Answers Only</h2></div>
+  <div id="res-detail"></div>
+
+  <div style="text-align:center;margin-top:32px;padding-bottom:40px">
+    <button class="pdf-btn" onclick="printResults()">&#128196; Export as PDF</button>
+    <p style="font-size:12px;color:#aaa;margin-top:10px">Opens print dialog — choose "Save as PDF" to download</p>
+  </div>
+</div>
+
+<!-- MODULE A -->
+<div class="module-panel active" id="mod-0">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module A &mdash; Jobs, Countries &amp; Time</h2><span class="pill">A</span></div>
+  <h3 class="sub-head">Vocabulary &mdash; Jobs</h3>
+  <div class="vocab-grid" id="vocabA-jobs"></div>
+  <h3 class="sub-head">Countries &amp; Nationalities</h3>
+  <table class="country-table"><thead><tr><th>Country</th><th>Nationality</th></tr></thead><tbody id="countryTbody"></tbody></table>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">A1 &middot; Nationalities &mdash; Complete the sentences</span><span class="ex-badge" id="scoreA1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapA1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('A1')">Reset</button><button class="btn-submit" onclick="submitGap('A1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">A2 &middot; Jobs &mdash; Match each job to its description</span><span class="ex-badge" id="scoreA2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="matchA2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMatch('A2')">Reset</button><button class="btn-submit" onclick="submitMatch('A2')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">A3 &middot; Telling the Time &mdash; Write in words</span><span class="ex-badge" id="scoreA3-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapA3"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('A3')">Reset</button><button class="btn-submit" onclick="submitGap('A3')">Submit</button></div>
+  </div>
+  <div class="grammar-box">
+    <h3>Prepositions of Time</h3>
+    <p>Use <code>in</code> with months, years, seasons, parts of day.</p>
+    <p>Use <code>on</code> with days and specific dates.</p>
+    <p>Use <code>at</code> with clock times and fixed phrases (at noon, at night).</p>
+    <p>Use <code>since</code> for a point in time (with perfect tenses). Use <code>for</code> for a duration.</p>
+    <p>Use <code>by</code> for a deadline. Use <code>during</code> for an event or period.</p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">A4 &middot; Prepositions of Time &mdash; Choose the correct preposition</span><span class="ex-badge" id="scoreA4-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcA4"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('A4')">Reset</button><button class="btn-submit" onclick="submitMC('A4')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE B -->
+<div class="module-panel" id="mod-1">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module B &mdash; Family</h2><span class="pill">B</span></div>
+  <div class="vocab-grid" id="vocabB"></div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">B1 &middot; Family Relationships &mdash; Fill in the term</span><span class="ex-badge" id="scoreB1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapB1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('B1')">Reset</button><button class="btn-submit" onclick="submitGap('B1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">B2 &middot; Error Correction &mdash; Choose the correct form</span><span class="ex-badge" id="scoreB2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcB2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('B2')">Reset</button><button class="btn-submit" onclick="submitMC('B2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE C -->
+<div class="module-panel" id="mod-2">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module C &mdash; Personality</h2><span class="pill">C</span></div>
+  <div class="vocab-grid" id="vocabC"></div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">C1 &middot; Personality Adjectives &mdash; Multiple Choice</span><span class="ex-badge" id="scoreC1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcC1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('C1')">Reset</button><button class="btn-submit" onclick="submitMC('C1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">C2 &middot; Classify: Positive / Negative / Mixed</span><span class="ex-badge" id="scoreC2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="classifyC2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetClassify('C2')">Reset</button><button class="btn-submit" onclick="submitClassify('C2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE D -->
+<div class="module-panel" id="mod-3">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module D &mdash; Physical Appearance</h2><span class="pill">D</span></div>
+  <div class="vocab-grid" id="vocabD"></div>
+  <div class="grammar-box">
+    <h3>Adjective Order</h3>
+    <p>When multiple adjectives precede a noun, they follow this order:</p>
+    <p><strong>Opinion &rarr; Size &rarr; Age &rarr; Shape &rarr; Colour &rarr; Origin &rarr; Material</strong></p>
+    <p>Example: <code>a beautiful tall young oval blue French silk scarf</code></p>
+    <p>In practice 2&ndash;3 adjectives are most common: <code>slim elegant elderly woman</code></p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">D1 &middot; Adjective Order &mdash; Choose the correct order</span><span class="ex-badge" id="scoreD1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcD1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('D1')">Reset</button><button class="btn-submit" onclick="submitMC('D1')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE E -->
+<div class="module-panel" id="mod-4">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module E &mdash; Emotions &amp; Feelings</h2><span class="pill">E</span></div>
+  <div class="vocab-grid" id="vocabE"></div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">E1 &middot; Emotions &amp; Prepositions &mdash; Multiple Choice</span><span class="ex-badge" id="scoreE1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcE1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('E1')">Reset</button><button class="btn-submit" onclick="submitMC('E1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">E2 &middot; Emotion Intensity &mdash; Fill in the moderate or strong form</span><span class="ex-badge" id="scoreE2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapE2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('E2')">Reset</button><button class="btn-submit" onclick="submitGap('E2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE F -->
+<div class="module-panel" id="mod-5">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module F &mdash; Idioms &amp; Comparatives</h2><span class="pill">F</span></div>
+  <div class="vocab-grid" id="vocabF"></div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">F1 &middot; Idioms &mdash; Match each idiom to its meaning</span><span class="ex-badge" id="scoreF1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="matchF1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMatch('F1')">Reset</button><button class="btn-submit" onclick="submitMatch('F1')">Submit</button></div>
+  </div>
+  <div class="grammar-box">
+    <h3>Comparatives &amp; Superlatives</h3>
+    <p>Short adjectives (1 syllable): add <code>-er / -est</code> &mdash; tall &rarr; taller &rarr; tallest.</p>
+    <p>Long adjectives (2+ syllables): use <code>more / most</code> &mdash; outgoing &rarr; more outgoing.</p>
+    <p>Irregular: <code>good &rarr; better &rarr; best</code> &bull; <code>bad &rarr; worse &rarr; worst</code> &bull; <code>far &rarr; further &rarr; furthest</code></p>
+    <p>Use <code>than</code> after comparatives, <code>the</code> before superlatives.</p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">F2 &middot; Comparatives &mdash; Fill in the missing word</span><span class="ex-badge" id="scoreF2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapF2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('F2')">Reset</button><button class="btn-submit" onclick="submitGap('F2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE G -->
+<div class="module-panel" id="mod-6">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module G &mdash; Time Expressions &amp; Habits</h2><span class="pill">G</span></div>
+  <div class="vocab-grid" id="vocabG"></div>
+  <div class="grammar-box">
+    <h3>Past Simple vs. <em>Used to</em></h3>
+    <p><strong>Past Simple</strong> &mdash; a completed action at a specific time: <code>She visited Paris last year.</code></p>
+    <p><strong>Used to</strong> &mdash; a past habit or state that no longer exists: <code>I used to play football.</code></p>
+    <p>Both can describe past habits, but <em>used to</em> emphasises contrast with the present.</p>
+    <p>Questions: <code>Did you use to&hellip;?</code> &bull; Negative: <code>I didn&rsquo;t use to&hellip;</code></p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">G1 &middot; Past Simple vs Used to &mdash; Choose the correct form</span><span class="ex-badge" id="scoreG1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcG1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('G1')">Reset</button><button class="btn-submit" onclick="submitMC('G1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">G2 &middot; Irregular Verbs &mdash; Write the Past Simple form</span><span class="ex-badge" id="scoreG2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapG2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('G2')">Reset</button><button class="btn-submit" onclick="submitGap('G2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE H -->
+<div class="module-panel" id="mod-7">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module H &mdash; Life Stages</h2><span class="pill">H</span></div>
+  <div class="vocab-grid" id="vocabH"></div>
+  <div class="grammar-box">
+    <h3>Present Perfect vs. Past Simple</h3>
+    <p><strong>Present Perfect</strong> &mdash; connects past to now; used with <em>ever, never, already, yet, just, since, for</em>: <code>I have lived here for three years.</code></p>
+    <p><strong>Past Simple</strong> &mdash; a finished action at a specific time: <code>I moved here in 2020.</code></p>
+    <p>Key signals: <em>yesterday, last year, ago</em> &rarr; Past Simple; <em>recently, so far, up to now</em> &rarr; Present Perfect.</p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">H1 &middot; Present Perfect vs Past Simple &mdash; Multiple Choice</span><span class="ex-badge" id="scoreH1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="mcH1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMC('H1')">Reset</button><button class="btn-submit" onclick="submitMC('H1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">H2 &middot; <em>For</em> or <em>Since</em> &mdash; Fill in the correct word</span><span class="ex-badge" id="scoreH2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapH2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('H2')">Reset</button><button class="btn-submit" onclick="submitGap('H2')">Submit</button></div>
+  </div>
+</div></div>
+
+<!-- MODULE I -->
+<div class="module-panel" id="mod-8">
+<div class="panel-inner">
+  <div class="section-head"><h2>Module I &mdash; Relationships, Weddings &amp; Conflict</h2><span class="pill">I</span></div>
+  <div class="vocab-grid" id="vocabI"></div>
+  <div class="grammar-box">
+    <h3>Relative Clauses</h3>
+    <p>Use <code>who</code> for people &bull; <code>which</code> for things &bull; <code>whose</code> for possession &bull; <code>where</code> for places &bull; <code>that</code> for people or things in defining clauses.</p>
+    <p><strong>Defining</strong> (no commas) &mdash; essential: <code>The man who called is my uncle.</code></p>
+    <p><strong>Non-defining</strong> (with commas) &mdash; extra info, cannot use <em>that</em>: <code>My sister, who lives in London, is a doctor.</code></p>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">I1 &middot; Relative Pronouns &mdash; who / whose / which / that / where</span><span class="ex-badge" id="scoreI1-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapI1"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('I1')">Reset</button><button class="btn-submit" onclick="submitGap('I1')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">I2 &middot; Conflict Expressions &mdash; Complete with the correct phrase</span><span class="ex-badge" id="scoreI2-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="gapI2"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetGap('I2')">Reset</button><button class="btn-submit" onclick="submitGap('I2')">Submit</button></div>
+  </div>
+  <div class="ex-block">
+    <div class="ex-header"><span class="ex-title">I3 &middot; Wedding Vocabulary &mdash; Match each term to its definition</span><span class="ex-badge" id="scoreI3-badge">&mdash;</span></div>
+    <div class="ex-body"><div id="matchI3"></div></div>
+    <div class="ex-footer"><button class="btn-reset" onclick="resetMatch('I3')">Reset</button><button class="btn-submit" onclick="submitMatch('I3')">Submit</button></div>
+  </div>
+</div></div>
+
+<script>
+const typeColors={'n.':'#4A7FB5','adj.':'#2E7D5E','v.':'#E8501A','phr. v.':'#C94F7C',
+  'idiom':'#7B5EA7','expr.':'#D4A827','n. phr.':'#2E7D5E','v. phr.':'#C94F7C','adv.':'#C94F7C'};
+
+const vocabData={
+'A-jobs':[
+  ['surgeon','n.','bác sĩ phẫu thuật','She trained as a cardiac surgeon.'],
+  ['pharmacist','n.','dược sĩ','The pharmacist dispensed the prescription.'],
+  ['counsellor','n.','chuyên viên tư vấn','A school counsellor helps students with personal issues.'],
+  ['accountant','n.','kế toán viên','He works as an accountant for a large firm.'],
+  ['entrepreneur','n.','doanh nhân khởi nghiệp','She is an entrepreneur who founded three companies.'],
+  ['UX designer','n.','nhà thiết kế UX','The UX designer improved the app interface.'],
+  ['copywriter','n.','người viết quảng cáo','A copywriter creates persuasive ad campaigns.'],
+  ['electrician','n.','thợ điện','An electrician installed the new wiring.'],
+  ['cinematographer','n.','nhà quay phim','The cinematographer won an award for the film.'],
+  ['lecturer','n.','giảng viên đại học','She is a lecturer in economics at the university.'],
+  ['paramedic','n.','nhân viên cứu thương','The paramedic arrived within five minutes.'],
+  ['curator','n.','người quản lý triển lãm','The museum curator organised the new exhibition.'],
+  ['consultant','n.','chuyên gia tư vấn','We hired a management consultant to review the process.'],
+  ['data scientist','n.','nhà khoa học dữ liệu','A data scientist analyses large datasets.'],
+  ['chef','n.','đầu bếp','The head chef prepared a five-course meal.'],
+  ['architect','n.','kiến trúc sư','An architect designed the new library building.'],
+  ['therapist','n.','nhà trị liệu','She sees a therapist every week for anxiety.'],
+  ['journalist','n.','nhà báo','The journalist interviewed the prime minister.'],
+  ['social worker','n.','nhân viên công tác xã hội','A social worker supports vulnerable families.'],
+  ['translator','n.','phiên dịch viên','The translator converted the legal documents accurately.'],
+  ['pilot','n.','phi công','The pilot announced turbulence ahead.'],
+  ['dentist','n.','nha sĩ','I visit the dentist every six months.'],
+  ['optician','n.','bác sĩ nhãn khoa','The optician prescribed new glasses.'],
+  ['financial analyst','n.','nhà phân tích tài chính','A financial analyst tracks market trends.'],
+  ['software developer','n.','lập trình viên','The software developer built a new app.'],
+  ['civil engineer','n.','kỹ sư xây dựng','A civil engineer designed the bridge.'],
+  ['HR manager','n.','trưởng bộ phận nhân sự','The HR manager handled the recruitment process.'],
+  ['radiographer','n.','kỹ thuật viên X-quang','The radiographer took the X-ray images.']
+],
+'B':[
+  ['great-grandmother','n.','cụ nội/ngoại','My great-grandmother is 95 years old.'],
+  ['nephew','n.','cháu trai','My nephew just started primary school.'],
+  ['niece','n.','cháu gái','My niece loves drawing and painting.'],
+  ['mother-in-law','n.','mẹ chồng / mẹ vợ','My mother-in-law taught me to cook.'],
+  ['stepfather','n.','cha dượng','Her stepfather has been in her life since she was five.'],
+  ['half-sister','n.','chị/em gái cùng cha khác mẹ','She has a half-sister who lives abroad.'],
+  ['godmother','n.','mẹ đỡ đầu','Her godmother gave her a beautiful gift.'],
+  ['only child','n.','con một','As an only child, she was very close to her parents.'],
+  ['widow','n.','góa phụ','She became a widow at a very young age.'],
+  ['son-in-law','n.','con rể','Their son-in-law is a kind and hardworking man.'],
+  ['eldest child','n.','con cả','As the eldest child, he felt a lot of responsibility.'],
+  ['twin','n.','anh/chị em sinh đôi','She has a twin brother named Tom.'],
+  ['guardian','n.','người giám hộ','His guardian looks after him since his parents passed.'],
+  ['paternal uncle','n.','chú/bác bên nội','My paternal uncle runs a business in the north.'],
+  ['maternal aunt','n.','dì bên ngoại','My maternal aunt lives in Ho Chi Minh City.'],
+  ['foster parent','n.','cha/mẹ nuôi','The foster parent provided a loving home.'],
+  ['breadwinner','n.','trụ cột kinh tế','He is the breadwinner of the family.'],
+  ['sibling','n.','anh/chị/em ruột','Do you have any siblings?'],
+  ['distant relative','n.','họ hàng xa','She met a distant relative at the reunion.'],
+  ['blended family','n.','gia đình ghép','A blended family includes children from previous relationships.'],
+  ['nuclear family','n.','gia đình hạt nhân','A nuclear family consists of parents and children.'],
+  ['extended family','n.','gia đình đa thế hệ','In Vietnam, extended families often live together.'],
+  ['close-knit family','n.','gia đình gắn bó','They are a very close-knit family.'],
+  ['next of kin','n.','thân nhân gần nhất','Please list your next of kin on the form.'],
+  ['adopted child','n.','con nuôi','Their adopted child came from overseas.']
+],
+'C':[
+  ['determined','adj.','kiên định','She is determined to pass the exam.'],
+  ['empathetic','adj.','đồng cảm','An empathetic person understands others feelings.'],
+  ['reckless','adj.','liều lĩnh, bất cẩn','His reckless driving caused an accident.'],
+  ['cynical','adj.','hoài nghi, bi quan','She has a cynical view of politics.'],
+  ['resilient','adj.','kiên cường','Children are surprisingly resilient.'],
+  ['arrogant','adj.','kiêu ngạo','He was too arrogant to admit his mistake.'],
+  ['stubborn','adj.','bướng bỉnh','She is stubborn but also very persistent.'],
+  ['meticulous','adj.','tỉ mỉ, cẩn thận','A meticulous editor checks every detail.'],
+  ['impulsive','adj.','bốc đồng','He made an impulsive decision to quit his job.'],
+  ['charismatic','adj.','cuốn hút','The charismatic leader inspired the crowd.'],
+  ['manipulative','adj.','hay thao túng','A manipulative person uses others for their own gain.'],
+  ['reserved','adj.','kín đáo, ít nói','She is quite reserved in large groups.'],
+  ['narcissistic','adj.','tự cao tự đại','His narcissistic behaviour pushed people away.'],
+  ['tactful','adj.','khéo léo, tế nhị','A tactful person knows what to say and when.'],
+  ['sincere','adj.','chân thành','Her apology seemed sincere.'],
+  ['temperamental','adj.','thất thường, dễ nổi khùng','The temperamental chef threw a tantrum.'],
+  ['proactive','adj.','chủ động','A proactive employee does not wait to be told.'],
+  ['indecisive','adj.','thiếu quyết đoán','Being indecisive can slow a team down.'],
+  ['compassionate','adj.','nhân từ, trắc ẩn','She is compassionate towards those in need.'],
+  ['vindictive','adj.','thù dai, hay trả thù','He became vindictive after losing the promotion.'],
+  ['ambitious','adj.','tham vọng','She is ambitious and wants to lead the company.'],
+  ['witty','adj.','hóm hỉnh, nhanh trí','His witty remarks made everyone laugh.'],
+  ['laid-back','adj.','thoải mái','He has a laid-back personality.'],
+  ['outspoken','adj.','thẳng thắn, nói thẳng','She is outspoken about social justice.'],
+  ['self-disciplined','adj.','tự kỷ luật','Being self-disciplined helps you achieve goals.'],
+  ['generous','adj.','hào phóng','He is generous with both time and money.'],
+  ['introverted','adj.','hướng nội','Introverted people gain energy from alone time.']
+],
+'D':[
+  ['oval face','n. phr.','khuôn mặt trái xoan','She has a perfect oval face.'],
+  ['angular jaw','n. phr.','hàm góc cạnh','His angular jaw gives him a strong look.'],
+  ['high cheekbones','n. phr.','gò má cao','High cheekbones are considered striking.'],
+  ['deep-set eyes','n. phr.','mắt sâu','His deep-set eyes give him an intense expression.'],
+  ['full lips','n. phr.','môi đầy đặn','She has full lips and a bright smile.'],
+  ['arched eyebrows','n. phr.','lông mày cong','Her arched eyebrows frame her eyes beautifully.'],
+  ['prominent nose','n. phr.','mũi nổi bật','He has a prominent nose that adds character.'],
+  ['strong chin','n. phr.','cằm rắn chắc','A strong chin is often associated with determination.'],
+  ['smooth skin','n. phr.','da mịn màng','She has naturally smooth skin.'],
+  ['fair complexion','n. phr.','làn da sáng','She has a fair complexion and light hair.'],
+  ['olive skin','n. phr.','da ngăm nâu','Mediterranean people often have olive skin.'],
+  ['freckles','n.','tàn nhang','She has cute freckles across her nose.'],
+  ['dimples','n.','má lúm đồng tiền','He has charming dimples when he smiles.'],
+  ['wrinkles','n.','nếp nhăn','She has fine wrinkles around her eyes.'],
+  ['stubble','n.','râu lún phún','He had a day\'s stubble on his chin.'],
+  ['well-groomed','adj.','chỉnh tề, gọn gàng','He always looks well-groomed at work.'],
+  ['athletic build','n. phr.','vóc người thể thao','He has an athletic build from years of training.'],
+  ['slender figure','n. phr.','vóc dáng mảnh mai','She has a slender figure and moves gracefully.'],
+  ['stocky frame','n. phr.','vóc người thấp đậm','He has a stocky frame, perfect for rugby.'],
+  ['wavy hair','n. phr.','tóc lượn sóng','She loves her natural wavy hair.'],
+  ['receding hairline','n. phr.','tóc hói dần','He noticed a receding hairline in his thirties.'],
+  ['piercing eyes','n. phr.','đôi mắt sắc bén','She has piercing blue eyes.'],
+  ['chiselled features','n. phr.','nét mặt sắc nét','His chiselled features made him look like an actor.']
+],
+'E':[
+  ['melancholy','adj.','u sầu (nhẹ)','There was a melancholy tone in her voice.'],
+  ['devastated','adj.','tan nát lòng','She was devastated by the news.'],
+  ['content','adj.','bằng lòng, hài lòng','He felt content with his quiet life.'],
+  ['ecstatic','adj.','cực kỳ hân hoan','She was ecstatic when she got the job.'],
+  ['irritated','adj.','bực bội (nhẹ)','He was irritated by the constant noise.'],
+  ['furious','adj.','tức giận dữ dội','She was furious when she found out.'],
+  ['apprehensive','adj.','lo lắng nhẹ','He felt apprehensive before the interview.'],
+  ['terrified','adj.','kinh hãi','She was terrified by the sudden noise.'],
+  ['indifferent','adj.','thờ ơ','He seemed indifferent to the outcome.'],
+  ['overwhelmed','adj.','choáng ngợp','She felt overwhelmed by all the changes.'],
+  ['nostalgic','adj.','hoài niệm','The old photos made him feel nostalgic.'],
+  ['resentful','adj.','oán giận','She was resentful about being passed over.'],
+  ['relieved','adj.','nhẹ nhõm','He was relieved to hear she was safe.'],
+  ['anxious','adj.','lo lắng, hồi hộp','She felt anxious before the presentation.'],
+  ['serene','adj.','thanh thản, bình yên','The serene landscape calmed her nerves.'],
+  ['envious','adj.','ganh tị','He was envious of his colleague\'s success.'],
+  ['elated','adj.','vô cùng phấn khởi','She was elated after winning the prize.'],
+  ['remorseful','adj.','hối hận sâu sắc','He was remorseful about hurting her feelings.']
+],
+'F':[
+  ['a dark horse','idiom','người tài ẩn','She was a dark horse — no one expected her to win.'],
+  ['wear many hats','idiom','đảm nhận nhiều vai trò','As a startup founder, she wears many hats.'],
+  ['set in one\'s ways','idiom','cố chấp với thói quen','He is so set in his ways he refuses any new ideas.'],
+  ['go the extra mile','idiom','nỗ lực hơn mức cần','She always goes the extra mile for her students.'],
+  ['have a short fuse','idiom','nóng tính','He has a short fuse — be careful what you say.'],
+  ['a creature of habit','idiom','người hay giữ thói quen cũ','My dad is a creature of habit.'],
+  ['burn one\'s bridges','idiom','phá hủy mối quan hệ','Don\'t burn your bridges when you resign.'],
+  ['an old soul','idiom','tâm hồn già dặn','She\'s only 20 but she\'s an old soul.'],
+  ['turn over a new leaf','idiom','làm lại từ đầu','After rehab, he turned over a new leaf.'],
+  ['a lone wolf','idiom','người thích làm một mình','He\'s a lone wolf who prefers working solo.'],
+  ['full of hot air','idiom','nói nhiều nhưng ít làm','The manager is full of hot air.'],
+  ['straight as an arrow','idiom','thẳng thắn, trung thực','You can trust her — she\'s straight as an arrow.'],
+  ['never miss a beat','idiom','luôn nhanh nhạy','The experienced teacher never misses a beat.'],
+  ['keep oneself to oneself','idiom','sống thu mình','He keeps himself to himself and rarely chats.'],
+  ['a force to be reckoned with','idiom','người không thể coi thường','The new competitor is a force to be reckoned with.'],
+  ['bite off more than one can chew','idiom','ôm đồm quá sức','She bit off more than she could chew with three projects.'],
+  ['burn the midnight oil','idiom','thức khuya làm việc','He burned the midnight oil to finish the report.'],
+  ['under the weather','idiom','không khoẻ','She\'s feeling a bit under the weather today.'],
+  ['hit the ground running','idiom','bắt đầu ngay và hiệu quả','The new employee hit the ground running.'],
+  ['once in a blue moon','idiom','rất hiếm khi','He only calls once in a blue moon.']
+],
+'G':[
+  ['used to','expr.','thường làm (quá khứ, nay không còn)','I used to play the piano as a child.'],
+  ['would often','expr.','thường hay (thói quen quá khứ)','She would often visit her grandparents on Sundays.'],
+  ['in those days','expr.','vào thời đó','In those days, people didn\'t have smartphones.'],
+  ['back then','expr.','hồi đó','Back then, life was simpler.'],
+  ['at the time','expr.','vào thời điểm đó','At the time, we didn\'t understand the consequences.'],
+  ['ever since','expr.','kể từ đó đến nay','He moved abroad and I haven\'t seen him ever since.'],
+  ['all of a sudden','expr.','đột nhiên','All of a sudden, the lights went out.'],
+  ['from time to time','expr.','thỉnh thoảng','From time to time, I go back to my hometown.'],
+  ['once upon a time','expr.','ngày xửa ngày xưa','Once upon a time, this was a thriving village.'],
+  ['not long after','expr.','không lâu sau đó','Not long after, she found a new job.'],
+  ['day in, day out','expr.','ngày qua ngày','Day in, day out, he worked without complaining.'],
+  ['the good old days','expr.','những ngày tháng tốt đẹp xưa','He always talks about the good old days.'],
+  ['give up','phr. v.','từ bỏ','Don\'t give up on your dreams.'],
+  ['take up','phr. v.','bắt đầu sở thích mới','She took up yoga last year.'],
+  ['cut down on','phr. v.','giảm bớt','He cut down on sugar to lose weight.'],
+  ['carry on','phr. v.','tiếp tục','Carry on with your work.'],
+  ['come across','phr. v.','tình cờ gặp','I came across an old photo album.'],
+  ['get rid of','phr. v.','loại bỏ','She got rid of all the old furniture.'],
+  ['look back on','phr. v.','nhìn lại quá khứ','When I look back on my childhood, I feel grateful.'],
+  ['settle down','phr. v.','ổn định cuộc sống','He decided to settle down in his hometown.'],
+  ['move on','phr. v.','tiến lên, bước tiếp','It\'s time to move on from the past.'],
+  ['bring up','phr. v.','nuôi dưỡng; đề cập','She was brought up in a small village.'],
+  ['grow up','phr. v.','lớn lên, trưởng thành','He grew up in the countryside.'],
+  ['fall apart','phr. v.','tan vỡ, sụp đổ','Their friendship fell apart after the argument.'],
+  ['hold on to','phr. v.','giữ gìn, bám víu','Hold on to your memories.'],
+  ['fade away','phr. v.','phai mờ dần','The memories began to fade away.'],
+  ['turn back','phr. v.','quay lại, đi ngược thời gian','We can\'t turn back the clock.'],
+  ['keep up with','phr. v.','theo kịp','It\'s hard to keep up with all the changes.'],
+  ['look up to','phr. v.','ngưỡng mộ, kính trọng','She looks up to her older sister.'],
+  ['go back to','phr. v.','quay trở lại','He went back to his hometown after years away.']
+],
+'H':[
+  ['infancy','n.','tuổi sơ sinh (0-2)','During infancy, babies develop rapidly.'],
+  ['toddler years','n.','giai đoạn chập chững (1-3)','The toddler years are full of exploration.'],
+  ['adolescence','n.','tuổi thiếu niên (12-18)','Adolescence can be a challenging period.'],
+  ['adulthood','n.','tuổi trưởng thành','He entered adulthood at 18.'],
+  ['middle age','n.','tuổi trung niên (40-60)','In middle age, priorities often shift.'],
+  ['old age','n.','tuổi già','Old age brings wisdom and reflection.'],
+  ['milestone','n.','cột mốc quan trọng','Getting married was a major milestone.'],
+  ['rite of passage','n.','nghi lễ trưởng thành','Graduation is a rite of passage for many.'],
+  ['prime of life','n.','thời kỳ đỉnh cao','She was in the prime of life when she achieved most.'],
+  ['coming of age','n.','tuổi trưởng thành (giai đoạn)','This novel is a coming-of-age story.'],
+  ['retirement','n.','về hưu, nghỉ hưu','He planned an active retirement.'],
+  ['legacy','n.','di sản để lại','She left a legacy of kindness.'],
+  ['generation gap','n.','khoảng cách thế hệ','The generation gap can cause misunderstandings.'],
+  ['formative years','n.','những năm hình thành nhân cách','His formative years were spent in the countryside.'],
+  ['life expectancy','n.','tuổi thọ trung bình','Life expectancy has increased significantly.'],
+  ['upbringing','n.','cách nuôi dưỡng, nền tảng gia đình','Her upbringing shaped her values.']
+],
+'I':[
+  ['officiant','n.','người chủ lễ hôn nhân','The officiant led the ceremony beautifully.'],
+  ['maid of honour','n.','phù dâu chính','Her sister was the maid of honour.'],
+  ['best man','n.','phù rể chính','He asked his best friend to be best man.'],
+  ['reception','n.','tiệc cưới','The reception was held at a garden venue.'],
+  ['vows','n.','lời thề nguyền','They wrote their own vows.'],
+  ['aisle','n.','lối đi giữa lễ đường','She walked slowly down the aisle.'],
+  ['bouquet','n.','bó hoa cô dâu','The bride carried a white bouquet.'],
+  ['toast','n.','bài phát biểu chúc mừng','The best man gave a heartfelt toast.'],
+  ['bridal shower','n.','tiệc mừng cô dâu trước đám cưới','Her friends organised a surprise bridal shower.'],
+  ['rehearsal dinner','n.','bữa tối tập duyệt','The rehearsal dinner was held the night before.'],
+  ['groomsman','n.','phù rể','The groomsmen wore matching navy suits.'],
+  ['venue','n.','địa điểm tổ chức','The venue was a beautiful lakeside estate.'],
+  ['honeymoon','n.','tuần trăng mật','They went to Bali for their honeymoon.'],
+  ['dowry','n.','của hồi môn','Dowry traditions vary by culture.'],
+  ['annulment','n.','hủy bỏ hôn nhân hợp pháp','They sought an annulment after six months.'],
+  ['patch things up','idiom','hòa giải','They finally patched things up after months of silence.'],
+  ['hold a grudge','idiom','ôm lòng oán giận','She tends to hold a grudge when hurt.'],
+  ['misunderstanding','n.','sự hiểu nhầm','The argument was just a misunderstanding.'],
+  ['meet halfway','idiom','nhượng bộ lẫn nhau','Both sides agreed to meet halfway.'],
+  ['forgive and forget','idiom','tha thứ và bỏ qua','It\'s time to forgive and forget.'],
+  ['silent treatment','n.','im lặng để trừng phạt','She gave him the silent treatment for a week.'],
+  ['clear the air','idiom','giải tỏa căng thẳng','Let\'s have a talk to clear the air.'],
+  ['make amends','idiom','bồi thường, chuộc lỗi','He tried to make amends for his mistakes.'],
+  ['talk it out','idiom','nói thẳng để giải quyết','The best approach is to talk it out calmly.'],
+  ['seek common ground','idiom','tìm điểm chung','Leaders must seek common ground in negotiations.'],
+  ['bury the hatchet','idiom','chấm dứt hiềm khích','After years of conflict, they buried the hatchet.'],
+  ['fall out with','phr. v.','cãi vã, mất hoà thuận','She fell out with her best friend over money.'],
+  ['compromise','v.','nhượng bộ, dàn xếp','In any relationship you must be willing to compromise.'],
+  ['reconcile','v.','hoà giải','They reconciled after a long separation.'],
+  ['estrangement','n.','sự xa cách','Their estrangement lasted over a decade.'],
+  ['attachment','n.','sự gắn bó','Children form strong attachments to caregivers.'],
+  ['boundaries','n.','ranh giới trong quan hệ','Setting healthy boundaries is important.'],
+  ['toxic relationship','n. phr.','mối quan hệ độc hại','She finally left the toxic relationship.'],
+  ['mutual respect','n. phr.','sự tôn trọng lẫn nhau','Mutual respect is the foundation of any good relationship.'],
+  ['betrayal','n.','sự phản bội','His betrayal devastated the whole team.']
+]
+};
+
+const countryNationality=[
+  ['Afghanistan','Afghan'],['Argentina','Argentine'],['Australia','Australian'],
+  ['Brazil','Brazilian'],['Cambodia','Cambodian'],['Canada','Canadian'],
+  ['China','Chinese'],['Egypt','Egyptian'],['France','French'],
+  ['Germany','German'],['Ghana','Ghanaian'],['India','Indian'],
+  ['Indonesia','Indonesian'],['Italy','Italian'],['Japan','Japanese'],
+  ['Jordan','Jordanian'],['Kenya','Kenyan'],['Laos','Laotian'],
+  ['Malaysia','Malaysian'],['Mexico','Mexican'],['Morocco','Moroccan'],
+  ['Myanmar','Burmese'],['Netherlands','Dutch'],['New Zealand','New Zealander'],
+  ['Nigeria','Nigerian'],['Philippines','Filipino'],['Poland','Polish'],
+  ['Russia','Russian'],['Saudi Arabia','Saudi / Saudi Arabian'],
+  ['South Korea','South Korean'],['Spain','Spanish'],['Thailand','Thai'],
+  ['Turkey','Turkish'],['United Kingdom','British'],['United States','American'],
+  ['Vietnam','Vietnamese']
+];
+
+const mcData={
+'A4':[
+  {q:'I was born ___ 2001.',opts:['in','on','at','since'],ans:0,exp:'"In" is used with years.'},
+  {q:'My class starts ___ Monday.',opts:['in','on','at','by'],ans:1,exp:'"On" is used with days.'},
+  {q:'The meeting is ___ 9 o\'clock.',opts:['in','on','at','during'],ans:2,exp:'"At" is used with clock times.'},
+  {q:'She has lived here ___ 2015.',opts:['for','since','at','in'],ans:1,exp:'"Since" marks the start point with present perfect.'},
+  {q:'They studied ___ three hours.',opts:['since','at','for','during'],ans:2,exp:'"For" is used with durations.'},
+  {q:'We met ___ the summer of 2019.',opts:['on','in','at','for'],ans:1,exp:'"In" is used with seasons and years.'},
+  {q:'Please submit the report ___ Friday.',opts:['on','in','by','since'],ans:2,exp:'"By" means no later than that time.'},
+  {q:'He fell asleep ___ the lecture.',opts:['at','during','in','for'],ans:1,exp:'"During" is used with events/activities.'},
+  {q:'She was promoted ___ the age of 28.',opts:['in','on','at','for'],ans:2,exp:'"At" is used with ages.'},
+  {q:'I haven\'t seen him ___ last year.',opts:['since','for','in','at'],ans:0,exp:'"Since" + point in time with perfect tense.'},
+  {q:'They got married ___ spring.',opts:['on','in','at','during'],ans:1,exp:'"In" is used with seasons.'},
+  {q:'The shop opens ___ 8 a.m. ___ weekdays.',opts:['at / on','on / at','in / on','at / in'],ans:0,exp:'"At" for time, "on" for days.'},
+  {q:'I need to finish this ___ the end of the week.',opts:['on','at','since','by'],ans:3,exp:'"By" = deadline / no later than.'},
+  {q:'She worked there ___ five years.',opts:['since','for','at','on'],ans:1,exp:'"For" is used with a period of time.'},
+  {q:'___ the morning, I usually exercise.',opts:['In','On','At','During'],ans:0,exp:'"In the morning" is a fixed phrase.'},
+  {q:'My birthday is ___ 15 March.',opts:['in','at','on','for'],ans:2,exp:'"On" is used with specific dates.'},
+  {q:'He studied very hard ___ the exam period.',opts:['at','during','for','in'],ans:1,exp:'"During" is used with a span of time.'},
+  {q:'I\'ll see you ___ the weekend.',opts:['in','on','at','by'],ans:2,exp:'"At the weekend" is standard British English.'},
+  {q:'She started her career ___ her early twenties.',opts:['in','on','at','for'],ans:0,exp:'"In" is used with life periods.'},
+  {q:'They have known each other ___ they were children.',opts:['for','since','during','at'],ans:1,exp:'"Since" introduces a point in time.'}
+],
+'B2':[
+  {q:'She [don\'t] live with her parents anymore.',opts:['don\'t','doesn\'t','not','didn\'t'],ans:1,exp:'Third person singular needs "doesn\'t".'},
+  {q:'My brother [work] at a hospital.',opts:['worked','work','works','working'],ans:2,exp:'Third person singular: verb + s.'},
+  {q:'[Do] she speak any foreign languages?',opts:['Is','Does','Do','Did'],ans:1,exp:'"Does" for third person singular questions.'},
+  {q:'They [doesn\'t] have a car.',opts:['doesn\'t','isn\'t','don\'t','haven\'t'],ans:2,exp:'"They" (plural) uses "don\'t".'},
+  {q:'He always [forgetting] his keys.',opts:['forgot','forgets','forgetting','forgotten'],ans:1,exp:'Present simple habit: "forgets".'},
+  {q:'My cousins [plays] football every Saturday.',opts:['playing','played','plays','play'],ans:3,exp:'"Cousins" is plural — use base form "play".'},
+  {q:'[Does] your parents live nearby?',opts:['Does','Is','Do','Are'],ans:2,exp:'"Parents" is plural — "Do your parents".'},
+  {q:'She [isn\'t speaks] English at home.',opts:['not speaks','isn\'t speak','doesn\'t speak','don\'t speak'],ans:2,exp:'Present simple negative: "doesn\'t speak".'},
+  {q:'My father [he is] a very patient man.',opts:['he is','is','are','are being'],ans:1,exp:'The subject "My father" makes "he" redundant.'},
+  {q:'We [not see] each other very often.',opts:['not see','not seeing','doesn\'t see','don\'t see'],ans:3,exp:'"We" uses "don\'t see".'},
+  {q:'He [go] to work by bus every day.',opts:['goes','going','go','gone'],ans:0,exp:'Third person singular habit: "goes".'},
+  {q:'My sister and I [loves] cooking together.',opts:['loves','loving','love','loved'],ans:2,exp:'"My sister and I" = plural — "love".'}
+],
+'C1':[
+  {q:'She always stays calm under pressure. She is very ___.',opts:['impulsive','resilient','reckless','cynical'],ans:1,exp:'"Resilient" means able to recover quickly from difficulties.'},
+  {q:'He talks about himself all the time. He is ___.',opts:['sincere','charismatic','narcissistic','empathetic'],ans:2,exp:'"Narcissistic" = obsessed with oneself.'},
+  {q:'She thinks deeply about how others feel. She is ___.',opts:['tactful','empathetic','reserved','arrogant'],ans:1,exp:'"Empathetic" = able to understand others\' feelings.'},
+  {q:'He takes risks without thinking. He is ___.',opts:['determined','meticulous','reckless','proactive'],ans:2,exp:'"Reckless" = acting without concern for danger.'},
+  {q:'She pays great attention to every small detail. She is ___.',opts:['meticulous','impulsive','stubborn','temperamental'],ans:0,exp:'"Meticulous" = very careful about details.'},
+  {q:'He refuses to change his routine no matter what. He is ___.',opts:['reserved','stubborn','laid-back','sincere'],ans:1,exp:'"Stubborn" = unwilling to change.'},
+  {q:'She acts on emotion without thinking first. She is ___.',opts:['cynical','tactful','impulsive','resilient'],ans:2,exp:'"Impulsive" = acting quickly without careful thought.'},
+  {q:'He avoids social situations and prefers to be alone. He is ___.',opts:['outspoken','reserved','charismatic','proactive'],ans:1,exp:'"Reserved" = not liking to talk about feelings.'},
+  {q:'She always speaks her mind, even if it upsets people. She is ___.',opts:['outspoken','compassionate','meticulous','sincere'],ans:0,exp:'"Outspoken" = speaking freely even on difficult topics.'},
+  {q:'He tries to influence others for his own benefit. He is ___.',opts:['ambitious','charismatic','vindictive','manipulative'],ans:3,exp:'"Manipulative" = controlling others unfairly.'},
+  {q:'She is warm and kind to people who are suffering. She is ___.',opts:['compassionate','indecisive','temperamental','cynical'],ans:0,exp:'"Compassionate" = having sympathy for those in distress.'},
+  {q:'He can never make up his mind. He is ___.',opts:['indecisive','proactive','sincere','determined'],ans:0,exp:'"Indecisive" = unable to make decisions quickly.'},
+  {q:'She believes that people are generally selfish. She is ___.',opts:['arrogant','cynical','stubborn','vindictive'],ans:1,exp:'"Cynical" = believing people are motivated by self-interest.'},
+  {q:'He actively looks for solutions before problems arise. He is ___.',opts:['meticulous','proactive','reserved','empathetic'],ans:1,exp:'"Proactive" = creating situations rather than reacting.'},
+  {q:'She wants to hurt people who have wronged her. She is ___.',opts:['resentful','temperamental','vindictive','reckless'],ans:2,exp:'"Vindictive" = having a desire to harm someone in return.'}
+],
+'D1':[
+  {q:'She has ___ hair.',opts:['beautiful dark curly','curly beautiful dark','dark curly beautiful','beautiful curly dark'],ans:0,exp:'Opinion > colour > shape: beautiful (opinion) + dark (colour) + curly (shape).'},
+  {q:'He has ___ eyes.',opts:['small bright green','bright small green','green bright small','bright green small'],ans:1,exp:'Opinion > size > colour: bright + small + green.'},
+  {q:'She is a ___ woman.',opts:['slim elegant elderly','elegant slim elderly','elderly slim elegant','elegant elderly slim'],ans:0,exp:'Size > opinion > age: slim + elegant + elderly.'},
+  {q:'He has a ___ face.',opts:['angular handsome young','handsome young angular','young handsome angular','handsome angular young'],ans:1,exp:'Opinion > age > shape: handsome + young + angular.'},
+  {q:'She has ___ skin.',opts:['smooth fair flawless','fair smooth flawless','flawless smooth fair','smooth flawless fair'],ans:2,exp:'Best opinion first: flawless + smooth + fair.'},
+  {q:'He is a ___ man.',opts:['strong stocky middle-aged','stocky strong middle-aged','middle-aged strong stocky','strong middle-aged stocky'],ans:0,exp:'Opinion > shape > age: strong + stocky + middle-aged.'},
+  {q:'She has ___ hair.',opts:['wavy shoulder-length light brown','light brown wavy shoulder-length','shoulder-length wavy light brown','light brown shoulder-length wavy'],ans:0,exp:'Shape > size > colour: wavy + shoulder-length + light brown.'},
+  {q:'He has a ___ beard.',opts:['short neat dark','neat short dark','dark neat short','neat dark short'],ans:1,exp:'Opinion > size > colour: neat + short + dark.'},
+  {q:'She has ___ lips.',opts:['red full perfectly shaped','full red perfectly shaped','perfectly shaped full red','full perfectly shaped red'],ans:2,exp:'Best opinion first: perfectly shaped + full + red.'},
+  {q:'He is ___.',opts:['slim tall athletic','athletic slim tall','tall slim athletic','tall athletic slim'],ans:2,exp:'Size > shape > opinion: tall + slim + athletic.'},
+  {q:'She has ___ cheekbones.',opts:['prominent high defined','high defined prominent','defined high prominent','high prominent defined'],ans:0,exp:'Opinion > position > descriptor: prominent + high + defined.'},
+  {q:'He has ___ eyes.',opts:['dark brown deep-set mysterious','mysterious deep-set dark brown','deep-set dark brown mysterious','dark brown mysterious deep-set'],ans:1,exp:'Opinion > shape > colour: mysterious + deep-set + dark brown.'}
+],
+'E1':[
+  {q:'She is ___ her exam results.',opts:['anxious about','anxious of','anxious for','anxious with'],ans:0,exp:'"Anxious about" is the correct collocation.'},
+  {q:'He is ___ his old friends.',opts:['nostalgic of','nostalgic for','nostalgic about','nostalgic with'],ans:2,exp:'"Nostalgic about" is most common.'},
+  {q:'She was ___ the rude comment.',opts:['offended by','offended of','offended with','offended at'],ans:0,exp:'"Offended by" is correct.'},
+  {q:'He feels ___ his team.',opts:['proud of','proud for','proud about','proud with'],ans:0,exp:'"Proud of" is the standard collocation.'},
+  {q:'She is ___ the new changes.',opts:['frustrated about','frustrated at','frustrated with','frustrated of'],ans:2,exp:'"Frustrated with" is most natural.'},
+  {q:'I am ___ your success.',opts:['delighted at','delighted with','delighted about','delighted of'],ans:2,exp:'"Delighted about/at" both work.'},
+  {q:'He was ___ the test.',opts:['terrified of','terrified about','terrified with','terrified at'],ans:0,exp:'"Terrified of" is correct.'},
+  {q:'She is ___ leaving her hometown.',opts:['sad about','sad of','sad for','sad with'],ans:0,exp:'"Sad about" is correct.'},
+  {q:'He is ___ his decision to quit.',opts:['guilty about','guilty of','guilty for','guilty with'],ans:0,exp:'"Guilty about" = feeling guilty. "Guilty of" = actual crime.'},
+  {q:'She was ___ the unexpected gift.',opts:['surprised at','surprised about','surprised of','surprised with'],ans:0,exp:'"Surprised at/by" are both correct.'},
+  {q:'He is ___ public speaking.',opts:['nervous about','nervous of','nervous at','nervous for'],ans:0,exp:'"Nervous about" is correct.'},
+  {q:'She feels ___ being overlooked.',opts:['resentful about','resentful of','resentful at','resentful with'],ans:0,exp:'"Resentful about/of" are both used.'},
+  {q:'He is ___ the work others have done.',opts:['appreciative of','appreciative about','appreciative for','appreciative with'],ans:0,exp:'"Appreciative of" is correct.'},
+  {q:'She was ___ her sister\'s engagement.',opts:['envious of','envious about','envious with','envious for'],ans:0,exp:'"Envious of" is correct.'},
+  {q:'He felt ___ the outcome.',opts:['indifferent to','indifferent about','indifferent of','indifferent with'],ans:0,exp:'"Indifferent to" is the standard preposition.'}
+],
+'G1':[
+  {q:'___ to school by bike every day, but now I take the bus.',opts:['I used to cycle','I cycled','I would cycle','I was cycling'],ans:0,exp:'"Used to" is best for a past habit that contrasts with the present.'},
+  {q:'She ___ very shy as a teenager.',opts:['used to be','would be','was','Both A and C are correct'],ans:3,exp:'Both "used to be" and "was" are correct for past states.'},
+  {q:'They ___ a new car last month.',opts:['used to buy','would buy','bought','were buying'],ans:2,exp:'A specific time ("last month") needs past simple.'},
+  {q:'He ___ football every weekend when he was young.',opts:['plays','used to play','has played','is playing'],ans:1,exp:'"Used to play" describes a past habit no longer continuing.'},
+  {q:'___ in this neighbourhood before they moved.',opts:['They used to live','They would live','They live','They had lived'],ans:0,exp:'"Used to live" is ideal for a changed past state.'},
+  {q:'I ___ my keys this morning.',opts:['would lose','used to lose','lost','lose'],ans:2,exp:'A single completed action ("this morning") = past simple.'},
+  {q:'She ___ classical music when she was a child.',opts:['would listen to','used to listen to','listened to','Both A and B are correct'],ans:3,exp:'Both "would" and "used to" describe past habits.'},
+  {q:'We ___ to the cinema every Friday.',opts:['would go','used to go','went','Both A and B are correct'],ans:3,exp:'Both forms correct for regular past habits.'},
+  {q:'He ___ his grandmother last Sunday.',opts:['would visit','used to visit','visited','has visited'],ans:2,exp:'A specific time ("last Sunday") requires past simple.'},
+  {q:'___ to stay up late, but now I sleep early.',opts:['I used','I would','I was','I did'],ans:0,exp:'"Used to" contrasts a past habit with the present.'},
+  {q:'She ___ a job interview at 9 a.m. yesterday.',opts:['used to have','would have','had','has'],ans:2,exp:'A specific past event (yesterday) = past simple.'},
+  {q:'They ___ to the beach every summer.',opts:['used to go','would go','went','Both A and B are correct'],ans:3,exp:'Both "used to go" and "would go" work for repeated actions.'},
+  {q:'I ___ coffee but now I love it.',opts:['don\'t like','didn\'t use to like','used to dislike','Both B and C are correct'],ans:3,exp:'Both express the same past state.'},
+  {q:'She ___ her presentation on Thursday.',opts:['used to give','would give','gave','was giving'],ans:2,exp:'A specific past action ("on Thursday") = past simple.'},
+  {q:'He ___ a motorbike before he got his car.',opts:['used to ride','would ride','rode','Both A and B are correct'],ans:3,exp:'"Used to ride" and "would ride" both describe past habits.'}
+],
+'H1':[
+  {q:'I ___ this book last night.',opts:['have read','read','am reading','was reading'],ans:1,exp:'"Last night" = specific finished time => past simple.'},
+  {q:'She ___ already ___ her homework.',opts:['has / done','did / done','was / doing','had / done'],ans:0,exp:'"Already" with present perfect: has already done.'},
+  {q:'___ you ever ___ sushi?',opts:['Have / eaten','Did / eat','Do / eat','Were / eating'],ans:0,exp:'"Ever" in a life experience question uses present perfect.'},
+  {q:'He ___ his keys yesterday.',opts:['has lost','lost','loses','was losing'],ans:1,exp:'"Yesterday" = specific past time => past simple.'},
+  {q:'They ___ in that house for 10 years.',opts:['live','lived','have lived','are living'],ans:2,exp:'"For 10 years" with no specific end point => present perfect.'},
+  {q:'I ___ her since we were at school.',opts:['know','knew','have known','am knowing'],ans:2,exp:'"Since" with present state continuing to now => present perfect.'},
+  {q:'She ___ the report at 2 p.m.',opts:['has finished','finished','has been finishing','is finishing'],ans:1,exp:'"At 2 p.m." = specific time => past simple.'},
+  {q:'We ___ the new café yet.',opts:['didn\'t try','haven\'t tried','don\'t try','weren\'t trying'],ans:1,exp:'"Yet" with uncompleted action => present perfect.'},
+  {q:'He ___ three countries so far this year.',opts:['visited','has visited','visits','had visited'],ans:1,exp:'"So far this year" = unfinished period => present perfect.'},
+  {q:'I ___ my keys when I was rushing out.',opts:['have dropped','drop','dropped','am dropping'],ans:2,exp:'A past action => past simple.'},
+  {q:'She ___ just ___ from her holiday.',opts:['has / returned','did / return','was / returning','had / returned'],ans:0,exp:'"Just" with present perfect: has just returned.'},
+  {q:'They ___ married in 2018.',opts:['have got','got','get','were getting'],ans:1,exp:'"In 2018" = specific past time => past simple.'},
+  {q:'I ___ him three times this week.',opts:['called','have called','was calling','am calling'],ans:1,exp:'"This week" (unfinished period) => present perfect.'},
+  {q:'He ___ never ___ a speech before.',opts:['has / given','did / give','was / giving','had / given'],ans:0,exp:'"Never" + experience up to now => present perfect.'},
+  {q:'She ___ the phone when I knocked.',opts:['has answered','answered','was answering','is answering'],ans:2,exp:'Background past action interrupted => past continuous.'}
+]
+};
+
+const gapData={
+'A1':[
+  {label:'She is from Vietnam. She is ___.', ans:'Vietnamese', placeholder:'nationality'},
+  {label:'He has a ___ passport — he\'s from Japan.', ans:'Japanese', placeholder:'nationality'},
+  {label:'They are from Brazil. They are ___.', ans:'Brazilian', placeholder:'nationality'},
+  {label:'She grew up in France. She is ___.', ans:'French', placeholder:'nationality'},
+  {label:'He speaks with a ___ accent — he\'s from Germany.', ans:'German', placeholder:'nationality'},
+  {label:'They moved from China to London. They are ___.', ans:'Chinese', placeholder:'nationality'},
+  {label:'She holds an ___ passport — she\'s from Australia.', ans:'Australian', placeholder:'nationality'},
+  {label:'His parents are ___ — they come from Mexico.', ans:'Mexican', placeholder:'nationality'},
+  {label:'She has a ___ name — she is from Spain.', ans:'Spanish', placeholder:'nationality'},
+  {label:'He studied ___ cuisine — he\'s from Italy.', ans:'Italian', placeholder:'nationality'},
+  {label:'They celebrate ___ New Year — they are from South Korea.', ans:'South Korean', placeholder:'nationality'},
+  {label:'She married a ___ man — he is from the United Kingdom.', ans:'British', placeholder:'nationality'},
+  {label:'He follows ___ customs — he is from India.', ans:'Indian', placeholder:'nationality'},
+  {label:'She studied ___ culture — she is from Thailand.', ans:'Thai', placeholder:'nationality'},
+  {label:'They enjoy ___ food — they are from Egypt.', ans:'Egyptian', placeholder:'nationality'}
+],
+'A3':[
+  {label:'9:15 AM →', ans:'quarter past nine', placeholder:'in words'},
+  {label:'6:45 PM →', ans:'quarter to seven', placeholder:'in words'},
+  {label:'12:00 (midday) →', ans:'noon', placeholder:'noon or twelve o\'clock'},
+  {label:'00:00 →', ans:'midnight', placeholder:'midnight'},
+  {label:'14:30 →', ans:'half past two', placeholder:'in words'},
+  {label:'08:05 →', ans:'five past eight', placeholder:'in words'},
+  {label:'17:50 →', ans:'ten to six', placeholder:'in words'},
+  {label:'13:00 →', ans:'one o\'clock', placeholder:'in words'},
+  {label:'11:30 →', ans:'half past eleven', placeholder:'in words'},
+  {label:'19:20 →', ans:'twenty past seven', placeholder:'in words'},
+  {label:'06:00 →', ans:'six o\'clock', placeholder:'in words'},
+  {label:'22:45 →', ans:'quarter to eleven', placeholder:'in words'}
+],
+'B1':[
+  {label:'1. Your father\'s mother\'s mother is your ___.', ans:'great-grandmother', placeholder:'family term'},
+  {label:'2. Your brother\'s son is your ___.', ans:'nephew', placeholder:'family term'},
+  {label:'3. Your sister\'s daughter is your ___.', ans:'niece', placeholder:'family term'},
+  {label:'4. Your husband\'s or wife\'s mother is your ___.', ans:'mother-in-law', placeholder:'family term'},
+  {label:'5. Your mother\'s new husband (not your father) is your ___.', ans:'stepfather', placeholder:'family term'},
+  {label:'6. A sibling who shares only one biological parent with you is your ___.', ans:'half-sister', placeholder:'family term'},
+  {label:'7. A woman who promised to support you at baptism but is not your mother is your ___.', ans:'godmother', placeholder:'family term'},
+  {label:'8. A child with no brothers or sisters is an ___.', ans:'only child', placeholder:'family term'},
+  {label:'9. A woman whose husband has died is a ___.', ans:'widow', placeholder:'family term'},
+  {label:'10. Your daughter\'s husband is your ___.', ans:'son-in-law', placeholder:'family term'},
+  {label:'11. The first child born in a family is the ___.', ans:'eldest child', placeholder:'family term'},
+  {label:'12. One of two children born at the same birth is a ___.', ans:'twin', placeholder:'family term'},
+  {label:'13. A person legally responsible for a child (not a parent) is the child\'s ___.', ans:'guardian', placeholder:'family term'},
+  {label:'14. Your father\'s brother is your ___.', ans:'paternal uncle', placeholder:'family term'},
+  {label:'15. Your mother\'s sister is your ___.', ans:'maternal aunt', placeholder:'family term'}
+],
+'E2':[
+  {label:'1. sad → ___ (moderate)', ans:'melancholy', placeholder:'emotion word'},
+  {label:'1. melancholy → ___ (strong)', ans:'devastated', placeholder:'emotion word'},
+  {label:'2. happy → ___ (moderate)', ans:'content', placeholder:'emotion word'},
+  {label:'2. content → ___ (strong)', ans:'ecstatic', placeholder:'emotion word'},
+  {label:'3. angry → ___ (moderate)', ans:'irritated', placeholder:'emotion word'},
+  {label:'3. irritated → ___ (strong)', ans:'furious', placeholder:'emotion word'},
+  {label:'4. worried → ___ (moderate)', ans:'apprehensive', placeholder:'emotion word'},
+  {label:'4. apprehensive → ___ (strong)', ans:'terrified', placeholder:'emotion word'},
+  {label:'5. don\'t care → ___ (moderate)', ans:'indifferent', placeholder:'emotion word'},
+  {label:'5. indifferent → ___ (strong)', ans:'overwhelmed', placeholder:'emotion word'},
+  {label:'6. missing the past → ___ (moderate)', ans:'nostalgic', placeholder:'emotion word'},
+  {label:'6. nostalgic → ___ (strong / bitter)', ans:'resentful', placeholder:'emotion word'},
+  {label:'7. calm → ___ (moderate, relieved)', ans:'relieved', placeholder:'emotion word'},
+  {label:'7. relieved → ___ (deeply peaceful)', ans:'serene', placeholder:'emotion word'},
+  {label:'8. jealous → ___ (moderate)', ans:'envious', placeholder:'emotion word'},
+  {label:'8. envious → ___ (intensely joyful)', ans:'elated', placeholder:'emotion word'},
+  {label:'9. guilty → ___ (strong)', ans:'remorseful', placeholder:'emotion word'},
+  {label:'10. scared → ___ (moderate)', ans:'anxious', placeholder:'emotion word'},
+  {label:'10. anxious → ___ (strong)', ans:'terrified', placeholder:'emotion word'},
+  {label:'11. excited → ___ (strong)', ans:'ecstatic', placeholder:'emotion word'},
+  {label:'12. sad → ___ (strong)', ans:'devastated', placeholder:'emotion word'},
+  {label:'13. frustrated → ___ (strong)', ans:'furious', placeholder:'emotion word'},
+  {label:'14. pleased → ___ (strong)', ans:'elated', placeholder:'emotion word'},
+  {label:'15. uneasy → ___ (strong)', ans:'overwhelmed', placeholder:'emotion word'}
+],
+'F2':[
+  {label:'1. My sister is more outgoing ___ me.', ans:'than', placeholder:'word'},
+  {label:'2. He is ___ most patient person in the group.', ans:'the', placeholder:'article'},
+  {label:'3. She works ___ harder than anyone else.', ans:'much', placeholder:'intensifier'},
+  {label:'4. This exercise is ___ easier than the last one.', ans:'far', placeholder:'intensifier'},
+  {label:'5. He is the ___ student in the class.', ans:'tallest', placeholder:'superlative'},
+  {label:'6. She is ___ confident than she used to be.', ans:'more', placeholder:'more / less'},
+  {label:'7. That was the ___ decision he ever made.', ans:'worst', placeholder:'superlative'},
+  {label:'8. The new model is ___ expensive than the old one.', ans:'less', placeholder:'more / less'},
+  {label:'9. She is ___ as tall as her brother.', ans:'not', placeholder:'not'},
+  {label:'10. He has ___ friends than his sister.', ans:'fewer', placeholder:'fewer / less'}
+],
+'G2':[
+  {label:'grow →', ans:'grew', placeholder:'past simple'},
+  {label:'bring →', ans:'brought', placeholder:'past simple'},
+  {label:'teach →', ans:'taught', placeholder:'past simple'},
+  {label:'seek →', ans:'sought', placeholder:'past simple'},
+  {label:'throw →', ans:'threw', placeholder:'past simple'},
+  {label:'fly →', ans:'flew', placeholder:'past simple'},
+  {label:'draw →', ans:'drew', placeholder:'past simple'},
+  {label:'stand →', ans:'stood', placeholder:'past simple'},
+  {label:'understand →', ans:'understood', placeholder:'past simple'},
+  {label:'fight →', ans:'fought', placeholder:'past simple'},
+  {label:'catch →', ans:'caught', placeholder:'past simple'},
+  {label:'forget →', ans:'forgot', placeholder:'past simple'},
+  {label:'freeze →', ans:'froze', placeholder:'past simple'},
+  {label:'hide →', ans:'hid', placeholder:'past simple'},
+  {label:'keep →', ans:'kept', placeholder:'past simple'},
+  {label:'lay →', ans:'laid', placeholder:'past simple'},
+  {label:'lead →', ans:'led', placeholder:'past simple'},
+  {label:'mean →', ans:'meant', placeholder:'past simple'},
+  {label:'rise →', ans:'rose', placeholder:'past simple'},
+  {label:'spread →', ans:'spread', placeholder:'past simple'}
+],
+'H2':[
+  {label:'1. My grandparents have been married ___ over 50 years.', ans:'for', placeholder:'for / since'},
+  {label:'2. She has lived here ___ 2015.', ans:'since', placeholder:'for / since'},
+  {label:'3. He has been a doctor ___ more than 20 years.', ans:'for', placeholder:'for / since'},
+  {label:'4. I haven\'t spoken to him ___ last summer.', ans:'since', placeholder:'for / since'},
+  {label:'5. They have known each other ___ childhood.', ans:'since', placeholder:'for / since'},
+  {label:'6. She has been studying English ___ three years.', ans:'for', placeholder:'for / since'},
+  {label:'7. We haven\'t had rain ___ weeks.', ans:'for', placeholder:'for / since'},
+  {label:'8. He has worked at that company ___ he graduated.', ans:'since', placeholder:'for / since'},
+  {label:'9. She has been waiting ___ half an hour.', ans:'for', placeholder:'for / since'},
+  {label:'10. The shop has been closed ___ Monday.', ans:'since', placeholder:'for / since'},
+  {label:'11. I have lived in this city ___ five years.', ans:'for', placeholder:'for / since'},
+  {label:'12. She hasn\'t called me ___ January.', ans:'since', placeholder:'for / since'},
+  {label:'13. We have been friends ___ we were ten.', ans:'since', placeholder:'for / since'},
+  {label:'14. He has been working ___ six hours without a break.', ans:'for', placeholder:'for / since'},
+  {label:'15. The project has been delayed ___ last month.', ans:'since', placeholder:'for / since'},
+  {label:'16. She has been learning guitar ___ two months.', ans:'for', placeholder:'for / since'},
+  {label:'17. I haven\'t eaten ___ this morning.', ans:'since', placeholder:'for / since'},
+  {label:'18. They have been married ___ a long time.', ans:'for', placeholder:'for / since'},
+  {label:'19. He hasn\'t visited his family ___ Christmas.', ans:'since', placeholder:'for / since'},
+  {label:'20. We have been waiting ___ an hour.', ans:'for', placeholder:'for / since'}
+],
+'I1':[
+  {label:'1. The woman ___ called this morning is my aunt.', ans:'who', placeholder:'who/whose/which/that/where'},
+  {label:'2. This is the book ___ I told you about.', ans:'which', placeholder:'who/whose/which/that/where'},
+  {label:'3. The student ___ essay won first prize is very talented.', ans:'whose', placeholder:'who/whose/which/that/where'},
+  {label:'4. That\'s the café ___ we first met.', ans:'where', placeholder:'who/whose/which/that/where'},
+  {label:'5. The teacher ___ taught me maths changed my life.', ans:'who', placeholder:'who/whose/which/that/where'},
+  {label:'6. The city ___ she grew up has changed a lot.', ans:'where', placeholder:'who/whose/which/that/where'},
+  {label:'7. The man ___ car was stolen went to the police.', ans:'whose', placeholder:'who/whose/which/that/where'},
+  {label:'8. This is the film ___ everyone is talking about.', ans:'which', placeholder:'who/whose/which/that/where'},
+  {label:'9. She is the colleague ___ helped me most.', ans:'who', placeholder:'who/whose/which/that/where'},
+  {label:'10. The friend ___ I trust most lives abroad.', ans:'who', placeholder:'who/whose/which/that/where'},
+  {label:'11. That\'s the house ___ I grew up in.', ans:'that', placeholder:'who/whose/which/that/where'},
+  {label:'12. The doctor ___ treated me was very kind.', ans:'who', placeholder:'who/whose/which/that/where'},
+  {label:'13. The company ___ CEO resigned last week is in trouble.', ans:'whose', placeholder:'who/whose/which/that/where'},
+  {label:'14. I remember the café ___ we used to meet.', ans:'where', placeholder:'who/whose/which/that/where'},
+  {label:'15. The family ___ adopted the child was very loving.', ans:'who', placeholder:'who/whose/which/that/where'}
+],
+'I2':[
+  {label:'1. After months of not speaking, they finally agreed to ___ .', ans:'patch things up', placeholder:'conflict phrase'},
+  {label:'2. Even years later, she still seems to ___ against him.', ans:'hold a grudge', placeholder:'conflict phrase'},
+  {label:'3. The argument was based on a ___ — neither of them meant any harm.', ans:'misunderstanding', placeholder:'conflict phrase'},
+  {label:'4. Neither side was fully right, so they decided to ___ .', ans:'meet halfway', placeholder:'conflict phrase'},
+  {label:'5. Life is too short — it\'s time to ___ and move on.', ans:'forgive and forget', placeholder:'conflict phrase'},
+  {label:'6. When he did something wrong, she would give him the ___ for days.', ans:'silent treatment', placeholder:'conflict phrase'},
+  {label:'7. The two colleagues met privately to ___ after their public argument.', ans:'clear the air', placeholder:'conflict phrase'},
+  {label:'8. He sent flowers and apologised, trying to ___ for what he had said.', ans:'make amends', placeholder:'conflict phrase'},
+  {label:'9. Rather than involving others, they chose to ___ privately.', ans:'talk it out', placeholder:'conflict phrase'},
+  {label:'10. The two countries met at the summit to ___ on trade issues.', ans:'seek common ground', placeholder:'conflict phrase'},
+  {label:'11. After years of rivalry, the two neighbours finally agreed to ___ .', ans:'bury the hatchet', placeholder:'conflict phrase'},
+  {label:'12. She completely ___ her best friend over a misunderstood text message.', ans:'fall out with', placeholder:'conflict phrase'}
+]
+};
+
+const matchData={
+'A2':{pairs:[
+  ['surgeon','Performs operations in a hospital'],
+  ['pharmacist','Prepares and dispenses medications to patients'],
+  ['counsellor','Provides guidance and emotional support to students or clients'],
+  ['accountant','Manages finances, taxes and ledgers for businesses'],
+  ['entrepreneur','Runs their own business, taking financial risks'],
+  ['UX designer','Designs experiences for digital products and apps'],
+  ['copywriter','Writes persuasive content for advertising campaigns'],
+  ['electrician','Installs and repairs electrical systems in buildings'],
+  ['cinematographer','Shoots and lights films professionally'],
+  ['lecturer','Teaches at university level'],
+  ['paramedic','Responds to emergencies and gives first aid before hospital'],
+  ['curator','Manages and organises exhibits in a museum or gallery'],
+  ['consultant','Provides expert advice to businesses for a fee'],
+  ['data scientist','Analyses large datasets to find patterns and insights'],
+  ['chef','Prepares food in a restaurant kitchen']
+]},
+'F1':{pairs:[
+  ['a dark horse','Someone surprisingly talented who was not expected to succeed'],
+  ['wear many hats','Has many different roles or responsibilities'],
+  ['set in one\'s ways','Difficult to change established habits'],
+  ['go the extra mile','Do much more than is required'],
+  ['have a short fuse','Becomes angry very easily'],
+  ['a creature of habit','Always sticks to the same routine'],
+  ['burn one\'s bridges','Ruining relationships permanently through bad actions'],
+  ['an old soul','Wise and mature beyond one\'s age'],
+  ['turn over a new leaf','Start fresh with better behaviour'],
+  ['a lone wolf','Prefers to work or live alone'],
+  ['full of hot air','Makes big promises but delivers nothing'],
+  ['straight as an arrow','Always honest, never deceiving others'],
+  ['never miss a beat','Always stays alert and responds quickly'],
+  ['keep oneself to oneself','Lives privately and avoids social interaction'],
+  ['a force to be reckoned with','Someone too powerful or skilled to ignore']
+]},
+'I3':{pairs:[
+  ['officiant','The person who legally performs the wedding ceremony'],
+  ['maid of honour','The principal bridesmaid who assists the bride on the day'],
+  ['best man','The groom\'s closest male friend, who supports him on the day'],
+  ['reception','A party held in celebration of the couple after the ceremony'],
+  ['vows','Spoken promises made during the ceremony'],
+  ['aisle','The walkway between rows of seats in a ceremony venue'],
+  ['bouquet','A bunch of flowers carried by the bride'],
+  ['toast','A speech made to celebrate the couple, followed by drinking'],
+  ['bridal shower','A party for the bride before the wedding, hosted by friends'],
+  ['rehearsal dinner','A pre-wedding dinner where the ceremony is practised'],
+  ['groomsman','A male member of the groom\'s support team'],
+  ['venue','The location where the ceremony or reception is held'],
+  ['honeymoon','The first trip taken together as a married couple'],
+  ['dowry','Property or money given by a family to the groom\'s family at marriage'],
+  ['annulment','A legal declaration that a marriage was never valid']
+]}
+};
+
+const classifyData={
+'C2':[
+  ['determined','P'],['empathetic','P'],['reckless','N'],['cynical','N'],
+  ['resilient','P'],['arrogant','N'],['stubborn','M'],['meticulous','P'],
+  ['impulsive','N'],['charismatic','P'],['manipulative','N'],['reserved','M'],
+  ['narcissistic','N'],['tactful','P'],['sincere','P'],['temperamental','N'],
+  ['proactive','P'],['indecisive','N'],['compassionate','P'],['vindictive','N']
+]
+};
+
+// ═══ SESSION ═══
+let userName='', userEmail='', attemptNumber=1;
+const scores={}, selected={};
+// Track per-answer user responses for the review screen
+const userAnswers={};
+
+function getAttemptNumber(email){
+  try{
+    const key='hsp_attempts_'+email;
+    const n=parseInt(localStorage.getItem(key)||'0')+1;
+    localStorage.setItem(key,n);
+    return n;
+  }catch(e){return 1;}
+}
+function attemptLabel(n){
+  if(n===1)return '1st Attempt';
+  if(n===2)return '2nd Attempt';
+  if(n===3)return '3rd Attempt';
+  return n+'th Attempt';
+}
+
+function startSession(){
+  const n=document.getElementById('inp-name').value.trim();
+  const e=document.getElementById('inp-email').value.trim();
+  if(!n||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){
+    document.getElementById('loginErr').style.display='block'; return;
+  }
+  userName=n; userEmail=e;
+  attemptNumber=getAttemptNumber(e);
+  document.getElementById('loginOverlay').style.display='none';
+  document.getElementById('barName').textContent=n;
+  document.getElementById('barEmail').textContent=e;
+  document.getElementById('studentBar').classList.add('show');
+  initAll();
+}
+
+// ═══ INIT ═══
+function initAll(){
+  renderVocab(vocabData['A-jobs'],'vocabA-jobs');
+  buildCountryTable();
+  renderVocab(vocabData['B'],'vocabB');
+  renderVocab(vocabData['C'],'vocabC');
+  renderVocab(vocabData['D'],'vocabD');
+  renderVocab(vocabData['E'],'vocabE');
+  renderVocab(vocabData['F'],'vocabF');
+  renderVocab(vocabData['G'],'vocabG');
+  renderVocab(vocabData['H'],'vocabH');
+  renderVocab(vocabData['I'],'vocabI');
+  ['A1','A3','B1','E2','F2','G2','H2','I1','I2'].forEach(k=>renderGap(k,'gap'+k));
+  ['A4','B2','C1','D1','E1','G1','H1'].forEach(k=>renderMC(k,'mc'+k));
+  ['A2','F1','I3'].forEach(k=>renderMatch(k,'match'+k));
+  renderClassify('C2','classifyC2');
+}
+
+// ═══ RENDER ═══
+function renderVocab(data,targetId){
+  const el=document.getElementById(targetId); if(!el)return;
+  el.innerHTML=data.map(([word,type,viet,ex])=>`
+    <div class="vocab-card">
+      <div class="vocab-word">${word}</div>
+      <div class="vocab-type" style="background:${typeColors[type]||'#888'}">${type}</div>
+      <div class="vocab-viet">${viet}</div>
+      <div class="vocab-example">${ex}</div>
+    </div>`).join('');
+}
+
+function buildCountryTable(){
+  const tbody=document.getElementById('countryTbody'); if(!tbody)return;
+  tbody.innerHTML=countryNationality.map(([c,n])=>`<tr><td>${c}</td><td>${n}</td></tr>`).join('');
+}
+
+function renderMC(key,targetId){
+  const qs=mcData[key]; if(!qs)return;
+  document.getElementById(targetId).innerHTML=qs.map((q,i)=>`
+    <div class="q-block" id="qblock-${key}-${i}">
+      <div class="q-text"><span class="q-num">${i+1}</span> ${q.q}</div>
+      <div class="options">${q.opts.map((o,j)=>`
+        <button class="opt-btn" id="opt-${key}-${i}-${j}" onclick="selectOpt('${key}',${i},${j})">
+          <span class="opt-letter">${'ABCD'[j]}</span>${o}
+        </button>`).join('')}
+      </div>
+      <div class="explanation" id="exp-${key}-${i}"><span>💡 </span>${q.exp}</div>
+    </div>`).join('');
+}
+
+function renderGap(key,targetId){
+  const qs=gapData[key]; if(!qs)return;
+  document.getElementById(targetId).innerHTML=qs.map((q,i)=>`
+    <div class="gap-q">
+      <label>${q.label}</label>
+      <input class="gap-input" id="gap-${key}-${i}" placeholder="${q.placeholder}" autocomplete="off" spellcheck="false">
+    </div>`).join('');
+}
+
+function renderMatch(key,targetId){
+  const d=matchData[key]; if(!d)return;
+  const shuffled=[...d.pairs.map(p=>p[1])].sort(()=>Math.random()-.5);
+  document.getElementById(targetId).innerHTML=`<div class="match-grid">${
+    d.pairs.map((p,i)=>`
+      <div class="match-item">
+        <div class="match-eng">${p[0]}</div>
+        <select class="match-sel" id="match-${key}-${i}">
+          <option value="">— choose —</option>
+          ${shuffled.map(v=>`<option value="${v}">${v}</option>`).join('')}
+        </select>
+      </div>`).join('')
+  }</div>`;
+}
+
+function renderClassify(key,targetId){
+  const items=classifyData[key]; if(!items)return;
+  document.getElementById(targetId).innerHTML=items.map((it,i)=>`
+    <div class="classify-item">
+      <div class="classify-word">${it[0]}</div>
+      <select class="classify-sel" id="cls-${key}-${i}">
+        <option value="">— choose —</option>
+        <option value="P">Positive (P)</option>
+        <option value="N">Negative (N)</option>
+        <option value="M">Mixed (M)</option>
+      </select>
+    </div>`).join('');
+}
+
+// ═══ SELECT / SUBMIT / RESET ═══
+function selectOpt(key,qIdx,optIdx){
+  if(!selected[key])selected[key]={};
+  const first=document.getElementById(`opt-${key}-${qIdx}-0`);
+  if(first&&first.disabled)return;
+  selected[key][qIdx]=optIdx;
+  const len=mcData[key][qIdx].opts.length;
+  for(let j=0;j<len;j++){
+    const btn=document.getElementById(`opt-${key}-${qIdx}-${j}`);
+    if(btn)btn.classList.toggle('selected',j===optIdx);
+  }
+}
+
+function submitMC(key){
+  const qs=mcData[key]; let correct=0;
+  userAnswers[key]=[];
+  qs.forEach((q,i)=>{
+    const chosen=(selected[key]||{})[i];
+    for(let j=0;j<q.opts.length;j++){
+      const btn=document.getElementById(`opt-${key}-${i}-${j}`); if(!btn)continue;
+      btn.disabled=true; btn.classList.remove('selected');
+      if(j===q.ans)btn.classList.add('correct');
+      else if(j===chosen&&chosen!==q.ans)btn.classList.add('wrong');
+    }
+    const exp=document.getElementById(`exp-${key}-${i}`);
+    if(exp)exp.classList.add('show');
+    const ok=(chosen===q.ans);
+    if(ok)correct++;
+    userAnswers[key].push({q:q.q,user:chosen!=null?q.opts[chosen]:'(no answer)',ans:q.opts[q.ans],ok});
+  });
+  scores[key]=correct;
+  setBadge(key,correct,qs.length);
+  updateGlobal();
+}
+function resetMC(key){delete selected[key];delete userAnswers[key];renderMC(key,'mc'+key);delete scores[key];setBadge(key,'—','');updateGlobal();}
+
+function submitGap(key){
+  const qs=gapData[key]; let correct=0;
+  userAnswers[key]=[];
+  qs.forEach((q,i)=>{
+    const inp=document.getElementById(`gap-${key}-${i}`); if(!inp)return;
+    const val=inp.value.trim();
+    const normVal=val.toLowerCase().replace(/['']/g,"'");
+    const normAns=q.ans.toLowerCase().replace(/['']/g,"'");
+    const ok=normVal===normAns;
+    inp.classList.add(ok?'correct':'wrong');
+    inp.disabled=true;
+    if(!ok)inp.placeholder='✓ '+q.ans;
+    if(ok)correct++;
+    userAnswers[key].push({q:q.label,user:val||'(blank)',ans:q.ans,ok});
+  });
+  scores[key]=correct;
+  setBadge(key,correct,qs.length);
+  updateGlobal();
+}
+function resetGap(key){delete userAnswers[key];renderGap(key,'gap'+key);delete scores[key];setBadge(key,'—','');updateGlobal();}
+
+function submitMatch(key){
+  const d=matchData[key]; let correct=0;
+  userAnswers[key]=[];
+  d.pairs.forEach((p,i)=>{
+    const sel=document.getElementById(`match-${key}-${i}`); if(!sel)return;
+    const ok=sel.value===p[1];
+    sel.classList.add(ok?'correct':'wrong');
+    sel.disabled=true;
+    if(ok)correct++;
+    userAnswers[key].push({q:p[0],user:sel.value||'(none)',ans:p[1],ok});
+  });
+  scores[key]=correct;
+  setBadge(key,correct,d.pairs.length);
+  updateGlobal();
+}
+function resetMatch(key){delete userAnswers[key];renderMatch(key,'match'+key);delete scores[key];setBadge(key,'—','');updateGlobal();}
+
+function submitClassify(key){
+  const items=classifyData[key]; let correct=0;
+  userAnswers[key]=[];
+  const labels={P:'Positive',N:'Negative',M:'Mixed'};
+  items.forEach((it,i)=>{
+    const sel=document.getElementById(`cls-${key}-${i}`); if(!sel)return;
+    const ok=sel.value===it[1];
+    sel.classList.add(ok?'correct':'wrong');
+    sel.disabled=true;
+    if(ok)correct++;
+    userAnswers[key].push({q:it[0],user:labels[sel.value]||'(none)',ans:labels[it[1]],ok});
+  });
+  scores[key]=correct;
+  setBadge(key,correct,items.length);
+  updateGlobal();
+}
+function resetClassify(key){delete userAnswers[key];renderClassify(key,'classify'+key);delete scores[key];setBadge(key,'—','');updateGlobal();}
+
+function setBadge(key,score,max){
+  const b=document.getElementById(`score${key}-badge`);
+  if(b)b.textContent=(score==='—'?'—':`${score}/${max}`);
+}
+function updateGlobal(){
+  document.getElementById('globalScore').textContent=Object.values(scores).reduce((a,b)=>a+b,0);
+}
+
+// ═══ NAV ═══
+function showMod(idx){
+  document.querySelectorAll('.module-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('results-panel').classList.remove('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mod-'+idx).classList.add('active');
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══ RESULTS ═══
+const exMeta={
+  A1:{title:'A1 · Nationalities',module:'A',max:15},
+  A2:{title:'A2 · Jobs Matching',module:'A',max:15},
+  A3:{title:'A3 · Telling the Time',module:'A',max:12},
+  A4:{title:'A4 · Prepositions of Time',module:'A',max:20},
+  B1:{title:'B1 · Family Terms',module:'B',max:15},
+  B2:{title:'B2 · Error Correction',module:'B',max:12},
+  C1:{title:'C1 · Personality MCQ',module:'C',max:15},
+  C2:{title:'C2 · Classify P/N/M',module:'C',max:20},
+  D1:{title:'D1 · Adjective Order',module:'D',max:12},
+  E1:{title:'E1 · Emotion Prepositions',module:'E',max:15},
+  E2:{title:'E2 · Emotion Intensity',module:'E',max:25},
+  F1:{title:'F1 · Idioms Match',module:'F',max:15},
+  F2:{title:'F2 · Comparatives',module:'F',max:10},
+  G1:{title:'G1 · Past vs Used to',module:'G',max:15},
+  G2:{title:'G2 · Irregular Verbs',module:'G',max:20},
+  H1:{title:'H1 · Present Perfect vs Past Simple',module:'H',max:15},
+  H2:{title:'H2 · For vs Since',module:'H',max:20},
+  I1:{title:'I1 · Relative Pronouns',module:'I',max:15},
+  I2:{title:'I2 · Conflict Phrases',module:'I',max:12},
+  I3:{title:'I3 · Wedding Match',module:'I',max:15}
+};
+
+const moduleNames={A:'Jobs & Countries',B:'Family',C:'Personality',D:'Appearance',
+  E:'Emotions',F:'Idioms & Comparatives',G:'Time & Habits',H:'Life Stages',I:'Relationships'};
+
+const improveSuggestions={
+  A:'Review prepositions of time (in/on/at/since/for/by/during) and nationality adjectives. Practice by writing sentences about your own schedule.',
+  B:'Practise family vocabulary with a family tree diagram. Create sentences describing your own family relationships.',
+  C:'Review personality adjectives using flashcards. Try describing people you know using the words learned.',
+  D:'Study adjective order rules (Opinion > Size > Age > Shape > Colour). Describe photos of people using 2–3 adjectives.',
+  E:'Practise collocations with emotion adjectives (anxious about, proud of, etc.). Keep a vocabulary journal with example sentences.',
+  F:'Learn idioms in context — read them in short stories or dialogues. Create your own sentences using each idiom.',
+  G:'Review past simple vs. used to using timelines. Write a paragraph about your childhood habits.',
+  H:'Practise present perfect vs. past simple by noting signal words (since, for, already, yet, ago, last year). Write a personal biography.',
+  I:'Review relative pronouns with defining vs. non-defining clauses. Practise conflict expressions through role-play dialogues.'
+};
+
+function pct(s,m){return m>0?Math.round(s/m*100):0;}
+function grade(p){if(p>=85)return['A','Excellent','grade-A'];if(p>=70)return['B','Good','grade-B'];if(p>=55)return['C','Satisfactory','grade-C'];return['D','Needs Improvement','grade-D'];}
+
+function showResults(){
+  // Hide all panels, show results
+  document.querySelectorAll('.module-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-results').classList.add('active');
+  document.getElementById('results-panel').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  const now=new Date();
+  const ds=now.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const ts=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+
+  // Header
+  document.getElementById('res-name').textContent=userName;
+  document.getElementById('res-meta').textContent=userEmail+' · '+ds+' · '+ts;
+  document.getElementById('res-attempt').textContent=attemptLabel(attemptNumber);
+
+  // Grand total
+  let tot=0,maxTot=0;
+  Object.keys(exMeta).forEach(k=>{tot+=(scores[k]||0);maxTot+=exMeta[k].max;});
+  const grandPct=pct(tot,maxTot);
+  const [gl,gname,gcls]=grade(grandPct);
+  document.getElementById('res-total').textContent=tot+'/'+maxTot;
+  document.getElementById('res-pct').textContent=grandPct+'%';
+  document.getElementById('res-grade').innerHTML=`<span class="grade-badge ${gcls}">${gl} — ${gname}</span>`;
+
+  // Breakdown table
+  const tbody=document.getElementById('res-breakdown');
+  tbody.innerHTML='';
+  Object.keys(exMeta).forEach(k=>{
+    const m=exMeta[k]; const s=scores[k]; const submitted=s!=null;
+    const sp=submitted?pct(s,m.max):null;
+    const tag=!submitted?'<span style="color:#bbb">Not attempted</span>':
+      sp>=70?`<span class="tag-good">✓ ${sp}%</span>`:
+      sp>=50?`<span class="tag-ok">△ ${sp}%</span>`:
+      `<span class="tag-bad">✗ ${sp}%</span>`;
+    const bar=submitted?`<div class="res-pct-bar"><div class="res-pct-fill" style="width:${sp}%;background:${sp>=70?'var(--accent2)':sp>=50?'var(--gold)':'var(--accent1)'}"></div></div>`:'';
+    tbody.innerHTML+=`<tr>
+      <td>${m.title}</td>
+      <td>Module ${m.module} — ${moduleNames[m.module]}</td>
+      <td>${submitted?s+'/'+m.max:'—'}${bar}</td>
+      <td>${tag}</td>
+    </tr>`;
+  });
+
+  // Module-level aggregation for analysis
+  const modScores={};
+  Object.keys(exMeta).forEach(k=>{
+    const mod=exMeta[k].module;
+    if(!modScores[mod])modScores[mod]={s:0,m:0};
+    modScores[mod].s+=(scores[k]||0);
+    modScores[mod].m+=exMeta[k].max;
+  });
+
+  const weak=[],strong=[];
+  Object.keys(modScores).forEach(mod=>{
+    const {s,m}=modScores[mod];
+    const p2=pct(s,m);
+    if(p2<60)weak.push({mod,p:p2});
+    else if(p2>=80)strong.push({mod,p:p2});
+  });
+  weak.sort((a,b)=>a.p-b.p);
+  strong.sort((a,b)=>b.p-a.p);
+
+  const weakEl=document.getElementById('res-weak');
+  weakEl.innerHTML=weak.length?
+    weak.map(w=>`<li><strong>Module ${w.mod} — ${moduleNames[w.mod]}</strong>: ${w.p}% — review needed</li>`).join(''):
+    '<li>Great job — no modules scored below 60%!</li>';
+
+  const strongEl=document.getElementById('res-strong');
+  strongEl.innerHTML=strong.length?
+    strong.map(w=>`<li><strong>Module ${w.mod} — ${moduleNames[w.mod]}</strong>: ${w.p}% ✓</li>`).join(''):
+    '<li>Keep practising to build strong modules.</li>';
+
+  // Suggestions
+  const sugEl=document.getElementById('res-suggest');
+  const weakMods=weak.map(w=>w.mod);
+  if(weakMods.length===0){
+    sugEl.innerHTML='<li>Excellent overall performance! Challenge yourself with more complex tasks such as free writing or speaking practice on each topic.</li>';
+  } else {
+    sugEl.innerHTML=weakMods.map(mod=>`<li><strong>Module ${mod} — ${moduleNames[mod]}:</strong> ${improveSuggestions[mod]}</li>`).join('');
+    sugEl.innerHTML+='<li>Consider re-attempting this practice session after reviewing the above. Each attempt is tracked so you can monitor your progress.</li>';
+  }
+
+  // Answer detail (wrong answers only)
+  const detailEl=document.getElementById('res-detail');
+  detailEl.innerHTML='';
+  let anyWrong=false;
+  Object.keys(exMeta).forEach(k=>{
+    if(!userAnswers[k])return;
+    const wrongs=userAnswers[k].filter(r=>!r.ok);
+    if(!wrongs.length)return;
+    anyWrong=true;
+    const s=scores[k]||0; const max=exMeta[k].max;
+    detailEl.innerHTML+=`<div class="detail-block">
+      <div class="detail-head"><span>${exMeta[k].title}</span><span>${s}/${max}</span></div>
+      <div class="detail-body">
+        <div class="detail-row" style="font-weight:700;font-size:12px;color:#888;border-bottom:2px solid var(--border)">
+          <div>Question</div><div>Your Answer</div><div>Correct Answer</div>
+        </div>
+        ${wrongs.map(r=>`
+        <div class="detail-row">
+          <div class="detail-q">${r.q}</div>
+          <div class="detail-user bad">✗ ${r.user}</div>
+          <div class="detail-ans">✓ ${r.ans}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  if(!anyWrong) detailEl.innerHTML='<p style="text-align:center;color:var(--accent2);font-weight:700;padding:24px">🎉 No wrong answers in submitted exercises!</p>';
+}
+
+// ═══ PDF ═══
+function printResults(){
+  showResults();
+  setTimeout(()=>window.print(),400);
+}
+</script>
+</body>
+</html>

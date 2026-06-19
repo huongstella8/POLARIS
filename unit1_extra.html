@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 Extra – People | Huong Stella Paradigm</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#222;font-size:15px}
+:root{--navy:#1e3a5f;--gold:#e8a400;--green:#1a7a3e;--red:#c0392b;--blue:#2980b9;--light:#f8fafc;--border:#d0dbe8}
+
+/* HEADER */
+header{background:var(--navy);color:#fff;padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.header-brand{text-align:center;padding:4px 20px 0;font-size:.68rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:6px 20px 10px}
+.header-top h1{font-size:1.2rem;font-weight:700;letter-spacing:.5px}
+.header-top h1 span{color:var(--gold)}
+.student-box{display:flex;align-items:center;gap:10px}
+.student-box input{padding:5px 10px;border-radius:5px;border:none;font-size:13px;width:180px}
+.student-box span{font-size:12px;opacity:.8}
+.tab-nav{display:flex;background:rgba(0,0,0,.2);overflow-x:auto}
+.tab-btn{padding:10px 18px;border:none;background:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:13px;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s}
+.tab-btn.active,.tab-btn:hover{color:#fff;border-bottom-color:var(--gold);background:rgba(255,255,255,.08)}
+.progress-wrap{background:rgba(0,0,0,.3);height:4px}
+#progressFill{height:4px;background:var(--gold);width:0%;transition:width .5s}
+
+/* LAYOUT */
+.tab-content{display:none;max-width:900px;margin:0 auto;padding:20px}
+.tab-content.active{display:block}
+
+/* SECTIONS */
+.lesson-section{background:#fff;border-radius:10px;margin-bottom:24px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.section-header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:2px solid var(--border)}
+.section-header h2{font-size:1.05rem;color:var(--navy)}
+.section-badge{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.badge-vocab{background:#e8f4ff;color:#1565c0}
+.badge-grammar{background:#fff3e0;color:#e65100}
+.badge-listening{background:#e8f5e9;color:#2e7d32}
+.badge-pron{background:#f3e5f5;color:#7b1fa2}
+.badge-speaking{background:#fce4ec;color:#c62828}
+.badge-reading{background:#e0f7fa;color:#00695c}
+.badge-hw{background:#f9fbe7;color:#558b2f}
+.section-body{padding:20px}
+
+/* THEORY BOXES */
+.theory-box{background:#eef4ff;border-left:4px solid var(--navy);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:16px}
+.theory-box h3{font-size:.95rem;color:var(--navy);margin-bottom:8px}
+.theory-box p{font-size:.9rem;line-height:1.6;margin-bottom:6px}
+.theory-box .ex{background:#fff;border-radius:5px;padding:6px 10px;margin:4px 0;font-style:italic;font-size:.88rem;border-left:3px solid var(--gold)}
+
+.grammar-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media(max-width:600px){.grammar-grid{grid-template-columns:1fr}}
+.grammar-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px}
+.grammar-card h4{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.grammar-card p,.grammar-card li{font-size:.85rem;line-height:1.6;color:#333}
+.grammar-card ul{padding-left:16px}
+
+/* READING / TEXT BOXES */
+.reading-box{background:#fffde7;border:1px solid #f9a825;border-radius:8px;padding:14px;margin-bottom:16px}
+.reading-box h3{font-size:.95rem;color:#5d4037;margin-bottom:10px}
+.model-text{background:#fff;border-radius:6px;padding:12px;font-size:.88rem;line-height:1.7;border-left:3px solid var(--gold)}
+.model-text strong{color:var(--navy)}
+.model-text .phrasal{color:#c0392b;font-weight:600;text-decoration:underline dotted}
+.model-text .adj{color:#1a7a3e;font-weight:600}
+
+.highlight-box{background:#e8f5e9;border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 14px;margin:10px 0;font-size:.88rem}
+
+/* AUDIO */
+.audio-wrap{display:flex;align-items:center;gap:12px;background:#1e3a5f;border-radius:8px;padding:10px 14px;margin-bottom:14px;color:#fff}
+.audio-wrap audio{flex:1;height:32px}
+.audio-label{font-size:.82rem;opacity:.85;white-space:nowrap}
+
+/* EXERCISES */
+.ex-block{margin-bottom:20px}
+.ex-title{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ex-num{background:var(--navy);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0}
+.ex-instruction{font-size:.85rem;color:#555;margin-bottom:10px;line-height:1.5}
+
+/* FILL-IN */
+.fill-sentence{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;margin:7px 0;font-size:.9rem;line-height:1.8}
+.fill-sentence .sent-num{color:var(--navy);font-weight:700;min-width:20px}
+.blank{border:none;border-bottom:2px solid var(--navy);background:transparent;font-size:.9rem;padding:1px 4px;min-width:110px;outline:none;text-align:center;font-family:inherit}
+.blank:focus{border-bottom-color:var(--gold)}
+.blank.correct{border-bottom-color:var(--green);background:#d4edda;border-radius:3px}
+.blank.wrong{border-bottom-color:var(--red);background:#fde8e8;border-radius:3px}
+select.blank{min-width:130px;border:2px solid var(--navy);border-radius:4px;padding:2px 4px;background:#fff}
+select.blank.correct{border-color:var(--green);background:#d4edda}
+select.blank.wrong{border-color:var(--red);background:#fde8e8}
+
+/* MC (radio) */
+.mc-group{margin:8px 0 14px 0}
+.mc-item{display:block;padding:6px 10px;border-radius:6px;margin:3px 0;cursor:pointer;font-size:.88rem;border:1px solid transparent;transition:background .15s}
+.mc-item:hover{background:#eef4ff}
+.mc-item input[type=radio]{margin-right:8px;accent-color:var(--navy)}
+.mc-item.correct{background:#d4edda;border-color:var(--green);color:var(--green)}
+.mc-item.wrong{background:#fde8e8;border-color:var(--red);color:var(--red)}
+
+/* MATCHING */
+.match-row{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.88rem}
+.match-term{background:#eef4ff;border-radius:5px;padding:5px 10px;min-width:150px;font-weight:600;color:var(--navy)}
+select.match-select{padding:4px 8px;border:2px solid var(--navy);border-radius:5px;font-size:.85rem}
+select.match-select.correct{border-color:var(--green);background:#d4edda}
+select.match-select.wrong{border-color:var(--red);background:#fde8e8}
+
+/* CLASSIFY (click to assign) */
+.classify-pool{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#f5f5f5;border-radius:8px;min-height:44px;margin-bottom:10px}
+.classify-item{background:var(--navy);color:#fff;padding:5px 12px;border-radius:20px;cursor:pointer;font-size:.85rem;user-select:none;transition:transform .1s}
+.classify-item:hover{transform:scale(1.05)}
+.classify-categories{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:8px}
+@media(max-width:600px){.classify-categories{grid-template-columns:1fr 1fr}}
+.classify-cat{border:2px dashed var(--border);border-radius:8px;padding:8px;min-height:60px}
+.classify-cat h4{font-size:.78rem;font-weight:700;color:#555;margin-bottom:6px;text-transform:uppercase}
+.classify-cat.correct-cat{border-color:var(--green)}
+.classify-cat.wrong-cat{border-color:var(--red)}
+
+/* TABLE EXERCISES */
+.ex-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0}
+.ex-table th{background:var(--navy);color:#fff;padding:7px 10px;text-align:left}
+.ex-table td{padding:6px 10px;border-bottom:1px solid var(--border)}
+.ex-table tr:nth-child(even) td{background:#f8fafc}
+
+/* SYLLABLE STRESS */
+.stress-word{display:inline-flex;align-items:flex-end;gap:2px;margin:8px 12px 8px 0}
+.syllable{padding:5px 8px;border:2px solid var(--border);border-radius:5px;cursor:pointer;font-size:.9rem;transition:all .15s}
+.syllable:hover{background:#eef4ff;border-color:var(--navy)}
+.syllable.stressed{background:var(--navy);color:#fff;border-color:var(--navy)}
+.syllable.correct-stress{background:var(--green);color:#fff;border-color:var(--green)}
+.syllable.wrong-stress{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* SPEAKING TASKS */
+.speaking-box{background:#fff8e1;border:1px solid var(--gold);border-radius:8px;padding:14px;margin:10px 0}
+.speaking-box h4{color:#5d4037;margin-bottom:8px;font-size:.92rem}
+.speaking-prompt{background:#fff;border-radius:6px;padding:10px;font-size:.87rem;line-height:1.7;margin-bottom:10px}
+.speaking-prompt li{margin:4px 0 4px 16px}
+.speaking-box textarea{width:100%;min-height:100px;border:2px solid var(--border);border-radius:6px;padding:8px;font-size:.87rem;font-family:inherit;resize:vertical;outline:none}
+.speaking-box textarea:focus{border-color:var(--gold)}
+
+.model-reveal-btn{background:var(--navy);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.85rem;margin-top:8px}
+.model-reveal-btn:hover{background:#2c5282}
+.model-answer{display:none;margin-top:10px;background:#e8f5e9;border-radius:6px;padding:12px;font-size:.87rem;line-height:1.6;border-left:3px solid var(--green)}
+.self-assess{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.self-btn{padding:5px 14px;border-radius:20px;border:2px solid;cursor:pointer;font-size:.82rem;font-weight:600;background:#fff}
+.self-btn.good{border-color:var(--green);color:var(--green)}
+.self-btn.ok{border-color:var(--gold);color:#b8860b}
+.self-btn.retry{border-color:var(--red);color:var(--red)}
+.self-btn.selected{opacity:.5}
+
+/* CHECK BUTTON */
+.check-btn{background:var(--navy);color:#fff;border:none;padding:9px 22px;border-radius:7px;cursor:pointer;font-size:.9rem;font-weight:600;margin-top:12px;transition:background .2s}
+.check-btn:hover{background:#2c5282}
+.score-badge{display:inline-block;background:var(--gold);color:#fff;padding:4px 12px;border-radius:12px;font-weight:700;font-size:.85rem;margin-left:10px;vertical-align:middle}
+
+/* FEEDBACK */
+.feedback-row{display:flex;align-items:center;gap:8px;font-size:.82rem;margin-top:6px}
+.fb-correct{color:var(--green);font-weight:600}
+.fb-wrong{color:var(--red)}
+.answer-reveal{background:#e8f5e9;border-radius:5px;padding:3px 8px;font-weight:600;color:var(--green);font-size:.82rem}
+
+/* PEOPLE DIAGRAM */
+.diagram-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.diagram-cell{background:#eef4ff;border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;min-height:80px}
+.diagram-cell h4{font-size:.78rem;text-transform:uppercase;color:#555;margin-bottom:6px}
+.diagram-cell input{width:100%;border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.82rem;margin-bottom:3px}
+.diagram-center{background:var(--navy);color:#fff;border-radius:50%;width:70px;height:70px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:.8rem;font-weight:700}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px 0}
+.result-card{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.result-card .score-num{font-size:2.2rem;font-weight:700;color:var(--navy)}
+.result-card .score-label{font-size:.8rem;color:#777;margin-top:4px}
+.result-card .score-bar{height:6px;background:#e0e0e0;border-radius:3px;margin-top:8px;overflow:hidden}
+.result-card .score-bar div{height:6px;background:var(--gold);border-radius:3px;transition:width 1s}
+.export-area{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.1);margin-top:16px}
+.export-area h3{color:var(--navy);margin-bottom:12px}
+.export-btn{background:var(--green);color:#fff;border:none;padding:10px 22px;border-radius:7px;cursor:pointer;font-size:.92rem;font-weight:600;margin:4px}
+.export-btn:hover{opacity:.9}
+.email-btn{background:#c0392b;color:#fff;border:none;padding:10px 22px;border-radius:7px;cursor:pointer;font-size:.92rem;font-weight:600;margin:4px}
+.email-btn:hover{opacity:.9}
+
+/* MISC */
+.tip-box{background:#fff3cd;border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:.85rem}
+.divider{border:none;border-top:2px dashed var(--border);margin:20px 0}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:700;margin:2px}
+.tag-ps{background:#e8f4ff;color:#1565c0}
+.tag-pc{background:#fff3e0;color:#e65100}
+.tag-sv{background:#f3e5f5;color:#7b1fa2}
+.tag-af{background:#e8f5e9;color:#2e7d32}
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0}
+@media(max-width:600px){.pair-grid{grid-template-columns:1fr}}
+
+/* Sticky check buttons section */
+.section-check-bar{background:#f0f4f8;padding:10px 0;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">Huong Stella Paradigm</div>
+  <div class="header-top">
+    <h1><span>Unit 1 Extra – People</span> (1:1)</h1>
+    <div class="student-box">
+      <input id="studentName" placeholder="Enter your name" oninput="updateProgress()">
+      <span id="dateDisplay"></span>
+    </div>
+  </div>
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('lesson1a',this)">📖 Part A – Who Are You?</button>
+    <button class="tab-btn" onclick="showTab('lesson1d',this)">📖 Part B – Lifestyles</button>
+    <button class="tab-btn" onclick="showTab('homework',this)">📝 Homework</button>
+    <button class="tab-btn" onclick="showTab('results',this)">📊 My Results</button>
+  </nav>
+  <div class="progress-wrap"><div id="progressFill"></div></div>
+</header>
+
+<!-- ==================== LESSON 1A ==================== -->
+<div id="lesson1a" class="tab-content active">
+
+  <!-- SECTION: VOCAB PEOPLE & RELATIONSHIPS -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-vocab">Vocabulary</span>
+      <h2>People &amp; Relationships</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="theory-box">
+        <h3>📌 Key Words for People in Your Life</h3>
+        <table class="ex-table">
+          <tr><th>Work / Study</th><th>Sport</th><th>Personal Life</th><th>Family</th></tr>
+          <tr><td>colleague, <strong>manager</strong></td><td>teammate</td><td>partner, close friend</td><td>grandparent, parent</td></tr>
+        </table>
+        <p style="margin-top:8px;font-size:.85rem">⚠️ <em>close</em> friends (NOT <em>near</em> friends) &nbsp;|&nbsp; <em>colleague</em> = person you work with &nbsp;|&nbsp; <em>teammate</em> = person on your sports team</p>
+      </div>
+
+      <!-- PEDRO'S PROFILE -->
+      <div class="reading-box">
+        <h3>📄 Model Text – Pedro's Profile</h3>
+        <p style="font-size:.83rem;color:#777;margin-bottom:10px">Read carefully. Notice the <span style="color:#c0392b;font-weight:700">phrasal verbs</span> and <span style="color:#1a7a3e;font-weight:700">relationship words</span>.</p>
+        <div class="model-text" style="margin-bottom:10px">
+          <strong>1.</strong> I'm part of a football team and I <span class="phrasal">get on well with</span> my teammates. We usually go out together after a match. I think it's really important that teammates can <span class="phrasal">get on with</span> each other on and off the pitch.
+        </div>
+        <div class="model-text" style="margin-bottom:10px">
+          <strong>2.</strong> Every day I work with the same people. Luckily, I'm <span class="phrasal">friendly with</span> most of my <span class="adj">colleagues</span>. I also have a really good <span class="adj">manager</span>. I <span class="phrasal">look up to</span> her.
+        </div>
+        <div class="model-text" style="margin-bottom:10px">
+          <strong>3.</strong> I message my parents a lot. I like to <span class="phrasal">stay in touch with</span> them by video call, too. My daughter <span class="phrasal">takes after</span> my mother. They're very similar in many ways.
+        </div>
+        <div class="model-text">
+          <strong>4.</strong> I would say my <span class="adj">partner</span> is my best friend, but I also have a group of <span class="adj">close friends</span> and we sometimes play music together. We try to meet once a month.
+        </div>
+      </div>
+
+      <!-- EX 1.1: CATEGORIZE PEOPLE WORDS -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">1</span> Exercise 1 – Categorize the words into the correct column.</div>
+        <div class="ex-instruction">Drag or click each word to place it in the correct category.</div>
+        <div class="classify-pool" id="pool1">
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_grandparents">grandparents</span>
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_teammates">teammates</span>
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_partner">partner</span>
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_close_friends">close friends</span>
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_colleagues">colleagues</span>
+          <span class="classify-item" onclick="moveToPool('pool1',this)" id="ci_manager">manager</span>
+        </div>
+        <div class="classify-categories" id="cats1">
+          <div class="classify-cat" id="cat_work" onclick="moveToCat('cat_work',event)">
+            <h4>💼 Work / Study</h4>
+          </div>
+          <div class="classify-cat" id="cat_sport" onclick="moveToCat('cat_sport',event)">
+            <h4>⚽ Sport</h4>
+          </div>
+          <div class="classify-cat" id="cat_personal" onclick="moveToCat('cat_personal',event)">
+            <h4>🤝 Personal Life</h4>
+          </div>
+          <div class="classify-cat" id="cat_family" onclick="moveToCat('cat_family',event)">
+            <h4>👨‍👩‍👧 Family</h4>
+          </div>
+        </div>
+        <button class="check-btn" onclick="checkCategorize()">Check ✓</button>
+        <span id="cat_score" class="score-badge" style="display:none"></span>
+        <div id="cat_feedback" style="font-size:.83rem;color:var(--green);margin-top:6px"></div>
+      </div>
+
+      <!-- EX 1.2: PHRASAL VERBS MATCHING -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">2</span> Exercise 2 – Phrasal Verbs for Relationships</div>
+        <div class="ex-instruction">Match each phrasal verb (a–e) with its meaning (1–4). Two verbs share the same meaning.</div>
+        <div class="theory-box" style="margin-bottom:12px">
+          <h3>💡 Key Phrasal Verbs</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.85rem;margin-top:6px">
+            <div class="ex">get on well with sb</div><div style="font-size:.83rem;padding-top:4px">→ to have a good / friendly relationship</div>
+            <div class="ex">be friendly with sb</div><div style="font-size:.83rem;padding-top:4px">→ to have a good / friendly relationship</div>
+            <div class="ex">look up to sb</div><div style="font-size:.83rem;padding-top:4px">→ to admire and respect someone</div>
+            <div class="ex">stay in touch with sb</div><div style="font-size:.83rem;padding-top:4px">→ to keep contact (call / message / meet)</div>
+            <div class="ex">take after sb</div><div style="font-size:.83rem;padding-top:4px">→ to be similar to a parent or relative</div>
+          </div>
+        </div>
+        <table class="ex-table">
+          <tr><th>Phrasal Verb</th><th>Meaning (choose)</th></tr>
+          <tr>
+            <td><strong>a.</strong> get on well with</td>
+            <td><select class="match-select" id="phv_a">
+              <option value="">– select –</option>
+              <option value="1">1. have a good relationship with someone</option>
+              <option value="2">2. be similar to a parent or relative</option>
+              <option value="3">3. respect / admire someone</option>
+              <option value="4">4. see, talk or write to someone regularly</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td><strong>b.</strong> be friendly with</td>
+            <td><select class="match-select" id="phv_b">
+              <option value="">– select –</option>
+              <option value="1">1. have a good relationship with someone</option>
+              <option value="2">2. be similar to a parent or relative</option>
+              <option value="3">3. respect / admire someone</option>
+              <option value="4">4. see, talk or write to someone regularly</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td><strong>c.</strong> look up to</td>
+            <td><select class="match-select" id="phv_c">
+              <option value="">– select –</option>
+              <option value="1">1. have a good relationship with someone</option>
+              <option value="2">2. be similar to a parent or relative</option>
+              <option value="3">3. respect / admire someone</option>
+              <option value="4">4. see, talk or write to someone regularly</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td><strong>d.</strong> stay in touch with</td>
+            <td><select class="match-select" id="phv_d">
+              <option value="">– select –</option>
+              <option value="1">1. have a good relationship with someone</option>
+              <option value="2">2. be similar to a parent or relative</option>
+              <option value="3">3. respect / admire someone</option>
+              <option value="4">4. see, talk or write to someone regularly</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td><strong>e.</strong> take after</td>
+            <td><select class="match-select" id="phv_e">
+              <option value="">– select –</option>
+              <option value="1">1. have a good relationship with someone</option>
+              <option value="2">2. be similar to a parent or relative</option>
+              <option value="3">3. respect / admire someone</option>
+              <option value="4">4. see, talk or write to someone regularly</option>
+            </select></td>
+          </tr>
+        </table>
+        <button class="check-btn" onclick="checkPhrasalVerbs()">Check ✓</button>
+        <span id="phv_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 1.3: PHRASAL VERBS IN CONTEXT -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">3</span> Exercise 3 – Complete with the correct phrasal verb.</div>
+        <div class="ex-instruction">Use: <em>get on well with / look up to / stay in touch with / take after / be friendly with</em>. Use the correct form.</div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> I <input class="blank" id="pvc1" placeholder="???"> lots of people, but only a few are close friends. (be/friendly)</div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> I <input class="blank" id="pvc2" placeholder="???"> my grandparents because they can make anyone laugh. (look up)</div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> My daughter <input class="blank" id="pvc3" placeholder="???"> her grandmother — they're both very creative. (take after)</div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> My partner and I <input class="blank" id="pvc4" placeholder="???"> from the start. (get on well)</div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> I changed jobs, but I still <input class="blank" id="pvc5" placeholder="???"> my old colleagues. (stay/touch)</div>
+        <button class="check-btn" onclick="checkPVC()">Check ✓</button>
+        <span id="pvc_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div><!-- /section-body -->
+  </div>
+
+  <!-- SECTION: VOCAB BANK – PERSONALITY ADJECTIVES -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-vocab">Vocabulary Bank</span>
+      <h2>Personality Adjectives</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="audio-wrap">
+        <audio controls src="audio_vb1_01.mp3"></audio>
+        <span class="audio-label">🔊 Audio VB1.01 – Listen to the 14 example sentences</span>
+      </div>
+
+      <div class="theory-box">
+        <h3>📌 14 Personality Adjectives</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:8px;font-size:.84rem">
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--navy)"><strong>easy-going</strong><br><span style="color:#666">relaxed, not strict</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>generous</strong><br><span style="color:#666">gives time / money freely</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--red)"><strong>rude</strong><br><span style="color:#666">not polite, disrespectful</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid #7b1fa2"><strong>serious</strong><br><span style="color:#666">not joking, thoughtful</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--red)"><strong>crazy</strong><br><span style="color:#666">unusual / wild ideas</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>patient</strong><br><span style="color:#666">can wait without anger</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>polite</strong><br><span style="color:#666">respectful, good manners</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>tidy</strong><br><span style="color:#666">keeps things organised</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>helpful</strong><br><span style="color:#666">gives support / advice</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--red)"><strong>noisy</strong><br><span style="color:#666">makes a lot of noise</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>kind</strong><br><span style="color:#666">caring, does things for others</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--red)"><strong>bossy</strong><br><span style="color:#666">always tells others what to do</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>funny</strong><br><span style="color:#666">makes people laugh</span></div>
+          <div style="background:#fff;border-radius:6px;padding:7px 10px;border-left:3px solid var(--green)"><strong>reliable</strong><br><span style="color:#666">always does what they promise</span></div>
+        </div>
+        <p style="margin-top:10px;font-size:.83rem">🟢 Positive: easy-going, generous, patient, polite, tidy, helpful, kind, funny, reliable &nbsp;|&nbsp; 🔴 Negative: rude, crazy, noisy, bossy &nbsp;|&nbsp; ⚪ Neutral: serious</p>
+      </div>
+
+      <!-- EX 2.1: FILL-IN ADJECTIVES -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">4</span> Exercise 4 – Fill in the correct personality adjective.</div>
+        <div class="ex-instruction">Choose from: <em>bossy · crazy · easy-going · funny · generous · helpful · kind · noisy · patient · polite · reliable · rude · serious · tidy</em></div>
+
+        <div class="fill-sentence"><span class="sent-num">1.</span> My parents are pretty <select class="blank" id="adj1"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> and relaxed. They don't mind if I stay out late.</div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> It's very <select class="blank" id="adj2"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> of him to donate so much money to homeless people.</div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> Jack never says please or thank you. He's so <select class="blank" id="adj3"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>!</div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> My dad is a very <select class="blank" id="adj4"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> and thoughtful man. He doesn't joke very much.</div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> At first, my parents thought I was <select class="blank" id="adj5"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> when I told them my plans to quit my job and travel for six months.</div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> I'm not very <select class="blank" id="adj6"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>. I hate waiting for things.</div>
+        <div class="fill-sentence"><span class="sent-num">7.</span> I don't think it's very <select class="blank" id="adj7"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> to leave without saying thank you.</div>
+        <div class="fill-sentence"><span class="sent-num">8.</span> My brother is really messy and I'm very <select class="blank" id="adj8"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>.</div>
+        <div class="fill-sentence"><span class="sent-num">9.</span> The teacher was very <select class="blank" id="adj9"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> and gave me some good advice.</div>
+        <div class="fill-sentence"><span class="sent-num">10.</span> My neighbours are too <select class="blank" id="adj10"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>. They play loud music all the time!</div>
+        <div class="fill-sentence"><span class="sent-num">11.</span> She is such a <select class="blank" id="adj11"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select> lady, always trying to do things for other people.</div>
+        <div class="fill-sentence"><span class="sent-num">12.</span> My sister is really <select class="blank" id="adj12"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>. She's always telling me what to do!</div>
+        <div class="fill-sentence"><span class="sent-num">13.</span> I laugh so much when I'm with Tom – he's really <select class="blank" id="adj13"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>.</div>
+        <div class="fill-sentence"><span class="sent-num">14.</span> If I ask Chloe to do the job, she will do it well. She's very <select class="blank" id="adj14"><option value="">–</option><option>bossy</option><option>crazy</option><option>easy-going</option><option>funny</option><option>generous</option><option>helpful</option><option>kind</option><option>noisy</option><option>patient</option><option>polite</option><option>reliable</option><option>rude</option><option>serious</option><option>tidy</option></select>.</div>
+        <button class="check-btn" onclick="checkAdjectives()">Check ✓</button>
+        <span id="adj_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: LISTENING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-listening">Listening</span>
+      <h2>Audio 1.01 – Tomasz, Michaela &amp; Jo</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="audio-wrap">
+        <audio controls src="audio_1_01.mp3"></audio>
+        <span class="audio-label">🔊 Audio 1.01 – Three people talk about the important things in their lives</span>
+      </div>
+
+      <!-- EX 3.1: WHO TALKS ABOUT WHAT -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">5</span> Exercise 5 – Who talks about each topic? Write T (Tomasz), M (Michaela) or J (Jo).</div>
+        <table class="ex-table">
+          <tr><th>Topic</th><th>Who? (T / M / J)</th></tr>
+          <tr><td>studies</td><td><input class="blank" id="who1" style="width:60px" placeholder="T/M/J"></td></tr>
+          <tr><td>parents</td><td><input class="blank" id="who2" style="width:60px" placeholder="T/M/J"></td></tr>
+          <tr><td>work</td><td><input class="blank" id="who3" style="width:60px" placeholder="T/M/J"></td></tr>
+          <tr><td>a sport (hockey)</td><td><input class="blank" id="who4" style="width:60px" placeholder="T/M/J"></td></tr>
+          <tr><td>children</td><td><input class="blank" id="who5" style="width:60px" placeholder="T/M/J"></td></tr>
+          <tr><td>a grandparent</td><td><input class="blank" id="who6" style="width:60px" placeholder="T/M/J"></td></tr>
+        </table>
+        <button class="check-btn" onclick="checkWho()">Check ✓</button>
+        <span id="who_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 3.2: COMPREHENSION -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">6</span> Exercise 6 – Comprehension questions. Choose the best answer.</div>
+
+        <p style="font-weight:700;color:var(--navy);margin:8px 0 4px">Tomasz</p>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>1.</strong> What is Tomasz studying, and where?</p>
+          <label class="mc-item"><input type="radio" name="comp1" value="a"> a) Engineering at Manchester University</label>
+          <label class="mc-item"><input type="radio" name="comp1" value="b"> b) Design at Manchester University</label>
+          <label class="mc-item"><input type="radio" name="comp1" value="c"> c) Design at London University</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>2.</strong> Who does Tomasz live with at the moment?</p>
+          <label class="mc-item"><input type="radio" name="comp2" value="a"> a) His parents</label>
+          <label class="mc-item"><input type="radio" name="comp2" value="b"> b) His girlfriend</label>
+          <label class="mc-item"><input type="radio" name="comp2" value="c"> c) People from his course / his close friends</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>3.</strong> How often does Tomasz see his parents?</p>
+          <label class="mc-item"><input type="radio" name="comp3" value="a"> a) Every weekend</label>
+          <label class="mc-item"><input type="radio" name="comp3" value="b"> b) Hardly ever, but he tries to speak to them every day</label>
+          <label class="mc-item"><input type="radio" name="comp3" value="c"> c) Once a month</label>
+        </div>
+
+        <p style="font-weight:700;color:var(--navy);margin:12px 0 4px">Michaela</p>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>4.</strong> How often does Michaela play hockey?</p>
+          <label class="mc-item"><input type="radio" name="comp4" value="a"> a) Twice a week</label>
+          <label class="mc-item"><input type="radio" name="comp4" value="b"> b) Three times a week (trains twice + matches at weekends)</label>
+          <label class="mc-item"><input type="radio" name="comp4" value="c"> c) Every day</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>5.</strong> Why does Michaela look up to her grandmother?</p>
+          <label class="mc-item"><input type="radio" name="comp5" value="a"> a) She is very wealthy and generous.</label>
+          <label class="mc-item"><input type="radio" name="comp5" value="b"> b) She worked as a nurse while bringing up three children.</label>
+          <label class="mc-item"><input type="radio" name="comp5" value="c"> c) She was a famous hockey player.</label>
+        </div>
+
+        <p style="font-weight:700;color:var(--navy);margin:12px 0 4px">Jo</p>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>6.</strong> What are the three 'home' jobs Jo mentions?</p>
+          <label class="mc-item"><input type="radio" name="comp6" value="a"> a) chef, gardener, cleaner</label>
+          <label class="mc-item"><input type="radio" name="comp6" value="b"> b) chef, dog walker, taxi driver for her teenage son</label>
+          <label class="mc-item"><input type="radio" name="comp6" value="c"> c) manager, chef, nurse</label>
+        </div>
+        <button class="check-btn" onclick="checkComp()">Check ✓</button>
+        <span id="comp_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 3.3: ADJECTIVES FROM LISTENING -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">7</span> Exercise 7 – Read the three descriptions. Identify the adjectives used.</div>
+        <div class="highlight-box">
+          <p style="margin-bottom:6px"><strong>a.</strong> "They're so <strong>funny</strong>, and great to be with." → Tomasz's close friends</p>
+          <p style="margin-bottom:6px"><strong>b.</strong> "She's such a <strong>kind</strong> and <strong>generous</strong> person, and she's always <strong>cheerful</strong>." → Michaela's grandmother</p>
+          <p><strong>c.</strong> "They are <strong>hard-working</strong> and very <strong>reliable</strong>." → Jo's colleagues</p>
+        </div>
+        <p style="font-size:.88rem;margin-bottom:8px">Do these adjectives have a <strong>positive</strong> or <strong>negative</strong> meaning?</p>
+        <div class="mc-group">
+          <label class="mc-item"><input type="radio" name="adj_sent" value="a"> a) All negative</label>
+          <label class="mc-item"><input type="radio" name="adj_sent" value="b"> b) All positive</label>
+          <label class="mc-item"><input type="radio" name="adj_sent" value="c"> c) Mixed positive and negative</label>
+        </div>
+        <button class="check-btn" onclick="checkAdjSent()">Check ✓</button>
+        <span id="adjsent_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: GRAMMAR -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-grammar">Grammar</span>
+      <h2>Present Simple &amp; Continuous · State Verbs · Adverbs of Frequency</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- THEORY -->
+      <div class="pair-grid">
+        <div class="grammar-card">
+          <h4>🔵 Present Simple <span class="tag tag-ps">PS</span></h4>
+          <ul>
+            <li>Facts / always true: <em>My parents <strong>live</strong> in Poland.</em></li>
+            <li>Habits / routines: <em>We <strong>study</strong> during the day.</em></li>
+            <li>State verbs: <em>I <strong>love</strong> it!</em></li>
+            <li>Used with adverbs of frequency</li>
+          </ul>
+          <div style="margin-top:8px;font-size:.82rem">⊕ <strong>do/does</strong> + V &nbsp;|&nbsp; ⊖ <strong>don't/doesn't</strong> + V &nbsp;|&nbsp; ? <strong>Do/Does</strong> + S + V?</div>
+        </div>
+        <div class="grammar-card">
+          <h4>🟠 Present Continuous <span class="tag tag-pc">PC</span></h4>
+          <ul>
+            <li>Happening <em>right now</em>: <em>I<strong>'m studying</strong> design.</em></li>
+            <li>Temporary situation: <em>I<strong>'m living</strong> with friends.</em></li>
+            <li>Keywords: <em>now, at the moment, currently, these days, this week</em></li>
+          </ul>
+          <div style="margin-top:8px;font-size:.82rem">⊕ am/is/are + V<strong>-ing</strong></div>
+        </div>
+        <div class="grammar-card">
+          <h4>🚫 State Verbs <span class="tag tag-sv">SV</span></h4>
+          <p>These verbs describe <strong>states</strong>, NOT actions. They are <strong>NOT</strong> usually used in continuous tenses.</p>
+          <div style="margin-top:6px;font-size:.82rem;line-height:1.8">
+            <strong>Feelings/opinions:</strong> love, like, hate, prefer, want, need<br>
+            <strong>Mental states:</strong> know, believe, understand, remember, forget<br>
+            <strong>Others:</strong> belong, seem, own, be, have (possession)
+          </div>
+          <div class="ex" style="margin-top:6px">✓ I <strong>love</strong> coffee. &nbsp; ✗ I'm loving coffee.</div>
+        </div>
+        <div class="grammar-card">
+          <h4>📅 Adverbs of Frequency <span class="tag tag-af">AF</span></h4>
+          <p style="margin-bottom:6px">Scale: <strong>always → usually → often → sometimes → occasionally → rarely / hardly ever → never</strong></p>
+          <p>Expressions: <em>every day, twice a week, once a month, once in a while, from time to time</em></p>
+          <div class="ex" style="margin-top:6px">Position: BEFORE main verb, AFTER <em>be</em><br>I <strong>often</strong> see her. &nbsp;|&nbsp; She is <strong>always</strong> late.</div>
+        </div>
+      </div>
+
+      <!-- EX 4.1: ANALYZE SENTENCES FROM LISTENING -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">8</span> Exercise 8 – Look at these sentences from the listening. Choose PS (Present Simple) or PC (Present Continuous).</div>
+        <table class="ex-table">
+          <tr><th>#</th><th>Sentence</th><th>PS or PC?</th></tr>
+          <tr><td>1</td><td>I'm <strong>studying</strong> design and I <strong>love</strong> it!</td>
+            <td><select class="blank" id="tense1" style="min-width:120px"><option value="">–</option><option value="pc_ps">studying=PC, love=PS</option><option value="ps_ps">both PS</option><option value="pc_pc">both PC</option></select></td></tr>
+          <tr><td>2</td><td>I'm <strong>living</strong> with a few people on my course at the moment.</td>
+            <td><select class="blank" id="tense2" style="min-width:80px"><option value="">–</option><option value="ps">PS</option><option value="pc">PC</option></select></td></tr>
+          <tr><td>3</td><td>We <strong>study</strong> during the day and then we usually <strong>cook</strong> together.</td>
+            <td><select class="blank" id="tense3" style="min-width:80px"><option value="">–</option><option value="ps">PS</option><option value="pc">PC</option></select></td></tr>
+          <tr><td>4</td><td>My parents <strong>live</strong> back home in Poland.</td>
+            <td><select class="blank" id="tense4" style="min-width:80px"><option value="">–</option><option value="ps">PS</option><option value="pc">PC</option></select></td></tr>
+          <tr><td>5</td><td>When they come home, we always <strong>try</strong> to meet up.</td>
+            <td><select class="blank" id="tense5" style="min-width:80px"><option value="">–</option><option value="ps">PS</option><option value="pc">PC</option></select></td></tr>
+        </table>
+        <button class="check-btn" onclick="checkTenses()">Check ✓</button>
+        <span id="tense_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 4.2: ERROR CORRECTION -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">9</span> Exercise 9 – Each sentence has an error. Choose the correct option to fix it.</div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>1.</strong> I usually sit in an office, but <u>I work</u> from home <em>right now</em>.</p>
+          <label class="mc-item"><input type="radio" name="ec1" value="a"> a) I worked</label>
+          <label class="mc-item"><input type="radio" name="ec1" value="b"> b) I've worked</label>
+          <label class="mc-item"><input type="radio" name="ec1" value="c"> c) I'm working ✦</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>2.</strong> I like tea, but <u>I'm preferring</u> coffee <em>these days</em>.</p>
+          <label class="mc-item"><input type="radio" name="ec2" value="a"> a) I prefer ✦</label>
+          <label class="mc-item"><input type="radio" name="ec2" value="b"> b) I've preferred</label>
+          <label class="mc-item"><input type="radio" name="ec2" value="c"> c) I preferred</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>3.</strong> My car <u>is needing</u> a good clean <em>at the moment</em>.</p>
+          <label class="mc-item"><input type="radio" name="ec3" value="a"> a) needed</label>
+          <label class="mc-item"><input type="radio" name="ec3" value="b"> b) needs ✦</label>
+          <label class="mc-item"><input type="radio" name="ec3" value="c"> c) has needed</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>4.</strong> <em>This week and next week</em>, my friend and I <u>travel</u> around the country.</p>
+          <label class="mc-item"><input type="radio" name="ec4" value="a"> a) travelled</label>
+          <label class="mc-item"><input type="radio" name="ec4" value="b"> b) have travelled</label>
+          <label class="mc-item"><input type="radio" name="ec4" value="c"> c) are travelling ✦</label>
+        </div>
+        <button class="check-btn" onclick="checkEC()">Check ✓</button>
+        <span id="ec_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 4.3: COMPLETE EMAIL -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">10</span> Exercise 10 – Complete the email with the correct form of the verbs in brackets.</div>
+        <div class="reading-box">
+          <p style="font-size:.88rem;line-height:1.9">
+            Hi Jen,<br>
+            How are things? Life's not very exciting here but it's OK.<br>
+            I <input class="blank" id="em1" placeholder="(save)"> up to buy a flat at the moment, so
+            I <input class="blank" id="em2" placeholder="(live)"> with my parents for a few months.
+            I spend most evenings with my parents. We <input class="blank" id="em3" placeholder="(watch)"> this really good series on TV at the moment.
+            We all <input class="blank" id="em4" placeholder="(like)"> it a lot. My closest friend
+            <input class="blank" id="em5" placeholder="(study)"> for a PhD right now, so she
+            <input class="blank" id="em6" placeholder="(usually/be)"> busy, but we often get together and play tennis.
+            She <input class="blank" id="em7" placeholder="(always/win)"> unfortunately.
+            She <input class="blank" id="em8" placeholder="(not know)"> it, but
+            I <input class="blank" id="em9" placeholder="(not work)"> this week. So,
+            I <input class="blank" id="em10" placeholder="(practise)"> tennis and maybe I'll win for a change!<br>
+            Love, Becky
+          </p>
+        </div>
+        <button class="check-btn" onclick="checkEmail()">Check ✓</button>
+        <span id="email_score" class="score-badge" style="display:none"></span>
+        <div id="email_feedback" style="margin-top:8px;font-size:.82rem"></div>
+      </div>
+
+      <!-- EX 4.4: ADVERB PLACEMENT -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">11</span> Exercise 11 – Put the adverb/expression in position (a) or (b)?</div>
+        <div class="ex-instruction">Choose <strong>a</strong> (before the verb) or <strong>b</strong> (after the verb / at the end).</div>
+        <table class="ex-table">
+          <tr><th>#</th><th>Sentence</th><th>a or b?</th></tr>
+          <tr><td>1</td><td>(a)___ our manager deals (b)___ with problems. It's her job. <em>(usually)</em></td>
+            <td><select class="blank" id="af1" style="min-width:80px"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>2</td><td>I (a)___ get up early (b)___ and go for a run. <em>(every day)</em></td>
+            <td><select class="blank" id="af2"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>3</td><td>She's a close friend but (a)___ we (b)___ see each other – maybe once a year. <em>(rarely)</em></td>
+            <td><select class="blank" id="af3"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>4</td><td>I (a)___ clean the house at the weekend (b)___. I hate it when it's a mess. <em>(always)</em></td>
+            <td><select class="blank" id="af4"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>5</td><td>(a)___ I speak to my manager – maybe once a month (b)___. <em>(once in a while)</em></td>
+            <td><select class="blank" id="af5"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>6</td><td>I (a)___ work late at night (b)___ because I get too tired. <em>(never)</em></td>
+            <td><select class="blank" id="af6"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>7</td><td>We (a)___ go out for a meal together (b)___. <em>(occasionally)</em></td>
+            <td><select class="blank" id="af7"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+          <tr><td>8</td><td>I (a)___ wish I worked part-time because I'd love more time with my family (b)___. <em>(sometimes)</em></td>
+            <td><select class="blank" id="af8"><option value="">–</option><option value="a">a</option><option value="b">b</option></select></td></tr>
+        </table>
+        <button class="check-btn" onclick="checkAF()">Check ✓</button>
+        <span id="af_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: PRONUNCIATION -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-pron">Pronunciation</span>
+      <h2>Connected Speech – <em>do you</em> &rarr; /dʒə/</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="theory-box">
+        <h3>📌 How "do you" sounds in natural speech</h3>
+        <p>In fast / natural speech, <strong>"do you"</strong> is often reduced to <strong>/dʒə/</strong> (sounds like the start of "jug").</p>
+        <div class="ex">Written: <strong>Do you</strong> cook for your family?</div>
+        <div class="ex">Spoken: <strong>/dʒə/</strong> cook for your family?</div>
+        <p style="margin-top:6px">This happens with all "do you" questions: <em>What time do you start? How often do you see...?</em></p>
+      </div>
+
+      <div class="audio-wrap">
+        <audio controls src="audio_wb1a_02.mp3"></audio>
+        <span class="audio-label">🔊 Listen – "Do you cook for your family?"</span>
+      </div>
+
+      <!-- EX 5.1: FILL IN -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">12</span> Exercise 12 – Fill in the missing words. (All answers = <em>do you</em>)</div>
+        <div class="ex-instruction">Write the two words you hear in each gap.</div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> What time <input class="blank" id="dy1" placeholder="_ _"> usually start work?</div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> <input class="blank" id="dy2" placeholder="_ _"> enjoy playing sport?</div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> <input class="blank" id="dy3" placeholder="_ _"> get on well with your colleagues?</div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> <input class="blank" id="dy4" placeholder="_ _"> usually get up before 7 a.m.?</div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> How often <input class="blank" id="dy5" placeholder="_ _"> see your close friends?</div>
+        <button class="check-btn" onclick="checkDoYou()">Check ✓</button>
+        <span id="doyou_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 5.2: SYLLABLE STRESS -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">13</span> Exercise 13 – Click the stressed syllable in each job word.</div>
+        <div class="ex-instruction">Tap / click the syllable that is <strong>most strongly stressed</strong>. Note: one word has a different stress pattern.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;margin:10px 0">
+          <div class="stress-word">
+            <span class="syllable" onclick="selectSyllable('str1','1',this)" data-word="str1" data-syl="1">as-</span>
+            <span class="syllable" onclick="selectSyllable('str1','2',this)" data-word="str1" data-syl="2">SIS-</span>
+            <span class="syllable" onclick="selectSyllable('str1','3',this)" data-word="str1" data-syl="3">tant</span>
+            <span style="font-size:.78rem;color:#777;margin-left:4px">assistant</span>
+          </div>
+          <div class="stress-word">
+            <span class="syllable" onclick="selectSyllable('str2','1',this)" data-word="str2" data-syl="1">con-</span>
+            <span class="syllable" onclick="selectSyllable('str2','2',this)" data-word="str2" data-syl="2">SUL-</span>
+            <span class="syllable" onclick="selectSyllable('str2','3',this)" data-word="str2" data-syl="3">tant</span>
+            <span style="font-size:.78rem;color:#777;margin-left:4px">consultant</span>
+          </div>
+          <div class="stress-word">
+            <span class="syllable" onclick="selectSyllable('str3','1',this)" data-word="str3" data-syl="1">JOUR-</span>
+            <span class="syllable" onclick="selectSyllable('str3','2',this)" data-word="str3" data-syl="2">nal-</span>
+            <span class="syllable" onclick="selectSyllable('str3','3',this)" data-word="str3" data-syl="3">ist</span>
+            <span style="font-size:.78rem;color:#777;margin-left:4px">journalist</span>
+          </div>
+          <div class="stress-word">
+            <span class="syllable" onclick="selectSyllable('str4','1',this)" data-word="str4" data-syl="1">me-</span>
+            <span class="syllable" onclick="selectSyllable('str4','2',this)" data-word="str4" data-syl="2">CHAN-</span>
+            <span class="syllable" onclick="selectSyllable('str4','3',this)" data-word="str4" data-syl="3">ic</span>
+            <span style="font-size:.78rem;color:#777;margin-left:4px">mechanic</span>
+          </div>
+          <div class="stress-word">
+            <span class="syllable" onclick="selectSyllable('str5','1',this)" data-word="str5" data-syl="1">mu-</span>
+            <span class="syllable" onclick="selectSyllable('str5','2',this)" data-word="str5" data-syl="2">SI-</span>
+            <span class="syllable" onclick="selectSyllable('str5','3',this)" data-word="str5" data-syl="3">cian</span>
+            <span style="font-size:.78rem;color:#777;margin-left:4px">musician</span>
+          </div>
+        </div>
+        <button class="check-btn" onclick="checkStress()">Check ✓</button>
+        <span id="stress_score" class="score-badge" style="display:none"></span>
+        <div id="stress_note" style="margin-top:8px;font-size:.83rem;color:#555"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: SPEAKING – DESCRIBE IMPORTANT PEOPLE -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-speaking">Speaking</span>
+      <h2>Describe Important People in Your Life</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="tip-box">
+        💡 <strong>Goal:</strong> Use <strong>phrasal verbs</strong> (get on well with, look up to, take after, stay in touch with) + <strong>personality adjectives</strong> + <strong>present tenses</strong> to describe important people in your life — like in the models below!
+      </div>
+
+      <div class="reading-box">
+        <h3>📄 Model Answer – Describing Important People in Your Life</h3>
+        <p style="font-size:.82rem;color:#555;margin-bottom:8px"><em>A model based on lesson language — phrasal verbs, personality adjectives, and both present tenses.</em></p>
+        <div class="model-text">
+          <p style="margin-bottom:8px">There are a few people who are really important to me. Let me tell you about three of them.</p>
+
+          <p style="margin-bottom:8px">My best friend is <strong>Mai</strong>. She's incredibly <span class="adj">generous</span> and <span class="adj">reliable</span> — whenever I have a problem, she's always there. I <span class="phrasal">get on really well with</span> her because we have the same sense of humour. We <strong>usually meet up</strong> at the weekend for coffee, and at the moment we <strong>'re planning</strong> a short trip together.</p>
+
+          <p style="margin-bottom:8px">Another important person is my manager at work, <strong>Mr. Long</strong>. I really <span class="phrasal">look up to</span> him because he's so <span class="adj">patient</span> and <span class="adj">helpful</span> — he never gets stressed, even when there's a deadline. He <strong>always gives</strong> clear feedback and <strong>often stays</strong> late to support the team. Right now he <strong>'s working on</strong> a big project and he still <strong>finds</strong> time to check in with everyone.</p>
+
+          <p style="margin-bottom:8px">Finally, there's my grandmother. A lot of people say I <span class="phrasal">take after</span> her — we're both quite <span class="adj">serious</span> but also very <span class="adj">easy-going</span> with people we know. She <strong>lives</strong> in another city, so I <strong>hardly ever see</strong> her in person, but I <span class="phrasal">stay in touch with</span> her by calling her every Sunday. Those calls are really important to me.</p>
+
+          <p>These three people <strong>influence</strong> my life in different ways, and I'm very lucky to have them.</p>
+        </div>
+        <div class="highlight-box" style="margin-top:10px">
+          ✅ <strong>Phrasal verbs:</strong> get on well with · look up to · take after · stay in touch with<br>
+          ✅ <strong>Personality adjectives:</strong> generous, reliable, patient, helpful, serious, easy-going<br>
+          ✅ <strong>Present simple (habits/facts):</strong> we usually meet up · he always gives · she lives · I hardly ever see<br>
+          ✅ <strong>Present continuous (temporary/in progress):</strong> we're planning · he's working on<br>
+          ✅ <strong>Structure:</strong> 3 people → each described with relationship + adjectives + phrasal verb + how you keep in touch
+        </div>
+      </div>
+
+      <!-- MY PEOPLE DIAGRAM -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">14</span> Exercise 14 – My People Diagram</div>
+        <div class="ex-instruction">Write the names of important people in your life in each category.</div>
+        <div class="diagram-grid">
+          <div class="diagram-cell">
+            <div class="diagram-center" id="diagCenter">ME</div>
+          </div>
+          <div class="diagram-cell">
+            <h4>👨‍👩‍👧 Family</h4>
+            <input placeholder="Name + relationship" id="diag_family1">
+            <input placeholder="Name + relationship" id="diag_family2">
+          </div>
+          <div class="diagram-cell">
+            <h4>👫 Close Friends</h4>
+            <input placeholder="Name" id="diag_friend1">
+            <input placeholder="Name" id="diag_friend2">
+          </div>
+          <div class="diagram-cell">
+            <h4>💼 Work / Study</h4>
+            <input placeholder="Name + role" id="diag_work1">
+            <input placeholder="Name + role" id="diag_work2">
+          </div>
+          <div class="diagram-cell">
+            <h4>⚽ Sport / Hobby</h4>
+            <input placeholder="Name + activity" id="diag_sport1">
+            <input placeholder="Name + activity" id="diag_sport2">
+          </div>
+          <div class="diagram-cell">
+            <h4>✨ Someone I look up to</h4>
+            <input placeholder="Name + reason" id="diag_lookup1">
+          </div>
+        </div>
+      </div>
+
+      <!-- SPEAKING TASK -->
+      <div class="speaking-box">
+        <h4>🎤 Speaking Task – Describe an Important Person</h4>
+        <div class="speaking-prompt">
+          <p style="margin-bottom:6px"><strong>Prepare to talk about ONE person from your diagram. Answer these questions:</strong></p>
+          <ul>
+            <li>1. Who is this person? What is their relationship to you? (e.g. my colleague, my close friend, my grandmother)</li>
+            <li>2. How would you describe their personality? (use at least 2 adjectives)</li>
+            <li>3. How do you stay in touch? How often do you see each other?</li>
+            <li>4. What do you usually do together? (present simple – routines)</li>
+            <li>5. What are you doing with them at the moment / recently? (present continuous)</li>
+            <li>6. Use at least ONE phrasal verb: <em>get on well with / look up to / take after / stay in touch with</em></li>
+          </ul>
+        </div>
+        <p style="font-size:.83rem;color:#666;margin-bottom:6px">Use the space below to write notes before speaking:</p>
+        <textarea id="speak1_notes" placeholder="Write notes here... e.g. 'My best friend is Nam. He is really funny and reliable. I get on well with him because...'"></textarea>
+        <div style="margin-top:8px">
+          <button class="model-reveal-btn" onclick="toggleModel('model1')">📖 Show Your Model Answer</button>
+          <div id="model1" class="model-answer">
+            <strong>Your model answer (scroll up to see the full model above ↑)</strong><br><br>
+            <em>Key checklist for your answer:</em><br>
+            ☐ Named the person + their relationship to you<br>
+            ☐ Used at least 2 personality adjectives<br>
+            ☐ Used at least 1 phrasal verb (get on well with / look up to / take after / stay in touch with)<br>
+            ☐ Present simple for habits/facts ("she always helps me", "I rarely see him")<br>
+            ☐ Present continuous for something temporary/in progress ("she's studying", "we're planning")<br>
+            ☐ Said how you keep in contact / how often you meet
+          </div>
+        </div>
+        <div class="self-assess" style="margin-top:10px">
+          <p style="font-size:.82rem;color:#555;width:100%;margin-bottom:4px">Self-assessment:</p>
+          <button class="self-btn good" onclick="selfAssess('s1','good',this)">😊 I used phrasal verbs + adjectives well</button>
+          <button class="self-btn ok" onclick="selfAssess('s1','ok',this)">😐 I need more practice with phrasal verbs</button>
+          <button class="self-btn retry" onclick="selfAssess('s1','retry',this)">😕 I need to revise vocab first</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /lesson1a -->
+
+<!-- ==================== LESSON 1D ==================== -->
+<div id="lesson1d" class="tab-content">
+
+  <!-- SECTION: LIFESTYLE VOCABULARY -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-vocab">Vocabulary</span>
+      <h2>Lifestyle – Normal or Alternative?</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="theory-box">
+        <h3>📌 Words to Describe Lifestyle</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.85rem;margin-top:6px">
+          <div><strong>normal</strong> – typical, ordinary, standard</div>
+          <div><strong>alternative</strong> – different from the norm</div>
+          <div><strong>conservative</strong> – traditional, conventional</div>
+          <div><strong>comfortable</strong> – relaxed, no major problems</div>
+          <div><strong>busy</strong> – lots of activities</div>
+          <div><strong>social</strong> – going out, meeting people</div>
+          <div><strong>healthy</strong> – good diet, exercise</div>
+          <div><strong>relaxed</strong> – not stressed, easy-going</div>
+        </div>
+      </div>
+
+      <!-- EX 6.1: BBC STREET INTERVIEWS -->
+      <div class="reading-box">
+        <h3>📺 1D BBC Street Interviews – Lifestyle</h3>
+        <p style="font-size:.83rem;color:#777;margin-bottom:10px">Read what the speakers say about their lifestyles:</p>
+        <div class="model-text" style="margin-bottom:8px">
+          <strong>Alice:</strong> "I would describe my lifestyle as quite normal, really. I go to work, I come home… I live with my parents."
+        </div>
+        <div class="model-text" style="margin-bottom:8px">
+          <strong>Elliot:</strong> "I have quite a normal lifestyle. I wake up early in the morning, I go to school, I have lunch outside, I do my homework and then I see my friends."
+        </div>
+        <div class="model-text" style="margin-bottom:8px">
+          <strong>Saffi:</strong> "I'd say we live quite alternative lifestyles — normally we'd be going out at the weekend, and always making dinner together."
+        </div>
+        <div class="model-text" style="margin-bottom:8px">
+          <strong>Philip:</strong> "I think my lifestyle is relatively normal and conservative. I work in an office in finance — I commute to work by bicycle."
+        </div>
+        <div class="model-text">
+          <strong>Adam:</strong> "I guess my life is fairly comfortable. I have my own house, a wife and two children."
+        </div>
+      </div>
+
+      <!-- EX 6.1: MATCH SPEAKER TO DESCRIPTION -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">15</span> Exercise 15 – Match the speaker to their description.</div>
+        <table class="ex-table">
+          <tr><th>Description</th><th>Speaker</th></tr>
+          <tr><td>Lives with parents; goes to work and comes home</td>
+            <td><select class="blank" id="life1"><option value="">–</option><option>Alice</option><option>Elliot</option><option>Saffi</option><option>Philip</option><option>Adam</option></select></td></tr>
+          <tr><td>Daily routine: school → lunch → homework → friends</td>
+            <td><select class="blank" id="life2"><option value="">–</option><option>Alice</option><option>Elliot</option><option>Saffi</option><option>Philip</option><option>Adam</option></select></td></tr>
+          <tr><td>Works in finance; commutes by bicycle</td>
+            <td><select class="blank" id="life3"><option value="">–</option><option>Alice</option><option>Elliot</option><option>Saffi</option><option>Philip</option><option>Adam</option></select></td></tr>
+          <tr><td>Has own house, wife and two children</td>
+            <td><select class="blank" id="life4"><option value="">–</option><option>Alice</option><option>Elliot</option><option>Saffi</option><option>Philip</option><option>Adam</option></select></td></tr>
+        </table>
+        <button class="check-btn" onclick="checkLifestyle()">Check ✓</button>
+        <span id="life_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 6.2: WHAT WOULD THEY CHANGE -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">16</span> Exercise 16 – What would each person like to change? Match.</div>
+        <div class="reading-box" style="margin-bottom:10px">
+          <p style="font-size:.83rem;margin-bottom:8px">What they said about changes:</p>
+          <div class="model-text" style="margin-bottom:6px"><strong>Elliot:</strong> "I would do more exercise — maybe go for a run every day."</div>
+          <div class="model-text" style="margin-bottom:6px"><strong>Vambai:</strong> "I would like to go out more and explore the country a bit more."</div>
+          <div class="model-text" style="margin-bottom:6px"><strong>Tom:</strong> "I would like to save more money and stop spending it all the time."</div>
+          <div class="model-text" style="margin-bottom:6px"><strong>Kayla:</strong> "I want to travel a bit more. I seem to work quite a lot."</div>
+          <div class="model-text"><strong>Philip:</strong> "It would be nice to have a more exciting job, not working in an office."</div>
+        </div>
+        <table class="ex-table">
+          <tr><th>Person</th><th>Wants to change…</th></tr>
+          <tr><td><strong>Elliot</strong></td>
+            <td><select class="blank" id="change1"><option value="">–</option><option value="a">a) save more money</option><option value="b">b) do more exercise</option><option value="c">c) travel more</option><option value="d">d) have a more exciting job</option><option value="e">e) go out more / explore</option></select></td></tr>
+          <tr><td><strong>Vambai</strong></td>
+            <td><select class="blank" id="change2"><option value="">–</option><option value="a">a) save more money</option><option value="b">b) do more exercise</option><option value="c">c) travel more</option><option value="d">d) have a more exciting job</option><option value="e">e) go out more / explore</option></select></td></tr>
+          <tr><td><strong>Tom</strong></td>
+            <td><select class="blank" id="change3"><option value="">–</option><option value="a">a) save more money</option><option value="b">b) do more exercise</option><option value="c">c) travel more</option><option value="d">d) have a more exciting job</option><option value="e">e) go out more / explore</option></select></td></tr>
+          <tr><td><strong>Kayla</strong></td>
+            <td><select class="blank" id="change4"><option value="">–</option><option value="a">a) save more money</option><option value="b">b) do more exercise</option><option value="c">c) travel more</option><option value="d">d) have a more exciting job</option><option value="e">e) go out more / explore</option></select></td></tr>
+          <tr><td><strong>Philip</strong></td>
+            <td><select class="blank" id="change5"><option value="">–</option><option value="a">a) save more money</option><option value="b">b) do more exercise</option><option value="c">c) travel more</option><option value="d">d) have a more exciting job</option><option value="e">e) go out more / explore</option></select></td></tr>
+        </table>
+        <button class="check-btn" onclick="checkChanges()">Check ✓</button>
+        <span id="change_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: GRAMMAR – MODIFIERS -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-grammar">Grammar</span>
+      <h2>Modifiers – quite, fairly, pretty, relatively, a bit more/less, a lot more/less</h2>
+    </div>
+    <div class="section-body">
+
+      <!-- THEORY -->
+      <div class="pair-grid">
+        <div class="grammar-card">
+          <h4>🔵 Modifiers before adjectives</h4>
+          <p>Use to show <em>how much</em> something is true:</p>
+          <div style="margin-top:8px;font-size:.84rem;line-height:2">
+            <span style="background:#e8f5e9;padding:2px 8px;border-radius:3px;margin:2px">quite</span> + adj: <em>quite <strong>normal</strong></em><br>
+            <span style="background:#e8f5e9;padding:2px 8px;border-radius:3px;margin:2px">fairly</span> + adj: <em>fairly <strong>comfortable</strong></em><br>
+            <span style="background:#e8f5e9;padding:2px 8px;border-radius:3px;margin:2px">pretty</span> + adj: <em>pretty <strong>normal</strong></em><br>
+            <span style="background:#e8f5e9;padding:2px 8px;border-radius:3px;margin:2px">relatively</span> + adj: <em>relatively <strong>conservative</strong></em>
+          </div>
+          <div class="ex" style="margin-top:6px">All four have similar meaning (less than "very")</div>
+        </div>
+        <div class="grammar-card">
+          <h4>🔵 quite a/an + adj + noun</h4>
+          <p>Note: <strong>quite</strong> comes BEFORE a/an when followed by adj + noun:</p>
+          <div class="ex">✓ It's <strong>quite a</strong> difficult job.</div>
+          <div class="ex">✓ She's <strong>quite an</strong> easy-going person.</div>
+          <div class="ex">✗ It's a quite difficult job.</div>
+        </div>
+        <div class="grammar-card">
+          <h4>🟠 a bit more / a lot more</h4>
+          <ul>
+            <li><strong>a bit more/less</strong> = a small amount more/less</li>
+            <li><strong>a lot more/less</strong> = a large amount more/less</li>
+          </ul>
+          <div class="ex" style="margin-top:6px">I'd like to travel <strong>a bit more</strong>. (small increase)</div>
+          <div class="ex">I want <strong>a lot more</strong> time with my family. (big increase)</div>
+          <div class="ex">I need to spend <strong>a lot less</strong> money. (big decrease)</div>
+        </div>
+        <div class="grammar-card">
+          <h4>🟠 Scale</h4>
+          <div style="text-align:center;font-size:.85rem;margin:8px 0">
+            <div style="background:linear-gradient(to right,#e8f5e9,#1a7a3e);height:12px;border-radius:6px;margin-bottom:6px"></div>
+            not at all → a bit → fairly / quite / pretty / relatively → very → extremely
+          </div>
+          <div class="ex">My life is <strong>a bit</strong> boring. (small amount)</div>
+          <div class="ex">My life is <strong>quite</strong> interesting. (moderate)</div>
+          <div class="ex">My life is <strong>very</strong> busy. (large amount)</div>
+        </div>
+      </div>
+
+      <!-- EX 7.1: SENTENCE ANALYSIS -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">17</span> Exercise 17 – Analyse sentences from the video. Answer the questions.</div>
+        <div class="reading-box">
+          <p style="margin-bottom:6px;font-size:.87rem">a. <em>"I would describe my lifestyle as <strong>quite</strong> normal."</em></p>
+          <p style="font-size:.87rem">b. <em>"I'd like to ... explore the country <strong>a bit more</strong>."</em></p>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>1.</strong> Is "quite normal" MORE than very normal, or LESS than very normal?</p>
+          <label class="mc-item"><input type="radio" name="mod_q1" value="a"> a) More than very normal</label>
+          <label class="mc-item"><input type="radio" name="mod_q1" value="b"> b) Less than very normal</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>2.</strong> Does "a bit more" mean a small amount or a large amount more?</p>
+          <label class="mc-item"><input type="radio" name="mod_q2" value="a"> a) A small amount more</label>
+          <label class="mc-item"><input type="radio" name="mod_q2" value="b"> b) A large amount more</label>
+        </div>
+        <button class="check-btn" onclick="checkModAnalysis()">Check ✓</button>
+        <span id="modana_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 7.2: CHOOSE CORRECT MODIFIER -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">18</span> Exercise 18 – Choose the correct word or phrase to complete the sentences.</div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>1.</strong> My life is ___ boring these days.</p>
+          <label class="mc-item"><input type="radio" name="mod1" value="a"> a) quite a</label>
+          <label class="mc-item"><input type="radio" name="mod1" value="b"> b) fairly</label>
+          <label class="mc-item"><input type="radio" name="mod1" value="c"> c) a lot of</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>2.</strong> I'd love to have ___ free time during the week.</p>
+          <label class="mc-item"><input type="radio" name="mod2" value="a"> a) a lot more</label>
+          <label class="mc-item"><input type="radio" name="mod2" value="b"> b) relatively</label>
+          <label class="mc-item"><input type="radio" name="mod2" value="c"> c) quite a</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>3.</strong> We're all ___ busy at the moment.</p>
+          <label class="mc-item"><input type="radio" name="mod3" value="a"> a) quite</label>
+          <label class="mc-item"><input type="radio" name="mod3" value="b"> b) quite a</label>
+          <label class="mc-item"><input type="radio" name="mod3" value="c"> c) quite a lot</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>4.</strong> I live in a ___ cheap flat close to here.</p>
+          <label class="mc-item"><input type="radio" name="mod4" value="a"> a) bit more</label>
+          <label class="mc-item"><input type="radio" name="mod4" value="b"> b) quite a</label>
+          <label class="mc-item"><input type="radio" name="mod4" value="c"> c) relatively</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>5.</strong> Alex is ___ happy person most of the time.</p>
+          <label class="mc-item"><input type="radio" name="mod5" value="a"> a) quite an</label>
+          <label class="mc-item"><input type="radio" name="mod5" value="b"> b) quite</label>
+          <label class="mc-item"><input type="radio" name="mod5" value="c"> c) quite a</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>6.</strong> I'd like to spend ___ more time outdoors, but not much more.</p>
+          <label class="mc-item"><input type="radio" name="mod6" value="a"> a) a lot of</label>
+          <label class="mc-item"><input type="radio" name="mod6" value="b"> b) a bit</label>
+          <label class="mc-item"><input type="radio" name="mod6" value="c"> c) a lot less</label>
+        </div>
+        <button class="check-btn" onclick="checkModifiers()">Check ✓</button>
+        <span id="mod_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <!-- EX 7.3: WORD ORDER -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">19</span> Exercise 19 – Put the words in the correct order to make sentences.</div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> <input class="blank" id="wo1" placeholder="(quite / a / big / I've / got / family)" style="min-width:300px"></div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> <input class="blank" id="wo2" placeholder="(a / lot / less / I / time / spend / with / friends)" style="min-width:320px"></div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> <input class="blank" id="wo3" placeholder="(to / be / I'd / a / bit / more / like / relaxed)" style="min-width:300px"></div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> <input class="blank" id="wo4" placeholder="(quite / an / alternative / We / lifestyle / have)" style="min-width:310px"></div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> <input class="blank" id="wo5" placeholder="(a / lot / more / work / I / have / to / do)" style="min-width:300px"></div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> <input class="blank" id="wo6" placeholder="(a / lot / more / We / a / house / want / space / with)" style="min-width:320px"></div>
+        <button class="check-btn" onclick="checkWordOrder()">Check ✓</button>
+        <span id="wo_score" class="score-badge" style="display:none"></span>
+        <div id="wo_answers" style="display:none;margin-top:10px;background:#e8f5e9;border-radius:6px;padding:10px;font-size:.85rem">
+          <strong>Answers:</strong><br>
+          1. I've got quite a big family.<br>
+          2. I spend a lot less time with my friends now.<br>
+          3. I'd like to be a bit more relaxed.<br>
+          4. We have quite an alternative lifestyle.<br>
+          5. I have a lot more work to do these days.<br>
+          6. We want a house with a lot more space.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: READING – KIM'S BLOG -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-reading">Reading</span>
+      <h2>A Day in My Life – Kim's Blog Post</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="reading-box">
+        <h3>📄 Model Text – Kim, games designer (UK)</h3>
+        <p style="font-size:.83rem;color:#777;margin-bottom:10px">Notice: <span style="color:#c0392b;font-weight:700">modifiers</span> · <span style="color:#1a7a3e;font-weight:700">time expressions</span> · <span style="color:var(--navy);font-weight:700">present simple for routines</span></p>
+        <div class="model-text" style="line-height:2">
+          I'm a games designer and I live in Hackney in London. <span style="color:#1a7a3e;font-weight:600">On a typical day</span>, my alarm goes off at 6.00 a.m. and I try not to look at my emails or start work immediately. <span style="color:#1a7a3e;font-weight:600">First</span>, I do <span class="phrasal">a bit of</span> yoga and make a cup of green tea. I have a <span class="phrasal">fairly</span> healthy breakfast – some cereal with milk, or some toast, and then I cycle to work. It takes about twenty minutes and I find it <span class="phrasal">really</span> relaxing. <span style="color:#1a7a3e;font-weight:600">At work</span>, the first thing I do is switch on my computer and read my emails. <span style="color:#1a7a3e;font-weight:600">For lunch</span>, I get some noodles or something from one of the Vietnamese cafés or restaurants near to where I work. <span style="color:#1a7a3e;font-weight:600">After work</span> I like to meet up with friends for dinner, or go out somewhere. I love going to the cinema or the theatre or just staying at home listening to music.
+        </div>
+        <div class="highlight-box" style="margin-top:8px">
+          ✅ <strong>Modifiers used:</strong> a bit of, fairly, really<br>
+          ✅ <strong>Time expressions:</strong> On a typical day · First · At work · For lunch · After work<br>
+          ✅ <strong>Present simple for routine:</strong> my alarm goes off · I do · I cycle · I get · I like<br>
+          ✅ <strong>Linking:</strong> and then · or · or just
+        </div>
+      </div>
+
+      <!-- EX 8.1: KIM COMPREHENSION -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">20</span> Exercise 20 – Comprehension: Kim's Blog Post.</div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>1.</strong> What does Kim do first in the morning (before checking emails)?</p>
+          <label class="mc-item"><input type="radio" name="kim1" value="a"> a) She has breakfast.</label>
+          <label class="mc-item"><input type="radio" name="kim1" value="b"> b) She does yoga and makes green tea.</label>
+          <label class="mc-item"><input type="radio" name="kim1" value="c"> c) She cycles to work.</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>2.</strong> How does Kim describe her breakfast?</p>
+          <label class="mc-item"><input type="radio" name="kim2" value="a"> a) quite healthy</label>
+          <label class="mc-item"><input type="radio" name="kim2" value="b"> b) very healthy</label>
+          <label class="mc-item"><input type="radio" name="kim2" value="c"> c) fairly healthy</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>3.</strong> How long does Kim's commute take?</p>
+          <label class="mc-item"><input type="radio" name="kim3" value="a"> a) About ten minutes</label>
+          <label class="mc-item"><input type="radio" name="kim3" value="b"> b) About twenty minutes</label>
+          <label class="mc-item"><input type="radio" name="kim3" value="c"> c) About thirty minutes</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>4.</strong> Where does Kim usually eat lunch?</p>
+          <label class="mc-item"><input type="radio" name="kim4" value="a"> a) She makes her own lunch at home.</label>
+          <label class="mc-item"><input type="radio" name="kim4" value="b"> b) She goes to Vietnamese restaurants near work.</label>
+          <label class="mc-item"><input type="radio" name="kim4" value="c"> c) She eats in the office canteen.</label>
+        </div>
+        <div class="mc-group">
+          <p style="font-size:.88rem;margin-bottom:4px"><strong>5.</strong> Which activity is NOT mentioned as something Kim does after work?</p>
+          <label class="mc-item"><input type="radio" name="kim5" value="a"> a) Going to the cinema or theatre</label>
+          <label class="mc-item"><input type="radio" name="kim5" value="b"> b) Meeting friends for dinner</label>
+          <label class="mc-item"><input type="radio" name="kim5" value="c"> c) Going to the gym</label>
+        </div>
+        <button class="check-btn" onclick="checkKim()">Check ✓</button>
+        <span id="kim_score" class="score-badge" style="display:none"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: SPEAKING – A DAY IN MY LIFE -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-speaking">Speaking</span>
+      <h2>A Day in My Life</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="tip-box">
+        💡 <strong>Goal:</strong> Talk about a typical day using <strong>present simple for routines</strong>, <strong>time expressions</strong>, and <strong>modifiers</strong> (fairly, quite, a bit). Use Kim's blog as your model!
+      </div>
+
+      <div class="speaking-box">
+        <h4>🎤 Speaking Task – Describe a Typical Day</h4>
+        <div class="speaking-prompt">
+          <p style="margin-bottom:8px"><strong>Answer these questions to build your talk:</strong></p>
+          <ul>
+            <li>1. <strong>Morning:</strong> What time do you usually wake up? What do you do first?</li>
+            <li>2. <strong>Getting to work/school:</strong> How do you travel? How long does it take? How do you feel about it?</li>
+            <li>3. <strong>At work/school:</strong> What do you do first? What is a typical morning like?</li>
+            <li>4. <strong>Lunch:</strong> Where do you usually eat? What do you have?</li>
+            <li>5. <strong>Evening:</strong> What do you like doing after work? Who do you spend time with?</li>
+            <li>6. <strong>Use modifiers:</strong> <em>fairly healthy / quite relaxing / a bit tiring / pretty busy</em></li>
+            <li>7. <strong>Use time expressions:</strong> <em>On a typical day · First · At work · For lunch · After work · In the evening</em></li>
+          </ul>
+        </div>
+        <p style="font-size:.83rem;color:#666;margin-bottom:6px">Write your notes or full sentences below:</p>
+        <textarea id="speak2_notes" placeholder="On a typical day, my alarm goes off at 6.30. First, I..." style="min-height:130px"></textarea>
+        <div style="margin-top:8px">
+          <button class="model-reveal-btn" onclick="toggleModel('model2')">📖 Show Model Answer</button>
+          <div id="model2" class="model-answer">
+            <strong>Model (based on Kim – adapted):</strong><br>
+            "On a typical day, my alarm goes off at 6.30 a.m. I try not to check my phone immediately. First, I make a cup of coffee and do a bit of reading. I have a <strong>fairly</strong> light breakfast — just some toast and fruit. Then I drive to work. It usually takes about 30 minutes and I find it <strong>quite</strong> relaxing because I listen to podcasts. At work, the first thing I do is check my emails and plan my tasks for the day. For lunch, I usually go to a nearby café — I love Vietnamese food! After work, I <strong>often</strong> meet up with a friend for dinner, or I go home and watch something on TV. I <strong>occasionally</strong> go to the gym in the evening, but <strong>not very often</strong>! I think my lifestyle is <strong>fairly</strong> comfortable but I'd like to travel <strong>a bit more</strong>."
+          </div>
+        </div>
+        <div class="self-assess" style="margin-top:10px">
+          <p style="font-size:.82rem;color:#555;width:100%;margin-bottom:4px">Self-assessment:</p>
+          <button class="self-btn good" onclick="selfAssess('s2','good',this)">😊 I used modifiers + time expressions well</button>
+          <button class="self-btn ok" onclick="selfAssess('s2','ok',this)">😐 I need more practice with modifiers</button>
+          <button class="self-btn retry" onclick="selfAssess('s2','retry',this)">😕 I need to re-study the grammar first</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /lesson1d -->
+
+<!-- ==================== HOMEWORK ==================== -->
+<div id="homework" class="tab-content">
+
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-hw">Homework</span>
+      <h2>Unit 1 Consolidation Exercises</h2>
+    </div>
+    <div class="section-body">
+      <div class="tip-box">📝 Complete all exercises below after finishing the lesson. Submit your results to your teacher when done.</div>
+
+      <!-- HW 1: FIRST-LETTER ADJECTIVES -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW1</span> Vocabulary – Personality Adjectives (first letter given)</div>
+        <div class="ex-instruction">Complete each definition with the correct personality adjective. The first letter is given.</div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> A <input class="blank" id="hw1_1" placeholder="r________"> person always does what they promise.</div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> A <input class="blank" id="hw1_2" placeholder="h________"> person does things to support other people.</div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> Someone who is <input class="blank" id="hw1_3" placeholder="e____-g____"> is quite relaxed about things.</div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> If a person is <input class="blank" id="hw1_4" placeholder="p________">, they don't mind waiting in a queue.</div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> Someone who doesn't hold doors open for people behind them is <input class="blank" id="hw1_5" placeholder="r____">.</div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> A person who makes people laugh is <input class="blank" id="hw1_6" placeholder="f____">.</div>
+        <div class="fill-sentence"><span class="sent-num">7.</span> Someone who is <input class="blank" id="hw1_7" placeholder="k____"> is nice and caring to other people.</div>
+        <div class="fill-sentence"><span class="sent-num">8.</span> A person who often gives their time, gifts or money to others is <input class="blank" id="hw1_8" placeholder="g________">.</div>
+        <div class="fill-sentence"><span class="sent-num">9.</span> Someone who loves telling other people what to do is <input class="blank" id="hw1_9" placeholder="b____">.</div>
+        <div class="fill-sentence"><span class="sent-num">10.</span> A <input class="blank" id="hw1_10" placeholder="t____"> person likes to put things away neatly.</div>
+        <button class="check-btn" onclick="checkHW1()">Check ✓</button>
+        <span id="hw1_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <hr class="divider">
+
+      <!-- HW 2: GRAMMAR BANK 1A -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW2</span> Grammar – Present Simple or Continuous? (Question forms)</div>
+        <div class="ex-instruction">Complete the questions with the correct form of the verbs in brackets. Write the question word AND the verb.</div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> <input class="blank" id="hw2_1a" placeholder="Are/Do…"> you <input class="blank" id="hw2_1b" placeholder="verb"> with your parents at the moment? <em>(live)</em></div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> <input class="blank" id="hw2_2a" placeholder="Are/Does"> your partner <input class="blank" id="hw2_2b" placeholder="verb"> how to cook? <em>(know)</em></div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> What song <input class="blank" id="hw2_3a" placeholder="are/do"> you <input class="blank" id="hw2_3b" placeholder="verb"> to? I've never heard it before. <em>(listen)</em></div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> How often <input class="blank" id="hw2_4a" placeholder="are/do"> you <input class="blank" id="hw2_4b" placeholder="verb"> your family? <em>(see)</em></div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> This month I <input class="blank" id="hw2_5" placeholder="verb (try)"> to finish this new project. <em>(try)</em></div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> When we go to Rome, we usually <input class="blank" id="hw2_6" placeholder="verb (stay)"> with my sister. <em>(stay)</em></div>
+        <button class="check-btn" onclick="checkHW2()">Check ✓</button>
+        <span id="hw2_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <hr class="divider">
+
+      <!-- HW 3: ADVERB PLACEMENT REVIEW -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW3</span> Grammar – Adverbs of Frequency: correct the position</div>
+        <div class="ex-instruction">Each sentence has the adverb in the WRONG position. Rewrite with the adverb in the correct place.</div>
+        <div style="margin-bottom:10px;font-size:.88rem;background:#fff3cd;padding:8px;border-radius:5px">
+          ⚠️ Rule: Adverbs go <strong>BEFORE</strong> main verbs but <strong>AFTER</strong> the verb <em>be</em>.<br>
+          Frequency expressions (every day, once a week) go at the <strong>END</strong> of the sentence.
+        </div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> I go to the gym — maybe three times a week <strong>usually</strong>.<br>→ <input class="blank" id="hw3_1" placeholder="Rewrite correctly" style="min-width:280px"></div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> <strong>Never</strong> she is late to meetings.<br>→ <input class="blank" id="hw3_2" placeholder="Rewrite correctly" style="min-width:280px"></div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> I see my grandparents <strong>hardly ever</strong> because they live far away.<br>→ <input class="blank" id="hw3_3" placeholder="Rewrite correctly" style="min-width:280px"></div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> My boss <strong>usually</strong> is in a bad mood on Mondays.<br>→ <input class="blank" id="hw3_4" placeholder="Rewrite correctly" style="min-width:280px"></div>
+        <button class="check-btn" onclick="checkHW3()">Check ✓</button>
+        <span id="hw3_score" class="score-badge" style="display:none"></span>
+        <div id="hw3_answers" style="display:none;margin-top:10px;background:#e8f5e9;border-radius:6px;padding:10px;font-size:.85rem">
+          <strong>Answers:</strong><br>
+          1. I usually go to the gym — maybe three times a week.<br>
+          2. She is never late to meetings.<br>
+          3. I hardly ever see my grandparents because they live far away.<br>
+          4. My boss is usually in a bad mood on Mondays.
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- HW 4: MODIFIERS CHOOSE -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW4</span> Grammar – Modifiers: Choose the correct option</div>
+        <div class="ex-instruction">Choose the correct modifier for each sentence.</div>
+
+        <div class="fill-sentence"><span class="sent-num">1.</span> I think I have <select class="blank" id="hw4_1"><option value="">–</option><option value="a">quite an</option><option value="b">quite</option><option value="c">fairly</option></select> interesting job. <em>(+ adj + noun → ___)</em></div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> My lifestyle is <select class="blank" id="hw4_2"><option value="">–</option><option value="a">quite</option><option value="b">quite a lot</option><option value="c">quite an</option></select> busy these days. <em>(+ adj only → ___)</em></div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> I live <select class="blank" id="hw4_3"><option value="">–</option><option value="a">a lot more</option><option value="b">fairly</option><option value="c">quite an</option></select> near to my work. <em>(+ adj → ___)</em></div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> I would say I'm <select class="blank" id="hw4_4"><option value="">–</option><option value="a">pretty</option><option value="b">relative</option><option value="c">quite a</option></select> happy at the moment. <em>(informal: similar to quite → ___)</em></div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> I would like to go out with friends <select class="blank" id="hw4_5"><option value="">–</option><option value="a">quite a bit more</option><option value="b">a bit more</option><option value="c">a lot more quite</option></select>. <em>(small amount more → ___)</em></div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> She reduced her hours at work so now she works <select class="blank" id="hw4_6"><option value="">–</option><option value="a">a bit more</option><option value="b">a lot more</option><option value="c">a bit less</option></select>. <em>(small amount less → ___)</em></div>
+        <button class="check-btn" onclick="checkHW4()">Check ✓</button>
+        <span id="hw4_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <hr class="divider">
+
+      <!-- HW 5: MODIFIERS FILL FROM BOX -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW5</span> Grammar – Complete with the correct phrase from the box</div>
+        <div class="ex-instruction">
+          <strong>Box:</strong> <em>a bit more healthily &nbsp;·&nbsp; a bit more productive &nbsp;·&nbsp; a bit more time &nbsp;·&nbsp; fairly healthy &nbsp;·&nbsp; pretty bored &nbsp;·&nbsp; quite a creative &nbsp;·&nbsp; quite an alternative &nbsp;·&nbsp; work a bit less</em>
+        </div>
+        <div class="fill-sentence"><span class="sent-num">1.</span> I'm <input class="blank" id="hw5_1" placeholder="???"> person – I love to paint and write my own music.</div>
+        <div class="fill-sentence"><span class="sent-num">2.</span> I think I live <input class="blank" id="hw5_2" placeholder="???"> lifestyle because I don't have a traditional job.</div>
+        <div class="fill-sentence"><span class="sent-num">3.</span> I wish I could be <input class="blank" id="hw5_3" placeholder="???"> with my days. I'm always wasting time.</div>
+        <div class="fill-sentence"><span class="sent-num">4.</span> I think I'm <input class="blank" id="hw5_4" placeholder="???"> at the moment. I eat well and exercise every day.</div>
+        <div class="fill-sentence"><span class="sent-num">5.</span> I'd really like to apply for a part-time job so that I could <input class="blank" id="hw5_5" placeholder="???">.</div>
+        <div class="fill-sentence"><span class="sent-num">6.</span> I'd like to have a more exciting job – I'm <input class="blank" id="hw5_6" placeholder="???"> with my work at the moment.</div>
+        <div class="fill-sentence"><span class="sent-num">7.</span> We should really try to eat <input class="blank" id="hw5_7" placeholder="???"> because we eat too many takeaways.</div>
+        <div class="fill-sentence"><span class="sent-num">8.</span> I spend a lot of time looking after my family, so it would be nice to have <input class="blank" id="hw5_8" placeholder="???"> to myself.</div>
+        <button class="check-btn" onclick="checkHW5()">Check ✓</button>
+        <span id="hw5_score" class="score-badge" style="display:none"></span>
+      </div>
+
+      <hr class="divider">
+
+      <!-- HW 6: WRITING -->
+      <div class="ex-block">
+        <div class="ex-title"><span class="ex-num">HW6</span> Writing – Personal Profile (100–140 words)</div>
+        <div class="ex-instruction">Write a personal profile about yourself OR about the character Jed Nowak (using the notes below). Use linking words: <em>because, also, too, as well as, for example</em>.</div>
+        <div class="tip-box" style="margin-bottom:10px">
+          <strong>Notes for Jed Nowak:</strong> musician / band = Honest Truth / believes music brings people together / grew up in Warsaw / moved to UK age 12 / started guitar at 14 / not very good at first but worked hard / started band with friends at 17 / loves rock, hip hop, rap, classical / wants record contract / band video channel: HonestTruthMusic
+        </div>
+        <div class="tip-box" style="margin-bottom:10px">
+          <strong>Structure guide:</strong> 1) Name + job/studies + belief/value &nbsp;|&nbsp; 2) Where you grew up + background &nbsp;|&nbsp; 3) What you do now / current projects &nbsp;|&nbsp; 4) Hobbies + how to contact
+        </div>
+        <textarea id="hw6_writing" placeholder="My name's ... and I'm a ..." style="min-height:150px;width:100%;border:2px solid var(--border);border-radius:6px;padding:10px;font-size:.88rem;font-family:inherit;resize:vertical;outline:none"></textarea>
+        <div style="margin-top:8px">
+          <button class="model-reveal-btn" onclick="toggleModel('model_hw6')">📖 Show Model Answer</button>
+          <div id="model_hw6" class="model-answer">
+            <strong>Model (Jed Nowak):</strong><br>
+            My name's Jed Nowak and I'm a musician in a band called <em>Honest Truth</em>. I believe that music brings people together and makes them happy. The world is a better place with music in it.<br><br>
+            I grew up in Warsaw and moved to the UK when I was 12. I started playing the guitar at school when I was 14. I wasn't very good at it at first, but I loved it and I worked hard to become better. When I was 17, my friends and I started our band. Rock music is my favourite, but I like all kinds — including hip hop, rap and classical. Soon, we hope to get a contract with a record company. Until then, we'd love you to listen to our music. You can find it on our video channel, HonestTruthMusic.
+          </div>
+        </div>
+        <div class="self-assess" style="margin-top:10px">
+          <p style="font-size:.82rem;color:#555;width:100%;margin-bottom:4px">Self-assessment for Writing:</p>
+          <button class="self-btn good" onclick="selfAssess('hw6','good',this)">😊 I used linking words + good structure</button>
+          <button class="self-btn ok" onclick="selfAssess('hw6','ok',this)">😐 I need to add more linking words</button>
+          <button class="self-btn retry" onclick="selfAssess('hw6','retry',this)">😕 I need to revise and rewrite</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /homework -->
+
+<!-- ==================== RESULTS ==================== -->
+<div id="results" class="tab-content">
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-badge badge-hw">Results</span>
+      <h2>My Results – Unit 1 Extra</h2>
+    </div>
+    <div class="section-body">
+      <div id="results_incomplete" style="text-align:center;padding:20px;color:#888">
+        <p>Complete the exercises first, then come back here to see your full results.</p>
+        <button class="check-btn" onclick="calculateAll()" style="margin-top:12px">📊 Calculate My Results</button>
+      </div>
+
+      <div id="results_dashboard" style="display:none">
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="font-size:3rem;font-weight:700;color:var(--navy)" id="total_pct">0%</div>
+          <div style="font-size:1rem;color:#777" id="total_fraction">0 / 0</div>
+          <div id="total_grade" style="font-size:1.1rem;font-weight:600;margin-top:4px"></div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="score-num" id="r_vocab">–</div>
+            <div class="score-label">Vocabulary (People + Adjectives)</div>
+            <div class="score-bar"><div id="rb_vocab" style="width:0%"></div></div>
+          </div>
+          <div class="result-card">
+            <div class="score-num" id="r_listen">–</div>
+            <div class="score-label">Listening Comprehension</div>
+            <div class="score-bar"><div id="rb_listen" style="width:0%"></div></div>
+          </div>
+          <div class="result-card">
+            <div class="score-num" id="r_grammar">–</div>
+            <div class="score-label">Grammar (Tenses + Adverbs)</div>
+            <div class="score-bar"><div id="rb_grammar" style="width:0%"></div></div>
+          </div>
+          <div class="result-card">
+            <div class="score-num" id="r_pron">–</div>
+            <div class="score-label">Pronunciation</div>
+            <div class="score-bar"><div id="rb_pron" style="width:0%"></div></div>
+          </div>
+          <div class="result-card">
+            <div class="score-num" id="r_1d">–</div>
+            <div class="score-label">Part B (Lifestyle + Modifiers)</div>
+            <div class="score-bar"><div id="rb_1d" style="width:0%"></div></div>
+          </div>
+          <div class="result-card">
+            <div class="score-num" id="r_hw">–</div>
+            <div class="score-label">Homework</div>
+            <div class="score-bar"><div id="rb_hw" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <!-- DETAILED TABLE -->
+        <div style="margin-top:16px;overflow-x:auto">
+          <table class="ex-table" id="detail_table">
+            <tr><th>Exercise</th><th>Topic</th><th>Score</th><th>Max</th><th>%</th></tr>
+          </table>
+        </div>
+
+        <!-- SELF-ASSESSMENT SUMMARY -->
+        <div style="margin-top:16px;background:#fff;border-radius:8px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.1)">
+          <h3 style="color:var(--navy);margin-bottom:8px">🗣️ Speaking & Writing Self-Assessment</h3>
+          <div id="self_summary" style="font-size:.88rem;color:#555;line-height:1.8"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="export-area">
+    <h3>📥 Export &amp; Submit Results</h3>
+    <p style="font-size:.88rem;color:#555;margin-bottom:14px">Download your results as an Excel file, then email it to your teacher.</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+      <button class="export-btn" onclick="exportExcel()">⬇️ Download Excel Results</button>
+      <button class="email-btn" onclick="emailTeacher()">✉️ Email to Teacher</button>
+    </div>
+
+    <div id="export_instructions" style="display:none;margin-top:14px;background:#e8f5e9;border-radius:6px;padding:12px;font-size:.87rem">
+      <strong>✅ Excel file downloaded!</strong><br>
+      Now click <strong>"Email to Teacher"</strong> to open your email client. Attach the downloaded file and send.
+    </div>
+
+    <div style="margin-top:14px;background:#fff3cd;border-radius:6px;padding:10px;font-size:.83rem">
+      <strong>📬 Teacher email:</strong> huongstella8@gmail.com<br>
+      <strong>Subject:</strong> Unit 1 Extra Results – [Your Name]
+    </div>
+  </div>
+</div><!-- /results -->
+
+<script>
+// ============================================================
+//  SCORE TRACKER
+// ============================================================
+const scores = {};
+const selfAssessments = {};
+
+function setScore(key, val, max) {
+  scores[key] = { val, max };
+  updateProgress();
+}
+
+function updateProgress() {
+  const total_max = Object.values(scores).reduce((s,o)=>s+o.max,0);
+  const total_val = Object.values(scores).reduce((s,o)=>s+o.val,0);
+  const pct = total_max > 0 ? Math.round(total_val/total_max*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+}
+
+// ============================================================
+//  TAB NAVIGATION
+// ============================================================
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+// ============================================================
+//  UTILITY
+// ============================================================
+function norm(s){ return (s||'').trim().toLowerCase().replace(/[''']/g,"'"); }
+function matchAny(input, answers){
+  const v = norm(input);
+  return answers.some(a=>norm(a)===v);
+}
+
+function markSelect(el, correct){
+  el.classList.remove('correct','wrong');
+  el.classList.add(correct?'correct':'wrong');
+}
+function markInput(el, correct){
+  el.classList.remove('correct','wrong');
+  el.classList.add(correct?'correct':'wrong');
+}
+function markMC(name, correctVal){
+  let got = false;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{
+    const lbl = r.closest('label')||r.parentElement;
+    lbl.classList.remove('correct','wrong');
+    if(r.value===correctVal){ lbl.classList.add('correct'); }
+    else if(r.checked){ lbl.classList.add('wrong'); }
+    if(r.checked && r.value===correctVal) got=true;
+  });
+  return got?1:0;
+}
+
+// ============================================================
+//  EX 1: CATEGORIZE
+// ============================================================
+const catAnswers = {
+  ci_colleagues:'cat_work', ci_manager:'cat_work',
+  ci_teammates:'cat_sport',
+  ci_partner:'cat_personal', ci_close_friends:'cat_personal',
+  ci_grandparents:'cat_family'
+};
+const catState = {};
+
+function moveToCat(catId, event){
+  if(event.target.classList.contains('classify-item')){
+    // already there — move back to pool
+    document.getElementById('pool1').appendChild(event.target);
+    delete catState[event.target.id];
+  }
+}
+// clicking a word in pool moves it to a category — but we need selection first
+// Simplified: clicking item toggles a "selected" state, then clicking category moves it
+let selected1 = null;
+document.querySelectorAll('#pool1 .classify-item').forEach(item=>{
+  item.addEventListener('click', function(){
+    if(selected1) selected1.style.outline='';
+    if(selected1===this){ selected1=null; return; }
+    selected1=this;
+    this.style.outline='3px solid var(--gold)';
+  });
+});
+document.querySelectorAll('#cats1 .classify-cat').forEach(cat=>{
+  cat.addEventListener('click', function(e){
+    if(e.target.classList.contains('classify-item')){
+      // move back to pool
+      document.getElementById('pool1').appendChild(e.target);
+      delete catState[e.target.id];
+      return;
+    }
+    if(!selected1) return;
+    this.appendChild(selected1);
+    catState[selected1.id] = this.id;
+    selected1.style.outline='';
+    selected1=null;
+  });
+});
+
+function checkCategorize(){
+  let score=0,total=Object.keys(catAnswers).length;
+  Object.entries(catAnswers).forEach(([id,correctCat])=>{
+    const el=document.getElementById(id);
+    const parent=el?el.parentElement:null;
+    const correct = parent && parent.id===correctCat;
+    if(el) el.style.background=correct?'var(--green)':'var(--red)';
+    if(correct) score++;
+  });
+  document.getElementById('cat_score').style.display='inline-block';
+  document.getElementById('cat_score').textContent=score+'/'+total;
+  document.getElementById('cat_feedback').textContent=
+    score===total?'✅ Perfect! All words correctly categorised.':'Check the highlighted words — green=correct, red=wrong. Correct: Work/Study: colleagues, manager | Sport: teammates | Personal: partner, close friends | Family: grandparents';
+  setScore('cat',score,total);
+}
+
+// ============================================================
+//  EX 2: PHRASAL VERBS MATCHING
+// ============================================================
+const phvKey={phv_a:'1',phv_b:'1',phv_c:'3',phv_d:'4',phv_e:'2'};
+function checkPhrasalVerbs(){
+  let score=0,total=5;
+  Object.entries(phvKey).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('phv_score').style.display='inline-block';
+  document.getElementById('phv_score').textContent=score+'/'+total;
+  setScore('phv',score,total);
+}
+
+// ============================================================
+//  EX 3: PHRASAL VERBS IN CONTEXT
+// ============================================================
+const pvcKey={
+  pvc1:["'m friendly with","am friendly with","be friendly with","i'm friendly with"],
+  pvc2:["look up to"],
+  pvc3:["takes after"],
+  pvc4:["get on well","got on well","get on really well"],
+  pvc5:["stay in touch with","still stay in touch with"]
+};
+function checkPVC(){
+  let score=0,total=5;
+  for(let i=1;i<=5;i++){
+    const el=document.getElementById('pvc'+i);
+    const correct=matchAny(el.value,pvcKey['pvc'+i]);
+    markInput(el,correct);
+    if(correct)score++;
+  }
+  document.getElementById('pvc_score').style.display='inline-block';
+  document.getElementById('pvc_score').textContent=score+'/'+total;
+  setScore('pvc',score,total);
+}
+
+// ============================================================
+//  EX 4: PERSONALITY ADJECTIVES
+// ============================================================
+const adjKey={adj1:'easy-going',adj2:'generous',adj3:'rude',adj4:'serious',
+  adj5:'crazy',adj6:'patient',adj7:'polite',adj8:'tidy',adj9:'helpful',
+  adj10:'noisy',adj11:'kind',adj12:'bossy',adj13:'funny',adj14:'reliable'};
+function checkAdjectives(){
+  let score=0,total=14;
+  Object.entries(adjKey).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('adj_score').style.display='inline-block';
+  document.getElementById('adj_score').textContent=score+'/'+total;
+  setScore('adj',score,total);
+}
+
+// ============================================================
+//  EX 5–7: LISTENING
+// ============================================================
+const whoKey={who1:'T',who2:'T',who3:'J',who4:'M',who5:'J',who6:'M'};
+function checkWho(){
+  let score=0,total=6;
+  Object.entries(whoKey).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&norm(el.value)===norm(ans);
+    markInput(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('who_score').style.display='inline-block';
+  document.getElementById('who_score').textContent=score+'/'+total;
+  setScore('who',score,total);
+}
+
+function checkComp(){
+  const compKey={comp1:'b',comp2:'c',comp3:'b',comp4:'b',comp5:'b',comp6:'b'};
+  let score=0,total=6;
+  Object.entries(compKey).forEach(([name,ans])=>{score+=markMC(name,ans);total;});
+  document.getElementById('comp_score').style.display='inline-block';
+  document.getElementById('comp_score').textContent=score+'/'+total;
+  setScore('comp',score,total);
+}
+
+function checkAdjSent(){
+  const s=markMC('adj_sent','b');
+  document.getElementById('adjsent_score').style.display='inline-block';
+  document.getElementById('adjsent_score').textContent=s+'/1';
+  setScore('adjsent',s,1);
+}
+
+// ============================================================
+//  EX 8: TENSE ANALYSIS
+// ============================================================
+function checkTenses(){
+  const key={tense1:'pc_ps',tense2:'pc',tense3:'ps',tense4:'ps',tense5:'ps'};
+  let score=0,total=5;
+  Object.entries(key).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('tense_score').style.display='inline-block';
+  document.getElementById('tense_score').textContent=score+'/'+total;
+  setScore('tense',score,total);
+}
+
+// ============================================================
+//  EX 9: ERROR CORRECTION
+// ============================================================
+function checkEC(){
+  const ecKey={ec1:'c',ec2:'a',ec3:'b',ec4:'c'};
+  let score=0,total=4;
+  Object.entries(ecKey).forEach(([name,ans])=>{score+=markMC(name,ans);});
+  document.getElementById('ec_score').style.display='inline-block';
+  document.getElementById('ec_score').textContent=score+'/'+total;
+  setScore('ec',score,total);
+}
+
+// ============================================================
+//  EX 10: EMAIL GAPS
+// ============================================================
+const emailKey={
+  em1:["'m saving","am saving","saving"],
+  em2:["'m living","am living","living"],
+  em3:["'re watching","are watching","watching"],
+  em4:["like"],
+  em5:["'s studying","is studying","studying"],
+  em6:["'s usually","is usually","'s usually busy","is usually busy"],
+  em7:["always wins"],
+  em8:["doesn't know","does not know"],
+  em9:["'m not working","am not working","not working"],
+  em10:["'m practising","am practising","'m practicing","am practicing","practising","practicing"]
+};
+function checkEmail(){
+  let score=0,total=10,fb='';
+  Object.entries(emailKey).forEach(([id,answers])=>{
+    const el=document.getElementById(id);
+    const correct=matchAny(el.value,answers);
+    markInput(el,correct);
+    if(correct) score++;
+    else fb+=`<div style="color:var(--red);font-size:.82rem">✗ ${id.replace('em','')}. Correct: <strong>${answers[0]}</strong></div>`;
+  });
+  document.getElementById('email_score').style.display='inline-block';
+  document.getElementById('email_score').textContent=score+'/'+total;
+  document.getElementById('email_feedback').innerHTML=score<total?fb:'<span style="color:var(--green)">✅ All correct!</span>';
+  setScore('email',score,total);
+}
+
+// ============================================================
+//  EX 11: ADVERB PLACEMENT
+// ============================================================
+const afKey={af1:'a',af2:'b',af3:'b',af4:'a',af5:'a',af6:'a',af7:'b',af8:'a'};
+function checkAF(){
+  let score=0,total=8;
+  Object.entries(afKey).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('af_score').style.display='inline-block';
+  document.getElementById('af_score').textContent=score+'/'+total;
+  setScore('af',score,total);
+}
+
+// ============================================================
+//  EX 12: DO YOU
+// ============================================================
+function checkDoYou(){
+  let score=0,total=5;
+  for(let i=1;i<=5;i++){
+    const el=document.getElementById('dy'+i);
+    const correct=matchAny(el.value,['do you','do you']);
+    markInput(el,correct);
+    if(correct)score++;
+  }
+  document.getElementById('doyou_score').style.display='inline-block';
+  document.getElementById('doyou_score').textContent=score+'/'+total;
+  setScore('doyou',score,total);
+}
+
+// ============================================================
+//  EX 13: SYLLABLE STRESS
+// ============================================================
+const stressKey={str1:'2',str2:'2',str3:'1',str4:'2',str5:'2'};
+const stressSelected={};
+function selectSyllable(word, syl, el){
+  document.querySelectorAll(`[data-word="${word}"]`).forEach(s=>{
+    s.classList.remove('stressed');
+  });
+  el.classList.add('stressed');
+  stressSelected[word]=syl;
+}
+function checkStress(){
+  let score=0,total=5;
+  Object.entries(stressKey).forEach(([word,correct])=>{
+    const selected=stressSelected[word];
+    document.querySelectorAll(`[data-word="${word}"]`).forEach(s=>{
+      s.classList.remove('correct-stress','wrong-stress');
+      if(s.getAttribute('data-syl')===correct) s.classList.add('correct-stress');
+      else if(selected && s.getAttribute('data-syl')===selected && selected!==correct) s.classList.add('wrong-stress');
+    });
+    if(selected===correct) score++;
+  });
+  document.getElementById('stress_score').style.display='inline-block';
+  document.getElementById('stress_score').textContent=score+'/'+total;
+  document.getElementById('stress_note').innerHTML='<strong>Note:</strong> All words have stress on the 2nd syllable EXCEPT <strong>journalist</strong> (1st syllable: JOUR-nal-ist). This is the different one!';
+  setScore('stress',score,total);
+}
+
+// ============================================================
+//  LESSON 1D EXERCISES
+// ============================================================
+function checkLifestyle(){
+  const key={life1:'Alice',life2:'Elliot',life3:'Philip',life4:'Adam'};
+  let score=0,total=4;
+  Object.entries(key).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('life_score').style.display='inline-block';
+  document.getElementById('life_score').textContent=score+'/'+total;
+  setScore('life',score,total);
+}
+
+function checkChanges(){
+  const key={change1:'b',change2:'e',change3:'a',change4:'c',change5:'d'};
+  let score=0,total=5;
+  Object.entries(key).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('change_score').style.display='inline-block';
+  document.getElementById('change_score').textContent=score+'/'+total;
+  setScore('changes',score,total);
+}
+
+function checkModAnalysis(){
+  let score=0,total=2;
+  score+=markMC('mod_q1','b');
+  score+=markMC('mod_q2','a');
+  document.getElementById('modana_score').style.display='inline-block';
+  document.getElementById('modana_score').textContent=score+'/'+total;
+  setScore('modana',score,total);
+}
+
+function checkModifiers(){
+  const modKey={mod1:'b',mod2:'a',mod3:'a',mod4:'c',mod5:'a',mod6:'b'};
+  let score=0,total=6;
+  Object.entries(modKey).forEach(([name,ans])=>{score+=markMC(name,ans);});
+  document.getElementById('mod_score').style.display='inline-block';
+  document.getElementById('mod_score').textContent=score+'/'+total;
+  setScore('mod',score,total);
+}
+
+function checkWordOrder(){
+  const woKey={
+    wo1:["i've got quite a big family","i have got quite a big family"],
+    wo2:["i spend a lot less time with my friends now","i spend a lot less time with my friends"],
+    wo3:["i'd like to be a bit more relaxed"],
+    wo4:["we have quite an alternative lifestyle"],
+    wo5:["i have a lot more work to do these days","i have a lot more work to do"],
+    wo6:["we want a house with a lot more space"]
+  };
+  let score=0,total=6;
+  Object.entries(woKey).forEach(([id,answers])=>{
+    const el=document.getElementById(id);
+    const correct=matchAny(el.value,answers);
+    markInput(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('wo_score').style.display='inline-block';
+  document.getElementById('wo_score').textContent=score+'/'+total;
+  document.getElementById('wo_answers').style.display='block';
+  setScore('wo',score,total);
+}
+
+function checkKim(){
+  const kimKey={kim1:'b',kim2:'c',kim3:'b',kim4:'b',kim5:'c'};
+  let score=0,total=5;
+  Object.entries(kimKey).forEach(([name,ans])=>{score+=markMC(name,ans);});
+  document.getElementById('kim_score').style.display='inline-block';
+  document.getElementById('kim_score').textContent=score+'/'+total;
+  setScore('kim',score,total);
+}
+
+// ============================================================
+//  HOMEWORK CHECKS
+// ============================================================
+function checkHW1(){
+  const hw1Key={
+    hw1_1:['reliable'],hw1_2:['helpful'],hw1_3:['easy-going','easy going'],
+    hw1_4:['patient'],hw1_5:['rude'],hw1_6:['funny'],
+    hw1_7:['kind'],hw1_8:['generous'],hw1_9:['bossy'],hw1_10:['tidy']
+  };
+  let score=0,total=10;
+  Object.entries(hw1Key).forEach(([id,answers])=>{
+    const el=document.getElementById(id);
+    const correct=matchAny(el.value,answers);
+    markInput(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('hw1_score').style.display='inline-block';
+  document.getElementById('hw1_score').textContent=score+'/'+total;
+  setScore('hw1',score,total);
+}
+
+function checkHW2(){
+  const hw2Key={
+    hw2_1a:['are'],hw2_1b:['living'],
+    hw2_2a:['does'],hw2_2b:['know'],
+    hw2_3a:['are'],hw2_3b:['listening'],
+    hw2_4a:['do'],hw2_4b:['see'],
+    hw2_5:["'m trying","am trying","trying"],
+    hw2_6:['stay']
+  };
+  let score=0,total=10;
+  Object.entries(hw2Key).forEach(([id,answers])=>{
+    const el=document.getElementById(id);
+    const correct=matchAny(el.value,Array.isArray(answers)?answers:[answers]);
+    markInput(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('hw2_score').style.display='inline-block';
+  document.getElementById('hw2_score').textContent=score+'/'+total;
+  setScore('hw2',score,total);
+}
+
+function checkHW3(){
+  // These are open rewrites — show model answers
+  document.getElementById('hw3_answers').style.display='block';
+  let score=0,total=4;
+  // Manual check — give 1 point each if input is non-empty
+  ['hw3_1','hw3_2','hw3_3','hw3_4'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.value.trim().length>5) score++;
+  });
+  document.getElementById('hw3_score').style.display='inline-block';
+  document.getElementById('hw3_score').textContent='(see answers below)';
+  setScore('hw3',score,total);
+}
+
+function checkHW4(){
+  const hw4Key={hw4_1:'a',hw4_2:'a',hw4_3:'b',hw4_4:'a',hw4_5:'b',hw4_6:'c'};
+  let score=0,total=6;
+  Object.entries(hw4Key).forEach(([id,ans])=>{
+    const el=document.getElementById(id);
+    const correct=el&&el.value===ans;
+    markSelect(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('hw4_score').style.display='inline-block';
+  document.getElementById('hw4_score').textContent=score+'/'+total;
+  setScore('hw4',score,total);
+}
+
+function checkHW5(){
+  const hw5Key={
+    hw5_1:['quite a creative','quite a creative person'],
+    hw5_2:['quite an alternative','quite an alternative lifestyle'],
+    hw5_3:['a bit more productive'],
+    hw5_4:['fairly healthy'],
+    hw5_5:['work a bit less'],
+    hw5_6:['pretty bored'],
+    hw5_7:['a bit more healthily'],
+    hw5_8:['a bit more time']
+  };
+  let score=0,total=8;
+  Object.entries(hw5Key).forEach(([id,answers])=>{
+    const el=document.getElementById(id);
+    const correct=matchAny(el.value,answers);
+    markInput(el,correct);
+    if(correct)score++;
+  });
+  document.getElementById('hw5_score').style.display='inline-block';
+  document.getElementById('hw5_score').textContent=score+'/'+total;
+  setScore('hw5',score,total);
+}
+
+// ============================================================
+//  SPEAKING / SELF-ASSESS
+// ============================================================
+function toggleModel(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+function selfAssess(key, val, btn){
+  selfAssessments[key]=val;
+  btn.closest('.self-assess').querySelectorAll('.self-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// ============================================================
+//  CALCULATE ALL
+// ============================================================
+function calculateAll(){
+  document.getElementById('results_incomplete').style.display='none';
+  document.getElementById('results_dashboard').style.display='block';
+
+  const vocabKeys=['cat','phv','pvc','adj'];
+  const listenKeys=['who','comp','adjsent'];
+  const grammarKeys=['tense','ec','email','af'];
+  const pronKeys=['doyou','stress'];
+  const lesson1dKeys=['life','changes','modana','mod','wo','kim'];
+  const hwKeys=['hw1','hw2','hw3','hw4','hw5'];
+
+  function sumSection(keys){
+    let v=0,m=0;
+    keys.forEach(k=>{if(scores[k]){v+=scores[k].val;m+=scores[k].max;}});
+    return {v,m};
+  }
+
+  const sections={
+    vocab:sumSection(vocabKeys),
+    listen:sumSection(listenKeys),
+    grammar:sumSection(grammarKeys),
+    pron:sumSection(pronKeys),
+    '1d':sumSection(lesson1dKeys),
+    hw:sumSection(hwKeys)
+  };
+
+  let totalV=0,totalM=0;
+  Object.values(sections).forEach(s=>{totalV+=s.v;totalM+=s.m;});
+  const pct=totalM>0?Math.round(totalV/totalM*100):0;
+
+  document.getElementById('total_pct').textContent=pct+'%';
+  document.getElementById('total_fraction').textContent=totalV+' / '+totalM+' marks';
+
+  let grade='';
+  if(pct>=90) grade='🌟 Excellent!';
+  else if(pct>=75) grade='😊 Good work!';
+  else if(pct>=60) grade='📖 Keep practising!';
+  else grade='💪 Review the material and try again.';
+  document.getElementById('total_grade').textContent=grade;
+
+  // section bars
+  ['vocab','listen','grammar','pron','1d','hw'].forEach(k=>{
+    const s=sections[k];
+    const p=s.m>0?Math.round(s.v/s.m*100):0;
+    const el=document.getElementById('r_'+k);
+    if(el) el.textContent=s.v+'/'+s.m;
+    const bar=document.getElementById('rb_'+k);
+    if(bar) bar.style.width=p+'%';
+  });
+
+  // detail table
+  const details=[
+    ['Ex 1','Categorize people words','cat'],
+    ['Ex 2','Phrasal verbs matching','phv'],
+    ['Ex 3','Phrasal verbs in context','pvc'],
+    ['Ex 4','Personality adjectives fill-in','adj'],
+    ['Ex 5','Listening: who talks about what','who'],
+    ['Ex 6','Listening comprehension','comp'],
+    ['Ex 7','Adjectives in descriptions','adjsent'],
+    ['Ex 8','Tense analysis','tense'],
+    ['Ex 9','Error correction','ec'],
+    ['Ex 10','Complete email (tenses)','email'],
+    ['Ex 11','Adverb placement','af'],
+    ['Ex 12','Do you connected speech','doyou'],
+    ['Ex 13','Syllable stress','stress'],
+    ['Ex 15','BBC interviews: match speaker','life'],
+    ['Ex 16','What would they change','changes'],
+    ['Ex 17','Modifier analysis','modana'],
+    ['Ex 18','Modifiers multiple choice','mod'],
+    ['Ex 19','Word order modifiers','wo'],
+    ['Ex 20','Kim comprehension','kim'],
+    ['HW1','Personality adjectives (first letter)','hw1'],
+    ['HW2','Grammar: question forms','hw2'],
+    ['HW3','Adverb placement correction','hw3'],
+    ['HW4','Modifiers: choose correct','hw4'],
+    ['HW5','Modifiers: fill from box','hw5'],
+  ];
+  let rows='<tr><th>Exercise</th><th>Topic</th><th>Score</th><th>Max</th><th>%</th></tr>';
+  details.forEach(([ex,topic,key])=>{
+    const s=scores[key];
+    if(s){
+      const p=Math.round(s.val/s.max*100);
+      const color=p>=70?'color:var(--green)':p>=50?'color:#b8860b':'color:var(--red)';
+      rows+=`<tr><td>${ex}</td><td>${topic}</td><td><strong style="${color}">${s.val}</strong></td><td>${s.max}</td><td style="${color}">${p}%</td></tr>`;
+    }
+  });
+  document.getElementById('detail_table').innerHTML=rows;
+
+  // self-assessment summary
+  const saLabels={
+    s1:{label:'Describe an important person (model answer)'},
+    s2:{label:'A day in my life (Kim model)'},
+    hw6:{label:'Writing: personal profile'}
+  };
+  let saHtml='';
+  Object.entries(saLabels).forEach(([k,{label}])=>{
+    const v=selfAssessments[k]||'(not rated)';
+    const icon=v==='good'?'😊':v==='ok'?'😐':v==='retry'?'😕':'–';
+    saHtml+=`<div>${icon} <strong>${label}:</strong> ${v}</div>`;
+  });
+  document.getElementById('self_summary').innerHTML=saHtml||'<em>No self-assessments recorded yet.</em>';
+}
+
+// ============================================================
+//  EXCEL EXPORT
+// ============================================================
+function exportExcel(){
+  const name = document.getElementById('studentName').value||'Student';
+  const date = new Date().toLocaleDateString('en-GB');
+
+  // Summary sheet
+  const summaryData=[
+    ['UNIT 1 EXTRA – PEOPLE | Results Report'],
+    ['Student Name:', name],
+    ['Date:', date],
+    ['Teacher:', 'Ms. Stella (huongstella8@gmail.com)'],
+    [],
+    ['SECTION','SCORE','MAX','PERCENT'],
+  ];
+
+  const sections={
+    'Vocabulary (People + Adjectives)':['cat','phv','pvc','adj'],
+    'Listening Comprehension':['who','comp','adjsent'],
+    'Grammar (Present Tenses + Adverbs)':['tense','ec','email','af'],
+    'Pronunciation':['doyou','stress'],
+    'Part B (Lifestyle + Modifiers)':['life','changes','modana','mod','wo','kim'],
+    'Homework':['hw1','hw2','hw3','hw4','hw5']
+  };
+
+  let totalV=0,totalM=0;
+  Object.entries(sections).forEach(([label,keys])=>{
+    let v=0,m=0;
+    keys.forEach(k=>{if(scores[k]){v+=scores[k].val;m+=scores[k].max;}});
+    totalV+=v;totalM+=m;
+    const pct=m>0?Math.round(v/m*100)+'%':'–';
+    summaryData.push([label,v,m,pct]);
+  });
+  summaryData.push([]);
+  summaryData.push(['TOTAL',totalV,totalM,totalM>0?Math.round(totalV/totalM*100)+'%':'–']);
+  summaryData.push([]);
+  summaryData.push(['Self-Assessments:']);
+  ['s1','s2','hw6'].forEach(k=>{
+    const labels={s1:'Describe important person',s2:'A day in my life',hw6:'Writing task'};
+    summaryData.push([labels[k], selfAssessments[k]||'not rated']);
+  });
+
+  // Detail sheet
+  const detailData=[
+    ['Exercise','Topic','Student Score','Max','Percent','Status'],
+  ];
+  const details=[
+    ['Ex 1','Categorize people words','cat'],['Ex 2','Phrasal verbs matching','phv'],
+    ['Ex 3','Phrasal verbs in context','pvc'],['Ex 4','Personality adjectives','adj'],
+    ['Ex 5','Listening: who talks about what','who'],['Ex 6','Listening comprehension','comp'],
+    ['Ex 7','Adjectives in descriptions','adjsent'],['Ex 8','Tense analysis','tense'],
+    ['Ex 9','Error correction','ec'],['Ex 10','Complete email (tenses)','email'],
+    ['Ex 11','Adverb placement','af'],['Ex 12','Do you connected speech','doyou'],
+    ['Ex 13','Syllable stress','stress'],['Ex 15','BBC: match speaker','life'],
+    ['Ex 16','What would they change','changes'],['Ex 17','Modifier analysis','modana'],
+    ['Ex 18','Modifiers multiple choice','mod'],['Ex 19','Word order modifiers','wo'],
+    ['Ex 20','Kim comprehension','kim'],['HW1','Personality adjectives (first letter)','hw1'],
+    ['HW2','Grammar: question forms','hw2'],['HW3','Adverb placement correction','hw3'],
+    ['HW4','Modifiers: choose correct','hw4'],['HW5','Modifiers: fill from box','hw5'],
+  ];
+  details.forEach(([ex,topic,key])=>{
+    const s=scores[key];
+    if(s){
+      const p=Math.round(s.val/s.max*100);
+      detailData.push([ex,topic,s.val,s.max,p+'%',p>=70?'Good':p>=50?'Needs Practice':'Review Needed']);
+    } else {
+      detailData.push([ex,topic,'–','–','–','Not attempted']);
+    }
+  });
+
+  const wb=XLSX.utils.book_new();
+  const ws1=XLSX.utils.aoa_to_sheet(summaryData);
+  const ws2=XLSX.utils.aoa_to_sheet(detailData);
+
+  // Column widths
+  ws1['!cols']=[{wch:40},{wch:12},{wch:8},{wch:10}];
+  ws2['!cols']=[{wch:10},{wch:35},{wch:14},{wch:6},{wch:8},{wch:18}];
+
+  XLSX.utils.book_append_sheet(wb,ws1,'Summary');
+  XLSX.utils.book_append_sheet(wb,ws2,'Detailed Results');
+
+  const filename=`Unit1_Extra_Results_${name.replace(/\s+/g,'_')}_${date.replace(/\//g,'-')}.xlsx`;
+  XLSX.writeFile(wb,filename);
+
+  document.getElementById('export_instructions').style.display='block';
+}
+
+function emailTeacher(){
+  const name=document.getElementById('studentName').value||'Student';
+  const subject=encodeURIComponent(`Unit 1 Extra Results – ${name}`);
+  const body=encodeURIComponent(`Dear Ms. Stella,\n\nPlease find my Unit 1 Extra results attached.\n\nStudent: ${name}\nDate: ${new Date().toLocaleDateString('en-GB')}\n\nBest regards,\n${name}`);
+  window.location.href=`mailto:huongstella8@gmail.com?subject=${subject}&body=${body}`;
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-GB',{weekday:'short',year:'numeric',month:'long',day:'numeric'});
+</script>
+</body>
+</html>
