@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-IELTS | Unit 1: Relationships</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root{--navy:#1e3a5f;--blue:#2980b9;--gold:#f0a500;--green:#27ae60;--red:#e74c3c;--orange:#e67e22;--bg:#f0f4f8;--card:#fff;--border:#dde3ea;--text:#2c3e50;--muted:#7f8c8d;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,#2c5282 60%,#1a6b9a 100%);}
+.login-card{background:var(--card);border-radius:16px;padding:48px 40px;width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.login-logo{text-align:center;margin-bottom:8px;}
+.login-logo .badge{display:inline-block;background:var(--gold);color:#fff;font-weight:800;font-size:13px;padding:4px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;}
+.login-logo h1{font-size:28px;color:var(--navy);margin-top:10px;font-weight:800;}
+.login-logo p{color:var(--muted);font-size:14px;margin-top:4px;}
+.login-card label{display:block;font-weight:600;font-size:13px;color:var(--navy);margin-bottom:6px;margin-top:20px;}
+.login-card input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:8px;font-size:15px;transition:border-color .2s;}
+.login-card input:focus{outline:none;border-color:var(--blue);}
+.btn-primary{display:block;width:100%;padding:14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;margin-top:28px;transition:background .2s;}
+.btn-primary:hover{background:var(--blue);}
+/* MAIN APP */
+#app{display:none;}
+.app-header{background:var(--navy);color:#fff;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.2);}
+.app-header .logo{font-weight:800;font-size:18px;letter-spacing:.5px;}
+.app-header .logo span{color:var(--gold);}
+.app-header .student-info{font-size:13px;opacity:.85;}
+.progress-bar-wrap{background:rgba(255,255,255,.15);height:4px;margin:0 32px;border-radius:2px;}
+.progress-bar{height:4px;background:var(--gold);border-radius:2px;transition:width .4s;width:0%;}
+/* TABS */
+.section-tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:0 32px;gap:4px;position:sticky;top:60px;z-index:99;overflow-x:auto;}
+.tab-btn{padding:14px 20px;border:none;background:none;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--gold);}
+.tab-btn:hover{color:var(--navy);}
+/* CONTENT */
+.content{max-width:900px;margin:0 auto;padding:32px 20px;}
+.section-panel{display:none;}
+.section-panel.active{display:block;}
+.section-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.section-title .tag{font-size:11px;font-weight:700;background:var(--gold);color:#fff;padding:3px 10px;border-radius:12px;letter-spacing:.5px;}
+.section-sub{color:var(--muted);font-size:14px;margin-bottom:24px;}
+.ex-card{background:var(--card);border-radius:12px;padding:24px;margin-bottom:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.ex-title{font-weight:700;color:var(--navy);font-size:15px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.ex-title .ex-num{display:inline-block;background:var(--navy);color:#fff;width:26px;height:26px;border-radius:50%;text-align:center;line-height:26px;font-size:12px;margin-right:8px;}
+.q-block{margin-bottom:16px;}
+.q-label{font-size:14px;font-weight:500;margin-bottom:8px;color:var(--text);}
+.options{display:flex;flex-direction:column;gap:6px;}
+.opt-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;font-size:14px;}
+.opt-row:hover{border-color:var(--blue);background:#f0f7ff;}
+.opt-row input{cursor:pointer;}
+.opt-row.correct{background:#eafaf1;border-color:var(--green);}
+.opt-row.incorrect{background:#fdf3f2;border-color:var(--red);}
+.opt-row.missed{background:#fff9e6;border-color:var(--orange);}
+select.ans-select{padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;width:100%;max-width:400px;background:#fff;cursor:pointer;}
+select.ans-select:focus{outline:none;border-color:var(--blue);}
+select.ans-select.correct{border-color:var(--green);background:#eafaf1;}
+select.ans-select.incorrect{border-color:var(--red);background:#fdf3f2;}
+input.ans-text{padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;width:100%;max-width:500px;}
+input.ans-text:focus{outline:none;border-color:var(--blue);}
+input.ans-text.correct{border-color:var(--green);background:#eafaf1;}
+input.ans-text.incorrect{border-color:var(--red);background:#fdf3f2;}
+.answer-key-hint{font-size:12px;color:var(--green);margin-top:4px;display:none;}
+.answer-key-hint.show{display:block;}
+.word-box{background:#f8fafd;border:1.5px dashed var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--muted);}
+.word-box strong{color:var(--navy);}
+/* AUDIO */
+.audio-wrap{background:#f8fafd;border-radius:8px;padding:14px 16px;margin-bottom:16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.audio-wrap .track-label{font-weight:600;font-size:13px;color:var(--navy);white-space:nowrap;}
+.audio-wrap audio{flex:1;height:36px;}
+/* READING PASSAGE */
+.reading-passage{background:#fafbfc;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:20px 24px;margin-bottom:24px;font-size:14px;line-height:1.8;color:var(--text);}
+.reading-passage h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;}
+/* SPEAKING */
+.speaking-prompt{background:linear-gradient(135deg,#1e3a5f,#2c5282);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:16px;}
+.speaking-prompt h4{font-size:16px;font-weight:700;margin-bottom:10px;}
+.speaking-prompt ul{padding-left:20px;font-size:14px;line-height:2;}
+.record-area{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;margin-bottom:12px;}
+.btn-record{background:var(--red);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.btn-record.recording{background:#c0392b;animation:pulse 1s infinite;}
+.btn-stop{background:var(--navy);color:#fff;border:none;padding:12px 28px;border-radius:24px;font-size:15px;font-weight:700;cursor:pointer;display:none;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,.4);}50%{box-shadow:0 0 0 10px rgba(231,76,60,0);}}
+.rec-timer{font-size:14px;color:var(--muted);margin-top:8px;}
+.playback-area{margin-top:12px;display:none;}
+.band-descriptors{margin-top:16px;}
+.band-table{width:100%;border-collapse:collapse;font-size:13px;}
+.band-table th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;}
+.band-table td{padding:8px 10px;border:1px solid var(--border);vertical-align:top;}
+.band-table tr:nth-child(even) td{background:#f8fafd;}
+/* RESULTS */
+#results-screen{display:none;max-width:900px;margin:0 auto;padding:32px 20px;}
+.results-header{background:linear-gradient(135deg,var(--navy),#2c5282);color:#fff;border-radius:16px;padding:32px;text-align:center;margin-bottom:24px;}
+.results-header h2{font-size:28px;font-weight:800;margin-bottom:8px;}
+.score-circle{display:inline-block;width:100px;height:100px;border-radius:50%;border:6px solid rgba(255,255,255,.3);line-height:88px;font-size:28px;font-weight:900;margin:16px 0;}
+.score-circle.pass{border-color:var(--gold);}
+.section-scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;}
+.score-card{background:var(--card);border-radius:10px;padding:16px;text-align:center;border:1px solid var(--border);}
+.score-card .label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.score-card .value{font-size:22px;font-weight:800;color:var(--navy);}
+.score-card .pct{font-size:13px;color:var(--muted);}
+.improvement-card{background:var(--card);border-radius:12px;padding:24px;border:1px solid var(--border);margin-bottom:20px;}
+.improvement-card h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.improvement-item{display:flex;gap:12px;margin-bottom:10px;padding:10px;background:#f8fafd;border-radius:8px;font-size:14px;}
+.improvement-item .icon{font-size:18px;flex-shrink:0;}
+.btn-export{background:var(--green);color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;margin-right:12px;}
+.btn-email{background:var(--blue);color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.btn-submit{position:fixed;bottom:24px;right:24px;background:var(--gold);color:#fff;border:none;padding:16px 32px;border-radius:32px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(240,165,0,.4);z-index:200;display:flex;align-items:center;gap:8px;transition:transform .15s;}
+.btn-submit:hover{transform:translateY(-2px);}
+.nav-btns{display:flex;gap:12px;margin-top:24px;}
+.btn-nav{padding:10px 24px;border:2px solid var(--navy);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--navy);}
+.btn-nav:hover{background:var(--navy);color:#fff;}
+.notice{background:#fff8e1;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;margin-bottom:16px;line-height:1.6;}
+.feasibility-box{background:#eaf4fd;border:1px solid #aed6f1;border-radius:8px;padding:16px;font-size:13px;line-height:1.7;margin-top:12px;}
+.feasibility-box h4{color:var(--navy);font-weight:700;margin-bottom:6px;}
+.feasibility-box .yes{color:var(--green);font-weight:700;}
+.feasibility-box .partial{color:var(--orange);font-weight:700;}
+.feasibility-box .no{color:var(--red);font-weight:700;}
+</style>
+</head>
+<body>
+<div style="width:100%;text-align:center;padding:6px 0;font-size:10px;font-weight:600;letter-spacing:2px;color:#888;background:#f5f7fa;border-bottom:1px solid #dee2e6;">HUONG STELLA PARADIGM</div>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="badge">Pre-IELTS</div>
+      <h1>Unit 1: Relationships</h1>
+      <p>Complete all sections then submit for auto-scoring.</p>
+    </div>
+    <label for="student-name">Full Name</label>
+    <input type="text" id="student-name" placeholder="Your full name" autocomplete="name">
+    <label for="student-email">Email Address</label>
+    <input type="email" id="student-email" placeholder="e.g. lan@example.com" autocomplete="email">
+    <button class="btn-primary" onclick="startApp()">▶ Start Homework</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="app-header">
+    <div class="logo">Pre-<span>IELTS</span> &nbsp;|&nbsp; Unit 1</div>
+    <div class="student-info" id="header-student"></div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+
+  <!-- SECTION TABS -->
+  <div class="section-tabs">
+    <button class="tab-btn active" onclick="showSection('sec-a',this)">A · Vocabulary</button>
+    <button class="tab-btn" onclick="showSection('sec-b',this)">B · Grammar</button>
+    <button class="tab-btn" onclick="showSection('sec-c',this)">C · Reading</button>
+    <button class="tab-btn" onclick="showSection('sec-d',this)">D · Speaking</button>
+    <button class="tab-btn" onclick="showSection('sec-e',this)">E · Listening</button>
+  </div>
+
+  <div class="content">
+<!-- ===== SECTION A: VOCABULARY ===== -->
+<div id="sec-a" class="section-panel active">
+  <div class="section-title"><span class="tag">A</span> Vocabulary: Family &amp; Describing People</div>
+  <div class="section-sub">Choose the correct answers, complete texts, and match words to meanings.</div>
+
+  <!-- EX A1 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">1</span> Choose ALL correct answers to complete each sentence.</div>
+    <div id="a1"></div>
+  </div>
+
+  <!-- EX A2 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">2</span> Complete the text. Choose from the word box.</div>
+    <div class="word-box"><strong>Word box:</strong> anniversary &bull; celebrate &bull; congratulated &bull; engaged &bull; have &bull; invited &bull; married &bull; occasions &bull; together &bull; wish</div>
+    <p style="font-size:14px;line-height:2.2;margin-bottom:12px;">
+      I come from a very large family, but we all live in different places, so we don't get
+      <select class="ans-select" id="a2_1"><option value="">--</option></select> very often.
+      We usually meet for special <select class="ans-select" id="a2_2"><option value="">--</option></select>
+      like weddings. Last year, we all met for my grandparents' 50th wedding
+      <select class="ans-select" id="a2_3"><option value="">--</option></select>.
+      It was my birthday a few weeks ago, but I didn't
+      <select class="ans-select" id="a2_4"><option value="">--</option></select> a big party.
+      I prefer to <select class="ans-select" id="a2_5"><option value="">--</option></select>
+      my birthday with my family and a few close friends. My cousin phoned to
+      <select class="ans-select" id="a2_6"><option value="">--</option></select> me a happy birthday.
+      She got <select class="ans-select" id="a2_7"><option value="">--</option></select> last month
+      and is going to get <select class="ans-select" id="a2_8"><option value="">--</option></select> next year.
+      I <select class="ans-select" id="a2_9"><option value="">--</option></select> her on the great news.
+      She's <select class="ans-select" id="a2_10"><option value="">--</option></select> me to her wedding.
+    </p>
+  </div>
+
+  <!-- EX A3 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">3</span> Choose TWO correct words to complete each sentence.</div>
+    <div id="a3"></div>
+  </div>
+
+  <!-- EX A4 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">4</span> Complete the sentences. Choose from the word box.</div>
+    <div class="word-box"><strong>Word box:</strong> boss &bull; classmate &bull; colleague &bull; enemy &bull; neighbor &bull; partner &bull; relative &bull; stranger</div>
+    <div id="a4"></div>
+  </div>
+
+  <!-- EX A5 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">5</span> Match the personality words to their meanings.</div>
+    <div id="a5"></div>
+  </div>
+
+  <div class="nav-btns"><button class="btn-nav" onclick="showSection('sec-b',document.querySelectorAll('.tab-btn')[1])">Next: Grammar →</button></div>
+</div>
+
+<!-- ===== SECTION B: GRAMMAR ===== -->
+<div id="sec-b" class="section-panel">
+  <div class="section-title"><span class="tag">B</span> Grammar</div>
+  <div class="section-sub">Negatives, questions, frequency adverbs, and passive voice.</div>
+
+  <!-- EX B1 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">1</span> Rewrite the underlined parts in the negative form.</div>
+    <div id="b1"></div>
+  </div>
+
+  <!-- EX B2 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">2</span> Complete the questions in the conversations.</div>
+    <div id="b2"></div>
+  </div>
+
+  <!-- EX B3 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">3</span> Choose the sentence closest in meaning to the first sentence.</div>
+    <div id="b3"></div>
+  </div>
+
+  <!-- EX B4 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">4</span> Complete the sentences in the present simple passive.</div>
+    <div id="b4"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav" onclick="showSection('sec-a',document.querySelectorAll('.tab-btn')[0])">← Vocabulary</button>
+    <button class="btn-nav" onclick="showSection('sec-c',document.querySelectorAll('.tab-btn')[2])">Next: Reading →</button>
+  </div>
+</div>
+
+<!-- ===== SECTION C: READING ===== -->
+<div id="sec-c" class="section-panel">
+  <div class="section-title"><span class="tag">C</span> Reading</div>
+  <div class="section-sub">Read the passage on the left, then answer the exercises on the right.</div>
+
+  <!-- Split layout -->
+  <div style="display:flex;gap:20px;align-items:flex-start;">
+
+    <!-- LEFT: Passage (sticky) -->
+    <div style="flex:0 0 48%;position:sticky;top:120px;max-height:calc(100vh - 140px);overflow-y:auto;border-radius:12px;border:1px solid var(--border);background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);">
+      <div style="background:var(--navy);color:#fff;padding:14px 20px;border-radius:12px 12px 0 0;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;opacity:.7;text-transform:uppercase;margin-bottom:2px;">Reading Passage</div>
+        <div style="font-weight:800;font-size:15px;">How our sweet tooth is hurting us</div>
+      </div>
+      <div style="padding:20px 24px;font-size:14px;line-height:1.85;color:var(--text);">
+        <p>Over the last three centuries, the amount of sugar in the Western diet has continued to rise. Back at the start of the 18th century, a typical English family consumed less than 2 kg of sugar per year. By the end of that century, that amount had risen 400%. Compare that to the 40 kg that people now <strong>consume</strong> annually in the USA. In Germany, the second-most sugar-loving nation in the world, people eat roughly 103 grams on average per day. In the Netherlands, the country with the third-biggest sweet tooth, people eat 102.5 grams. Of course, there are some countries in the world where sweet food is less popular: in India, people eat only about 5 grams per day on average; in Indonesia, it's 14.5 grams; and in China, it's just under 16 grams. If you're not sure what 40 kg looks like, it means that the average person in the USA now eats approximately 22 teaspoons of sugar a day. The recommended limit, <strong>suggested by researchers</strong> from the World Health Organization, is no more than 8 if you want to stay healthy, but just one can of soda contains around 10.</p>
+        <p style="margin-top:14px;">It is common knowledge that many drinks, in bottles or canned, contain a lot of sugar. Although advertisements say that they are 'energy-giving', professional athletes and sportsmen and women usually <strong>stay away from</strong> them. It is <em>teenagers</em> that are their greatest consumers. And – although advertisers promise that these drinks will make people feel energetic and active – because of the type of chemicals they have, once a person has drunk all the soda, they simply feel hungry instead. However, sugar is also in products that many shoppers <strong>find surprising</strong>, for example, <em>cereal</em>, which actually has a lot. Because they believe it is a healthy kind of food, parents buy it for their children's breakfast.</p>
+        <p style="margin-top:14px;">A large part of the problem, according to nutritionists, is that people find it <strong>hard to understand</strong> the <em>labels</em> on the back of food products. Nutritionists think this should be a lot easier for them. But at the moment, manufacturers don't have to write 'sugar' on them, but can use words like 'corn syrup' or 'dextran', which can result in confusion for consumers. But why should we be worried about our sugar consumption? Firstly, it is <strong>harmful to</strong> young children because it causes tooth decay; the pain from this can mean that children don't get the amount of <em>sleep</em> they need. As a result, they can't concentrate when they are in class. In this case, schools and governments have a duty to educate them about good and bad food choices. For adults, the problems increase. Eating too much sugar makes people quickly gain weight, it affects the heart and liver, and can lead to diabetes.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Questions -->
+    <div style="flex:1;min-width:0;">
+
+      <!-- EX C1 -->
+      <div class="ex-card">
+        <div class="ex-title"><span class="ex-num">1</span> Which ideas are mentioned in the text? Choose Yes or No.</div>
+        <div id="c1"></div>
+      </div>
+
+      <!-- EX C2 -->
+      <div class="ex-card">
+        <div class="ex-title"><span class="ex-num">2</span> Match the people with their definitions.</div>
+        <div id="c2"></div>
+      </div>
+
+      <!-- EX C3 -->
+      <div class="ex-card">
+        <div class="ex-title"><span class="ex-num">3</span> Who might say the following? Match the statements to the person.</div>
+        <div id="c3"></div>
+      </div>
+
+      <!-- EX C4 -->
+      <div class="ex-card">
+        <div class="ex-title"><span class="ex-num">4</span> Match the bold words with phrases of similar meaning.</div>
+        <div id="c4"></div>
+      </div>
+
+      <!-- EX C5 -->
+      <div class="ex-card">
+        <div class="ex-title"><span class="ex-num">5</span> Answer the questions about the passage.</div>
+        <div id="c5"></div>
+      </div>
+
+    </div><!-- /right -->
+  </div><!-- /split -->
+
+  <div class="nav-btns" style="margin-top:24px;">
+    <button class="btn-nav" onclick="showSection('sec-b',document.querySelectorAll('.tab-btn')[1])">← Grammar</button>
+    <button class="btn-nav" onclick="showSection('sec-d',document.querySelectorAll('.tab-btn')[3])">Next: Speaking →</button>
+  </div>
+</div>
+<!-- ===== SECTION D: SPEAKING ===== -->
+<div id="sec-d" class="section-panel">
+  <div class="section-title"><span class="tag">D</span> Speaking: Describing People</div>
+  <div class="section-sub">Practise IELTS Speaking Part 2 — match notes, build sentences, and record your response.</div>
+
+  <!-- EX D1 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">1</span> Match the sentences to the correct people. (Task card: Describe a person you really like)</div>
+    <div id="d1"></div>
+  </div>
+
+  <!-- EX D2 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">2</span> Match the student's notes (Danny) to the task card points.</div>
+    <div id="d2"></div>
+  </div>
+
+  <!-- EX D3 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">3</span> Complete the student's answers. Use THREE words for each gap.</div>
+    <div id="d3"></div>
+  </div>
+
+  <!-- EX D4 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">4</span> Match the student's notes (Ahmed) to the task card points.</div>
+    <div id="d4"></div>
+  </div>
+
+  <!-- EX D5 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">5</span> Put the words in the correct order to make sentences about Ahmed.</div>
+    <div id="d5"></div>
+  </div>
+
+  <!-- EX D6: SPEAKING RECORDING -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">6</span> IELTS Speaking Part 2 — Record your response</div>
+    <div class="speaking-prompt">
+      <h4>📋 Task Card</h4>
+      <p style="margin-bottom:10px;">Describe a person who you really like. You should say:</p>
+      <ul>
+        <li>who the person is</li>
+        <li>when and where you first met that person</li>
+        <li>what type of personality he / she has</li>
+        <li>and explain why you really like that person</li>
+      </ul>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">⏱ You have 1 minute to prepare your notes, then speak for 1–2 minutes.</p>
+    <div style="margin-bottom:12px;">
+      <label style="font-weight:600;font-size:13px;">Your preparation notes:</label>
+      <textarea id="speaking-notes" style="width:100%;margin-top:6px;padding:10px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;height:80px;resize:vertical;font-family:inherit;" placeholder="Write your notes here (1 minute)…"></textarea>
+    </div>
+    <div class="record-area">
+      <button class="btn-record" id="btn-record" onclick="toggleRecording()">🎙 Start Recording</button>
+      <div class="rec-timer" id="rec-timer"></div>
+      <div class="playback-area" id="playback-area">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Your recording:</p>
+        <audio id="playback-audio" controls style="width:100%;display:block;margin-bottom:8px;"></audio>
+        <a id="download-recording" href="#" download="IELTS_Speaking_Unit1.webm" style="display:none;font-size:13px;color:var(--navy);text-decoration:underline;">⬇ Download recording</a>
+      </div>
+    </div>
+
+    <div class="feasibility-box">
+      <h4>ℹ About Speaking Auto-Grading</h4>
+      <p><span class="yes">✔ Recording:</span> Your browser can record your audio directly — no upload needed.</p>
+      <p><span class="partial">◑ Auto-grading:</span> The rubric below is provided for <strong>self-assessment</strong>.</p>
+    </div>
+
+    <div class="band-descriptors" style="margin-top:16px;">
+      <h4 style="font-weight:700;color:var(--navy);margin-bottom:10px;">IELTS Speaking Band Descriptors (self-assess)</h4>
+      <table class="band-table">
+        <tr><th>Band</th><th>Fluency &amp; Coherence</th><th>Lexical Resource</th><th>Grammar</th><th>Pronunciation</th></tr>
+        <tr><td>9</td><td>Speaks effortlessly; very coherent</td><td>Full flexibility; precise use of idiomatic language</td><td>Wide range; fully accurate</td><td>Fully intelligible; uses all features</td></tr>
+        <tr><td>8</td><td>Speaks fluently with only occasional repetition</td><td>Wide resource; skilful use of uncommon vocabulary</td><td>Wide range; mostly error-free</td><td>Easy to understand; L1 accent has no effect</td></tr>
+        <tr><td>7</td><td>Speaks at length; some hesitation</td><td>Uses vocabulary flexibly; some inaccuracies</td><td>Frequent complex structures; some errors</td><td>Easy to understand; some mispronunciation</td></tr>
+        <tr><td>6</td><td>Willing to speak at length; may lose coherence</td><td>Generally effective with some inaccuracies</td><td>Mix of simple and complex structures; some errors</td><td>Generally intelligible despite misarticulation</td></tr>
+        <tr><td>5</td><td>Noticeable pauses; limited ability to link ideas</td><td>Limited range; repetition</td><td>Attempts complex; makes errors</td><td>Accent may impede understanding</td></tr>
+        <tr><td>4</td><td>Cannot respond without noticeable pauses</td><td>Limited basic vocabulary; frequent errors</td><td>Produces basic sentences; many errors</td><td>Mispronunciation causes strain</td></tr>
+        <tr><td>3</td><td>Long pauses; very limited speech</td><td>Simple vocabulary; frequent errors</td><td>Only basic patterns; many errors</td><td>Difficult to understand</td></tr>
+      </table>
+      <div style="margin-top:10px;">
+        <label style="font-weight:600;font-size:13px;">Your self-assessed band: </label>
+        <select class="ans-select" id="speaking-band" style="width:auto;margin-left:8px;">
+          <option value="">-- Band --</option>
+          <option>9</option><option>8.5</option><option>8</option><option>7.5</option><option>7</option>
+          <option>6.5</option><option>6</option><option>5.5</option><option>5</option><option>4.5</option>
+          <option>4</option><option>3.5</option><option>3</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav" onclick="showSection('sec-c',document.querySelectorAll('.tab-btn')[2])">← Reading</button>
+    <button class="btn-nav" onclick="showSection('sec-e',document.querySelectorAll('.tab-btn')[4])">Next: Listening →</button>
+  </div>
+</div>
+
+<!-- ===== SECTION E: LISTENING ===== -->
+<div id="sec-e" class="section-panel">
+  <div class="section-title"><span class="tag">E</span> Listening</div>
+  <div class="section-sub">Listen to each track carefully before answering.</div>
+
+  <!-- EX E1 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">1</span> Match each number type (1–5) with the correct definition (A–E).</div>
+    <div id="e1"></div>
+  </div>
+
+  <!-- EX E2 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">2</span> Listen and write the missing numbers. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.1)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.1</span>
+      <audio controls><source src="Track 1.1.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <div id="e2"></div>
+  </div>
+
+  <!-- EX E3 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">3</span> Listen to how we say these long numbers. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.2 — listening only)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.2</span>
+      <audio controls><source src="Track 1.2.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <p style="font-size:14px;color:var(--muted);">570 &bull; 908 &bull; 4,731 &bull; 1,430 &bull; 77,009 &bull; 18,091 &bull; 907,790 &bull; 665,925 &bull; 2,840,000 &bull; 68,036,876</p>
+    <div class="notice" style="margin-top:12px;">This exercise is for listening practice only — no answers to submit.</div>
+  </div>
+
+  <!-- EX E4 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">4</span> Listen and underline (select) the numbers you hear. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.3)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.3</span>
+      <audio controls><source src="Track 1.3.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <div id="e4"></div>
+  </div>
+
+  <!-- EX E5A -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">5A</span> Circle the correct answer. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.4 — Bank account)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.4</span>
+      <audio controls><source src="Track 1.4.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <div id="e5a"></div>
+  </div>
+
+  <!-- EX E5B -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">5B</span> Fill in the missing information. Write NO MORE THAN TWO WORDS AND/OR A NUMBER. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.5)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.5</span>
+      <audio controls><source src="Track 1.5.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <div id="e5b"></div>
+  </div>
+
+  <!-- EX E6 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">6</span> Complete the definitions with the correct word from the box.</div>
+    <div class="word-box"><strong>Word box:</strong> behavior &bull; coast &bull; dangerous &bull; marine &bull; rare &bull; sociable &bull; wild</div>
+    <div id="e6"></div>
+  </div>
+
+  <!-- EX E7 -->
+  <div class="ex-card">
+    <div class="ex-title"><span class="ex-num">7</span> Listen and choose the correct answer. <span style="font-weight:400;font-size:13px;color:var(--muted)">(Track 1.6 — Maui Dolphins)</span></div>
+    <div class="audio-wrap">
+      <span class="track-label">🔊 Track 1.6</span>
+      <audio controls><source src="Track 1.6.mp3" type="audio/mpeg">Your browser does not support audio.</audio>
+    </div>
+    <div id="e7"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-nav" onclick="showSection('sec-d',document.querySelectorAll('.tab-btn')[3])">← Speaking</button>
+    <button class="btn-nav" onclick="submitAll()" style="background:var(--gold);color:#fff;border-color:var(--gold);">✔ Submit &amp; See Results</button>
+  </div>
+</div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-header">
+    <h2>🎓 Unit 1 Results</h2>
+    <div id="student-result-name" style="opacity:.8;font-size:15px;margin-bottom:8px;"></div>
+    <div class="score-circle pass" id="total-circle">—</div>
+    <div style="font-size:15px;margin-top:4px;" id="total-label"></div>
+  </div>
+  <div class="section-scores" id="section-scores"></div>
+  <div id="improvement-section"></div>
+  <div style="margin-bottom:24px;display:flex;flex-wrap:wrap;gap:12px;">
+    <button class="btn-export" onclick="exportPDF()">📥 Download Report</button>
+    <button class="btn-email" onclick="sendEmail()">📧 Email Results to Teacher</button>
+    <button class="btn-nav" onclick="location.reload()" style="border-color:var(--muted);color:var(--muted);">↩ Retake</button>
+  </div>
+
+</div>
+<script>
+// ===================== DATA =====================
+const A1_DATA = [
+  { q:"Your uncle is your …", opts:["aunt's husband","mother or father's brother","sister's husband"], correct:[0,1] },
+  { q:"Your cousin is your …", opts:["brother's father","father's nephew or niece","uncle or aunt's child"], correct:[1,2] },
+  { q:"Your niece is your …", opts:["brother or sister's daughter","mother or father's cousin","son or daughter's cousin"], correct:[2] },
+  { q:"Your brother-in-law is your …", opts:["brother's wife","husband or wife's brother","sister's husband"], correct:[1,2] },
+  { q:"Your aunt is your …", opts:["cousin's wife","mother or father's sister","uncle's wife"], correct:[1,2] },
+  { q:"Your daughter-in-law is your …", opts:["brother's wife","daughter's husband","son's wife"], correct:[2] },
+  { q:"Your nephew is your …", opts:["brother or sister's daughter","brother or sister's son","niece's brother"], correct:[1,2] }
+];
+
+const A2_ANSWERS = ["together","occasions","anniversary","have","celebrate","wish","engaged","married","congratulated","invited"];
+const A2_WORDS = ["anniversary","celebrate","congratulated","engaged","have","invited","married","occasions","together","wish"];
+
+const A3_DATA = [
+  { q:"Age: She's …", opts:["middle-aged","slim","young"], correct:[0,2] },
+  { q:"Type of person: He's a/an …", opts:["baby","child","scar"], correct:[0,1] },
+  { q:"Size / Height: He's …", opts:["long","short","tall"], correct:[1,2] },
+  { q:"Weight: He's …", opts:["plain","slim","thin"], correct:[1,2] },
+  { q:"Looks: She's …", opts:["good-looking","plain","wavy"], correct:[0,1] },
+  { q:"Hair: He's got … hair.", opts:["bald","dark","fair"], correct:[1,2] },
+  { q:"Features: He's got a/an …", opts:["adult","beard","moustache"], correct:[1,2] },
+  { q:"Features: She wears …", opts:["big earrings","glasses","long hair"], correct:[0,1] }
+];
+
+const A4_DATA = [
+  { s:"A/An ___ is a member of your family, such as a cousin, a parent or one of your children.", ans:"relative" },
+  { s:"A/An ___ is a person who hates another person and tries to hurt them.", ans:"enemy" },
+  { s:"Your ___ is someone who lives very close to you, sometimes in the next house or flat.", ans:"neighbor" },
+  { s:"If you don't know somebody, they are a/an ___.", ans:"stranger" },
+  { s:"Your ___ is the person who tells you what to do at work.", ans:"boss" },
+  { s:"A/An ___ is someone who is in the same class as you at school or university.", ans:"classmate" },
+  { s:"A/An ___ is one of a group of people who work together.", ans:"colleague" },
+  { s:"Your ___ is a person you work closely with, for example in pair work.", ans:"partner" }
+];
+const A4_WORDS = ["boss","classmate","colleague","enemy","neighbor","partner","relative","stranger"];
+
+const A5_DATA = [
+  { word:"hard-working", def:"always does a lot of work" },
+  { word:"lazy", def:"doesn't want to work or do anything that needs effort" },
+  { word:"shy", def:"doesn't like meeting new people" },
+  { word:"friendly", def:"is happy to meet new people" },
+  { word:"reliable", def:"will do what they say they will do" },
+  { word:"selfish", def:"thinks only of themselves, and doesn't care about other people" },
+  { word:"helpful", def:"is happy to help other people" },
+  { word:"generous", def:"is happy to give other people money, help or their time" }
+];
+const A5_DEFS = A5_DATA.map(x=>x.def);
+
+const B1_DATA = [
+  { prompt:"I <u>can remember</u> people's names because <u>I've got a good memory</u>.", ans1:"can't remember", ans2:"haven't got" },
+  { prompt:"My uncle <u>looks old</u> because <u>he's got grey hair</u>.", ans1:"doesn't look old", ans2:"hasn't got grey hair" },
+  { prompt:"My grandmother <u>gives us lots of presents</u> because <u>she's a rich person</u>.", ans1:"doesn't give", ans2:"isn't a rich person" },
+  { prompt:"We <u>have</u> a lot of family get-togethers, so I <u>know</u> my cousins very well.", ans1:"don't have", ans2:"don't know" },
+  { prompt:"You <u>can buy</u> toys for your nieces and nephews because <u>they're little children</u>.", ans1:"can't buy", ans2:"aren't little children" }
+];
+
+const B2_DATA = [
+  { answer_q:"How often do you see your cousins?", b:"Not very often. I only see them about once a year." },
+  { answer_q:"Does your boss wear a lot of make-up?", b:"My boss? Yes, she wears a lot of make-up." },
+  { answer_q:"How old are your nephews and nieces?", b:"My nephew is eight years old and my nieces are five and two years old." },
+  { answer_q:"Are your colleagues lazy or hard-working?", b:"They're quite lazy." },
+  { answer_q:"How many cousins have you got?", b:"I've got six cousins." },
+  { answer_q:"What color is your brother's hair?", b:"It's dark brown." },
+  { answer_q:"Can you remember your cousin's wedding?", b:"No, I can't. I was only three years old at the time." },
+  { answer_q:"How do you usually celebrate your birthday?", b:"I usually have a party with my relatives and close friends." }
+];
+
+const B3_DATA = [
+  { stem:"Whenever it's my aunt's birthday, she organizes a family get-together.", opts:["My aunt always organizes a family get-together for her birthday.","My aunt occasionally organizes a family get-together for her birthday.","My aunt rarely organizes a family get-together for her birthday."], correct:0 },
+  { stem:"When it's my aunt's birthday, she usually organizes a family get-together.", opts:["My aunt almost never organizes a family get-together for her birthday.","My aunt always organizes a family get-together for her birthday.","My aunt organizes a family get-together most years for her birthday."], correct:2 },
+  { stem:"My aunt often organizes family get-togethers.", opts:["My aunt always organizes family get-togethers.","My aunt occasionally organizes family get-togethers.","My aunt organizes a lot of family get-togethers."], correct:2 },
+  { stem:"My aunt organizes family get-togethers from time to time.", opts:["My aunt almost never organizes family get-togethers.","My aunt always organizes family get-togethers.","My aunt occasionally organizes family get-togethers."], correct:2 },
+  { stem:"My aunt organizes a family get-together three times a year.", opts:["My aunt organizes a family get-together every four months.","My aunt organizes a family get-together every month.","My aunt organizes a family get-together every three months."], correct:0 },
+  { stem:"My aunt organizes a family get-together every other month.", opts:["My aunt organizes a family get-together every four months.","My aunt organizes a family get-together six times a year.","My aunt organizes a family get-together twice a year."], correct:1 },
+  { stem:"My aunt doesn't often organize family get-togethers.", opts:["My aunt organizes a lot of family get-togethers.","My aunt organizes family get-togethers from time to time.","My aunt rarely organizes family get-togethers."], correct:2 },
+  { stem:"My aunt hardly ever organizes family get-togethers.", opts:["My aunt almost never organizes family get-togethers.","My aunt always organizes family get-togethers.","My aunt occasionally organizes family get-togethers."], correct:0 }
+];
+
+const B4_DATA = [
+  { active:"Workers pick the tea by hand.", passive:"The tea ___ picked by hand.", ans:"is" },
+  { active:"Workers keep the good oranges.", passive:"The good oranges ___ kept.", ans:"are" },
+  { active:"Workers ship the coffee in fridges.", passive:"The coffee ___ shipped in fridges.", ans:"is" },
+  { active:"Workers pack the apples into lorries.", passive:"The apples ___ packed into lorries.", ans:"are" },
+  { active:"The lorries deliver the rice to the supermarket.", passive:"The rice ___ delivered to the supermarket.", ans:"is" },
+  { active:"Customers buy the chocolate in the supermarket.", passive:"The chocolate ___ bought in the supermarket.", ans:"is" }
+];
+
+const C1_DATA = [
+  { s:"The increase in the amount of sugar we eat.", ans:"yes" },
+  { s:"The places in the supermarket where you can find sugary products.", ans:"no" },
+  { s:"The way that advertising sugary products has changed.", ans:"no" },
+  { s:"The health problems that sugar causes in children.", ans:"yes" },
+  { s:"The health problems that sugar causes in adults.", ans:"yes" }
+];
+
+const C2_DATA = [
+  { def:"a person or company that makes a product", ans:"manufacturer" },
+  { def:"a person who buys or uses a product", ans:"consumer" },
+  { def:"a person who studies a subject carefully", ans:"researcher" },
+  { def:"a person who gives advice about healthy eating", ans:"nutritionist" },
+  { def:"a person who makes commercials to sell a product", ans:"advertiser" }
+];
+const PEOPLE = ["advertiser","consumer","manufacturer","nutritionist","researcher"];
+
+const C3_DATA = [
+  { quote:"'My report studies the effects of sugar on the health of people aged 15–24 in the USA.'", ans:"researcher" },
+  { quote:"'Feeling tired? New Choco-nut breakfast cereal will give you all the energy you need!'", ans:"advertiser" },
+  { quote:"'There are ten sugar cubes in every can of soda so you shouldn't drink soda every day.'", ans:"nutritionist" },
+  { quote:"'Our factory sells 50% more sugar today than 50 years ago.'", ans:"manufacturer" },
+  { quote:"'I know sugar is bad for me, but I usually eat two bars of chocolate every day.'", ans:"consumer" }
+];
+
+const C4_DATA = [
+  { bold:"Sugar can be very <strong>bad</strong> for children.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"harmful to" },
+  { bold:"My doctor said I was eating the wrong foods, which <strong>surprised</strong> me.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"was unexpected" },
+  { bold:"We should buy and <strong>eat</strong> healthier food that doesn't have a lot of sugar.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"consume" },
+  { bold:"I try to <strong>avoid</strong> chocolate when I'm hungry because it's not very healthy.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"stay away from" },
+  { bold:"<strong>I think you should</strong> go on a diet.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"recommend that you" },
+  { bold:"A lot of information about good sugar and bad sugar is <strong>hard to understand</strong>.", phrase_opts:["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"], ans:"not clear" }
+];
+
+const C5_DATA = [
+  { q:"Which country consumes the least sugar per person?", ans:"india" },
+  { q:"What is the maximum recommended number of teaspoons of sugar a person should consume a day?", ans:"8" },
+  { q:"Which group of people drink more sugary drinks than anyone else?", ans:"teenagers" },
+  { q:"How do people really feel after finishing sugary drinks?", ans:"hungry" },
+  { q:"Which food product has an unexpected amount of sugar?", ans:"cereal" },
+  { q:"What do nutritionists want to be clearer for consumers?", ans:"labels" },
+  { q:"What may decrease as a result of tooth decay in children?", ans:"sleep" }
+];
+
+const D1_DATA = [
+  { s:"Abdullah is quite clever.", ans:"Last year he won the science prize at school." },
+  { s:"Liang is very kind.", ans:"He looks after his younger brother each afternoon." },
+  { s:"Masako is really brave.", ans:"She likes to do exciting sports like water-skiing and rock-climbing." },
+  { s:"Simon is so lazy.", ans:"He only watches TV and he never does his homework." },
+  { s:"Mikhael is always relaxed.", ans:"He doesn't worry much about the future." }
+];
+const D1_OPTS = ["Last year he won the science prize at school.","He looks after his younger brother each afternoon.","She likes to do exciting sports like water-skiing and rock-climbing.","He only watches TV and he never does his homework.","He doesn't worry much about the future."];
+
+const D2_DATA = [
+  { point:"Who the person is:", ans:"my boyfriend, Danny" },
+  { point:"When I met him:", ans:"after he saw me on TV" },
+  { point:"Where I met him:", ans:"message on Facebook, then met up" },
+  { point:"What type of personality he has:", ans:"lovely" },
+  { point:"Why I like him:", ans:"he's like a member of my family" }
+];
+const D2_OPTS = ["my boyfriend, Danny","after he saw me on TV","message on Facebook, then met up","lovely","he's like a member of my family"];
+
+const D3_DATA = [
+  { prefix:"1. The person who I'll describe is", ans:"my boyfriend" },
+  { prefix:"2. A television station asked me if I wanted to do an interview, and then", ans:"he saw me" },
+  { prefix:"3. He wrote me a message on Facebook,", ans:"and then we met" },
+  { prefix:"4. He is a very", ans:"lovely person" },
+  { prefix:"5. We've been together for three years, and", ans:"he's part of my" }
+];
+
+const D4_DATA = [
+  { point:"Who the person is:", ans:"my friend, Ahmed" },
+  { point:"When I met him:", ans:"we were aged 5 and 6" },
+  { point:"Where I met him:", ans:"at school" },
+  { point:"What type of personality he has:", ans:"supportive" },
+  { point:"Why I like him:", ans:"he is like my brother" }
+];
+const D4_OPTS = ["my friend, Ahmed","we were aged 5 and 6","at school","supportive","he is like my brother"];
+
+const D5_DATA = [
+  { words:["my","friend","is","really","I","that","the","like","person"], ans:"The person that I really like is my friend." },
+  { words:["met","school","were","we","years old","we","at","when","five and six"], ans:"We met at school when we were five and six years old." },
+  { words:["up","we","together","grew"], ans:"We grew up together." },
+  { words:["a","speak","I","I","problem,","to","have","when","him"], ans:"When I have a problem, I speak to him." },
+  { words:["part","family","a","is","my","of","he","like"], ans:"He is like a part of my family." }
+];
+
+const E1_DATA = [
+  { num:"68%", ans:"a percentage" },
+  { num:"5.5", ans:"a decimal number" },
+  { num:"8:1", ans:"a ratio (e.g. 5:2)" },
+  { num:"¾", ans:"a fraction" },
+  { num:"34 degrees", ans:"a temperature" }
+];
+const E1_OPTS = ["a decimal number","a fraction","a percentage","a ratio (e.g. 5:2)","a temperature"];
+
+const E2_DATA = [
+  { given:"13% — 84% — 60%", missing:["51%","17%","48%"] },
+  { given:"8.25 — 2.1 — 18.7", missing:["40.6","15.33","20.8"] },
+  { given:"9:6 — 10:1 — 20:3", missing:["5:2","18:4","100:1"] },
+  { given:"2/3 — 4/5 — 1/2", missing:["1/4","9/10","7/8"] },
+  { given:"24° — 41° — 10°", missing:["14 degrees","-7 degrees","30 degrees"] }
+];
+
+const E4_DATA = [
+  { prompt:"1", opts:["a. 512","b. 520","c. 521"], ans:"c. 521" },
+  { prompt:"2", opts:["a. 115","b. 116","c. 160"], ans:"c. 160" },
+  { prompt:"3", opts:["a. 745","b. 743","c. 735"], ans:"b. 743" },
+  { prompt:"4", opts:["a. 8,950","b. 8,590","c. 9,850"], ans:"a. 8,950" },
+  { prompt:"5", opts:["a. 4,682","b. 4,692","c. 4,629"], ans:"b. 4,692" },
+  { prompt:"6", opts:["a. 5,700","b. 5,070","c. 5,770"], ans:"c. 5,770" },
+  { prompt:"7", opts:["a. 20,101","b. 21,201","c. 21,110"], ans:"a. 20,101" },
+  { prompt:"8", opts:["a. 64,234","b. 64,324","c. 60,434"], ans:"b. 64,324" },
+  { prompt:"9", opts:["a. 19,409","b. 90,490","c. 90,409"], ans:"c. 90,409" },
+  { prompt:"10", opts:["a. 305,350","b. 350,305","c. 300,530"], ans:"c. 300,530" },
+  { prompt:"11", opts:["a. 894,278","b. 809,428","c. 849,478"], ans:"a. 894,278" },
+  { prompt:"12", opts:["a. 570,367","b. 517,367","c. 570,357"], ans:"a. 570,367" },
+  { prompt:"13", opts:["a. 1,100,573","b. 1,010,573","c. 1,001,573"], ans:"b. 1,010,573" },
+  { prompt:"14", opts:["a. 5,690,000","b. 5,619,000","c. 5,609,000"], ans:"c. 5,609,000" },
+  { prompt:"15", opts:["a. 7,542,104","b. 7,524,140","c. 7,949,104"], ans:"b. 7,524,140" },
+  { prompt:"16", opts:["a. 3,420,022","b. 3,412,002","c. 3,422,202"], ans:"a. 3,420,022" },
+  { prompt:"17", opts:["a. 45,689,607","b. 4,568,967","c. 40,568,607"], ans:"c. 40,568,607" },
+  { prompt:"18", opts:["a. 12,000,500","b. 12,050,503","c. 11,050,503"], ans:"a. 12,000,500" }
+];
+
+const E5A_DATA = [
+  { q:"1. How many students have an account with the bank? (The proportion of students in the darker shade)", opts:["a","b","c"], ans:"a", piechart:true },
+  { q:"2. The maximum amount the student can borrow without paying interest is:", opts:["a. £250","b. £215","c. £520"], ans:"a. £250" },
+  { q:"3. There is a minimum yearly interest payment of:", opts:["a. 5%","b. 0.5%","c. 0.6%"], ans:"b. 0.5%" },
+  { q:"4. If the student borrows more than £1,000 the interest rises to:", opts:["a. 5%","b. 1.6%","c. 0.6%"], ans:"b. 1.6%" },
+  { q:"5. The Short-Term Saver account lasts for:", opts:["a. 6 months","b. 1 year","c. 2 years"], ans:"b. 1 year" },
+  { q:"6. The Medium Term Saver annual interest rate is:", opts:["a. 2.75%","b. 4.15%","c. 3.7%"], ans:"c. 3.7%" },
+  { q:"7. The Long Term Saver annual interest rate is:", opts:["a. 4.15%","b. 3.7%","c. 2.75%"], ans:"a. 4.15%" }
+];
+
+const E5B_DATA = [
+  { q:"8. National Insurance Number:", ans:"PL 348600 H" },
+  { q:"9. Passport number:", ans:"943002939" },
+  { q:"10. Opening deposit:", ans:"£855" },
+  { q:"11. Other account number:", ans:"56306672" },
+  { q:"12. Phone number:", ans:"258476" }
+];
+
+const E6_DATA = [
+  { s:"Animals that live in forests, the jungle and mountains, and do not live at home as pets are ___ animals.", ans:"wild" },
+  { s:"We say that an animal is ___ when there are only a few still alive in the world.", ans:"rare" },
+  { s:"A ___ animal lives only in the sea, for example, a dolphin or a shark.", ans:"marine" },
+  { s:"A ___ person or animal likes being with others, rather than being alone.", ans:"sociable" },
+  { s:"Lions, tigers or sharks can harm you, so these animals are ___, not safe.", ans:"dangerous" },
+  { s:"The ___ is the area of land next to the sea.", ans:"coast" },
+  { s:"When scientists study the ___ of animals, they find out what they eat, when they sleep and how they communicate.", ans:"behavior" }
+];
+const E6_WORDS = ["behavior","coast","dangerous","marine","rare","sociable","wild"];
+
+const E7_DATA = [
+  { q:"1. Anne has asked Tom to help her with her dolphin project because:", opts:["a. he is in the same class as Anne.","b. he is an expert on dolphins.","c. he once did a similar project to Anne."], ans:"c. he once did a similar project to Anne." },
+  { q:"2. How long is an adult male Maui dolphin?", opts:["a. 1 meter","b. 1.5 meters","c. 1.7 meters"], ans:"b. 1.5 meters" },
+  { q:"3. Where are Maui dolphins found in New Zealand?", opts:["a. Around most of the coast of the North Island","b. Along the west coast of the North Island","c. Around the whole coast of the South Island"], ans:"b. Along the west coast of the North Island" },
+  { q:"4. The population of Maui dolphins is now likely to be:", opts:["a. around 100","b. just under 50","c. well over 500"], ans:"b. just under 50" },
+  { q:"5. What do Anne and Tom agree is typical behaviour for Maui dolphins?", opts:["a. They prefer to live with many other Maui dolphins.","b. They often choose to follow boats to catch fish more easily.","c. They are friendly towards people who swim near them."], ans:"a. They prefer to live with many other Maui dolphins." },
+  { q:"6. How far along the coastline do Maui dolphins swim?", opts:["a. 40 kilometers","b. 30 kilometers","c. 50 kilometers"], ans:"b. 30 kilometers" }
+];
+</script>
+<script>
+// ===================== RENDER FUNCTIONS =====================
+let studentName='', studentEmail='';
+let mediaRecorder=null, audioChunks=[], recInterval=null, recSecs=0;
+
+function startApp(){
+  studentName=document.getElementById('student-name').value.trim();
+  studentEmail=document.getElementById('student-email').value.trim();
+  if(!studentName||!studentEmail){alert('Please enter your name and email.');return;}
+  if(!studentEmail.includes('@')){alert('Please enter a valid email address.');return;}
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('header-student').textContent=studentName+' · '+studentEmail;
+  renderAll();
+}
+
+function showSection(id,btn){
+  document.querySelectorAll('.section-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = document.querySelectorAll('.ans-select, .ans-text, input[type=radio], input[type=checkbox]').length;
+  const answered = [...document.querySelectorAll('.ans-select')].filter(s=>s.value).length
+    + [...document.querySelectorAll('.ans-text')].filter(s=>s.value.trim()).length
+    + [...document.querySelectorAll('input[type=radio]:checked')].length
+    + 0; // checkboxes optional
+  const pct = total>0?Math.round(answered/total*100):0;
+  document.getElementById('progress-bar').style.width=Math.min(pct,100)+'%';
+}
+
+function mkSelect(id, opts, placeholder='-- select --'){
+  let s=`<select class="ans-select" id="${id}" onchange="updateProgress()"><option value="">${placeholder}</option>`;
+  opts.forEach(o=>s+=`<option value="${o}">${o}</option>`);
+  return s+'</select>';
+}
+
+function mkRadio(name, opts){
+  return opts.map((o,i)=>`<label class="opt-row"><input type="radio" name="${name}" value="${o}" onchange="updateProgress()"> ${o}</label>`).join('');
+}
+
+// ===== RENDER A1 =====
+function renderA1(){
+  let html='';
+  A1_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block"><div class="q-label">${qi+1}. ${item.q}</div><div class="options" id="a1_${qi}_opts">`;
+    item.opts.forEach((opt,oi)=>{
+      html+=`<label class="opt-row" id="a1_${qi}_${oi}"><input type="checkbox" name="a1_${qi}" value="${oi}" onchange="updateProgress()"> ${opt}</label>`;
+    });
+    html+=`</div><div class="answer-key-hint" id="a1_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('a1').innerHTML=html;
+}
+
+// ===== RENDER A2 =====
+function renderA2(){
+  ['a2_1','a2_2','a2_3','a2_4','a2_5','a2_6','a2_7','a2_8','a2_9','a2_10'].forEach((id,i)=>{
+    const sel=document.getElementById(id);
+    A2_WORDS.forEach(w=>{const o=document.createElement('option');o.value=w;o.textContent=w;sel.appendChild(o);});
+    sel.addEventListener('change',updateProgress);
+  });
+}
+
+// ===== RENDER A3 =====
+function renderA3(){
+  let html='';
+  A3_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block"><div class="q-label">${qi+1}. ${item.q}</div><div class="options">`;
+    item.opts.forEach((opt,oi)=>{
+      html+=`<label class="opt-row" id="a3_${qi}_${oi}"><input type="checkbox" name="a3_${qi}" value="${oi}" onchange="updateProgress()"> ${opt}</label>`;
+    });
+    html+=`</div><div class="answer-key-hint" id="a3_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('a3').innerHTML=html;
+}
+
+// ===== RENDER A4 =====
+function renderA4(){
+  let html='';
+  A4_DATA.forEach((item,qi)=>{
+    const s=item.s.replace('___', mkSelect(`a4_${qi}`,A4_WORDS));
+    html+=`<div class="q-block">${qi+1}. ${s}<div class="answer-key-hint" id="a4_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('a4').innerHTML=html;
+}
+
+// ===== RENDER A5 =====
+function renderA5(){
+  let html='';
+  A5_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="min-width:120px;font-weight:600;color:var(--navy);">${item.word}</span>
+      ${mkSelect(`a5_${qi}`,A5_DEFS)}
+      <div class="answer-key-hint" id="a5_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('a5').innerHTML=html;
+}
+
+// ===== RENDER B1 =====
+function renderB1(){
+  let html='';
+  B1_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. ${item.prompt}</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+        <input class="ans-text" id="b1_${qi}_a" placeholder="Negative form (verb 1)…" oninput="updateProgress()">
+        <input class="ans-text" id="b1_${qi}_b" placeholder="Negative form (verb 2 / clause)…" oninput="updateProgress()">
+      </div>
+      <div class="answer-key-hint" id="b1_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('b1').innerHTML=html;
+}
+
+// ===== RENDER B2 =====
+function renderB2(){
+  let html='';
+  B2_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">B: ${item.b}</div>
+      <div style="margin-top:6px;"><label style="font-size:13px;font-weight:600;color:var(--navy);">A: </label>
+      <input class="ans-text" id="b2_${qi}" placeholder="Write the question…" style="width:90%;" oninput="updateProgress()"></div>
+      <div class="answer-key-hint" id="b2_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('b2').innerHTML=html;
+}
+
+// ===== RENDER B3 =====
+function renderB3(){
+  let html='';
+  B3_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label" style="font-style:italic;">"${item.stem}"</div>
+      <div class="options" style="margin-top:8px;">`;
+    item.opts.forEach((opt,oi)=>{
+      html+=`<label class="opt-row" id="b3_${qi}_${oi}"><input type="radio" name="b3_${qi}" value="${oi}" onchange="updateProgress()"> ${opt}</label>`;
+    });
+    html+=`</div><div class="answer-key-hint" id="b3_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('b3').innerHTML=html;
+}
+
+// ===== RENDER B4 =====
+function renderB4(){
+  let html='';
+  B4_DATA.forEach((item,qi)=>{
+    const passive=item.passive.replace('___',`<input class="ans-text" id="b4_${qi}" placeholder="is/are" style="width:60px;" oninput="updateProgress()">`);
+    html+=`<div class="q-block">
+      <div class="q-label" style="color:var(--muted);font-style:italic;">Active: ${item.active}</div>
+      <div style="margin-top:6px;font-size:14px;">Passive: ${passive}</div>
+      <div class="answer-key-hint" id="b4_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('b4').innerHTML=html;
+}
+
+// ===== RENDER C1 =====
+function renderC1(){
+  let html='';
+  C1_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. ${item.s}</div>
+      <div class="options" style="flex-direction:row;gap:10px;">
+        <label class="opt-row" id="c1_${qi}_yes" style="padding:6px 18px;"><input type="radio" name="c1_${qi}" value="yes" onchange="updateProgress()"> Yes</label>
+        <label class="opt-row" id="c1_${qi}_no" style="padding:6px 18px;"><input type="radio" name="c1_${qi}" value="no" onchange="updateProgress()"> No</label>
+      </div>
+      <div class="answer-key-hint" id="c1_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('c1').innerHTML=html;
+}
+
+// ===== RENDER C2 =====
+function renderC2(){
+  let html='';
+  C2_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. ${item.def}</div>
+      ${mkSelect(`c2_${qi}`,PEOPLE)}
+      <div class="answer-key-hint" id="c2_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('c2').innerHTML=html;
+}
+
+// ===== RENDER C3 =====
+function renderC3(){
+  let html='';
+  C3_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. ${item.quote}</div>
+      ${mkSelect(`c3_${qi}`,PEOPLE)}
+      <div class="answer-key-hint" id="c3_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('c3').innerHTML=html;
+}
+
+// ===== RENDER C4 =====
+function renderC4(){
+  const phraseOpts=["harmful to","was unexpected","consume","stay away from","recommend that you","not clear"];
+  let html='';
+  C4_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. <em>${item.bold}</em></div>
+      ${mkSelect(`c4_${qi}`,phraseOpts)}
+      <div class="answer-key-hint" id="c4_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('c4').innerHTML=html;
+}
+
+// ===== RENDER C5 =====
+function renderC5(){
+  let html='';
+  C5_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. ${item.q}</div>
+      <input class="ans-text" id="c5_${qi}" placeholder="Your answer…" oninput="updateProgress()">
+      <div class="answer-key-hint" id="c5_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('c5').innerHTML=html;
+}
+
+// ===== RENDER D1 =====
+function renderD1(){
+  let html='';
+  D1_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${qi+1}. <strong>${item.s}</strong></div>
+      ${mkSelect(`d1_${qi}`,D1_OPTS)}
+      <div class="answer-key-hint" id="d1_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('d1').innerHTML=html;
+}
+
+// ===== RENDER D2 =====
+function renderD2(){
+  let html='';
+  D2_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span style="min-width:200px;font-weight:600;">${item.point}</span>
+      ${mkSelect(`d2_${qi}`,D2_OPTS)}
+      <div class="answer-key-hint" id="d2_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('d2').innerHTML=html;
+}
+
+// ===== RENDER D3 =====
+function renderD3(){
+  let html='';
+  D3_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div style="font-size:14px;">${item.prefix} <input class="ans-text" id="d3_${qi}" placeholder="(3 words)" style="width:220px;" oninput="updateProgress()"> …</div>
+      <div class="answer-key-hint" id="d3_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('d3').innerHTML=html;
+}
+
+// ===== RENDER D4 =====
+function renderD4(){
+  let html='';
+  D4_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span style="min-width:200px;font-weight:600;">${item.point}</span>
+      ${mkSelect(`d4_${qi}`,D4_OPTS)}
+      <div class="answer-key-hint" id="d4_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('d4').innerHTML=html;
+}
+
+// ===== RENDER D5 =====
+function renderD5(){
+  let html='';
+  D5_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">Word bank: <em>${item.words.join(' / ')}</em></div>
+      <input class="ans-text" id="d5_${qi}" placeholder="Write the sentence in the correct order…" style="width:100%;" oninput="updateProgress()">
+      <div class="answer-key-hint" id="d5_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('d5').innerHTML=html;
+}
+
+// ===== RENDER E1 =====
+function renderE1(){
+  let html='';
+  E1_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="min-width:80px;font-weight:700;font-size:18px;color:var(--navy);">${item.num}</span>
+      ${mkSelect(`e1_${qi}`,E1_OPTS)}
+      <div class="answer-key-hint" id="e1_${qi}_hint"></div>
+    </div>`;
+  });
+  document.getElementById('e1').innerHTML=html;
+}
+
+// ===== RENDER E2 =====
+function renderE2(){
+  let html='';
+  E2_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">Row ${qi+1}: <span style="color:var(--muted)">${item.given}</span> — <strong>___</strong> — <strong>___</strong> — <strong>___</strong></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">`;
+    item.missing.forEach((_,mi)=>{
+      html+=`<input class="ans-text" id="e2_${qi}_${mi}" placeholder="Number ${mi+1}" style="width:120px;" oninput="updateProgress()">`;
+    });
+    html+=`</div><div class="answer-key-hint" id="e2_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('e2').innerHTML=html;
+}
+
+// ===== RENDER E4 =====
+function renderE4(){
+  let html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;">';
+  E4_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block" style="margin-bottom:0;">
+      <div class="q-label" style="font-size:13px;">Q${item.prompt}</div>
+      <div class="options" style="flex-direction:row;gap:6px;flex-wrap:wrap;">`;
+    item.opts.forEach(opt=>{
+      html+=`<label class="opt-row" style="padding:5px 10px;font-size:13px;"><input type="radio" name="e4_${qi}" value="${opt}" onchange="updateProgress()"> ${opt}</label>`;
+    });
+    html+=`</div><div class="answer-key-hint" id="e4_${qi}_hint"></div></div>`;
+  });
+  html+='</div>';
+  document.getElementById('e4').innerHTML=html;
+}
+
+// ===== RENDER E5A =====
+function svgPie(slices,size){
+  const cx=50,cy=50,r=42;
+  let angle=0,paths='';
+  slices.forEach(s=>{
+    const a0=angle*Math.PI/180, a1=(angle+s.pct*360)*Math.PI/180;
+    const x0=cx+r*Math.sin(a0), y0=cy-r*Math.cos(a0);
+    const x1=cx+r*Math.sin(a1), y1=cy-r*Math.cos(a1);
+    const large=(s.pct*360)>180?1:0;
+    paths+=`<path d="M ${cx},${cy} L ${x0.toFixed(2)},${y0.toFixed(2)} A ${r},${r} 0 ${large},1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${s.fill}"/>`;
+    angle+=s.pct*360;
+  });
+  const sz=size||90;
+  return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" style="display:block;">${paths}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#444" stroke-width="1.5"/></svg>`;
+}
+
+// Pie chart definitions for E5A Q1 (darker shade = students with account)
+const E5A_PIECHARTS=[
+  [{pct:.75,fill:'#595959'},{pct:.25,fill:'#888'}],  // a: 75% dark (correct)
+  [{pct:.40,fill:'#595959'},{pct:.60,fill:'#888'}],  // b: 40% dark
+  [{pct:.80,fill:'#595959'},{pct:.20,fill:'#888'}]   // c: 80% dark
+];
+
+function renderE5A(){
+  let html='';
+  E5A_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${item.q}</div>`;
+    if(item.piechart){
+      html+=`<div style="display:flex;gap:28px;align-items:flex-start;margin:14px 0 6px;">`;
+      ['a','b','c'].forEach((lbl,ci)=>{
+        html+=`<div style="text-align:center;">
+          <div style="font-weight:700;font-style:italic;font-size:15px;margin-bottom:6px;">${lbl}</div>
+          <div style="border:1.5px solid #aaa;display:inline-block;padding:4px;background:#fff;">${svgPie(E5A_PIECHARTS[ci],88)}</div>
+          <div style="margin-top:8px;"><label style="font-size:14px;cursor:pointer;"><input type="radio" name="e5a_${qi}" value="${lbl}" onchange="updateProgress()"> ${lbl}</label></div>
+        </div>`;
+      });
+      html+=`</div>`;
+    } else {
+      html+=`<div class="options">`;
+      item.opts.forEach(opt=>{
+        html+=`<label class="opt-row" id="e5a_${qi}_${opt.charAt(0)}"><input type="radio" name="e5a_${qi}" value="${opt}" onchange="updateProgress()"> ${opt}</label>`;
+      });
+      html+=`</div>`;
+    }
+    html+=`<div class="answer-key-hint" id="e5a_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('e5a').innerHTML=html;
+}
+
+// ===== RENDER E5B =====
+function renderE5B(){
+  let html='<table style="width:100%;border-collapse:collapse;font-size:14px;">';
+  html+='<tr style="background:var(--navy);color:#fff;"><th style="padding:8px 12px;text-align:left;">Field</th><th style="padding:8px 12px;text-align:left;">Your Answer</th><th style="padding:8px 12px;text-align:left;display:none;" class="key-col">Key</th></tr>';
+  E5B_DATA.forEach((item,qi)=>{
+    html+=`<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:8px 12px;font-weight:600;">${item.q}</td>
+      <td style="padding:8px 12px;"><input class="ans-text" id="e5b_${qi}" placeholder="…" style="width:200px;" oninput="updateProgress()"></td>
+      <td style="padding:8px 12px;"><div class="answer-key-hint" id="e5b_${qi}_hint"></div></td>
+    </tr>`;
+  });
+  html+='</table>';
+  document.getElementById('e5b').innerHTML=html;
+}
+
+// ===== RENDER E6 =====
+function renderE6(){
+  let html='';
+  E6_DATA.forEach((item,qi)=>{
+    const s=item.s.replace('___',mkSelect(`e6_${qi}`,E6_WORDS));
+    html+=`<div class="q-block">${qi+1}. ${s}<div class="answer-key-hint" id="e6_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('e6').innerHTML=html;
+}
+
+// ===== RENDER E7 =====
+function renderE7(){
+  let html='';
+  E7_DATA.forEach((item,qi)=>{
+    html+=`<div class="q-block">
+      <div class="q-label">${item.q}</div>
+      <div class="options">`;
+    item.opts.forEach(opt=>{
+      html+=`<label class="opt-row"><input type="radio" name="e7_${qi}" value="${opt}" onchange="updateProgress()"> ${opt}</label>`;
+    });
+    html+=`</div><div class="answer-key-hint" id="e7_${qi}_hint"></div></div>`;
+  });
+  document.getElementById('e7').innerHTML=html;
+}
+
+function renderAll(){
+  renderA1(); renderA2(); renderA3(); renderA4(); renderA5();
+  renderB1(); renderB2(); renderB3(); renderB4();
+  renderC1(); renderC2(); renderC3(); renderC4(); renderC5();
+  renderD1(); renderD2(); renderD3(); renderD4(); renderD5();
+  renderE1(); renderE2(); renderE4(); renderE5A(); renderE5B(); renderE6(); renderE7();
+  updateProgress();
+}
+
+// ===================== SCORING =====================
+function norm(s){ return s.toLowerCase().replace(/['']/g,"'").replace(/\s+/g,' ').trim(); }
+function match(a,b){ return norm(a)===norm(b); }
+function matchAny(a,arr){ return arr.some(b=>norm(a)===norm(b)); }
+
+let results={};
+
+function getAttemptNumber(email){
+  const key='preiels_u1_'+email.trim().toLowerCase();
+  const n=(parseInt(localStorage.getItem(key)||'0'))+1;
+  localStorage.setItem(key,n);
+  return n;
+}
+function ordinal(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+
+function scoreCheckbox(prefix, data, keyName){
+  let total=0,got=0,details=[];
+  data.forEach((item,qi)=>{
+    const checked=[...document.querySelectorAll(`input[name="${prefix}_${qi}"]:checked`)].map(c=>parseInt(c.value));
+    const correct=item.correct;
+    const isRight=checked.length===correct.length && correct.every(c=>checked.includes(c));
+    if(isRight){got++;total++;}else total++;
+    const correctLabels=correct.map(c=>item.opts[c]);
+    const studentLabels=checked.map(c=>item.opts[c]);
+    details.push({q:item.q||`Q${qi+1}`,student:studentLabels.join(', '),correct:correctLabels.join(', '),ok:isRight});
+    // highlight
+    item.opts.forEach((_,oi)=>{
+      const row=document.getElementById(`${prefix}_${qi}_${oi}`);
+      if(!row)return;
+      const isCorrect=correct.includes(oi), isChecked=checked.includes(oi);
+      if(isCorrect&&isChecked)row.classList.add('correct');
+      else if(!isCorrect&&isChecked)row.classList.add('incorrect');
+      else if(isCorrect&&!isChecked)row.classList.add('missed');
+    });
+    const hint=document.getElementById(`${prefix}_${qi}_hint`);
+    if(hint){hint.textContent='✔ Key: '+correctLabels.join(', ');hint.classList.add('show');}
+  });
+  return{got,total,details};
+}
+
+function scoreSelect(prefix, data, ansKey='ans'){
+  let got=0,total=0,details=[];
+  data.forEach((item,qi)=>{
+    const sel=document.getElementById(`${prefix}_${qi}`);
+    const val=sel?sel.value:'';
+    const correct=item[ansKey];
+    const ok=match(val,correct);
+    if(ok)got++;total++;
+    if(sel){sel.classList.remove('correct','incorrect');sel.classList.add(ok?'correct':'incorrect');}
+    const hint=document.getElementById(`${prefix}_${qi}_hint`);
+    if(hint){hint.textContent='✔ Key: '+correct;hint.classList.add('show');}
+    details.push({q:item.def||item.s||item.word||item.point||item.num||`Q${qi+1}`,student:val,correct,ok});
+  });
+  return{got,total,details};
+}
+
+function scoreText(prefix, data, ansKey='ans'){
+  let got=0,total=0,details=[];
+  data.forEach((item,qi)=>{
+    const inp=document.getElementById(`${prefix}_${qi}`);
+    const val=inp?inp.value:'';
+    const correct=item[ansKey];
+    const acceptArr=Array.isArray(correct)?correct:[correct];
+    const ok=matchAny(val,acceptArr);
+    if(ok)got++;total++;
+    if(inp){inp.classList.remove('correct','incorrect');inp.classList.add(ok?'correct':'incorrect');}
+    const hint=document.getElementById(`${prefix}_${qi}_hint`);
+    if(hint){hint.textContent='✔ Key: '+acceptArr.join(' / ');hint.classList.add('show');}
+    details.push({q:item.s||item.q||item.prompt||`Q${qi+1}`,student:val,correct:acceptArr.join(' / '),ok});
+  });
+  return{got,total,details};
+}
+
+function scoreRadio(prefix, data){
+  let got=0,total=0,details=[];
+  data.forEach((item,qi)=>{
+    const sel=document.querySelector(`input[name="${prefix}_${qi}"]:checked`);
+    const val=sel?sel.value:'';
+    const correct=item.ans!==undefined?item.ans:item.correct;
+    let ok;
+    if(typeof correct==='number') ok=parseInt(val)===correct;
+    else ok=match(val,correct+'');
+    if(ok)got++;total++;
+    const hint=document.getElementById(`${prefix}_${qi}_hint`);
+    const keyLabel=typeof correct==='number'?item.opts[correct]:correct;
+    if(hint){hint.textContent='✔ Key: '+keyLabel;hint.classList.add('show');}
+    details.push({q:item.stem||item.q||`Q${qi+1}`,student:val,correct:keyLabel+'',ok});
+  });
+  return{got,total,details};
+}
+
+function submitAll(){
+  if(!confirm('Submit your homework for scoring?'))return;
+
+  // A
+  const a1=scoreCheckbox('a1',A1_DATA);
+  // A2
+  let a2got=0,a2det=[];
+  A2_ANSWERS.forEach((ans,i)=>{
+    const sel=document.getElementById(`a2_${i+1}`);
+    const val=sel?sel.value:'';
+    const ok=match(val,ans);
+    if(ok)a2got++;
+    if(sel){sel.classList.add(ok?'correct':'incorrect');}
+    a2det.push({q:`Blank ${i+1}`,student:val,correct:ans,ok});
+  });
+  const a2={got:a2got,total:10,details:a2det};
+  const a3=scoreCheckbox('a3',A3_DATA);
+  const a4=scoreSelect('a4',A4_DATA,'ans');
+  const a5=scoreSelect('a5',A5_DATA,'def');
+
+  // B
+  // B1: two inputs per question
+  let b1got=0,b1det=[];
+  B1_DATA.forEach((item,qi)=>{
+    const va=document.getElementById(`b1_${qi}_a`)?document.getElementById(`b1_${qi}_a`).value:'';
+    const vb=document.getElementById(`b1_${qi}_b`)?document.getElementById(`b1_${qi}_b`).value:'';
+    const oka=matchAny(va,[item.ans1,item.ans1.replace("'",'\'')]);
+    const okb=matchAny(vb,[item.ans2,item.ans2.replace("'",'\'')]);
+    if(oka)b1got++;if(okb)b1got++;
+    b1det.push({q:`Sentence ${qi+1}a`,student:va,correct:item.ans1,ok:oka});
+    b1det.push({q:`Sentence ${qi+1}b`,student:vb,correct:item.ans2,ok:okb});
+    ['a','b'].forEach(p=>{
+      const el=document.getElementById(`b1_${qi}_${p}`);
+      if(el){el.classList.add(p==='a'?(oka?'correct':'incorrect'):(okb?'correct':'incorrect'));}
+    });
+    const hint=document.getElementById(`b1_${qi}_hint`);
+    if(hint){hint.textContent=`✔ Key: (a) ${item.ans1} | (b) ${item.ans2}`;hint.classList.add('show');}
+  });
+  const b1={got:b1got,total:B1_DATA.length*2,details:b1det};
+  const b2=scoreText('b2',B2_DATA,'answer_q');
+  const b3=scoreRadio('b3',B3_DATA);
+  const b4=scoreText('b4',B4_DATA,'ans');
+
+  // C
+  const c1=scoreRadio('c1',C1_DATA);
+  const c2=scoreSelect('c2',C2_DATA,'ans');
+  const c3=scoreSelect('c3',C3_DATA,'ans');
+  const c4=scoreSelect('c4',C4_DATA,'ans');
+  const c5=scoreText('c5',C5_DATA,'ans');
+
+  // D
+  const d1=scoreSelect('d1',D1_DATA,'ans');
+  const d2=scoreSelect('d2',D2_DATA,'ans');
+  const d3=scoreText('d3',D3_DATA,'ans');
+  const d4=scoreSelect('d4',D4_DATA,'ans');
+  const d5=scoreText('d5',D5_DATA,'ans');
+
+  // E
+  const e1=scoreSelect('e1',E1_DATA,'ans');
+  // E2
+  let e2got=0,e2det=[];
+  E2_DATA.forEach((item,qi)=>{
+    item.missing.forEach((ans,mi)=>{
+      const inp=document.getElementById(`e2_${qi}_${mi}`);
+      const val=inp?inp.value:'';
+      const ok=match(val,ans);
+      if(ok)e2got++;
+      if(inp)inp.classList.add(ok?'correct':'incorrect');
+      e2det.push({q:`Row${qi+1} #${mi+1}`,student:val,correct:ans,ok});
+    });
+    const hint=document.getElementById(`e2_${qi}_hint`);
+    if(hint){hint.textContent='✔ Key: '+item.missing.join(' — ');hint.classList.add('show');}
+  });
+  const e2={got:e2got,total:15,details:e2det};
+  const e4=scoreRadio('e4',E4_DATA);
+  const e5a=scoreRadio('e5a',E5A_DATA);
+  const e5b=scoreText('e5b',E5B_DATA,'ans');
+  const e6=scoreSelect('e6',E6_DATA,'ans');
+  const e7=scoreRadio('e7',E7_DATA);
+
+  // Totals per section
+  const secA={label:'A · Vocabulary',got:a1.got+a2.got+a3.got+a4.got+a5.got,total:a1.total+a2.total+a3.total+a4.total+a5.total};
+  const secB={label:'B · Grammar',got:b1.got+b2.got+b3.got+b4.got,total:b1.total+b2.total+b3.total+b4.total};
+  const secC={label:'C · Reading',got:c1.got+c2.got+c3.got+c4.got+c5.got,total:c1.total+c2.total+c3.total+c4.total+c5.total};
+  const secD={label:'D · Speaking',got:d1.got+d2.got+d3.got+d4.got+d5.got,total:d1.total+d2.total+d3.total+d4.total+d5.total};
+  const secE={label:'E · Listening',got:e1.got+e2.got+e4.got+e5a.got+e5b.got+e6.got+e7.got,total:e1.total+e2.total+e4.total+e5a.total+e5b.total+e6.total+e7.total};
+  const secArr=[secA,secB,secC,secD,secE];
+  const grandGot=secArr.reduce((s,x)=>s+x.got,0);
+  const grandTotal=secArr.reduce((s,x)=>s+x.total,0);
+
+  const attempt=getAttemptNumber(studentEmail);
+  results={studentName,studentEmail,attempt,secA,secB,secC,secD,secE,grandGot,grandTotal,
+    details:{a1,a2,a3,a4,a5,b1,b2,b3,b4,c1,c2,c3,c4,c5,d1,d2,d3,d4,d5,e1,e2,e4,e5a,e5b,e6,e7}};
+
+  showResults(results);
+}
+
+function showResults(r){
+  document.getElementById('app').style.display='none';
+  document.getElementById('results-screen').style.display='block';
+  document.getElementById('student-result-name').innerHTML=
+    r.studentName+' ('+r.studentEmail+')&nbsp;&nbsp;<span style="background:#e65100;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;letter-spacing:.5px;">'+ordinal(r.attempt)+' attempt</span>';
+  const pct=Math.round(r.grandGot/r.grandTotal*100);
+  document.getElementById('total-circle').textContent=r.grandGot+'/'+r.grandTotal;
+  document.getElementById('total-label').textContent=pct+'% overall';
+
+  // Section score cards
+  let cards='';
+  [r.secA,r.secB,r.secC,r.secD,r.secE].forEach(s=>{
+    const sp=Math.round(s.got/s.total*100);
+    const color=sp>=80?'var(--green)':sp>=60?'var(--orange)':'var(--red)';
+    cards+=`<div class="score-card"><div class="label">${s.label}</div><div class="value" style="color:${color}">${s.got}/${s.total}</div><div class="pct">${sp}%</div></div>`;
+  });
+  document.getElementById('section-scores').innerHTML=cards;
+
+  // Improvement section
+  let imp='<div class="improvement-card"><h3>🎯 Areas for Improvement & Practice Suggestions</h3>';
+  const secs=[r.secA,r.secB,r.secC,r.secD,r.secE];
+  const suggestions={
+    'A · Vocabulary':[
+      'Vocabulary set: family members and relationships — pay attention to words that are easily confused (e.g. relative/relation, colleague/classmate, niece/nephew).',
+      'Word usage: practise using each word in a complete sentence to consolidate meaning and typical collocations.',
+      'Distinguishing near-synonyms: review the differences in meaning and context between similar words in the unit (e.g. boss / colleague / partner).'
+    ],
+    'B · Grammar':[
+      'Grammar form: review the structure of present simple negatives (don\'t/doesn\'t) and questions (do/does + subject + verb).',
+      'Frequency adverbs: position in the sentence and the spectrum of frequency (always → usually → often → sometimes → rarely → never).',
+      'Tense contrast: review when to use the present simple vs. present continuous to describe habits vs. temporary situations.'
+    ],
+    'C · Reading':[
+      'Reading strategies: practise skimming (reading quickly for the main idea) and scanning (locating specific information without reading every word).',
+      'Synonyms and paraphrases: identify words/phrases in the passage that express the same idea as the question — this is a key skill for IELTS Reading.',
+      'Interpreting data: pay close attention to numbers, figures, fractions, percentages, and comparisons when they appear in the passage.'
+    ],
+    'D · Speaking':[
+      'Topic vocabulary: consolidate vocabulary for describing people, relationships, and personal experiences with varied adjectives and collocations.',
+      'Discourse markers: study and practise linking words and phrases (firstly, however, in addition, on the other hand, for example) to make your answers more coherent.',
+      'Fluency and accuracy: record yourself answering a Part 2 topic and review your use of tenses, pronunciation, and sentence variety.'
+    ],
+    'E · Listening':[
+      'Active listening: listen to the tracks again and pay close attention to moments where the speaker corrects or changes information — the final version is the answer.',
+      'Number recognition: practise identifying fractions, decimals, ratios, and percentages as they are spoken aloud in English.',
+      'Question-type strategy: for form completion and short-answer questions, read the questions carefully before listening and underline key words to listen for.'
+    ]
+  };
+  secs.forEach(s=>{
+    const sp=Math.round(s.got/s.total*100);
+    if(sp<80){
+      imp+=`<div class="improvement-item"><span class="icon">${sp<60?'🔴':'🟡'}</span><div><strong>${s.label}</strong> — ${sp}% (${s.got}/${s.total} correct)<br>`;
+      imp+=suggestions[s.label].map(x=>`• ${x}`).join('<br>');
+      imp+='</div></div>';
+    }
+  });
+  if(pct>=80) imp+='<div class="improvement-item"><span class="icon">🟢</span><div><strong>Great performance!</strong> Keep practising all skills regularly to maintain and improve your level.</div></div>';
+  imp+=`<div style="margin-top:16px;padding:12px 16px;background:#e8f5e9;border-left:4px solid var(--green);border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;">
+    <strong>💬 Next step — discuss with your teacher:</strong> Share these results with your teacher and discuss which areas to prioritise. Your teacher can help you build a personalised action plan with specific activities and a realistic timeline suited to your current level and learning goals.
+  </div>`;
+  imp+='</div>';
+  document.getElementById('improvement-section').innerHTML=imp;
+  window.scrollTo(0,0);
+}
+
+// ===================== EXCEL EXPORT =====================
+function exportPDF(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=doc.internal.pageSize.getWidth();
+  const M=14;
+  const pct=(g,t)=>t>0?Math.round(g/t*100)+'%':'--';
+
+  // Header
+  doc.setFillColor(26,42,74);
+  doc.rect(0,0,W,26,'F');
+  doc.setTextColor(180,180,180);
+  doc.setFontSize(7);
+  doc.setFont('helvetica','normal');
+  doc.text('HUONG STELLA PARADIGM',W/2,8,{align:'center'});
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(14);
+  doc.setFont('helvetica','bold');
+  doc.text('Pre-IELTS – Unit 1 Results',W/2,19,{align:'center'});
+
+  let y=34;
+
+  // Info box
+  doc.setFillColor(243,246,252);
+  doc.roundedRect(M,y,W-M*2,24,2,2,'F');
+  doc.setTextColor(80,80,80);
+  doc.setFontSize(9);
+  const infoL=M+5, infoR=W/2+5;
+  doc.setFont('helvetica','bold'); doc.text('Student:',infoL,y+8);
+  doc.setFont('helvetica','normal'); doc.text(results.studentName,infoL+22,y+8);
+  doc.setFont('helvetica','bold'); doc.text('Email:',infoL,y+16);
+  doc.setFont('helvetica','normal'); doc.text(results.studentEmail,infoL+22,y+16);
+  doc.setFont('helvetica','bold'); doc.text('Date:',infoR,y+8);
+  doc.setFont('helvetica','normal'); doc.text(new Date().toLocaleDateString(),infoR+14,y+8);
+  doc.setFont('helvetica','bold'); doc.text('Attempt:',infoR,y+16);
+  doc.setFont('helvetica','normal'); doc.text(ordinal(results.attempt),infoR+22,y+16);
+  y+=30;
+
+  // Summary section title
+  doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(26,42,74);
+  doc.text('Score Summary',M,y); y+=4;
+
+  const secs=[results.secA,results.secB,results.secC,results.secD,results.secE];
+  doc.autoTable({
+    startY:y,
+    head:[['Section','Score','Total','Percentage']],
+    body:[
+      ...secs.map(s=>[s.label,s.got,s.total,pct(s.got,s.total)]),
+      ['TOTAL',results.grandGot,results.grandTotal,pct(results.grandGot,results.grandTotal)]
+    ],
+    headStyles:{fillColor:[26,42,74],textColor:255,fontStyle:'bold',fontSize:9},
+    bodyStyles:{fontSize:9},
+    alternateRowStyles:{fillColor:[240,246,255]},
+    columnStyles:{0:{cellWidth:95},1:{halign:'center',cellWidth:22},2:{halign:'center',cellWidth:22},3:{halign:'center',cellWidth:30}},
+    didParseCell:(d)=>{
+      if(d.section==='body'&&d.row.index===secs.length){
+        d.cell.styles.fontStyle='bold';
+        d.cell.styles.fillColor=[210,228,255];
+      }
+    },
+    margin:{left:M,right:M}
+  });
+  y=doc.lastAutoTable.finalY+10;
+
+  // Detailed section title
+  doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(26,42,74);
+  doc.text('Detailed Answer Review',M,y); y+=4;
+
+  const det=[];
+  Object.entries(results.details).forEach(([sec,data])=>{
+    (data.details||[]).forEach(d=>{
+      det.push([d.q,d.student||'(blank)',d.correct,d.ok?'OK':'X']);
+    });
+  });
+
+  doc.autoTable({
+    startY:y,
+    head:[['Question','Your Answer','Correct Answer','']],
+    body:det,
+    headStyles:{fillColor:[26,42,74],textColor:255,fontStyle:'bold',fontSize:8},
+    bodyStyles:{fontSize:8},
+    columnStyles:{0:{cellWidth:38},1:{cellWidth:62},2:{cellWidth:62},3:{cellWidth:12,halign:'center'}},
+    didParseCell:(d)=>{
+      if(d.section==='body'&&d.column.index===3){
+        d.cell.styles.fontStyle='bold';
+        d.cell.styles.textColor=255;
+        d.cell.styles.fillColor=d.cell.raw==='OK'?[46,125,50]:[198,40,40];
+      }
+    },
+    margin:{left:M,right:M}
+  });
+
+  // Footer on each page
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i);
+    doc.setFontSize(7);doc.setTextColor(160,160,160);doc.setFont('helvetica','normal');
+    doc.text(`Page ${i} of ${pages}`,W/2,doc.internal.pageSize.getHeight()-6,{align:'center'});
+  }
+
+  doc.save(`PreIELTS_Unit1_${results.studentName.replace(/\s+/g,'_')}_attempt${results.attempt}.pdf`);
+}
+
+// ===================== EMAIL =====================
+function sendEmail(){
+  const pct=Math.round(results.grandGot/results.grandTotal*100);
+  const subject=encodeURIComponent(`Pre-IELTS Unit 1 Results — ${results.studentName} — ${pct}%`);
+  let body=`Student: ${results.studentName}\nEmail: ${results.studentEmail}\nDate: ${new Date().toLocaleString()}\n\n`;
+  body+=`OVERALL: ${results.grandGot}/${results.grandTotal} (${pct}%)\n\n`;
+  [results.secA,results.secB,results.secC,results.secD,results.secE].forEach(s=>{
+    body+=`${s.label}: ${s.got}/${s.total} (${Math.round(s.got/s.total*100)}%)\n`;
+  });
+  body+='\n--- DETAILED RESULTS ---\n';
+  Object.entries(results.details).forEach(([sec,data])=>{
+    body+=`\n[${sec.toUpperCase()}]\n`;
+    (data.details||[]).forEach(d=>body+=`${d.q}: ${d.student} → ${d.ok?'✔':'✘'} (Key: ${d.correct})\n`);
+  });
+  const speaking_band=document.getElementById('speaking-band')?document.getElementById('speaking-band').value:'';
+  if(speaking_band) body+=`\nSpeaking self-assessed band: ${speaking_band}`;
+  window.location.href=`mailto:huongstella8@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+}
+
+// ===================== RECORDING =====================
+function toggleRecording(){
+  if(mediaRecorder&&mediaRecorder.state==='recording'){
+    mediaRecorder.stop();
+    clearInterval(recInterval);
+    document.getElementById('btn-record').textContent='🎙 Record Again';
+    document.getElementById('btn-record').classList.remove('recording');
+  } else {
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+      audioChunks=[];
+      mediaRecorder=new MediaRecorder(stream);
+      mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
+      mediaRecorder.onstop=()=>{
+        const blob=new Blob(audioChunks,{type:'audio/webm'});
+        const url=URL.createObjectURL(blob);
+        const audio=document.getElementById('playback-audio');
+        audio.src=url;
+        const dl=document.getElementById('download-recording');
+        dl.href=url;
+        dl.style.display='inline-block';
+        document.getElementById('playback-area').style.display='block';
+        stream.getTracks().forEach(t=>t.stop());
+      };
+      mediaRecorder.start();
+      document.getElementById('btn-record').textContent='⏹ Stop Recording';
+      document.getElementById('btn-record').classList.add('recording');
+      recSecs=0;
+      recInterval=setInterval(()=>{recSecs++;document.getElementById('rec-timer').textContent=Math.floor(recSecs/60)+':'+String(recSecs%60).padStart(2,'0');},1000);
+    }).catch(()=>alert('Microphone access denied. Please allow microphone access in browser settings.'));
+  }
+}
+</script>
+</body>
+</html>
