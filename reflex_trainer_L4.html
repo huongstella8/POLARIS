@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reflex English Audio Trainer — Lesson 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;
+  --card:#1e2736;--card2:#243040;
+  --teal:#00d4aa;--teal2:#00a882;--tD:rgba(0,212,170,.12);
+  --sky:#4fc3f7;--sD:rgba(79,195,247,.12);
+  --amb:#f5a623;--aD:rgba(245,166,35,.12);
+  --cor:#ff6b6b;--cD:rgba(255,107,107,.12);
+  --pur:#b39ddb;--pD:rgba(179,157,219,.12);
+  --grn:#81c784;--gD:rgba(129,199,132,.12);
+  --rose:#f48fb1;--rD:rgba(244,143,177,.12);
+  --txt:#e6edf3;--mut:#7d8590;--brd:#30363d;
+  --r:8px;--r2:14px
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;font-size:14px}
+
+.nav{background:var(--bg2);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:100}
+.ni{display:flex;overflow-x:auto;scrollbar-width:none}
+.ni::-webkit-scrollbar{display:none}
+.nt{padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;
+    white-space:nowrap;transition:all .18s;user-select:none;flex-shrink:0}
+.nt:hover{color:var(--txt)}
+.nt.on{color:var(--teal);border-bottom-color:var(--teal)}
+
+.pnl{display:none;padding:18px 16px 64px;max-width:900px;margin:0 auto}
+.pnl.on{display:block}
+
+.hero{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r2);
+      padding:20px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;
+             border-radius:50%;background:radial-gradient(circle,var(--tD),transparent);pointer-events:none}
+.badge{display:inline-block;background:var(--tD);color:var(--teal);font-size:10px;font-weight:700;
+       letter-spacing:.1em;text-transform:uppercase;padding:3px 11px;border-radius:20px;
+       border:1px solid rgba(0,212,170,.25);margin-bottom:10px}
+.hero h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.hero p{font-size:12px;color:var(--mut)}
+
+.sl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.sh{font-size:15px;font-weight:700;color:#fff;margin-bottom:12px;margin-top:4px}
+.dv{height:1px;background:var(--brd);margin:18px 0}
+.tp{font-size:11px;color:var(--mut);margin-bottom:14px;margin-top:4px}
+
+.cg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.cb{display:inline-flex;align-items:center;gap:5px;background:var(--tD);color:var(--teal);
+    font-size:12px;font-weight:500;padding:6px 13px;border-radius:20px;
+    border:1px solid rgba(0,212,170,.3);cursor:pointer;transition:all .18s;font-family:inherit}
+.cb:hover{background:rgba(0,212,170,.2);transform:translateY(-1px)}
+.cb.pl{background:var(--teal);color:#0d1117;border-color:var(--teal)}
+.cb.amber{background:var(--aD);color:var(--amb);border-color:rgba(245,166,35,.3)}
+.cb.amber:hover{background:rgba(245,166,35,.2)}
+.cb.amber.pl{background:var(--amb);color:#0d1117}
+.cb.rose{background:var(--rD);color:var(--rose);border-color:rgba(244,143,177,.3)}
+.cb.rose:hover{background:rgba(244,143,177,.2)}
+.cb.rose.pl{background:var(--rose);color:#0d1117}
+.cb.sky{background:var(--sD);color:var(--sky);border-color:rgba(79,195,247,.3)}
+.cb.sky:hover{background:rgba(79,195,247,.2)}
+.cb.sky.pl{background:var(--sky);color:#0d1117}
+
+.qb{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);margin-bottom:10px;overflow:hidden}
+.qh{display:flex;align-items:center;gap:10px;padding:12px 15px;background:var(--card2);cursor:pointer;user-select:none}
+.qn{width:26px;height:26px;border-radius:50%;background:var(--tD);color:var(--teal);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qq{font-size:13px;font-weight:600;color:#fff;flex:1;line-height:1.4}
+.qa{color:var(--mut);transition:transform .18s;font-size:12px;flex-shrink:0}
+.qb.op .qa{transform:rotate(180deg)}
+.qbd{display:none;padding:14px}
+.qb.op .qbd{display:block}
+
+.lvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin-top:12px}
+.lv{border-radius:var(--r);padding:12px 13px;border:1px solid}
+.lv1{background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.25)}
+.lv2{background:var(--sD);border-color:rgba(79,195,247,.25)}
+.lv3{background:var(--tD);border-color:rgba(0,212,170,.25)}
+.lvb{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.lv1 .lvb{color:var(--mut)}.lv2 .lvb{color:var(--sky)}.lv3 .lvb{color:var(--teal)}
+.lv p{font-size:12px;line-height:1.65;color:var(--txt)}
+.pr{display:flex;gap:6px;margin-top:8px}
+.pb{display:inline-flex;align-items:center;gap:4px;background:transparent;color:var(--mut);
+    font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid var(--brd);
+    cursor:pointer;transition:all .18s;font-family:inherit}
+.pb:hover{color:var(--teal);border-color:var(--teal)}
+.pb.pl{color:var(--teal);border-color:var(--teal);background:var(--tD)}
+
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:var(--r);
+     font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .18s;font-family:inherit}
+.bt{background:var(--teal);color:#0d1117}.bt:hover{background:var(--teal2)}
+.bg{background:transparent;color:var(--mut);border:1px solid var(--brd)}.bg:hover{color:var(--txt);border-color:var(--txt)}
+.ba{background:var(--amb);color:#0d1117}.ba:hover{filter:brightness(1.1)}
+
+.db{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:18px;margin-bottom:18px}
+.dd{min-height:76px;display:flex;align-items:center;justify-content:center;
+    background:var(--bg2);border-radius:var(--r);margin-bottom:13px;padding:14px;text-align:center}
+.dq{font-size:16px;font-weight:600;color:#fff;line-height:1.4}
+.dp{font-size:13px;color:var(--mut)}
+.tb{height:5px;background:var(--brd);border-radius:3px;margin-bottom:13px;overflow:hidden}
+.tf{height:100%;border-radius:3px;transition:width .1s linear;width:100%;background:var(--teal)}
+.dc{display:flex;gap:8px;flex-wrap:wrap}
+.ds{display:flex;gap:10px;margin-top:12px}
+.st{background:var(--bg2);border-radius:var(--r);padding:8px 12px;text-align:center;flex:1;border:1px solid var(--brd)}
+.sn{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--teal)}
+.sl2{font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+
+.rbt{background:var(--cD);color:var(--cor);font-size:12px;font-weight:500;
+     padding:7px 13px;border-radius:20px;border:1px solid rgba(255,107,107,.3);
+     cursor:pointer;transition:all .18s;font-family:inherit}
+.rbt:hover{background:rgba(255,107,107,.2);transform:translateY(-1px)}
+.rbt.pl{background:var(--cor);color:#fff}
+.rbt.grn{background:var(--gD);color:var(--grn);border-color:rgba(129,199,132,.3)}
+.rbt.grn:hover{background:rgba(129,199,132,.2)}
+.rbt.grn.pl{background:var(--grn);color:#0d1117}
+
+.shtr{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);
+      padding:13px 15px;margin-bottom:9px;transition:all .18s}
+.shtr:hover{border-color:rgba(0,212,170,.4)}
+.shtr.at{border-color:var(--teal);background:var(--tD)}
+.te{font-size:13px;color:#fff;font-weight:500;margin-bottom:3px;line-height:1.55}
+.tv{font-size:10px;color:var(--teal);margin-bottom:8px}
+.tc{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.spb{padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600;cursor:pointer;
+     border:1px solid var(--brd);background:transparent;color:var(--mut);transition:all .18s;font-family:inherit}
+.spb:hover,.spb.on{background:var(--aD);color:var(--amb);border-color:var(--amb)}
+
+.dc2{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:9px}
+.dct{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.dcl{font-size:10px;color:var(--mut);text-transform:uppercase;font-weight:600;letter-spacing:.08em;flex:1}
+.dcs{filter:blur(5px);user-select:none;font-size:13px;color:var(--txt);line-height:1.65;
+     margin-bottom:9px;transition:filter .35s;cursor:pointer}
+.dcs.show{filter:none;cursor:default}
+.dca{width:100%;padding:8px 11px;background:var(--bg2);border:1px solid var(--brd);
+     border-radius:var(--r);color:var(--txt);font-family:inherit;font-size:13px;
+     resize:none;height:50px;transition:border-color .18s}
+.dca:focus{outline:none;border-color:var(--teal)}
+.dcf{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:6px;display:none}
+.dcf.ok{background:var(--gD);color:var(--grn);display:block;border:1px solid rgba(129,199,132,.3)}
+.dcf.no{background:var(--cD);color:var(--cor);display:block;border:1px solid rgba(255,107,107,.3)}
+
+.phg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-bottom:18px}
+.phc{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px}
+.ps{font-family:'DM Mono',monospace;font-size:20px;color:var(--amb);font-weight:700;margin-bottom:3px}
+.pd{font-size:11px;color:var(--mut);margin-bottom:11px;line-height:1.5}
+.mp{display:flex;gap:7px;margin-bottom:8px}
+.mw{flex:1;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);
+    padding:9px 8px;text-align:center;cursor:pointer;transition:all .18s}
+.mw:hover{border-color:var(--teal)}
+.mw.pl{border-color:var(--amb);background:var(--aD)}
+.mww{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.mwi{font-size:10px;color:var(--mut)}
+
+.sdemo{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:13px 15px;margin-bottom:10px}
+.sw{color:var(--mut);font-size:14px}
+.sw.s{color:#fff;font-weight:700;font-size:15px}
+.sw.ss{color:var(--teal);font-weight:700;font-size:16px;text-decoration:underline;text-underline-offset:3px}
+
+/* VOCAB TABLE */
+.vtbl{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px}
+.vtbl th{background:var(--card2);color:var(--teal);font-weight:600;padding:9px 12px;
+          text-align:left;border-bottom:1px solid var(--brd);font-size:10px;
+          text-transform:uppercase;letter-spacing:.08em}
+.vtbl td{padding:9px 12px;border-bottom:1px solid var(--brd);color:var(--txt);vertical-align:top}
+.vtbl tr:last-child td{border-bottom:none}
+.vtbl tr:hover td{background:rgba(255,255,255,.02)}
+.vtbl td:first-child{font-weight:600;color:#fff;white-space:nowrap}
+.vtbl td:last-child{color:var(--mut);font-size:12px;font-style:italic}
+.vtbl .play-td{width:70px;text-align:right}
+
+/* SPEECH LADDER */
+.ladder{margin-bottom:18px}
+.rung{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--r);
+      margin-bottom:6px;border:1px solid var(--brd);background:var(--card);transition:all .18s}
+.rung:hover{border-color:var(--teal)}
+.rlv{width:22px;height:22px;border-radius:50%;font-size:10px;font-weight:700;
+     display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.r1 .rlv{background:rgba(100,116,139,.2);color:var(--mut)}
+.r2 .rlv{background:var(--sD);color:var(--sky)}
+.r3 .rlv{background:var(--aD);color:var(--amb)}
+.r4 .rlv{background:var(--pD);color:var(--pur)}
+.r5 .rlv{background:var(--tD);color:var(--teal)}
+.rtxt{font-size:13px;color:var(--txt);flex:1;line-height:1.55}
+.r5 .rtxt{color:var(--teal);font-weight:500}
+
+/* CLUSTER GRID */
+.clgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:10px;margin-bottom:16px}
+.clcard{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:14px}
+.clcard h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.clitem{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--brd);
+        cursor:pointer;transition:all .18s}
+.clitem:last-child{border:none}
+.clitem:hover .cltext{color:var(--teal)}
+.cltext{font-size:12px;color:var(--txt);flex:1}
+.clitem.pl .cltext{color:var(--teal)}
+
+/* MUST KNOW */
+.mk{background:var(--card2);border:1px solid var(--brd);border-radius:var(--r2);
+    padding:15px;margin-top:20px;border-left:3px solid var(--amb)}
+.mkt{font-size:10px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px}
+.mc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+.mch{background:var(--aD);color:var(--amb);font-size:11px;font-weight:500;
+     padding:4px 11px;border-radius:6px;border:1px solid rgba(245,166,35,.25);
+     cursor:pointer;transition:all .18s;font-family:inherit}
+.mch:hover{background:rgba(245,166,35,.2)}
+.mch.pl{background:var(--amb);color:#0d1117}
+.et{font-size:10px;font-weight:700;color:var(--cor);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;margin-top:12px}
+.ei{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--brd);font-size:12px;color:var(--txt);align-items:flex-start}
+.ei:last-child{border:none}
+.ed{width:5px;height:5px;border-radius:50%;background:var(--cor);flex-shrink:0;margin-top:7px}
+
+/* PLAN */
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin-bottom:18px}
+.pc{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;position:relative}
+.pn{position:absolute;top:-10px;left:14px;width:22px;height:22px;border-radius:50%;
+    background:var(--teal);color:#0d1117;font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+.pt{font-size:10px;color:var(--teal);font-weight:700;margin:8px 0 4px;padding-top:4px}
+.pc h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+.pc p{font-size:12px;color:var(--mut);line-height:1.6}
+.pg2{font-size:11px;color:var(--grn);margin-top:8px;padding:5px 10px;background:var(--gD);border-radius:6px;border:1px solid rgba(129,199,132,.2)}
+
+.cl{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:12px}
+.ci{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd);cursor:pointer;user-select:none}
+.ci:last-child{border:none}
+.cx{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--brd);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ci.dn .cx{background:var(--teal);border-color:var(--teal)}
+.ci.dn .cx::after{content:'✓';font-size:11px;color:#0d1117;font-weight:700}
+.ci.dn .ct{color:var(--mut);text-decoration:line-through}
+.ct{font-size:13px;color:var(--txt)}
+.pw{background:var(--brd);border-radius:10px;height:5px;overflow:hidden;margin:10px 0}
+.pf{height:100%;background:linear-gradient(90deg,var(--teal),var(--sky));border-radius:10px;transition:width .4s}
+.csr{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:13px 15px;margin-bottom:8px}
+.csl{font-size:9px;color:var(--mut);text-transform:uppercase;font-weight:600;letter-spacing:.08em;margin-bottom:6px}
+.css1{font-size:12px;color:var(--mut);margin-bottom:3px}
+.css2{font-size:13px;color:var(--teal);font-weight:500}
+.csb{display:flex;gap:7px;margin-top:8px}
+.csp{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
+     border:1px solid;transition:all .18s;background:transparent;font-family:inherit}
+</style>
+</head>
+<body>
+
+<div style="background:var(--bg2);border-bottom:1px solid var(--brd);padding:8px 20px;text-align:center">
+  <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.18em;text-transform:uppercase">HUONG STELLA PARADIGM</span>
+</div>
+<div class="nav">
+  <div class="ni">
+    <div class="nt on" data-t="ov">🏠 Overview</div>
+    <div class="nt" data-t="op">💬 Opinion Engine</div>
+    <div class="nt" data-t="pv">🧠 Personality</div>
+    <div class="nt" data-t="ld">❤️ Likes &amp; Dislikes</div>
+    <div class="nt" data-t="ag">🤝 Agree / Disagree</div>
+    <div class="nt" data-t="rx">⚡ Reflex Drill</div>
+    <div class="nt" data-t="sh">🎙 Shadowing</div>
+    <div class="nt" data-t="di">📝 Dictation</div>
+    <div class="nt" data-t="ldr">🪜 Speech Ladder</div>
+    <div class="nt" data-t="pl">📅 Study Plan</div>
+  </div>
+</div>
+
+<!-- ══ OVERVIEW ══ -->
+<div class="pnl on" id="pnl-ov">
+  <div class="hero">
+    <div class="badge">Lesson 4 · Polaris · Audio-Powered</div>
+    <h2>Talk About Likes, Dislikes &amp; Personality</h2>
+    <p>Click any chunk to hear natural pronunciation · Timed Reflex Drill · Shadowing · Dictation · Speech Ladders</p>
+  </div>
+
+  <div class="sl">Core Transformation</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:18px">
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:12px;text-align:center">
+      <div style="font-size:18px;margin-bottom:5px">📋</div>
+      <div style="font-size:11px;font-weight:700;color:var(--mut);margin-bottom:2px">FACTS</div>
+      <div style="font-size:10px;color:var(--mut)">I like music.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:2px solid var(--teal);border-radius:var(--r2);padding:12px;text-align:center">
+      <div style="font-size:18px;margin-bottom:5px">💭</div>
+      <div style="font-size:11px;font-weight:700;color:var(--sky);margin-bottom:2px">FEELINGS</div>
+      <div style="font-size:10px;color:var(--mut)">I'm really into chill music.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:2px solid var(--amb);border-radius:var(--r2);padding:12px;text-align:center">
+      <div style="font-size:18px;margin-bottom:5px">🧬</div>
+      <div style="font-size:11px;font-weight:700;color:var(--amb);margin-bottom:2px">PERSONALITY</div>
+      <div style="font-size:10px;color:var(--mut)">I'm more of an introvert honestly.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:2px solid var(--teal);border-radius:var(--r2);padding:12px;text-align:center">
+      <div style="font-size:18px;margin-bottom:5px">🌟</div>
+      <div style="font-size:11px;font-weight:700;color:var(--teal);margin-bottom:2px">IDENTITY</div>
+      <div style="font-size:10px;color:var(--mut)">…because it helps me unwind after stressful days.</div>
+    </div>
+  </div>
+
+  <div class="sl">Core Formula — Preference + Reason + Emotion</div>
+  <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:18px">
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--brd)">
+      <span style="color:var(--teal);font-weight:700;font-size:11px;min-width:80px;padding-top:2px">PREFERENCE</span>
+      <span style="font-size:13px;flex:1">I'm not really into loud places</span>
+      <button class="pb" onclick="sp(this,&quot;I'm not really into loud places&quot;)">▶ listen</button>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--brd)">
+      <span style="color:var(--amb);font-weight:700;font-size:11px;min-width:80px;padding-top:2px">REASON</span>
+      <span style="font-size:13px;flex:1">because they drain my energy pretty quickly</span>
+      <button class="pb" onclick="sp(this,'because they drain my energy pretty quickly')">▶ listen</button>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0">
+      <span style="color:var(--cor);font-weight:700;font-size:11px;min-width:80px;padding-top:2px">EMOTION</span>
+      <span style="font-size:13px;flex:1">I just feel so much better in quieter spaces honestly.</span>
+      <button class="pb" onclick="sp(this,'I just feel so much better in quieter spaces honestly')">▶ listen</button>
+    </div>
+  </div>
+
+  <div class="sl">Must-Automate Expressions — Click to listen</div>
+  <div class="cg">
+    <button class="cb" onclick="spChunk(this,&quot;I'm really into&quot;)">🔊 I'm really into…</button>
+    <button class="cb" onclick="spChunk(this,&quot;I'm not really into&quot;)">🔊 I'm not really into…</button>
+    <button class="cb" onclick="spChunk(this,'I would say')">🔊 I'd say…</button>
+    <button class="cb" onclick="spChunk(this,'Personally')">🔊 Personally…</button>
+    <button class="cb" onclick="spChunk(this,'To be honest')">🔊 To be honest…</button>
+    <button class="cb" onclick="spChunk(this,'get along with')">🔊 get along with</button>
+    <button class="cb" onclick="spChunk(this,'open up')">🔊 open up</button>
+    <button class="cb" onclick="spChunk(this,'calm down')">🔊 calm down</button>
+    <button class="cb" onclick="spChunk(this,'fit in')">🔊 fit in</button>
+    <button class="cb" onclick="spChunk(this,'stand out')">🔊 stand out</button>
+    <button class="cb" onclick="spChunk(this,'wind down')">🔊 wind down</button>
+    <button class="cb" onclick="spChunk(this,'socially awkward')">🔊 socially awkward</button>
+    <button class="cb" onclick="spChunk(this,'easygoing')">🔊 easygoing</button>
+    <button class="cb" onclick="spChunk(this,'emotionally drained')">🔊 emotionally drained</button>
+    <button class="cb" onclick="spChunk(this,'That depends honestly')">🔊 That depends honestly.</button>
+  </div>
+  <div class="tp">Click any chunk → listen → shadow immediately → repeat 3 times until natural</div>
+</div>
+
+<!-- ══ OPINION ENGINE ══ -->
+<div class="pnl" id="pnl-op">
+  <div class="hero" style="border-left:3px solid var(--teal)">
+    <div class="badge">Opinion &amp; Personality Engine</div>
+    <h2>High-Frequency Opinion Chunks &amp; Connectors</h2>
+    <p>The language that makes your opinion sound natural, personal, and fluent</p>
+  </div>
+
+  <div class="sl">Opinion Chunks — Click to listen</div>
+  <div class="cg" id="op-chunks"></div>
+  <div class="tp">Listen → shadow immediately with the same intonation and personal tone</div>
+
+  <div class="dv"></div>
+  <div class="sh">Practice Questions &amp; Model Answers</div>
+  <div id="opq"></div>
+
+  <div class="dv"></div>
+  <div class="sl">Natural Opinion Connectors — Click to hear in context</div>
+  <div id="connectors"></div>
+
+  <div class="dv"></div>
+  <div class="sl">Phrasal Verbs: Social &amp; Emotional — Click to listen</div>
+  <table class="vtbl" id="pv-social"></table>
+
+  <div class="dv"></div>
+  <div class="sl">Phrasal Verbs: Habits &amp; Lifestyle — Click to listen</div>
+  <table class="vtbl" id="pv-habit"></table>
+
+  <div class="mk">
+    <div class="mkt">Must-Automate — Opinion &amp; Connector Chunks</div>
+    <div class="mc" id="mk-op"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Stating a bare fact with no feeling — "I like music" with no reason or emotion attached.</div></div>
+      <div class="ei"><div class="ed"></div><div>Skipping the connector — jumping to the next sentence without "because", "so", "honestly", or "which is why".</div></div>
+      <div class="ei"><div class="ed"></div><div>Using the same opener every time — vary between "I'd say", "Personally", "To be honest", "For me personally".</div></div>
+      <div class="ei"><div class="ed"></div><div>Giving an opinion with no ask-back — every opinion should end with "What about you?" or a follow-up question.</div></div>
+      <div class="ei"><div class="ed"></div><div>Flat delivery — opinion chunks need emphasis on the key feeling word, not read in a monotone.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PERSONALITY ══ -->
+<div class="pnl" id="pnl-pv">
+  <div class="hero" style="border-left:3px solid var(--amb)">
+    <div class="badge" style="background:var(--aD);color:var(--amb);border-color:rgba(245,166,35,.25)">Personality Vocab Bank</div>
+    <h2>Positive · Negative · Nuanced Self-Description</h2>
+    <p>Move beyond shy / nice / funny — use vocab with emotional tone and social realism</p>
+  </div>
+
+  <div class="sl">Positive Traits — Click to listen</div>
+  <div class="cg amber" id="pos-chunks"></div>
+  <div class="tp">Learn the word + its feel: "easygoing" sounds warm; "motivated" sounds driven</div>
+
+  <div class="dv"></div>
+  <div class="sl">Negative Traits — Click to listen</div>
+  <div class="cg rose" id="neg-chunks"></div>
+  <div class="tp">Use negative traits carefully — great for describing others, use hedges for yourself</div>
+
+  <div class="dv"></div>
+  <div class="sl">Nuanced Self-Description — Click to listen</div>
+  <div class="cg sky" id="nuance-chunks"></div>
+  <div class="tp">These are the most authentic expressions — they show self-awareness, not weakness</div>
+
+  <div class="dv"></div>
+  <div class="sh">Personality Mini Clusters — Click any phrase to hear it</div>
+  <div class="clgrid" id="clusters"></div>
+
+  <div class="dv"></div>
+  <div class="sh">Practice Questions &amp; Model Answers</div>
+  <div id="pvq"></div>
+
+  <div class="mk" style="border-left-color:var(--amb)">
+    <div class="mkt" style="color:var(--amb)">Must-Automate — Personality Expressions</div>
+    <div class="mc" id="mk-pv"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Using only basic adjectives: shy, funny, nice — these tell nothing about your actual personality.</div></div>
+      <div class="ei"><div class="ed"></div><div>Describing yourself with extreme negatives — use hedges: "I'm kinda impatient sometimes" not "I'm very impatient".</div></div>
+      <div class="ei"><div class="ed"></div><div>Listing traits without examples — follow every trait with a natural example sentence.</div></div>
+      <div class="ei"><div class="ed"></div><div>Forgetting nuanced self-description — "I warm up slowly around new people" sounds far more authentic than "I'm shy".</div></div>
+      <div class="ei"><div class="ed"></div><div>No emotional tone — personality vocab needs conviction; the word "easygoing" should sound relaxed when said.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LIKES & DISLIKES ══ -->
+<div class="pnl" id="pnl-ld">
+  <div class="hero" style="border-left:3px solid var(--rose)">
+    <div class="badge" style="background:var(--rD);color:var(--rose);border-color:rgba(244,143,177,.25)">Likes &amp; Dislikes</div>
+    <h2>Expressing Preference — Strong to Soft</h2>
+    <p>A full spectrum from "I'm obsessed with" to "I can't stand" — all with natural audio</p>
+  </div>
+
+  <div class="sl">Strong Likes — Click to listen</div>
+  <div class="cg" id="strong-like"></div>
+  <div class="dv"></div>
+  <div class="sl">Soft Likes — Click to listen</div>
+  <div class="cg" id="soft-like"></div>
+  <div class="dv"></div>
+  <div class="sl">Dislikes — Click to listen</div>
+  <div class="cg rose" id="dislikes"></div>
+
+  <div class="dv"></div>
+  <div class="sl">Emotional &amp; Social Collocations — Click to listen</div>
+  <div id="collocations"></div>
+
+  <div class="dv"></div>
+  <div class="sh">Practice Questions &amp; Model Answers</div>
+  <div id="ldq"></div>
+
+  <div class="mk" style="border-left-color:var(--rose)">
+    <div class="mkt" style="color:var(--rose)">Must-Automate — Likes &amp; Dislikes Range</div>
+    <div class="mc" id="mk-ld"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Using only "I like / I don't like" — the preference range is vast; use it.</div></div>
+      <div class="ei"><div class="ed"></div><div>Not qualifying the strength — "I kinda like" vs "I'm obsessed with" are very different; choose deliberately.</div></div>
+      <div class="ei"><div class="ed"></div><div>Stating dislike aggressively — "I hate" sounds harsh in conversation; use "I'm not really into" or "I can't stand" with a hedge.</div></div>
+      <div class="ei"><div class="ed"></div><div>No social collocations — "I prefer quiet places" is stronger with "I prefer quiet, low-key cafés honestly".</div></div>
+      <div class="ei"><div class="ed"></div><div>Forgetting to ask back — after every preference, invite the other person: "What about you?"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AGREE / DISAGREE ══ -->
+<div class="pnl" id="pnl-ag">
+  <div class="hero" style="border-left:3px solid var(--grn)">
+    <div class="badge" style="background:var(--gD);color:var(--grn);border-color:rgba(129,199,132,.25)">Agreement &amp; Disagreement</div>
+    <h2>Agree Naturally · Disagree Politely · React Emotionally</h2>
+    <p>The language that keeps conversations alive and respectful</p>
+  </div>
+
+  <div class="sl">Agreement Expressions — Click to hear</div>
+  <div class="cg" id="agree-chunks"></div>
+  <div class="dv"></div>
+  <div class="sl">Soft Disagreement — Click to hear</div>
+  <div class="cg rose" id="disagree-chunks"></div>
+
+  <div class="dv"></div>
+  <div class="sh">Reaction &amp; Social Fluency Bank</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:18px">
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--sky);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">😮 Interest &amp; Surprise</div>
+      <div id="react-interest" class="cg sky" style="gap:6px"></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">🤝 Empathy &amp; Connection</div>
+      <div id="react-empathy" class="cg" style="gap:6px"></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">🧊 Anti-Freeze Fillers</div>
+      <div id="react-filler" class="cg amber" style="gap:6px"></div>
+    </div>
+  </div>
+
+  <div class="dv"></div>
+  <div class="sh">Agreement Battle Drill ⚔️</div>
+  <div class="db">
+    <div style="font-size:12px;color:var(--mut);margin-bottom:8px">Teacher makes a statement — click to hear it, then agree, partly agree, or respectfully disagree:</div>
+    <div class="dd" id="agdd"><div class="dp">Press START to begin the drill</div></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="btn bt" id="agstart" onclick="startAgDrill()">▶ START</button>
+      <button class="btn bg" id="agnext" onclick="nextAgQ()" style="display:none">NEXT →</button>
+      <button class="btn bg" onclick="resetAgDrill()">↺ Reset</button>
+    </div>
+    <div style="font-size:12px;color:var(--mut);margin-bottom:8px">React with one of these — click to hear the intonation:</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
+      <button class="rbt grn" onclick="spReact(this,'Totally. I completely agree with that.')">Totally.</button>
+      <button class="rbt grn" onclick="spReact(this,'Exactly. Same here.')">Exactly. Same here.</button>
+      <button class="rbt grn" onclick="spReact(this,'That is so true honestly.')">That's so true.</button>
+      <button class="rbt grn" onclick="spReact(this,'I know what you mean.')">I know what you mean.</button>
+      <button class="rbt" onclick="spReact(this,'I am not sure about that honestly.')">I'm not sure about that.</button>
+      <button class="rbt" onclick="spReact(this,'Maybe, but I think it also depends.')">Maybe, but…</button>
+      <button class="rbt" onclick="spReact(this,'I see your point, but personally I think differently.')">I see your point, but…</button>
+      <button class="rbt" onclick="spReact(this,'I partly agree, but not entirely.')">I partly agree.</button>
+      <button class="rbt" onclick="spReact(this,'Not necessarily. That depends honestly.')">Not necessarily.</button>
+    </div>
+  </div>
+
+  <div class="sh">Practice Questions &amp; Model Answers</div>
+  <div id="agq"></div>
+
+  <div class="mk" style="border-left-color:var(--grn)">
+    <div class="mkt" style="color:var(--grn)">Must-Automate — Agreement &amp; Reaction</div>
+    <div class="mc" id="mk-ag"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Only saying "Yes" or "No" — single-word responses shut conversations down immediately.</div></div>
+      <div class="ei"><div class="ed"></div><div>Agreeing with everything — natural conversation involves polite contrast; "Maybe, but…" shows engagement.</div></div>
+      <div class="ei"><div class="ed"></div><div>Disagreeing too directly — "You're wrong" sounds aggressive; use "I see your point, but…" or "Not necessarily."</div></div>
+      <div class="ei"><div class="ed"></div><div>No empathy expressions — when someone shares something difficult, react with "That must be stressful" before your opinion.</div></div>
+      <div class="ei"><div class="ed"></div><div>Freezing after a statement — use anti-freeze fillers: "Honestly…", "Let me think…", "For some reason…"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REFLEX DRILL ══ -->
+<div class="pnl" id="pnl-rx">
+  <div class="hero">
+    <div class="badge">⚡ Reflex Drill</div>
+    <h2>Timed Reflex Trainer — Lesson 4</h2>
+    <p>Random question + 5-second countdown. Start speaking BEFORE the bar runs out!</p>
+  </div>
+  <div class="db">
+    <div class="dd" id="rdd"><div class="dp">Press START to begin</div></div>
+    <div class="tb"><div class="tf" id="rtf"></div></div>
+    <div class="dc">
+      <button class="btn bt" id="rs" onclick="startD()">▶ START</button>
+      <button class="btn bg" id="rn" onclick="nextQ()" style="display:none">NEXT →</button>
+      <button class="btn bg" onclick="resetD()">↺ Reset</button>
+      <select id="rcat" style="background:var(--bg2);color:var(--txt);border:1px solid var(--brd);border-radius:var(--r);padding:7px 12px;font-family:inherit;font-size:12px;cursor:pointer">
+        <option value="all">All Topics</option>
+        <option value="op">Opinion</option>
+        <option value="pv">Personality</option>
+        <option value="ld">Likes &amp; Dislikes</option>
+        <option value="ag">Agree / Disagree</option>
+      </select>
+    </div>
+    <div class="ds">
+      <div class="st"><div class="sn" id="sdn">0</div><div class="sl2">Done</div></div>
+      <div class="st"><div class="sn" id="sst">0</div><div class="sl2">Streak</div></div>
+    </div>
+  </div>
+  <div class="dv"></div>
+  <div class="sl">Opinion Expansion Mode — Teacher prompts after your first sentence</div>
+  <div class="db">
+    <div style="font-size:13px;color:var(--txt);margin-bottom:8px">Teacher says one of these — continue immediately:</div>
+    <div class="cg">
+      <button class="cb" onclick="sp(this,'Why?')">🔊 Why?</button>
+      <button class="cb" onclick="sp(this,'Really?')">🔊 Really?</button>
+      <button class="cb" onclick="sp(this,'Since when?')">🔊 Since when?</button>
+      <button class="cb" onclick="sp(this,'How does that make you feel?')">🔊 How does that make you feel?</button>
+      <button class="cb" onclick="sp(this,'Do you always feel that way?')">🔊 Do you always feel that way?</button>
+      <button class="cb" onclick="sp(this,'What kind exactly?')">🔊 What kind exactly?</button>
+      <button class="cb" onclick="sp(this,'Cats or dogs?')">🔊 Cats or dogs?</button>
+      <button class="cb" onclick="sp(this,'Give me an example.')">🔊 Give me an example.</button>
+    </div>
+    <div class="tp">→ Keep speaking immediately — no silence beyond 2 seconds!</div>
+  </div>
+</div>
+
+<!-- ══ SHADOWING ══ -->
+<div class="pnl" id="pnl-sh">
+  <div class="hero">
+    <div class="badge">🎙 Shadowing Station</div>
+    <h2>Shadowing — Mirror Rhythm &amp; Intonation</h2>
+    <p>Select speed → Listen → Shadow IMMEDIATELY · Repeat until effortless</p>
+  </div>
+  <div class="sl">Opinion &amp; Personality Statements</div>
+  <div id="shl4"></div>
+  <div class="dv"></div>
+  <div class="sl">Emotional Shadowing — Mirror the stress, excitement, and hesitation</div>
+  <div id="shemo"></div>
+  <div class="dv"></div>
+  <div class="sl">Agreement &amp; Disagreement Patterns</div>
+  <div id="shag"></div>
+  <div class="dv"></div>
+  <div class="sl">Connected Speech — Slow Articulation vs Natural Speed</div>
+  <div id="shcs"></div>
+</div>
+
+<!-- ══ DICTATION ══ -->
+<div class="pnl" id="pnl-di">
+  <div class="hero">
+    <div class="badge">📝 Dictation Mode</div>
+    <h2>Daily Dictation — Listen &amp; Write</h2>
+    <p>Click ▶ to hear the sentence → Write it accurately → Check → Click blurred text to reveal</p>
+  </div>
+  <div id="dicd"></div>
+</div>
+
+<!-- ══ SPEECH LADDER ══ -->
+<div class="pnl" id="pnl-ldr">
+  <div class="hero">
+    <div class="badge">🪜 Speech Ladders</div>
+    <h2>Level Up Your Answers — One Rung at a Time</h2>
+    <p>Click any rung to hear it · Build from Level 1 to Level 5 · Never stay at Level 1</p>
+  </div>
+  <div id="ladders"></div>
+</div>
+
+<!-- ══ STUDY PLAN ══ -->
+<div class="pnl" id="pnl-pl">
+  <div class="hero">
+    <div class="badge">📅 Lesson 4 — Daily Practice Plan</div>
+    <h2>Internalise Personality &amp; Opinion Language</h2>
+    <p>30–45 minutes per day · 4 required nodes · No days off</p>
+  </div>
+
+  <div class="pg">
+    <div class="pc"><div class="pn">1</div><div class="pt">10 min</div><h3>Chunk Audio Drill</h3>
+      <p>Open Opinion Engine or Likes &amp; Dislikes. Click every chunk, listen, shadow immediately. 3 passes per chunk.</p>
+      <div class="pg2">Goal: produce chunks without thinking</div></div>
+    <div class="pc"><div class="pn">2</div><div class="pt">10 min</div><h3>Daily Dictation</h3>
+      <p>Listen to 5 sentences. Write them accurately. Check. Read aloud 3 times with correct stress and rhythm.</p>
+      <div class="pg2">Goal: zero errors + fluent read-back</div></div>
+    <div class="pc"><div class="pn">3</div><div class="pt">10 min</div><h3>Speech Ladder Practice</h3>
+      <p>Choose one topic. Work from Level 1 to Level 5. Record your Level 5. Listen back and identify gaps.</p>
+      <div class="pg2">Goal: reach Level 5 naturally on 3 topics</div></div>
+    <div class="pc"><div class="pn">4</div><div class="pt">10 min</div><h3>Reflex Drill + Record</h3>
+      <p>3 random questions. Respond 60–90 seconds each using Preference + Reason + Emotion. Record. Review.</p>
+      <div class="pg2">Goal: no silence exceeding 2 seconds</div></div>
+  </div>
+
+  <div class="sl">Daily Checklist — What have you completed today?</div>
+  <div class="cl">
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 1 — Chunk Audio Drill (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 2 — Daily Dictation (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 3 — Speech Ladder Practice (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 4 — Reflex Drill + Record (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">[Bonus] Watch one vlog, extract 3 personality or opinion chunks</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">[Bonus] Write 3 journal sentences: Preference + Reason + Emotion</div></div>
+  </div>
+  <div class="pw"><div class="pf" id="cpf" style="width:0%"></div></div>
+  <div style="font-size:12px;color:var(--mut);margin-bottom:20px" id="cpl">0 / 6 completed</div>
+
+  <div style="background:var(--aD);border:1px solid rgba(245,166,35,.3);border-radius:var(--r2);padding:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--amb);margin-bottom:8px">Weekend Challenge 🏆 — Opinion Expansion</div>
+    <div style="font-size:13px;color:var(--txt);line-height:1.75">
+      Someone gives you a random topic (food, social media, introvert vs extrovert, pets, city vs countryside).
+      Speak for 90 seconds using: <b style="color:var(--teal)">Preference + Reason + Emotion</b> ·
+      <b style="color:var(--amb)">at least 3 personality or opinion chunks</b> ·
+      <b style="color:var(--cor)">1 polite agreement or disagreement</b> · end with a follow-up question.
+    </div>
+  </div>
+</div>
+
+<script>
+var synth = window.speechSynthesis, curB = null;
+var _voice = null;
+function getVoice() {
+  if (_voice) return _voice;
+  var vs = synth.getVoices();
+  _voice = vs.find(function(v){ return v.name === 'Google US English'; })
+        || vs.find(function(v){ return v.name.indexOf('Samantha') > -1; })
+        || vs.find(function(v){ return v.name.indexOf('Microsoft Aria') > -1; })
+        || vs.find(function(v){ return v.name.indexOf('Microsoft Zira') > -1; })
+        || vs.find(function(v){ return v.lang === 'en-US' && !v.localService; })
+        || vs.find(function(v){ return v.lang === 'en-US'; });
+  return _voice;
+}
+synth.onvoiceschanged = function(){ _voice = null; };
+
+function sp(btn, text, rate, pitch) {
+  rate = rate || 0.88; pitch = pitch || 1.18;
+  synth.cancel();
+  if (curB) curB.classList.remove('pl');
+  if (curB === btn) { curB = null; return; }
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = rate; u.pitch = pitch; u.volume = 1.0;
+  var pv = getVoice(); if (pv) u.voice = pv;
+  btn.classList.add('pl'); curB = btn;
+  u.onend = function(){ btn.classList.remove('pl'); if (curB===btn) curB=null; };
+  u.onerror = function(){ btn.classList.remove('pl'); if (curB===btn) curB=null; };
+  synth.speak(u);
+}
+function spS(btn, text)     { sp(btn, text, 0.68, 1.05); }
+function spChunk(btn, text) { sp(btn, text, 0.86, 1.22); }
+function spReact(btn, text) { sp(btn, text, 1.02, 1.28); }
+function spPhon(btn, text)  { sp(btn, text, 0.72, 1.08); }
+
+document.querySelectorAll('.nt').forEach(function(t) {
+  t.onclick = function() {
+    document.querySelectorAll('.nt').forEach(function(x){ x.classList.remove('on'); });
+    document.querySelectorAll('.pnl').forEach(function(x){ x.classList.remove('on'); });
+    t.classList.add('on');
+    document.getElementById('pnl-' + t.dataset.t).classList.add('on');
+    window.scrollTo(0, 0);
+  };
+});
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+var OP_CHUNKS = [
+  ["I'm really into…", "I am really into"],
+  ["I'm not really into…", "I am not really into"],
+  ["I'm a huge fan of…", "I am a huge fan of"],
+  ["I can't stand…", "I cannot stand"],
+  ["I'd say…", "I would say"],
+  ["Personally…", "Personally"],
+  ["To be honest…", "To be honest"],
+  ["For me personally…", "For me personally"],
+  ["I tend to…", "I tend to"],
+  ["I'm more of a … person", "I am more of a person"],
+  ["It depends honestly.", "It depends honestly"],
+  ["I've always liked…", "I have always liked"],
+  ["Lately, I've been…", "Lately I have been"],
+  ["One thing I really enjoy is…", "One thing I really enjoy is"],
+];
+
+var CONNECTORS = [
+  { word: "honestly", fn: "emotional tone", ex: "Honestly, I prefer spending time alone to recharge." },
+  { word: "personally", fn: "personal viewpoint", ex: "Personally, I think social media creates too much pressure." },
+  { word: "especially", fn: "emphasis", ex: "I love music, especially lo-fi when I'm studying." },
+  { word: "meanwhile", fn: "parallel idea", ex: "I enjoy socialising, meanwhile I also need quiet time." },
+  { word: "at the same time", fn: "balance", ex: "Social media is useful, but at the same time it can become addictive." },
+  { word: "compared to", fn: "comparison", ex: "Compared to before, I'm much more confident socially now." },
+  { word: "because of that", fn: "result", ex: "I overthink a lot — because of that I sometimes avoid social events." },
+  { word: "in general", fn: "broad statement", ex: "In general, I prefer smaller, more intimate gatherings." },
+  { word: "for some reason", fn: "uncertainty", ex: "For some reason I always feel more energised after music." },
+  { word: "nowadays", fn: "modern context", ex: "Nowadays most people seem more comfortable expressing opinions online." },
+];
+
+var PV_SOCIAL = [
+  ["hang out", "socialise with others", "I like hanging out with close friends on weekends."],
+  ["open up", "express feelings freely", "It takes me a while to open up around new people."],
+  ["get along with", "have a good relationship with", "I get along with easygoing, relaxed people."],
+  ["calm down", "become relaxed after stress", "Music really helps me calm down after a long day."],
+  ["cheer up", "become happier", "Funny videos on YouTube always cheer me up."],
+  ["fit in", "belong socially", "I used to struggle to fit in when I was younger."],
+  ["stand out", "be noticed or memorable", "Confident people naturally tend to stand out."],
+  ["show off", "display abilities excessively", "I dislike people who constantly show off."],
+  ["look up to", "admire someone", "I really look up to my older sister — she inspires me."],
+  ["put up with", "tolerate something difficult", "I honestly can't put up with rude or dismissive people."],
+];
+
+var PV_HABIT = [
+  ["stay up", "remain awake late at night", "I stay up late watching videos way too often."],
+  ["cut down on", "reduce the amount of", "I'm trying to cut down on social media this month."],
+  ["get into", "become interested in", "I recently got into podcasts — completely addicted."],
+  ["go through", "experience something difficult", "Students go through a lot of stress during exam season."],
+  ["wind down", "relax after a busy period", "Chill music really helps me wind down in the evening."],
+  ["zone out", "lose focus mentally", "I zone out pretty easily during long, boring lectures."],
+];
+
+var POS_TRAITS = ["easygoing","open-minded","outgoing","thoughtful","reliable","motivated","down-to-earth","independent","supportive","confident"];
+var NEG_TRAITS = ["arrogant","judgmental","immature","impatient","stubborn","fake","self-centered","dramatic","insecure"];
+var NUANCE_SELF = ["kinda introverted","socially awkward","emotionally sensitive","overthink a lot","keep to myself","warm up slowly"];
+
+var CLUSTERS = [
+  { title: "🧘 Introvert", color: "var(--sky)", items: ["enjoy quiet places","prefer small groups","keep to myself","need alone time","socially drained","avoid large crowds","warm up slowly"] },
+  { title: "🎉 Extrovert", color: "var(--grn)", items: ["love meeting people","enjoy social events","talk to everyone","full of energy","outgoing personality","enjoy group activities","feel energised socially"] },
+  { title: "😤 Stress & Relax", color: "var(--amb)", items: ["calm down","recharge mentally","clear my mind","take a break","unwind after class","mentally exhausted","emotionally drained"] },
+  { title: "📱 Social Media", color: "var(--cor)", items: ["scroll through TikTok","compare to others","online image","validation online","fake lifestyle","addicted to social media","waste time online"] },
+];
+
+var STRONG_LIKES = [
+  ["love", "I love acoustic music — something about it just feels so peaceful."],
+  ["be obsessed with", "I'm obsessed with true crime podcasts lately."],
+  ["be crazy about", "My friend is absolutely crazy about basketball."],
+  ["enjoy", "I really enjoy quiet café environments."],
+  ["be passionate about", "I'm genuinely passionate about photography."],
+  ["be a huge fan of", "I'm a huge fan of IU — her music is incredible."],
+];
+var SOFT_LIKES = [
+  ["be into", "I'm really into podcasts lately — especially self-development ones."],
+  ["kinda like", "I kinda like rainy weather honestly — it feels cosy."],
+  ["don't mind", "I don't mind studying alone as long as I have good music."],
+  ["have a soft spot for", "I have a soft spot for nostalgic music from my childhood."],
+];
+var DISLIKES = [
+  ["dislike", "I dislike loud, overwhelming environments."],
+  ["not be into", "I'm not really into horror movies — they affect my sleep."],
+  ["can't stand", "I genuinely can't stand fake people."],
+  ["get annoyed by", "I get annoyed by slow internet honestly."],
+  ["be tired of", "I'm so tired of online drama at this point."],
+  ["avoid", "I try to avoid toxic, negative environments."],
+];
+
+var COLLOCATIONS = [
+  { cat: "Social Life", items: [
+    ["close friends", "I prefer spending quality time with close friends."],
+    ["small groups", "I feel most comfortable in small groups honestly."],
+    ["social pressure", "Social pressure affects a lot of teenagers."],
+    ["awkward silence", "I absolutely hate awkward silence in conversations."],
+    ["face-to-face conversations", "Face-to-face conversations feel so much more genuine."],
+    ["online personality", "Some people act completely differently online."],
+  ]},
+  { cat: "Feelings & Mental State", items: [
+    ["feel overwhelmed", "I feel overwhelmed during exam season."],
+    ["social anxiety", "Social anxiety is far more common than people realise."],
+    ["emotional support", "Good friends provide real emotional support."],
+    ["lose motivation", "I lose motivation sometimes when things get too repetitive."],
+    ["low energy", "I've had really low energy lately honestly."],
+    ["mental exhaustion", "Too much social media can cause genuine mental exhaustion."],
+  ]},
+];
+
+var AGREE_CHUNKS = ["Totally.","Exactly.","Same here.","I completely agree.","That's so true.","I know what you mean."];
+var DISAGREE_CHUNKS = ["I'm not sure about that.","Maybe, but…","I see your point, but…","That depends honestly.","I partly agree.","Not necessarily."];
+var REACT_INTEREST = ["Really?","No way!","Seriously?","That's interesting.","That sounds fun honestly.","You're kidding.","I've never thought about that."];
+var REACT_EMPATHY = ["I know what you mean.","I'd probably feel the same.","That sounds exhausting.","That must be stressful.","I totally get that.","Same honestly."];
+var REACT_FILLER = ["Let me think…","Honestly…","To be honest…","Actually…","I mean…","Pretty much…","Kinda…","For some reason…"];
+
+var OP_Q = [
+  { q: "What kind of music are you into? / Do you have strong music preferences?",
+    ch: ["I'm really into…","I've always liked…","Lately I've been…","For me personally…","One thing I really enjoy is…"],
+    l1: "I like chill music.",
+    l2: "I'm really into chill lo-fi music lately because it helps me focus.",
+    l3: "I'm honestly obsessed with lo-fi and acoustic music right now — I've always been into chill stuff because it helps me wind down after stressful days. There's something about it that just resets my energy. What kind of music are you into?" },
+  { q: "Do you prefer spending time alone or with people? / How would you describe your social personality?",
+    ch: ["I'd say I'm more of a…","I tend to…","For me personally…","To be honest…","It depends honestly."],
+    l1: "I like being alone.",
+    l2: "I'd say I'm more of an introvert — I tend to prefer smaller groups.",
+    l3: "To be honest, I'd say I'm more of a homebody — I tend to feel socially drained after big gatherings, so I genuinely prefer spending time with one or two close friends. That said, it depends honestly — sometimes I really enjoy going out. What about you?" },
+  { q: "What's your opinion on social media? / Do you think it's more helpful or harmful?",
+    ch: ["Personally, I think…","At the same time…","To be honest…","Nowadays…","I'm not really into…"],
+    l1: "Social media is useful.",
+    l2: "Personally, I think social media is useful, but it can also be addictive.",
+    l3: "Personally, I think social media is really useful for communication and staying connected, but at the same time it creates a lot of unnecessary pressure and comparison — especially for younger people. Nowadays I try to cut down on it honestly. What's your take on it?" },
+];
+
+var PV_Q = [
+  { q: "How would you describe your personality? / Are you more introverted or extroverted?",
+    ch: ["I'd say I'm kinda…","I tend to…","I'm more of a…","I warm up slowly…","I keep to myself…"],
+    l1: "I'm shy.",
+    l2: "I'm kinda introverted — I warm up slowly around new people.",
+    l3: "Honestly, I'd say I'm kinda introverted, especially around strangers. I tend to keep to myself at first and warm up slowly, but once I'm comfortable I open up pretty quickly. I used to be socially awkward but I've become more confident lately. Would you say you're more introverted or extroverted?" },
+  { q: "What kind of people do you get along with? / What makes someone difficult to be around?",
+    ch: ["I get along with…","I can't stand…","I tend to…","I put up with…","I look up to…"],
+    l1: "I like friendly people.",
+    l2: "I get along with easygoing, open-minded people. I can't stand arrogant or fake people.",
+    l3: "I genuinely get along best with people who are easygoing and down-to-earth — the type who are supportive and actually listen. I honestly can't put up with arrogant or self-centered people, and I find judgmental behaviour really draining. I really look up to people who are confident but still humble. What kind of people do you click with?" },
+  { q: "What's one personality trait you're proud of? / What's something you're working on?",
+    ch: ["I'd say I'm pretty…","One thing I'm working on…","I used to be…but now…","I've become more…","I tend to overthink…"],
+    l1: "I'm kind.",
+    l2: "I'd say I'm pretty thoughtful. But I tend to overthink a lot sometimes.",
+    l3: "I'd say I'm pretty empathetic and emotionally sensitive — I notice how others are feeling and I really care about that. But if I'm honest, I do tend to overthink things way too much, which can be exhausting. I've been trying to become more decisive lately. What about you — anything you're actively working on?" },
+];
+
+var LD_Q = [
+  { q: "What are your biggest hobbies or interests right now?",
+    ch: ["I'm obsessed with…","I'm really into…","I have a soft spot for…","I'm passionate about…","One thing I really enjoy is…"],
+    l1: "I like photography.",
+    l2: "I'm really into photography lately — I enjoy capturing everyday moments.",
+    l3: "I'm honestly obsessed with photography right now. I've always had a soft spot for it, but lately I've been going out specifically to shoot street photography — there's something really therapeutic about it. I'm also passionate about music production on the side. What about you — what are you currently into?" },
+  { q: "Is there anything you really can't stand? / What kind of environments do you dislike?",
+    ch: ["I can't stand…","I'm not really into…","I get annoyed by…","I'm tired of…","I avoid…"],
+    l1: "I don't like loud places.",
+    l2: "I can't stand loud, chaotic environments — they drain my energy really quickly.",
+    l3: "Honestly, I can't stand overly loud or chaotic environments — I get drained really fast. I'm also not really into fake social interactions where nobody's being genuine. And I'm pretty tired of social media drama at this point — I try to avoid toxic online spaces as much as possible. What about you — any strong dislikes?" },
+  { q: "Do you prefer face-to-face conversation or online communication?",
+    ch: ["I prefer…","face-to-face feels…","I tend to…","I enjoy…","I'm not really into…"],
+    l1: "I prefer face-to-face.",
+    l2: "I prefer face-to-face conversations — they feel more genuine and real.",
+    l3: "I definitely prefer face-to-face conversations honestly — there's something about them that feels so much more genuine. You can read body language, share silences naturally, and it's just richer. I enjoy texting too but I feel like online communication can create misunderstandings. I'm not really into people who have a completely different online personality. What about you?" },
+];
+
+var AG_Q = [
+  { q: "Do you think introverts and extroverts can be close friends? / Can opposite personalities get along?",
+    ch: ["I completely agree…","Maybe, but…","I see your point, but…","That depends honestly.","I partly agree."],
+    l1: "Yes, they can.",
+    l2: "I completely agree — opposites can absolutely be close friends. They often complement each other.",
+    l3: "I completely agree that introverts and extroverts can be really close — I think they actually complement each other really well. The extrovert brings energy and social opportunities, while the introvert brings depth and perspective. That said, it depends honestly on how much each person respects the other's needs. What do you think?" },
+  { q: "Is social media doing more harm than good to young people?",
+    ch: ["Personally I think…","At the same time…","I partly agree.","Not necessarily.","I see your point, but…"],
+    l1: "I think yes.",
+    l2: "Personally I think it causes more harm, but at the same time it depends how you use it.",
+    l3: "Personally I think social media does more harm than good for a lot of young people — the constant comparison and validation-seeking creates real insecurity and mental exhaustion. At the same time, I partly agree it has genuine benefits for communication and learning. Not necessarily all bad — it really depends on the individual. What's your view?" },
+];
+
+var ALL_Q = OP_Q.map(function(d){ return { q:d.q, cat:'op' }; })
+  .concat(PV_Q.map(function(d){ return { q:d.q, cat:'pv' }; }))
+  .concat(LD_Q.map(function(d){ return { q:d.q, cat:'ld' }; }))
+  .concat(AG_Q.map(function(d){ return { q:d.q, cat:'ag' }; }));
+
+var AG_STATEMENTS = [
+  "Social media makes people more insecure.",
+  "Introverts are better listeners than extroverts.",
+  "Confidence is more important than intelligence.",
+  "It's better to have a few close friends than many acquaintances.",
+  "People's online personalities are never truly authentic.",
+  "Music has a powerful effect on your mood and personality.",
+  "Most people overthink things way too much.",
+  "Social pressure from peers is the biggest cause of stress for students.",
+  "Being easygoing is more valuable than being ambitious.",
+  "Face-to-face conversation is becoming a lost skill.",
+];
+
+var SH_L4 = [
+  { en: "I'm not really into loud places because they drain my energy pretty quickly.", focus: "→ I'm not really into… + because + emotion" },
+  { en: "Personally, I think social media is useful, but at the same time it creates a lot of pressure.", focus: "→ Personally… + at the same time" },
+  { en: "I'd say I'm kinda introverted — I warm up slowly around new people but open up eventually.", focus: "→ I'd say… + kinda + but contrast" },
+  { en: "I'm honestly obsessed with photography right now — there's something therapeutic about it.", focus: "→ I'm obsessed with… + emotional reason" },
+  { en: "I get along best with easygoing, down-to-earth people who actually listen.", focus: "→ I get along with… + personality traits" },
+  { en: "I tend to overthink things way too much, which can be pretty exhausting honestly.", focus: "→ I tend to… + which + emotional cost" },
+];
+var SH_EMO = [
+  { en: "I can't stand arrogant people — it just drives me absolutely crazy.", focus: "→ stress 'can't stand' and 'absolutely crazy'" },
+  { en: "That sounds exhausting. I totally get that — same honestly.", focus: "→ empathy + agreement chain" },
+  { en: "Seriously? I've never thought about it that way before!", focus: "→ surprise reaction with rising intonation" },
+  { en: "I'd say I'm more confident now — I used to be way more socially awkward.", focus: "→ contrast: now vs before" },
+];
+var SH_AG = [
+  { en: "I completely agree — people who are easygoing are honestly so much easier to be around.", focus: "→ strong agreement + personal reason" },
+  { en: "I see your point, but personally I think it depends on the individual.", focus: "→ polite disagreement structure" },
+  { en: "Maybe, but at the same time you have to consider the other side of it.", focus: "→ soft contrast with balance" },
+  { en: "That depends honestly — for some people it's really helpful, for others not at all.", focus: "→ nuanced response with 'for some… for others'" },
+];
+var SH_CS = [
+  { sl: "I want to open up.", fa: "I wanna open up.", nt: "want to → wanna" },
+  { sl: "I am kind of introverted.", fa: "I'm kinda introverted.", nt: "I am → I'm | kind of → kinda" },
+  { sl: "I cannot stand fake people.", fa: "I can't stand fake people.", nt: "cannot → can't (stressed: 'stand')" },
+  { sl: "To be honest with you.", fa: "To be honest.", nt: "naturally shortened in speech" },
+  { sl: "I used to be shy.", fa: "I used to be shy.", nt: "used to /juːst ə/ — /t/ elided" },
+  { sl: "I have always been into music.", fa: "I've always been into music.", nt: "I have → I've (linking)" },
+];
+
+var DICT_DATA = [
+  { set: "Set 1 — Opinion Chunks", items: [
+    "I'm not really into loud places because they drain my energy pretty quickly.",
+    "Personally, I think social media is useful, but at the same time it creates a lot of pressure.",
+    "I'd say I'm more of a homebody — I tend to prefer smaller, quieter gatherings.",
+    "I'm honestly obsessed with lo-fi music lately because it helps me wind down.",
+    "One thing I really enjoy is spending time in quiet cafés with good music and a coffee.",
+  ]},
+  { set: "Set 2 — Personality & Social", items: [
+    "I'd say I'm kinda introverted — I warm up slowly around new people at first.",
+    "I get along best with easygoing, down-to-earth people who are genuinely supportive.",
+    "I can't stand arrogant or self-centered people — I find that really draining honestly.",
+    "I tend to overthink things way too much, which can be pretty exhausting.",
+    "I've become a lot more confident socially — I used to be way more socially awkward.",
+  ]},
+  { set: "Set 3 — Agreement & Reaction", items: [
+    "I completely agree — people who are open-minded are so much easier to connect with.",
+    "I see your point, but personally I think it really depends on the individual.",
+    "That sounds exhausting. I'd probably feel exactly the same way in that situation.",
+    "Honestly, for some reason I always feel more comfortable in smaller groups of people.",
+    "Nowadays I try to cut down on social media because it affects my mood honestly.",
+  ]},
+];
+
+var LADDERS = [
+  { topic: "Personality", rungs: [
+    "I'm shy.",
+    "I'm kinda shy.",
+    "I'm kinda shy around new people.",
+    "I'm kinda shy around new people at first, but I become more comfortable later.",
+    "I'm kinda shy around new people at first, but once I get comfortable I open up pretty quickly honestly.",
+  ]},
+  { topic: "Likes", rungs: [
+    "I like music.",
+    "I really like chill music.",
+    "I'm really into chill music lately.",
+    "I'm really into chill music lately because it helps me relax.",
+    "I'm really into chill music lately because it helps me unwind after stressful days at university.",
+  ]},
+  { topic: "Social Media", rungs: [
+    "Social media is useful.",
+    "I think social media is useful.",
+    "Personally, I think social media is useful for communication.",
+    "Personally, I think social media is useful, but it can also become addictive.",
+    "Personally, I think social media is useful for communication, but at the same time it creates pressure and insecurity for a lot of students.",
+  ]},
+  { topic: "Dislikes", rungs: [
+    "I don't like loud places.",
+    "I'm not really into loud places.",
+    "I'm not really into loud, crowded environments.",
+    "I'm not really into loud, crowded environments because they drain my energy.",
+    "I'm not really into loud environments honestly — they drain my energy pretty fast, and I just feel so much better in quieter spaces.",
+  ]},
+];
+
+// ── BUILD HELPERS ─────────────────────────────────────────────────────────
+
+function mkCB(label, text, cls) {
+  cls = cls || '';
+  return '<button class="cb ' + cls + '" onclick="spChunk(this,\'' + (text||label).replace(/'/g,"\\'") + '\')">' +
+    '🔊 ' + label + '</button>';
+}
+function mkPB(text, slow) {
+  var e = text.replace(/'/g,"\\'");
+  var s = slow ? '<button class="pb" onclick="spS(this,\'' + e + '\')">▶ slow</button>' : '';
+  return '<div class="pr"><button class="pb" onclick="sp(this,\'' + e + '\')">▶ listen</button>' + s + '</div>';
+}
+function esc(s){ return s.replace(/'/g,"\\'"); }
+
+// Opinion chunks
+var oc = document.getElementById('op-chunks');
+OP_CHUNKS.forEach(function(c){ oc.innerHTML += mkCB(c[0], c[1]); });
+
+// Connectors
+var cd = document.getElementById('connectors');
+CONNECTORS.forEach(function(c){
+  cd.innerHTML += '<div class="csr">' +
+    '<div class="csl">Connector — ' + c.fn + '</div>' +
+    '<div class="css1" style="color:var(--amb);font-weight:600">' + c.word + '</div>' +
+    '<div class="css2">' + c.ex + '</div>' +
+    '<div class="csb"><button class="csp" style="color:var(--mut);border-color:var(--brd)" onclick="sp(this,\'' + esc(c.ex) + '\',0.68,1.05)">▶ Slow</button>' +
+    '<button class="csp" style="color:var(--teal);border-color:rgba(0,212,170,.4)" onclick="sp(this,\'' + esc(c.ex) + '\',0.92,1.20)">▶ Natural</button></div>' +
+    '</div>';
+});
+
+// PV tables
+function buildTable(id, data) {
+  var t = document.getElementById(id);
+  t.innerHTML = '<tr><th>Phrasal Verb</th><th>Meaning</th><th>Example</th><th></th></tr>';
+  data.forEach(function(r) {
+    t.innerHTML += '<tr><td>' + r[0] + '</td><td style="color:var(--mut)">' + r[1] + '</td><td>' + r[2] + '</td>' +
+      '<td class="play-td"><button class="pb" onclick="sp(this,\'' + esc(r[2]) + '\')">▶</button>' +
+      '<button class="pb" style="margin-top:4px" onclick="spS(this,\'' + esc(r[2]) + '\')">▶s</button></td></tr>';
+  });
+}
+buildTable('pv-social', PV_SOCIAL);
+buildTable('pv-habit', PV_HABIT);
+
+// Personality chunks
+var pos = document.getElementById('pos-chunks');
+POS_TRAITS.forEach(function(t){ pos.innerHTML += '<button class="cb amber" onclick="spChunk(this,\'' + t + '\')">🔊 ' + t + '</button>'; });
+var neg = document.getElementById('neg-chunks');
+NEG_TRAITS.forEach(function(t){ neg.innerHTML += '<button class="cb rose" onclick="spChunk(this,\'' + t + '\')">🔊 ' + t + '</button>'; });
+var nu = document.getElementById('nuance-chunks');
+NUANCE_SELF.forEach(function(t){ nu.innerHTML += '<button class="cb sky" onclick="spChunk(this,\'' + t + '\')">🔊 ' + t + '</button>'; });
+
+// Clusters
+var cg = document.getElementById('clusters');
+CLUSTERS.forEach(function(cl) {
+  var items = cl.items.map(function(it) {
+    return '<div class="clitem" onclick="sp(this,\'' + esc(it) + '\')">' +
+      '<span style="font-size:10px;color:' + cl.color + '">▶</span>' +
+      '<span class="cltext">' + it + '</span></div>';
+  }).join('');
+  cg.innerHTML += '<div class="clcard">' +
+    '<h4 style="color:' + cl.color + '">' + cl.title + '</h4>' + items + '</div>';
+});
+// Fix clitem onclick for play indicator
+document.querySelectorAll('.clitem').forEach(function(el) {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.clitem').forEach(function(x){ x.classList.remove('pl'); });
+    el.classList.add('pl');
+    setTimeout(function(){ el.classList.remove('pl'); }, 1500);
+  });
+});
+
+// Likes & dislikes chunks
+var sl = document.getElementById('strong-like');
+STRONG_LIKES.forEach(function(r){ sl.innerHTML += mkCB(r[0], r[1]); });
+var sf = document.getElementById('soft-like');
+SOFT_LIKES.forEach(function(r){ sf.innerHTML += mkCB(r[0], r[1]); });
+var dl = document.getElementById('dislikes');
+DISLIKES.forEach(function(r){ dl.innerHTML += '<button class="cb rose" onclick="spChunk(this,\'' + esc(r[1]) + '\')">🔊 ' + r[0] + '</button>'; });
+
+// Collocations
+var col = document.getElementById('collocations');
+COLLOCATIONS.forEach(function(cat) {
+  col.innerHTML += '<div class="sl">' + cat.cat + '</div>';
+  var rows = cat.items.map(function(r) {
+    return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td>' +
+      '<td class="play-td"><button class="pb" onclick="sp(this,\'' + esc(r[1]) + '\')">▶</button></td></tr>';
+  }).join('');
+  col.innerHTML += '<table class="vtbl"><tr><th>Collocation</th><th>Example</th><th></th></tr>' + rows + '</table>';
+});
+
+// Agreement chunks
+var ag = document.getElementById('agree-chunks');
+AGREE_CHUNKS.forEach(function(c){ ag.innerHTML += '<button class="cb sky" onclick="spReact(this,\'' + esc(c) + '\')">🔊 ' + c + '</button>'; });
+var dg = document.getElementById('disagree-chunks');
+DISAGREE_CHUNKS.forEach(function(c){ dg.innerHTML += '<button class="cb rose" onclick="spReact(this,\'' + esc(c) + '\')">🔊 ' + c + '</button>'; });
+var ri = document.getElementById('react-interest');
+REACT_INTEREST.forEach(function(c){ ri.innerHTML += '<button class="cb sky" onclick="spReact(this,\'' + esc(c) + '\')">🔊 ' + c + '</button>'; });
+var re = document.getElementById('react-empathy');
+REACT_EMPATHY.forEach(function(c){ re.innerHTML += '<button class="cb" onclick="spReact(this,\'' + esc(c) + '\')">🔊 ' + c + '</button>'; });
+var rf = document.getElementById('react-filler');
+REACT_FILLER.forEach(function(c){ rf.innerHTML += '<button class="cb amber" onclick="spChunk(this,\'' + esc(c) + '\')">🔊 ' + c + '</button>'; });
+
+// Must-know chips
+function buildChips(id, chips, cls) {
+  var c = document.getElementById(id); cls = cls || '';
+  chips.forEach(function(ch) {
+    var b = document.createElement('button');
+    b.className = 'mch ' + cls; b.textContent = ch;
+    b.onclick = function(){ sp(b, ch.replace(/…$/, '')); };
+    c.appendChild(b);
+  });
+}
+buildChips('mk-op', ["I'm really into…","I'm not really into…","I'd say…","Personally…","To be honest…","For me personally…","I tend to…","It depends honestly.","Lately I've been…","One thing I really enjoy is…"]);
+buildChips('mk-pv', ["easygoing","open-minded","kinda introverted","socially awkward","emotionally sensitive","overthink a lot","warm up slowly","keep to myself","I get along with…","I can't put up with…"]);
+buildChips('mk-ld', ["I'm obsessed with…","I'm a huge fan of…","I can't stand…","I'm not really into…","I have a soft spot for…","I'm tired of…","I try to avoid…","I get annoyed by…"]);
+buildChips('mk-ag', ["Totally.","Exactly.","Same here.","I know what you mean.","I'm not sure about that.","Maybe, but…","I see your point, but…","Not necessarily.","That depends honestly.","I partly agree."]);
+
+// Q-blocks builder
+function buildQB(data, cid) {
+  var c = document.getElementById(cid);
+  data.forEach(function(d, i) {
+    var div = document.createElement('div');
+    div.className = 'qb';
+    var chs = d.ch.map(function(ch) {
+      return '<button class="cb" onclick="sp(this,\'' + esc(ch.replace(/…$/,'')) + '\')">🔊 ' + ch + '</button>';
+    }).join('');
+    div.innerHTML =
+      '<div class="qh" onclick="this.parentElement.classList.toggle(\'op\')">' +
+        '<div class="qn">' + (i+1) + '</div>' +
+        '<div class="qq">' + d.q + '</div><div class="qa">▼</div>' +
+      '</div>' +
+      '<div class="qbd">' +
+        '<div class="sl" style="margin-bottom:6px">Suggested Chunks — Click to listen</div>' +
+        '<div class="cg" style="margin-bottom:12px">' + chs + '</div>' +
+        '<div class="sl" style="margin-bottom:8px">Model Answers — ▶ natural · ▶ slow for imitation</div>' +
+        '<div class="lvs">' +
+          '<div class="lv lv1"><div class="lvb">Basic · Level 1</div><p>' + d.l1 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + esc(d.l1) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + esc(d.l1) + '\')">▶ slow</button></div></div>' +
+          '<div class="lv lv2"><div class="lvb">Add Context · Level 3</div><p>' + d.l2 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + esc(d.l2) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + esc(d.l2) + '\')">▶ slow</button></div></div>' +
+          '<div class="lv lv3"><div class="lvb">Fluent · Level 5</div><p>' + d.l3 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + esc(d.l3) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + esc(d.l3) + '\')">▶ slow</button></div></div>' +
+        '</div>' +
+      '</div>';
+    c.appendChild(div);
+  });
+}
+buildQB(OP_Q, 'opq');
+buildQB(PV_Q, 'pvq');
+buildQB(LD_Q, 'ldq');
+buildQB(AG_Q, 'agq');
+
+// Shadowing
+function buildShadow(id, data) {
+  var c = document.getElementById(id);
+  data.forEach(function(item) {
+    var e = esc(item.en);
+    c.innerHTML += '<div class="shtr">' +
+      '<div class="te">' + item.en + '</div>' +
+      '<div class="tv">Chunk focus: ' + item.focus + '</div>' +
+      '<div class="tc">' +
+        '<button class="spb on" onclick="shadowP(this,\'' + e + '\',0.65,1.02)">🐢 Slow &amp; Clear</button>' +
+        '<button class="spb" onclick="shadowP(this,\'' + e + '\',0.85,1.12)">▶ Moderate</button>' +
+        '<button class="spb" onclick="shadowP(this,\'' + e + '\',1.05,1.20)">🚀 Natural</button>' +
+      '</div></div>';
+  });
+}
+buildShadow('shl4', SH_L4);
+buildShadow('shemo', SH_EMO);
+buildShadow('shag', SH_AG);
+
+var csc = document.getElementById('shcs');
+SH_CS.forEach(function(item) {
+  var esl = esc(item.sl), efa = esc(item.fa);
+  csc.innerHTML += '<div class="csr">' +
+    '<div class="csl">Pattern — ' + item.nt + '</div>' +
+    '<div class="css1">Slow: "' + item.sl + '"</div>' +
+    '<div class="css2">Natural: "' + item.fa + '"</div>' +
+    '<div class="csb">' +
+      '<button class="csp" style="color:var(--mut);border-color:var(--brd)" onclick="sp(this,\'' + esl + '\',0.65,1.05)">▶ Slow</button>' +
+      '<button class="csp" style="color:var(--teal);border-color:rgba(0,212,170,.4)" onclick="sp(this,\'' + efa + '\',0.95,1.20)">▶ Natural speed</button>' +
+    '</div></div>';
+});
+
+function shadowP(btn, text, rate, pitch) {
+  var par = btn.closest('.shtr');
+  par.querySelectorAll('.spb').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on'); sp(btn, text, rate, pitch||1.10);
+}
+
+// Dictation
+function buildDict() {
+  var c = document.getElementById('dicd');
+  DICT_DATA.forEach(function(set) {
+    var w = document.createElement('div');
+    var sid = set.set.replace(/\s/g,'').slice(0,10);
+    w.innerHTML = '<div class="sl" style="margin-bottom:10px">' + set.set + '</div>';
+    set.items.forEach(function(sentence, i) {
+      var card = document.createElement('div');
+      card.className = 'dc2';
+      var id = sid + i;
+      var ea = esc(sentence).replace(/,/g,'[c]');
+      var es = esc(sentence);
+      card.innerHTML =
+        '<div class="dct"><div class="dcl">Sentence ' + (i+1) + '</div>' +
+        '<button class="btn bg" style="padding:4px 11px;font-size:11px" onclick="sp(this,\'' + es + '\')">▶ Listen</button>' +
+        '<button class="btn bg" style="padding:4px 11px;font-size:11px" onclick="spS(this,\'' + es + '\')">▶ Slow</button></div>' +
+        '<div class="dcs" id="sent-' + id + '" onclick="this.classList.toggle(\'show\')">' + sentence + ' <span style="font-size:10px;color:var(--mut)">(click to reveal)</span></div>' +
+        '<textarea class="dca" id="ans-' + id + '" placeholder="Type what you heard here..."></textarea>' +
+        '<button class="btn ba" style="padding:4px 12px;font-size:11px;margin-top:6px" onclick="chkD(\'' + id + '\',\'' + ea + '\')">✓ Check</button>' +
+        '<div class="dcf" id="fb-' + id + '"></div>';
+      w.appendChild(card);
+    });
+    c.appendChild(w);
+    var dv = document.createElement('div'); dv.className = 'dv'; c.appendChild(dv);
+  });
+}
+function chkD(id, answer) {
+  var u = document.getElementById('ans-'+id).value.trim().toLowerCase().replace(/[.,!?]/g,'');
+  var a = answer.replace(/\[c\]/g,',').toLowerCase().replace(/[.,!?]/g,'');
+  var fb = document.getElementById('fb-'+id);
+  if (u===a||sim(u,a)>0.82) { fb.className='dcf ok'; fb.textContent='✓ Correct! Read aloud 3 times with proper stress and rhythm.'; }
+  else { fb.className='dcf no'; fb.textContent='✗ Not quite. Listen again → try once more. Answer: "'+answer.replace(/\[c\]/g,',')+'"'; }
+}
+function sim(a,b){ var l=a.length>b.length?a:b; if(!l.length)return 1; return(l.length-ed(a,b))/l.length; }
+function ed(a,b){ var m=a.length,n=b.length,dp=[]; for(var i=0;i<=m;i++){dp[i]=[];for(var j=0;j<=n;j++)dp[i][j]=i===0?j:j===0?i:0;} for(var i=1;i<=m;i++)for(var j=1;j<=n;j++)dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);return dp[m][n]; }
+buildDict();
+
+// Speech Ladders
+var lc = document.getElementById('ladders');
+LADDERS.forEach(function(ladder) {
+  var ruv = ladder.rungs.map(function(r, i) {
+    var lvl = i+1;
+    var cls = 'rung r'+lvl;
+    return '<div class="' + cls + '" onclick="sp(this,\'' + esc(r) + '\')">' +
+      '<div class="rlv">' + lvl + '</div>' +
+      '<div class="rtxt">' + r + '</div>' +
+      '<button class="pb" onclick="event.stopPropagation();spS(this,\'' + esc(r) + '\')">▶s</button>' +
+    '</div>';
+  }).join('');
+  lc.innerHTML += '<div class="sh">' + ladder.topic + '</div><div class="ladder">' + ruv + '</div><div class="dv"></div>';
+});
+
+// Reflex Drill
+var drillT=null, drillN=0, drillS=0, drillRun=false;
+function startD() {
+  document.getElementById('rs').style.display='none';
+  document.getElementById('rn').style.display='inline-flex';
+  nextQ();
+}
+function nextQ() {
+  if (drillRun){ clearInterval(drillT); drillRun=false; }
+  var cat = document.getElementById('rcat').value;
+  var pool = cat==='all' ? ALL_Q : ALL_Q.filter(function(q){ return q.cat===cat; });
+  var q = pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('rdd').innerHTML = '<div class="dq">"' + q.q + '"</div>';
+  sp({ classList:{ add:function(){}, remove:function(){} } }, q.q);
+  var pct=100; drillRun=true;
+  document.getElementById('rtf').style.background='var(--teal)';
+  drillT=setInterval(function(){
+    pct=Math.max(0,pct-2);
+    document.getElementById('rtf').style.width=pct+'%';
+    if(pct<40) document.getElementById('rtf').style.background='var(--amb)';
+    if(pct<15) document.getElementById('rtf').style.background='var(--cor)';
+    if(pct<=0){ clearInterval(drillT); drillRun=false; }
+  },100);
+  drillN++; drillS++;
+  document.getElementById('sdn').textContent=drillN;
+  document.getElementById('sst').textContent=drillS;
+}
+function resetD() {
+  clearInterval(drillT); drillRun=false; drillN=0; drillS=0;
+  document.getElementById('sdn').textContent=0; document.getElementById('sst').textContent=0;
+  document.getElementById('rdd').innerHTML='<div class="dp">Press START to begin</div>';
+  document.getElementById('rtf').style.width='100%'; document.getElementById('rtf').style.background='var(--teal)';
+  document.getElementById('rs').style.display='inline-flex'; document.getElementById('rn').style.display='none';
+}
+
+// Agreement Battle Drill
+var agIdx=0;
+var agShuffled = AG_STATEMENTS.slice().sort(function(){ return Math.random()-.5; });
+function startAgDrill() {
+  document.getElementById('agstart').style.display='none';
+  document.getElementById('agnext').style.display='inline-flex';
+  agIdx=0; showAgQ();
+}
+function nextAgQ() { agIdx=(agIdx+1)%agShuffled.length; showAgQ(); }
+function showAgQ() {
+  var stmt = agShuffled[agIdx];
+  document.getElementById('agdd').innerHTML='<div class="dq">"' + stmt + '"</div>';
+  sp({ classList:{add:function(){},remove:function(){}} }, stmt);
+}
+function resetAgDrill() {
+  agShuffled = AG_STATEMENTS.slice().sort(function(){ return Math.random()-.5; });
+  agIdx=0;
+  document.getElementById('agdd').innerHTML='<div class="dp">Press START to begin the drill</div>';
+  document.getElementById('agstart').style.display='inline-flex';
+  document.getElementById('agnext').style.display='none';
+}
+
+// Checklist
+function tck(el) {
+  el.classList.toggle('dn');
+  var dn=document.querySelectorAll('.ci.dn').length, tot=document.querySelectorAll('.ci').length;
+  document.getElementById('cpf').style.width=(dn/tot*100)+'%';
+  document.getElementById('cpl').textContent=dn+' / '+tot+' completed';
+}
+</script>
+</body>
+</html>
