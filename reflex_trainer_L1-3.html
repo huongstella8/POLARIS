@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reflex English Audio Trainer — Lesson 1–3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;
+  --card:#1e2736;--card2:#243040;
+  --teal:#00d4aa;--teal2:#00a882;--tD:rgba(0,212,170,.12);
+  --sky:#4fc3f7;--sD:rgba(79,195,247,.12);
+  --amb:#f5a623;--aD:rgba(245,166,35,.12);
+  --cor:#ff6b6b;--cD:rgba(255,107,107,.12);
+  --pur:#b39ddb;--pD:rgba(179,157,219,.12);
+  --grn:#81c784;--gD:rgba(129,199,132,.12);
+  --txt:#e6edf3;--mut:#7d8590;--brd:#30363d;
+  --r:8px;--r2:14px
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;font-size:14px}
+
+/* NAV */
+.nav{background:var(--bg2);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:100}
+.ni{display:flex;overflow-x:auto;scrollbar-width:none}
+.ni::-webkit-scrollbar{display:none}
+.nt{padding:12px 16px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;
+    white-space:nowrap;transition:all .18s;user-select:none;flex-shrink:0}
+.nt:hover{color:var(--txt)}
+.nt.on{color:var(--teal);border-bottom-color:var(--teal)}
+
+/* PANELS */
+.pnl{display:none;padding:18px 16px 64px;max-width:900px;margin:0 auto}
+.pnl.on{display:block}
+
+/* HERO */
+.hero{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r2);
+      padding:20px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;
+             border-radius:50%;background:radial-gradient(circle,var(--tD),transparent);pointer-events:none}
+.badge{display:inline-block;background:var(--tD);color:var(--teal);font-size:10px;font-weight:700;
+       letter-spacing:.1em;text-transform:uppercase;padding:3px 11px;border-radius:20px;
+       border:1px solid rgba(0,212,170,.25);margin-bottom:10px}
+.hero h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.hero p{font-size:12px;color:var(--mut)}
+
+/* LABELS */
+.sl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.sh{font-size:15px;font-weight:700;color:#fff;margin-bottom:12px;margin-top:4px}
+.dv{height:1px;background:var(--brd);margin:18px 0}
+.tp{font-size:11px;color:var(--mut);margin-bottom:14px;margin-top:4px}
+
+/* CHUNK BUTTONS */
+.cg{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+.cb{display:inline-flex;align-items:center;gap:5px;background:var(--tD);color:var(--teal);
+    font-size:12px;font-weight:500;padding:6px 13px;border-radius:20px;
+    border:1px solid rgba(0,212,170,.3);cursor:pointer;transition:all .18s;font-family:inherit}
+.cb:hover{background:rgba(0,212,170,.2);transform:translateY(-1px)}
+.cb.pl{background:var(--teal);color:#0d1117;border-color:var(--teal)}
+
+/* QUESTION BLOCKS */
+.qb{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);margin-bottom:10px;overflow:hidden}
+.qh{display:flex;align-items:center;gap:10px;padding:12px 15px;background:var(--card2);
+    cursor:pointer;user-select:none}
+.qn{width:26px;height:26px;border-radius:50%;background:var(--tD);color:var(--teal);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qq{font-size:13px;font-weight:600;color:#fff;flex:1;line-height:1.4}
+.qa{color:var(--mut);transition:transform .18s;font-size:12px;flex-shrink:0}
+.qb.op .qa{transform:rotate(180deg)}
+.qbd{display:none;padding:14px}
+.qb.op .qbd{display:block}
+
+/* LEVEL CARDS */
+.lvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:9px;margin-top:12px}
+.lv{border-radius:var(--r);padding:12px 13px;border:1px solid}
+.lv1{background:rgba(100,116,139,.1);border-color:rgba(100,116,139,.25)}
+.lv2{background:var(--sD);border-color:rgba(79,195,247,.25)}
+.lv3{background:var(--tD);border-color:rgba(0,212,170,.25)}
+.lvb{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.lv1 .lvb{color:var(--mut)} .lv2 .lvb{color:var(--sky)} .lv3 .lvb{color:var(--teal)}
+.lv p{font-size:12px;line-height:1.65;color:var(--txt)}
+.pr{display:flex;gap:6px;margin-top:8px}
+.pb{display:inline-flex;align-items:center;gap:4px;background:transparent;color:var(--mut);
+    font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid var(--brd);
+    cursor:pointer;transition:all .18s;font-family:inherit}
+.pb:hover{color:var(--teal);border-color:var(--teal)}
+.pb.pl{color:var(--teal);border-color:var(--teal);background:var(--tD)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:var(--r);
+     font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .18s;font-family:inherit}
+.bt{background:var(--teal);color:#0d1117} .bt:hover{background:var(--teal2)}
+.bg{background:transparent;color:var(--mut);border:1px solid var(--brd)} .bg:hover{color:var(--txt);border-color:var(--txt)}
+.ba{background:var(--amb);color:#0d1117} .ba:hover{filter:brightness(1.1)}
+
+/* DRILL BOX */
+.db{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:18px;margin-bottom:18px}
+.dd{min-height:76px;display:flex;align-items:center;justify-content:center;
+    background:var(--bg2);border-radius:var(--r);margin-bottom:13px;padding:14px;text-align:center}
+.dq{font-size:16px;font-weight:600;color:#fff;line-height:1.4}
+.dp{font-size:13px;color:var(--mut)}
+.tb{height:5px;background:var(--brd);border-radius:3px;margin-bottom:13px;overflow:hidden}
+.tf{height:100%;border-radius:3px;transition:width .1s linear;width:100%;background:var(--teal)}
+.dc{display:flex;gap:8px;flex-wrap:wrap}
+.ds{display:flex;gap:10px;margin-top:12px}
+.st{background:var(--bg2);border-radius:var(--r);padding:8px 12px;text-align:center;flex:1;border:1px solid var(--brd)}
+.sn{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--teal)}
+.sl2{font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+
+/* REACTION BUTTONS */
+.rb{display:flex;flex-wrap:wrap;gap:7px}
+.rbt{background:var(--cD);color:var(--cor);font-size:12px;font-weight:500;
+     padding:7px 13px;border-radius:20px;border:1px solid rgba(255,107,107,.3);
+     cursor:pointer;transition:all .18s;font-family:inherit}
+.rbt:hover{background:rgba(255,107,107,.2);transform:translateY(-1px)}
+.rbt.pl{background:var(--cor);color:#fff}
+
+/* SHADOWING */
+.shtr{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);
+      padding:13px 15px;margin-bottom:9px;transition:all .18s}
+.shtr:hover{border-color:rgba(0,212,170,.4)}
+.shtr.at{border-color:var(--teal);background:var(--tD)}
+.te{font-size:13px;color:#fff;font-weight:500;margin-bottom:3px;line-height:1.55}
+.tv{font-size:11px;color:var(--mut);margin-bottom:8px}
+.tc{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.spb{padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600;cursor:pointer;
+     border:1px solid var(--brd);background:transparent;color:var(--mut);
+     transition:all .18s;font-family:inherit}
+.spb:hover,.spb.on{background:var(--aD);color:var(--amb);border-color:var(--amb)}
+
+/* CONNECTED SPEECH */
+.csr{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:13px 15px;margin-bottom:8px}
+.csl{font-size:9px;color:var(--mut);text-transform:uppercase;font-weight:600;letter-spacing:.08em;margin-bottom:6px}
+.css1{font-size:12px;color:var(--mut);margin-bottom:3px}
+.css2{font-size:13px;color:var(--teal);font-weight:500}
+.csb{display:flex;gap:7px;margin-top:8px}
+.csp{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
+     border:1px solid;transition:all .18s;background:transparent;font-family:inherit}
+
+/* DICTATION */
+.dc2{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:9px}
+.dct{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.dcl{font-size:10px;color:var(--mut);text-transform:uppercase;font-weight:600;letter-spacing:.08em;flex:1}
+.dcs{filter:blur(5px);user-select:none;font-size:13px;color:var(--txt);line-height:1.65;
+     margin-bottom:9px;transition:filter .35s;cursor:pointer}
+.dcs.show{filter:none;cursor:default}
+.dca{width:100%;padding:8px 11px;background:var(--bg2);border:1px solid var(--brd);
+     border-radius:var(--r);color:var(--txt);font-family:inherit;font-size:13px;
+     resize:none;height:50px;transition:border-color .18s}
+.dca:focus{outline:none;border-color:var(--teal)}
+.dcf{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:6px;display:none}
+.dcf.ok{background:var(--gD);color:var(--grn);display:block;border:1px solid rgba(129,199,132,.3)}
+.dcf.no{background:var(--cD);color:var(--cor);display:block;border:1px solid rgba(255,107,107,.3)}
+
+/* PHONICS */
+.phg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-bottom:18px}
+.phc{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px}
+.ps{font-family:'DM Mono',monospace;font-size:24px;color:var(--amb);font-weight:700;margin-bottom:2px}
+.pd{font-size:11px;color:var(--mut);margin-bottom:11px;line-height:1.5}
+.mp{display:flex;gap:7px;margin-bottom:8px}
+.mw{flex:1;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);
+    padding:9px 8px;text-align:center;cursor:pointer;transition:all .18s}
+.mw:hover{border-color:var(--teal)}
+.mw.pl{border-color:var(--amb);background:var(--aD)}
+.mww{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
+.mwi{font-size:10px;color:var(--mut);font-family:'DM Mono',monospace}
+
+/* STRESS DEMO */
+.sdemo{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:13px 15px;margin-bottom:10px}
+.sw{color:var(--mut);font-size:14px}
+.sw.s{color:#fff;font-weight:700;font-size:15px}
+.sw.ss{color:var(--teal);font-weight:700;font-size:16px;text-decoration:underline;text-underline-offset:3px}
+
+/* MUST KNOW */
+.mk{background:var(--card2);border:1px solid var(--brd);border-radius:var(--r2);
+    padding:15px;margin-top:20px;border-left:3px solid var(--amb)}
+.mkt{font-size:10px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px}
+.mc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+.mch{background:var(--aD);color:var(--amb);font-size:11px;font-weight:500;
+     padding:4px 11px;border-radius:6px;border:1px solid rgba(245,166,35,.25);
+     cursor:pointer;transition:all .18s;font-family:inherit}
+.mch:hover{background:rgba(245,166,35,.2)}
+.mch.pl{background:var(--amb);color:#0d1117}
+.et{font-size:10px;font-weight:700;color:var(--cor);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;margin-top:12px}
+.ei{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--brd);font-size:12px;color:var(--txt);align-items:flex-start}
+.ei:last-child{border:none}
+.ed{width:5px;height:5px;border-radius:50%;background:var(--cor);flex-shrink:0;margin-top:7px}
+
+/* PLAN */
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin-bottom:18px}
+.pc{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;position:relative}
+.pn{position:absolute;top:-10px;left:14px;width:22px;height:22px;border-radius:50%;
+    background:var(--teal);color:#0d1117;font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+.pt{font-size:10px;color:var(--teal);font-weight:700;margin:8px 0 4px;padding-top:4px}
+.pc h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:6px}
+.pc p{font-size:12px;color:var(--mut);line-height:1.6}
+.pg2{font-size:11px;color:var(--grn);margin-top:8px;padding:5px 10px;background:var(--gD);border-radius:6px;border:1px solid rgba(129,199,132,.2)}
+
+/* CHECKLIST */
+.cl{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:12px}
+.ci{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd);cursor:pointer;user-select:none}
+.ci:last-child{border:none}
+.cx{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--brd);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ci.dn .cx{background:var(--teal);border-color:var(--teal)}
+.ci.dn .cx::after{content:'✓';font-size:11px;color:#0d1117;font-weight:700}
+.ci.dn .ct{color:var(--mut);text-decoration:line-through}
+.ct{font-size:13px;color:var(--txt)}
+.pw{background:var(--brd);border-radius:10px;height:5px;overflow:hidden;margin:10px 0}
+.pf{height:100%;background:linear-gradient(90deg,var(--teal),var(--sky));border-radius:10px;transition:width .4s}
+
+/* FORMULA CARDS */
+.fml{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin-bottom:15px}
+.fc{border-radius:var(--r);padding:12px}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="ni">
+    <div class="nt on" data-t="ov">🏠 Principles</div>
+    <div class="nt" data-t="l1">L1 🧊 Break the Ice</div>
+    <div class="nt" data-t="l2">L2 🔄 Conversation</div>
+    <div class="nt" data-t="l3">L3 ☕ Daily Life</div>
+    <div class="nt" data-t="rx">⚡ Reflex Drill</div>
+    <div class="nt" data-t="sh">🎙 Shadowing</div>
+    <div class="nt" data-t="di">📝 Dictation</div>
+    <div class="nt" data-t="ph">🔊 Phonics</div>
+    <div class="nt" data-t="pl">📅 Study Plan</div>
+  </div>
+</div>
+
+<!-- ══ OVERVIEW ══════════════════════════════════════════════════════════════ -->
+<div class="pnl on" id="pnl-ov">
+  <div class="hero">
+    <div class="badge">Audio-Powered · Reflex English · A1–A2 → B1</div>
+    <h2>Conversational Reflex Training — Lesson 1 · 2 · 3</h2>
+    <p>Click any chunk to hear natural pronunciation · Timed Reflex Drill · Shadowing · Dictation · Phonics</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin-bottom:18px">
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--teal);border-radius:var(--r2);padding:14px">
+      <div style="font-size:18px;margin-bottom:6px">⚡</div>
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px">3-Second Rule</div>
+      <div style="font-size:12px;color:var(--mut)">Never let silence go beyond 3 seconds. Use <em>"Let me think…" / "Actually…"</em> to buy yourself time immediately.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--amb);border-radius:var(--r2);padding:14px">
+      <div style="font-size:18px;margin-bottom:6px">🚫</div>
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px">No Translating</div>
+      <div style="font-size:12px;color:var(--mut)">Speak in chunks — never translate word-by-word from your native language. Train your brain to think in English directly.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-left:3px solid var(--cor);border-radius:var(--r2);padding:14px">
+      <div style="font-size:18px;margin-bottom:6px">🔁</div>
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px">Golden Formula A+A+A</div>
+      <div style="font-size:12px;color:var(--mut)"><b style="color:var(--teal)">Answer</b> + <b style="color:var(--amb)">Add detail / emotion</b> + <b style="color:var(--cor)">Ask back</b>. Never end your turn at a full stop.</div>
+    </div>
+  </div>
+
+  <div class="sl">A+A+A Demo — Click ▶ to hear each part</div>
+  <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;margin-bottom:18px">
+    <div style="font-size:12px;color:var(--mut);margin-bottom:10px">Q: <em>"What do you do in your free time?"</em></div>
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--brd)">
+      <span style="color:var(--teal);font-weight:700;font-size:11px;min-width:52px;padding-top:2px">ANSWER</span>
+      <span style="font-size:13px;flex:1">I'm really into chill pop music lately.</span>
+      <button class="pb" onclick="spChunk(this,&quot;I'm really into chill pop music lately&quot;)">▶ listen</button>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--brd)">
+      <span style="color:var(--amb);font-weight:700;font-size:11px;min-width:52px;padding-top:2px">ADD</span>
+      <span style="font-size:13px;flex:1">It helps me relax after stressful classes — my brain just needs something chill.</span>
+      <button class="pb" onclick="spChunk(this,'It helps me relax after stressful classes, my brain just needs something chill')">▶ listen</button>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0">
+      <span style="color:var(--cor);font-weight:700;font-size:11px;min-width:52px;padding-top:2px">ASK BACK</span>
+      <span style="font-size:13px;flex:1">What about you? Are you into music too?</span>
+      <button class="pb" onclick="spReact(this,'What about you? Are you into music too?')">▶ listen</button>
+    </div>
+  </div>
+
+  <div class="sl">Survival Toolkit — Click to listen, then shadow immediately</div>
+  <div class="cg">
+    <button class="cb" onclick="spChunk(this,'Let me think')">🔊 Let me think…</button>
+    <button class="cb" onclick="spChunk(this,'To be honest')">🔊 To be honest…</button>
+    <button class="cb" onclick="spChunk(this,'Actually')">🔊 Actually…</button>
+    <button class="cb" onclick="spChunk(this,'Well')">🔊 Well…</button>
+    <button class="cb" onclick="spChunk(this,'I would say')">🔊 I'd say…</button>
+    <button class="cb" onclick="spChunk(this,'Honestly')">🔊 Honestly…</button>
+    <button class="cb" onclick="spChunk(this,'That is a good question')">🔊 That's a good question…</button>
+    <button class="cb" onclick="spChunk(this,'How do I put this')">🔊 How do I put this…</button>
+    <button class="cb" onclick="spChunk(this,'What about you?')">🔊 What about you?</button>
+    <button class="cb" onclick="spChunk(this,'You know what I mean?')">🔊 You know what I mean?</button>
+  </div>
+  <div class="tp">Click any chunk → listen → shadow immediately → repeat 3 times until it feels natural</div>
+</div>
+
+<!-- ══ LESSON 1 ════════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-l1">
+  <div class="hero" style="border-left:3px solid var(--teal)">
+    <div class="badge">LESSON 1 🧊</div>
+    <h2>Break the Ice — Chunks & Model Answers</h2>
+    <p>Click ▶ natural speed · ▶ Slow for clearer articulation · Shadow immediately after each listen</p>
+  </div>
+
+  <div class="sl">Core Chunks — Click to listen</div>
+  <div class="cg">
+    <button class="cb" onclick="sp(this,'I am really into')">🔊 I'm really into…</button>
+    <button class="cb" onclick="sp(this,'I would say')">🔊 I'd say…</button>
+    <button class="cb" onclick="sp(this,'Honestly')">🔊 Honestly…</button>
+    <button class="cb" onclick="sp(this,'Lately')">🔊 Lately…</button>
+    <button class="cb" onclick="sp(this,'hang out with friends')">🔊 hang out with friends</button>
+    <button class="cb" onclick="sp(this,'chill out at home')">🔊 chill out at home</button>
+    <button class="cb" onclick="sp(this,'I am currently')">🔊 I'm currently…</button>
+    <button class="cb" onclick="sp(this,'One of my goals is')">🔊 One of my goals is…</button>
+    <button class="cb" onclick="sp(this,'I have always been into')">🔊 I've always been into…</button>
+    <button class="cb" onclick="sp(this,'I cannot function without')">🔊 I can't function without…</button>
+    <button class="cb" onclick="sp(this,'I am originally from')">🔊 I'm originally from…</button>
+    <button class="cb" onclick="sp(this,'I ended up choosing because')">🔊 I ended up choosing… because…</button>
+    <button class="cb" onclick="sp(this,'to be honest with you')">🔊 to be honest with you…</button>
+    <button class="cb" onclick="sp(this,'these days I tend to')">🔊 these days I tend to…</button>
+  </div>
+  <div class="tp">Listen → shadow immediately with the same intonation → never mimic a robotic tone!</div>
+  <div class="dv"></div>
+  <div class="sh">Practice Questions & Model Answers</div>
+  <div id="l1q"></div>
+
+  <div class="mk">
+    <div class="mkt">Must-Automate Chunks — Click to listen</div>
+    <div class="mc" id="mk1"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Sounding scripted: "My name is… I like…" — no personality, no natural chunks.</div></div>
+      <div class="ei"><div class="ed"></div><div>Translating word-by-word mentally → responses become slow, stiff, and unnatural.</div></div>
+      <div class="ei"><div class="ed"></div><div>Giving a one-sentence answer and stopping — no detail added, no follow-up question asked.</div></div>
+      <div class="ei"><div class="ed"></div><div>Not using connectors (because, so, but, lately, which is why) → sentences sound disconnected and choppy.</div></div>
+      <div class="ei"><div class="ed"></div><div>Flat delivery — no sentence stress, no natural rhythm or emotional variation.</div></div>
+    </div>
+  </div>
+
+  <div class="dv"></div>
+  <div class="sl">Fast Expansion Drill — Train instant detail expansion</div>
+  <div class="db">
+    <div style="font-size:13px;color:var(--txt);margin-bottom:8px">After your first sentence, the teacher interrupts with:</div>
+    <div class="cg">
+      <button class="cb" onclick="sp(this,'Why?')">🔊 Why?</button>
+      <button class="cb" onclick="sp(this,'Really?')">🔊 Really?</button>
+      <button class="cb" onclick="sp(this,'Since when?')">🔊 Since when?</button>
+      <button class="cb" onclick="sp(this,'Who with?')">🔊 Who with?</button>
+      <button class="cb" onclick="sp(this,'How often?')">🔊 How often?</button>
+      <button class="cb" onclick="sp(this,'Then what?')">🔊 Then what?</button>
+    </div>
+    <div class="tp">→ Keep speaking immediately — no silence beyond 2 seconds!</div>
+  </div>
+</div>
+
+<!-- ══ LESSON 2 ════════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-l2">
+  <div class="hero" style="border-left:3px solid var(--sky)">
+    <div class="badge" style="background:var(--sD);color:var(--sky);border-color:rgba(79,195,247,.25)">LESSON 2 🔄</div>
+    <h2>Keep the Conversation Alive</h2>
+    <p>Reactions · Follow-up questions · Conversation flow · Social interaction</p>
+  </div>
+
+  <div class="sl">Core Chunks — Click to listen</div>
+  <div class="cg">
+    <button class="cb" onclick="sp(this,'same here')">🔊 same here</button>
+    <button class="cb" onclick="sp(this,'I know what you mean')">🔊 I know what you mean</button>
+    <button class="cb" onclick="sp(this,'open up')">🔊 open up</button>
+    <button class="cb" onclick="sp(this,'get along with')">🔊 get along with</button>
+    <button class="cb" onclick="sp(this,'tell me more')">🔊 tell me more</button>
+    <button class="cb" onclick="sp(this,'I click with people who')">🔊 I click with people who…</button>
+    <button class="cb" onclick="sp(this,'once I am comfortable')">🔊 once I'm comfortable…</button>
+    <button class="cb" onclick="sp(this,'I vibe with people who')">🔊 I vibe with people who…</button>
+    <button class="cb" onclick="sp(this,'No way!')">🔊 No way!</button>
+    <button class="cb" onclick="sp(this,'Seriously?')">🔊 Seriously?</button>
+    <button class="cb" onclick="sp(this,'What happened next?')">🔊 What happened next?</button>
+    <button class="cb" onclick="sp(this,'I warm up to people quickly')">🔊 I warm up to people quickly</button>
+    <button class="cb" onclick="sp(this,'That sounds fun!')">🔊 That sounds fun!</button>
+    <button class="cb" onclick="sp(this,'I totally get that')">🔊 I totally get that</button>
+  </div>
+  <div class="tp">Listen → shadow immediately with the same intonation and emotion!</div>
+  <div class="dv"></div>
+  <div class="sh">Practice Questions & Model Answers</div>
+  <div id="l2q"></div>
+
+  <div class="dv"></div>
+  <div class="sh">Reaction Drill ⚡ — Listen & React Instantly</div>
+  <div class="db">
+    <div style="font-size:12px;color:var(--mut);margin-bottom:8px">Teacher says — click to listen:</div>
+    <div class="dd"><div class="dq">"I talked to a complete stranger for an hour yesterday."</div></div>
+    <button class="btn bg" style="margin-bottom:11px;font-size:12px" onclick="sp(this,'I talked to a complete stranger for an hour yesterday',0.90,1.15)">▶ Listen to this</button>
+    <div style="font-size:12px;color:var(--mut);margin-bottom:8px">React immediately — click to hear each option:</div>
+    <div class="rb">
+      <button class="rbt" onclick="sp(this,'Really?!')">Really?!</button>
+      <button class="rbt" onclick="sp(this,'No way!')">No way!</button>
+      <button class="rbt" onclick="sp(this,'Seriously?')">Seriously?</button>
+      <button class="rbt" onclick="sp(this,'Oh wow, what happened?')">What happened?</button>
+      <button class="rbt" onclick="sp(this,'That sounds so interesting!')">That sounds interesting!</button>
+      <button class="rbt" onclick="sp(this,'I could never do that!')">I could never!</button>
+      <button class="rbt" onclick="sp(this,'Tell me more!')">Tell me more!</button>
+      <button class="rbt" onclick="sp(this,'How did that even start?')">How did that start?</button>
+      <button class="rbt" onclick="sp(this,'That is crazy!')">That is crazy!</button>
+      <button class="rbt" onclick="sp(this,'I am so curious now')">I'm so curious now</button>
+    </div>
+  </div>
+
+  <div class="mk" style="border-left-color:var(--sky)">
+    <div class="mkt" style="color:var(--sky)">Must-Automate Chunks — Click to listen</div>
+    <div class="mc" id="mk2"></div>
+    <div style="font-size:12px;color:var(--mut);margin-bottom:9px">Connected Speech — Click to hear natural linking:</div>
+    <div class="cg">
+      <button class="cb" onclick="sp(this,'What do you think?',0.85)">🔊 What do you → Whaddaya</button>
+      <button class="cb" onclick="sp(this,'Did you enjoy it?',0.85)">🔊 Did you → Didja</button>
+      <button class="cb" onclick="sp(this,'Going to',0.9)">🔊 going to → gonna</button>
+      <button class="cb" onclick="sp(this,'Want to go?',0.9)">🔊 want to → wanna</button>
+    </div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Ending your answer at a full stop — the exchange stalls completely with no momentum.</div></div>
+      <div class="ei"><div class="ed"></div><div>Hesitating too long — forgetting to use buy-time phrases such as "Let me think…"</div></div>
+      <div class="ei"><div class="ed"></div><div>Not responding to what the other person said — forgetting reactions such as "Really? / No way! / That sounds fun!"</div></div>
+      <div class="ei"><div class="ed"></div><div>Forgetting to ask back — "What about you?" should follow every response.</div></div>
+      <div class="ei"><div class="ed"></div><div>Pronouncing each word separately — not applying natural linking or elision in connected speech.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LESSON 3 ════════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-l3">
+  <div class="hero" style="border-left:3px solid var(--pur)">
+    <div class="badge" style="background:var(--pD);color:var(--pur);border-color:rgba(179,157,219,.25)">LESSON 3 ☕</div>
+    <h2>Daily Life & Routines — Storytelling Chunks</h2>
+    <p>Core Action + Context + Emotion · Click any chunk to listen → shadow immediately</p>
+  </div>
+
+  <div class="sl">Core Chunks — Click to listen</div>
+  <div class="cg">
+    <button class="cb" onclick="sp(this,'head home')">🔊 head home</button>
+    <button class="cb" onclick="sp(this,'catch up on')">🔊 catch up on</button>
+    <button class="cb" onclick="sp(this,'stay productive')">🔊 stay productive</button>
+    <button class="cb" onclick="sp(this,'waste time online')">🔊 waste time online</button>
+    <button class="cb" onclick="sp(this,'by the end of the day')">🔊 by the end of the day</button>
+    <button class="cb" onclick="sp(this,'stay up late')">🔊 stay up late</button>
+    <button class="cb" onclick="sp(this,'feel completely exhausted')">🔊 feel completely exhausted</button>
+    <button class="cb" onclick="sp(this,'before I know it')">🔊 before I know it…</button>
+    <button class="cb" onclick="sp(this,'I lose track of time')">🔊 I lose track of time</button>
+    <button class="cb" onclick="sp(this,'drag myself out of bed')">🔊 drag myself out of bed</button>
+    <button class="cb" onclick="sp(this,'hours just disappear')">🔊 hours just disappear</button>
+    <button class="cb" onclick="sp(this,'down a rabbit hole')">🔊 down a rabbit hole</button>
+    <button class="cb" onclick="sp(this,'grab some food')">🔊 grab some food</button>
+    <button class="cb" onclick="sp(this,'prepare for the next day')">🔊 prepare for the next day</button>
+  </div>
+  <div class="tp">Storytelling tip: chunk + emotion → your story comes alive instantly!</div>
+
+  <div class="dv"></div>
+  <div class="sl">Storytelling Formula — Click ▶ to hear each layer</div>
+  <div class="fml">
+    <div class="fc" style="background:var(--tD);border:1px solid rgba(0,212,170,.25)">
+      <div style="font-size:9px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">1 · Core Action</div>
+      <div style="font-size:13px;margin-bottom:8px">"I grab a snack and scroll through YouTube…"</div>
+      <button class="pb" onclick="sp(this,'I grab a snack and scroll through YouTube')">▶ listen</button>
+      <button class="pb" onclick="sp(this,'I grab a snack and scroll through YouTube',0.62)">▶ slow</button>
+    </div>
+    <div class="fc" style="background:var(--sD);border:1px solid rgba(79,195,247,.25)">
+      <div style="font-size:9px;font-weight:700;color:var(--sky);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">2 · Context</div>
+      <div style="font-size:13px;margin-bottom:8px">"…to relax before heading to bed."</div>
+      <button class="pb" onclick="sp(this,'to relax before heading to bed')">▶ listen</button>
+      <button class="pb" onclick="sp(this,'to relax before heading to bed',0.62)">▶ slow</button>
+    </div>
+    <div class="fc" style="background:var(--aD);border:1px solid rgba(245,166,35,.25)">
+      <div style="font-size:9px;font-weight:700;color:var(--amb);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">3 · Emotion</div>
+      <div style="font-size:13px;margin-bottom:8px">"After a long day, my brain feels completely exhausted…"</div>
+      <button class="pb" onclick="sp(this,'After a long day, my brain feels completely exhausted')">▶ listen</button>
+      <button class="pb" onclick="sp(this,'After a long day, my brain feels completely exhausted',0.62)">▶ slow</button>
+    </div>
+  </div>
+
+  <div class="sh">Practice Questions & Model Answers</div>
+  <div id="l3q"></div>
+
+  <div class="mk" style="border-left-color:var(--pur)">
+    <div class="mkt" style="color:var(--pur)">Must-Know Time Expressions — Click to listen</div>
+    <div class="mc" id="mk3"></div>
+    <div class="et">5 Common Mistakes to Avoid</div>
+    <div>
+      <div class="ei"><div class="ed"></div><div>Misplaced stress: stressing every word instead of punching content words (nouns, verbs, adjectives).</div></div>
+      <div class="ei"><div class="ed"></div><div>Overusing simple "I + V" patterns (I eat, I sleep, I study) — monotonous and lacking colour.</div></div>
+      <div class="ei"><div class="ed"></div><div>Storytelling without emotion — sounds like a report rather than a personal account.</div></div>
+      <div class="ei"><div class="ed"></div><div>Omitting time connectors → the narrative becomes fragmented and hard to follow.</div></div>
+      <div class="ei"><div class="ed"></div><div>Freezing when interrupted — not yet comfortable with fast English mode; practise the Chaos Drill more.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REFLEX DRILL ════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-rx">
+  <div class="hero">
+    <div class="badge">⚡ Reflex Drill</div>
+    <h2>Timed Reflex Trainer</h2>
+    <p>Random question + 5-second countdown. Start speaking BEFORE the bar runs out!</p>
+  </div>
+
+  <div class="db">
+    <div class="dd" id="rdd"><div class="dp">Press START to begin</div></div>
+    <div class="tb"><div class="tf" id="rtf"></div></div>
+    <div class="dc">
+      <button class="btn bt" id="rs" onclick="startD()">▶ START</button>
+      <button class="btn bg" id="rn" onclick="nextQ()" style="display:none">NEXT →</button>
+      <button class="btn bg" onclick="resetD()">↺ Reset</button>
+      <select id="rles" style="background:var(--bg2);color:var(--txt);border:1px solid var(--brd);border-radius:var(--r);padding:7px 12px;font-family:inherit;font-size:12px;cursor:pointer">
+        <option value="all">All Lessons</option>
+        <option value="l1">Lesson 1 Only</option>
+        <option value="l2">Lesson 2 Only</option>
+        <option value="l3">Lesson 3 Only</option>
+      </select>
+    </div>
+    <div class="ds">
+      <div class="st"><div class="sn" id="sdn">0</div><div class="sl2">Done</div></div>
+      <div class="st"><div class="sn" id="sst">0</div><div class="sl2">Streak</div></div>
+    </div>
+  </div>
+
+  <div class="dv"></div>
+  <div class="sl">Chaos Interruption Mode 🌪️ — Teacher interrupts, you continue immediately</div>
+  <div class="db">
+    <div style="font-size:13px;color:var(--txt);margin-bottom:10px">Click each interruption prompt — train your instant continuation reflex:</div>
+    <div class="cg">
+      <button class="cb" onclick="sp(this,'Why?')">🔊 Why?</button>
+      <button class="cb" onclick="sp(this,'Really?')">🔊 Really?</button>
+      <button class="cb" onclick="sp(this,'Since when?')">🔊 Since when?</button>
+      <button class="cb" onclick="sp(this,'Who with?')">🔊 Who with?</button>
+      <button class="cb" onclick="sp(this,'How often?')">🔊 How often?</button>
+      <button class="cb" onclick="sp(this,'Then what?')">🔊 Then what?</button>
+      <button class="cb" onclick="sp(this,'Every day?')">🔊 Every day?</button>
+      <button class="cb" onclick="sp(this,'How long?')">🔊 How long?</button>
+      <button class="cb" onclick="sp(this,'Seriously?')">🔊 Seriously?</button>
+      <button class="cb" onclick="sp(this,'What happened next?')">🔊 What happened next?</button>
+    </div>
+    <div class="tp">→ Continue speaking immediately after each prompt — no silence beyond 2 seconds!</div>
+  </div>
+</div>
+
+<!-- ══ SHADOWING ══════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-sh">
+  <div class="hero">
+    <div class="badge">🎙 Shadowing Station</div>
+    <h2>Shadowing — Mirror Rhythm & Intonation</h2>
+    <p>Select speed → Listen → Shadow IMMEDIATELY · Repeat until effortless</p>
+  </div>
+
+  <div class="sl">Lesson 1 — Identity & Hobbies</div>
+  <div id="shl1"></div>
+  <div class="dv"></div>
+  <div class="sl">Lesson 2 — Social & Reactions</div>
+  <div id="shl2"></div>
+  <div class="dv"></div>
+  <div class="sl">Lesson 3 — Daily Life Storytelling</div>
+  <div id="shl3"></div>
+  <div class="dv"></div>
+  <div class="sl">Connected Speech — Slow Articulation vs Natural Speed</div>
+  <div id="shcs"></div>
+</div>
+
+<!-- ══ DICTATION ══════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-di">
+  <div class="hero">
+    <div class="badge">📝 Dictation Mode</div>
+    <h2>Daily Dictation — Listen & Write</h2>
+    <p>Click ▶ to hear the sentence → Write it accurately → Check → Click the blurred text to reveal the answer</p>
+  </div>
+  <div id="dicd"></div>
+</div>
+
+<!-- ══ PHONICS ════════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-ph">
+  <div class="hero">
+    <div class="badge">🔊 Phonics Lab</div>
+    <h2>Daily Phonics + Minimal Pairs</h2>
+    <p>Click any word to hear it · Train sound discrimination · Hear correct sentence stress</p>
+  </div>
+
+  <div class="sl">Minimal Pairs — Click to hear & distinguish sounds</div>
+  <div class="phg" id="phg"></div>
+  <div class="dv"></div>
+  <div class="sl">Sentence Stress — Click to hear correct stress patterns</div>
+  <div id="sdemos"></div>
+</div>
+
+<!-- ══ PLAN ═══════════════════════════════════════════════════════════════ -->
+<div class="pnl" id="pnl-pl">
+  <div class="hero">
+    <div class="badge">📅 90-Day Sprint · A1–A2 → B1</div>
+    <h2>Daily Practice Plan</h2>
+    <p>30–45 minutes per day · 4 required nodes · No days off</p>
+  </div>
+
+  <div class="pg">
+    <div class="pc">
+      <div class="pn">1</div>
+      <div class="pt">10 min</div>
+      <h3>Daily Phonics</h3>
+      <p>Select 1–2 phonemes from the Phonics Lab. Listen to the model → repeat 10 times → record yourself → compare.</p>
+      <div class="pg2">Goal: produce /θ/ /ð/ /æ/ /r/ /v/ accurately and consistently</div>
+    </div>
+    <div class="pc">
+      <div class="pn">2</div>
+      <div class="pt">10 min</div>
+      <h3>Daily Dictation</h3>
+      <p>Listen to 5 sentences in Dictation Mode. Write them accurately. Check. Read aloud 3 times with correct stress and rhythm.</p>
+      <div class="pg2">Goal: zero errors + fluent read-back</div>
+    </div>
+    <div class="pc">
+      <div class="pn">3</div>
+      <div class="pt">10 min</div>
+      <h3>Shadowing</h3>
+      <p>Select one track from the Shadowing Station. Listen 3 times. Mirror 100% of the rhythm, stress and connected speech. Final pass: no text.</p>
+      <div class="pg2">Goal: reproduce natural rhythm convincingly</div>
+    </div>
+    <div class="pc">
+      <div class="pn">4</div>
+      <div class="pt">10 min</div>
+      <h3>Reflex Drill + Record</h3>
+      <p>Use the Reflex Drill — 3 random questions. Respond for 60–90 seconds each using A+A+A. Record yourself. Listen back and note areas to improve.</p>
+      <div class="pg2">Goal: no silence exceeding 2 seconds</div>
+    </div>
+  </div>
+
+  <div class="sl">Daily Checklist — What have you completed today?</div>
+  <div class="cl">
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 1 — Daily Phonics (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 2 — Daily Dictation (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 3 — Shadowing one track (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">Node 4 — Reflex Drill + Record (10 min)</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">[Bonus] Watch one short vlog and extract 3 natural chunks you have not studied before</div></div>
+    <div class="ci" onclick="tck(this)"><div class="cx"></div><div class="ct">[Bonus] Write 3 journal sentences: Core Action + Context + Emotion</div></div>
+  </div>
+  <div class="pw"><div class="pf" id="cpf" style="width:0%"></div></div>
+  <div style="font-size:12px;color:var(--mut);margin-bottom:20px" id="cpl">0 / 6 completed</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px">
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;border-top:3px solid var(--teal)">
+      <div style="font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Month 1 — Foundation</div>
+      <p style="font-size:12px;color:var(--mut);line-height:1.65">Internalise 30 core chunks. Apply A+A+A to every question. Phonics: /θ/ /ð/ /r/ /v/. Goal: respond for 60 seconds without stopping.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;border-top:3px solid var(--sky)">
+      <div style="font-size:11px;font-weight:700;color:var(--sky);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Month 2 — Expansion</div>
+      <p style="font-size:12px;color:var(--mut);line-height:1.65">Broaden topics. Practise storytelling with emotion. Shadow authentic podcasts. Connected speech focus. Goal: 90-second natural responses.</p>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:15px;border-top:3px solid var(--pur)">
+      <div style="font-size:11px;font-weight:700;color:var(--pur);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Month 3 — Fluency</div>
+      <p style="font-size:12px;color:var(--mut);line-height:1.65">Natural B1 conversation. Handle unexpected questions. Fast expansion prompts. Goal: speak continuously for 2 minutes on any topic.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--aD);border:1px solid rgba(245,166,35,.3);border-radius:var(--r2);padding:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--amb);margin-bottom:8px">Weekend Boss Challenge 🏆</div>
+    <div style="font-size:13px;color:var(--txt);line-height:1.75">
+      Set a timer and describe your entire day from morning to night — continuously, without stopping.
+      <br><br>
+      Required: <b style="color:var(--teal)">5+ time expressions</b> · <b style="color:var(--amb)">emotion attached to every action</b> · <b style="color:var(--cor)">1 follow-up question at the end</b>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── SPEECH ENGINE ──────────────────────────────────────────────────────────
+var synth = window.speechSynthesis, curB = null;
+
+// Select preferred voice once, then cache
+var _voice = null;
+function getVoice() {
+  if (_voice) return _voice;
+  var vs = synth.getVoices();
+  // Priority: Google US English (best intonation on Chrome)
+  // Fallback: Samantha (macOS), Microsoft Aria (Edge), any en-US voice
+  _voice = vs.find(function(v){ return v.name === 'Google US English'; })
+        || vs.find(function(v){ return v.name.indexOf('Samantha') > -1; })
+        || vs.find(function(v){ return v.name.indexOf('Microsoft Aria') > -1; })
+        || vs.find(function(v){ return v.name.indexOf('Microsoft Zira') > -1; })
+        || vs.find(function(v){ return v.lang === 'en-US' && !v.localService; })
+        || vs.find(function(v){ return v.lang === 'en-US'; });
+  return _voice;
+}
+synth.onvoiceschanged = function(){ _voice = null; };
+
+// sp(btn, text, rate, pitch)
+// rate:  0.72 = slow & clear | 0.88 = natural | 1.05 = fast native
+// pitch: 1.22 = chunks/reactions (natural rise) | 1.18 = model answers | 1.05 = slow shadowing
+function sp(btn, text, rate, pitch) {
+  rate  = rate  || 0.88;
+  pitch = pitch || 1.18;   // default: above monotone baseline, clear intonation
+
+  synth.cancel();
+  if (curB) curB.classList.remove('pl');
+  if (curB === btn) { curB = null; return; }
+
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang   = 'en-US';
+  u.rate   = rate;
+  u.pitch  = pitch;
+  u.volume = 1.0;
+
+  var pv = getVoice();
+  if (pv) u.voice = pv;
+
+  btn.classList.add('pl');
+  curB = btn;
+  u.onend  = function(){ btn.classList.remove('pl'); if (curB===btn) curB=null; };
+  u.onerror= function(){ btn.classList.remove('pl'); if (curB===btn) curB=null; };
+  synth.speak(u);
+}
+
+// Purpose-specific wrappers — distinct rate & pitch per context
+function spS(btn, text)      { sp(btn, text, 0.68, 1.05); }  // slow & clear — lower pitch for precise articulation
+function spChunk(btn, text)  { sp(btn, text, 0.86, 1.22); }  // chunk — natural rate, clear intonation rise
+function spReact(btn, text)  { sp(btn, text, 1.02, 1.28); }  // reaction — fast rate, high emotional pitch
+function spPhon(btn, text)   { sp(btn, text, 0.72, 1.08); }  // phonics — slow, precise, minimal pitch variation
+
+// ── NAV ────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.nt').forEach(function(t) {
+  t.onclick = function() {
+    document.querySelectorAll('.nt').forEach(function(x) { x.classList.remove('on'); });
+    document.querySelectorAll('.pnl').forEach(function(x) { x.classList.remove('on'); });
+    t.classList.add('on');
+    document.getElementById('pnl-' + t.dataset.t).classList.add('on');
+    window.scrollTo(0, 0);
+  };
+});
+
+// ── DATA ───────────────────────────────────────────────────────────────────
+var L1 = [
+  { q: "What's your name? / Where are you from?",
+    ch: ["I'm originally from…","People usually call me…","I grew up in…","I'm based in…","From a small city called…"],
+    l1: "My name is Linh. I'm from Hanoi.",
+    l2: "My name is Linh. I'm originally from Hanoi, but I'm studying here in Ho Chi Minh City now.",
+    l3: "My name's Linh — people usually call me Lin! I grew up in Hanoi but I've been living here for about a year. I'm still getting used to the heat, honestly. Where are you from?" },
+  { q: "What do you study? / Why did you choose your major?",
+    ch: ["I'm currently studying…","I've always been into…","One of my goals is…","It wasn't my first choice, but…","I ended up choosing… because…"],
+    l1: "I study marketing.",
+    l2: "I'm currently studying marketing. I chose it because I've always been interested in how brands communicate with people.",
+    l3: "I'm studying marketing at RMIT. Honestly, it wasn't my first choice — I almost went into graphic design! But one of my goals is to work in digital content, so marketing felt right. What about you — what are you studying?" },
+  { q: "What do you do in your free time? / What are your hobbies?",
+    ch: ["I'm really into…","hang out with friends","chill out at home","binge-watch dramas","spend a lot of time V-ing"],
+    l1: "I like music and movies.",
+    l2: "I'm really into chill pop music lately because it helps me relax after stressful classes.",
+    l3: "I've been really into chill pop music lately — I spend a lot of time just chilling out with my headphones on after class. It kind of recharges me. I also love binge-watching Korean dramas on weekends. What about you?" },
+  { q: "Are you a morning person or night person? / Do you like coffee or tea?",
+    ch: ["I'd say I'm more of a…","Definitely…","I can't function without…","Lately I've been trying to…","I used to… but now…"],
+    l1: "I'm a night person. I like coffee.",
+    l2: "I'd say I'm definitely more of a night person. I feel most productive after 10pm, which is probably not great for my sleep.",
+    l3: "Ha, I'm definitely a night owl — I literally can't function before 9am. And coffee? I cannot start my day without at least one cup. Lately I've been trying to switch to iced matcha but it's honestly not the same. Are you more of a morning person or do you stay up late too?" },
+  { q: "Are you an introvert or extrovert? / Big city or small town?",
+    ch: ["I'd say I'm somewhere in between…","I recharge by…","I prefer… because…","Honestly it depends…","I've always been drawn to…"],
+    l1: "I'm an introvert. I like big cities.",
+    l2: "I'd say I'm somewhere in between — I enjoy being around people but I also recharge by spending some time alone.",
+    l3: "Honestly, I'd say I'm a bit of an ambivert — I love meeting new people but after a long social day I really need time alone to recharge. And for city versus small town, I've always been drawn to big cities — the energy, the food options. What about you?" },
+  { q: "What's your biggest goal right now? / What kind of music are you into? / Favorite app?",
+    ch: ["Right now I'm focused on…","I've been really into…","I can't stop using…","My biggest goal lately is…","I spend way too much time on…"],
+    l1: "My goal is to speak English. I like pop. I use Instagram.",
+    l2: "Right now my biggest goal is to speak English more confidently. I've been really into indie pop lately. And for apps, I'm probably on TikTok way too much.",
+    l3: "My biggest goal right now is to get comfortable speaking English without overthinking everything — just talking naturally without freezing up. For music, I've been really into lo-fi and indie stuff. Apps? Way too much time on TikTok which I keep saying I'll quit but never do. What about you?" },
+  { q: "Do you enjoy studying English? / What do you usually do on weekends?",
+    ch: ["It's actually gotten easier since…","I used to find it… but now…","I usually end up…","On weekends I tend to…","It really depends on…"],
+    l1: "Yes, I enjoy it. I hang out on weekends.",
+    l2: "I enjoy it more now — it's actually gotten a lot easier since I started watching English YouTube. I usually hang out with friends or just chill out at home.",
+    l3: "I used to find English really stressful, but it's gotten so much more fun since I started watching YouTube without pressure. Weekends are my favorite — I hang out with close friends, grab some food, and then spend the rest of the day chilling at home. How do you usually spend your weekends?" },
+];
+
+var L2 = [
+  { q: "Do you enjoy meeting new people? / Are you good at small talk?",
+    ch: ["I'd say I'm pretty good at…","It depends on the situation…","I used to be shy but…","I actually really enjoy…","I warm up to people quickly…"],
+    l1: "Yes, I enjoy it. I'm okay at small talk.",
+    l2: "I'd say I'm pretty good at small talk once I get started — I used to be quite shy, but it's gotten easier over time.",
+    l3: "I actually really enjoy meeting new people — I find it genuinely interesting to hear about different experiences. Small talk is something I used to struggle with, but honestly these days I warm up to people pretty quickly. Are you good at starting conversations with strangers?" },
+  { q: "What makes someone easy to talk to? / What makes conversations boring?",
+    ch: ["I know what you mean…","someone who asks follow-up questions…","open up easily","get along with","speak up"],
+    l1: "Easy means friendly. Boring conversations have one-word answers.",
+    l2: "Someone who asks follow-up questions and actually listens makes conversation easy. Boring conversations are usually one-sided — only one person talks.",
+    l3: "For me, the easiest people to talk to are the ones who ask follow-up questions — like they actually want to know more. It makes you feel heard. Boring conversations usually stay on the surface and never go deeper. What do you think makes someone really easy to talk to?" },
+  { q: "Have you ever had an awkward silence? / Run out of things to say?",
+    ch: ["Oh definitely, one time…","I remember this one situation…","It was so awkward when…","same here — it happens to everyone…","I always have backup questions ready"],
+    l1: "Yes, I have. It was awkward.",
+    l2: "Oh definitely — I remember one time at a party where neither of us could think of anything to say. We both just looked at our phones. So awkward.",
+    l3: "Oh god, yes — so many times! Once I was sitting next to someone on a long bus ride and we ran out of things to say after like ten minutes. The silence just stretched on and on. Now I always have a few backup questions ready — things like 'what would your dream job be?' Have you ever been in a situation like that?" },
+  { q: "What do you usually talk about with friends? / Do you enjoy deep conversations?",
+    ch: ["tell me more","we end up talking about…","we get deep sometimes…","mostly we just vent about…","I open up more with…"],
+    l1: "We talk about school and life. I like deep conversations.",
+    l2: "With close friends, we end up talking about everything — life, goals, random theories. We get deep sometimes, which I actually really love.",
+    l3: "With my close friends, we can start talking about something random and somehow end up in a two-hour conversation about life goals or family pressure. I really enjoy those deep conversations — I open up a lot more than people expect. Do you prefer deep conversations or do you keep things more casual?" },
+  { q: "Are you better at texting or face-to-face? / Do you talk a lot online?",
+    ch: ["I'm way better at…","there's something about texting that…","face-to-face feels more real…","I can express myself better when…","I'm actually funnier in text…"],
+    l1: "I'm better at texting. Yes, I talk online a lot.",
+    l2: "Honestly I'm way better at texting — I can express myself better when I have time to think. But face-to-face feels more real and genuine.",
+    l3: "Ha, I'm actually way funnier in texts than in real life — I think because I can edit before sending! But face-to-face conversations feel a lot more real. When you're texting it's easy to misread tone. I do talk a lot online though, especially voice messages. Are you more of a texter?" },
+  { q: "Do you open up easily? / What kind of people do you get along with?",
+    ch: ["I tend to get along with…","I click instantly with…","I don't open up easily but…","once I'm comfortable…","I vibe with people who…"],
+    l1: "I don't open up easily. I get along with friendly people.",
+    l2: "I don't open up easily at first — I tend to observe before I speak. But once I'm comfortable, I'm pretty easy to talk to. I get along best with people who are genuine.",
+    l3: "Honestly I don't open up easily with everyone — I'm the type who watches and listens first. But once I click with someone, it's pretty instant. I really vibe with people who are genuine, who laugh easily, and who actually listen when you talk. Do you think you're easy to get to know?" },
+];
+
+var L3 = [
+  { q: "What time do you usually wake up? / What's your morning routine like?",
+    ch: ["I usually drag myself out of bed…","I'm not a morning person, so…","the first thing I do is…","by the time I'm out the door…","I skip breakfast and just…"],
+    l1: "I wake up at 7. I brush my teeth and eat breakfast.",
+    l2: "I usually drag myself out of bed around 7:30. My morning routine is pretty rushed — I'm not a morning person at all.",
+    l3: "Mornings are not my thing. I drag myself out of bed around 7:30, check my phone for a few minutes — which I know I shouldn't do — then grab a quick coffee and basically run out the door. By the time I get to class I'm still half asleep! Are you more of a rush-out-the-door person or do you have a proper routine?" },
+  { q: "Do you stay up late often? / Do you procrastinate?",
+    ch: ["stay up late","I end up down a rabbit hole…","before I know it it's 2am…","I tell myself 'just 5 more minutes'…","I procrastinate a lot by…"],
+    l1: "Yes, I stay up late. Yes, I procrastinate.",
+    l2: "I stay up late way too often — I'll tell myself 'just 5 more minutes' on YouTube and before I know it it's already 2am.",
+    l3: "Oh, I'm terrible at this. I stay up late almost every night — I'll start watching one video and end up down a rabbit hole for hours. And procrastinating? That's basically my specialty. I do this thing where I clean my entire room instead of studying. Do you procrastinate or are you actually disciplined?" },
+  { q: "What do you usually do after class? / What's the busiest part of your day?",
+    ch: ["head home","catch up on","grab some food","by the end of the day","feel completely exhausted"],
+    l1: "I go home and eat. The busiest time is in the afternoon.",
+    l2: "After class I usually grab some food and then head home to catch up on assignments. By the end of the day I feel completely exhausted.",
+    l3: "After class I usually grab something to eat — I'm always starving — and then head home to catch up on assignments or just decompress for a bit. The busiest part of my day is definitely late afternoon when I have back-to-back classes. By the end I'm usually completely drained. How do you usually wind down after a long day?" },
+  { q: "How do you relax after a stressful day? / What helps you stay productive?",
+    ch: ["scroll through…","stay productive","prepare for the next day","I find it helps to…","I recharge by…"],
+    l1: "I watch YouTube. I use a to-do list to stay productive.",
+    l2: "After a long day my brain feels completely exhausted, so I just scroll through YouTube to decompress. Making a short to-do list the night before really helps me stay productive.",
+    l3: "After a long day I'm in full zombie mode — I just grab a snack and scroll through music for a bit, no thinking allowed. I've found that making a short to-do list the night before really helps me stay productive because it removes that 'where do I even start' feeling in the morning. What about you — do you have any tricks for staying on track?" },
+  { q: "What wastes most of your time? / How much time do you spend online?",
+    ch: ["waste time online","I lose track of time when…","before I know it…","hours just disappear when…","I'm not even sure, but probably…"],
+    l1: "TikTok wastes my time. I spend about 4 hours online.",
+    l2: "TikTok definitely wastes most of my time — I lose track completely and before I know it an hour has just gone by.",
+    l3: "TikTok is honestly my biggest time thief — hours just disappear. I'll open it for one video and suddenly it's been 90 minutes and I still don't know how that happened. Screen time? Probably 5 to 6 hours a day and I feel slightly terrible about that. Do you track your screen time or do you prefer not to know?" },
+  { q: "Do you work better alone or with people? / What's your ideal weekend like?",
+    ch: ["I'm way more focused when…","my ideal weekend is…","a good mix of…","I'd wake up whenever…","no plans at all — just…"],
+    l1: "I work better alone. My ideal weekend has no plans.",
+    l2: "I'm way more focused when I study alone — I get distracted too easily in groups. My ideal weekend is a good mix of social time and total downtime.",
+    l3: "I'm way more focused when I'm alone — I get distracted too easily with other people around. My ideal weekend? I'd wake up whenever I feel like it, get a really good coffee, maybe meet one or two close friends for lunch, and then have the rest of the day completely free with no plans. Just recharging. What does your ideal weekend look like?" },
+];
+
+// ── BUILD Q-BLOCKS ─────────────────────────────────────────────────────────
+function buildQB(data, cid) {
+  var c = document.getElementById(cid);
+  data.forEach(function(d, i) {
+    var div = document.createElement('div');
+    div.className = 'qb';
+    var chs = d.ch.map(function(ch) {
+      var txt = ch.replace(/…$/, '').replace(/V-ing$/, '').trim();
+      return '<button class="cb" onclick="sp(this,\'' + txt.replace(/'/g, "\\'") + '\')">🔊 ' + ch + '</button>';
+    }).join('');
+    var e = function(s) { return s.replace(/'/g, "\\'"); };
+    div.innerHTML =
+      '<div class="qh" onclick="this.parentElement.classList.toggle(\'op\')">' +
+        '<div class="qn">' + (i + 1) + '</div>' +
+        '<div class="qq">' + d.q + '</div>' +
+        '<div class="qa">▼</div>' +
+      '</div>' +
+      '<div class="qbd">' +
+        '<div class="sl" style="margin-bottom:6px">Suggested Chunks — Click to listen</div>' +
+        '<div class="cg" style="margin-bottom:12px">' + chs + '</div>' +
+        '<div class="sl" style="margin-bottom:8px">Model Answers — ▶ natural speed · ▶ slow for easier imitation</div>' +
+        '<div class="lvs">' +
+          '<div class="lv lv1"><div class="lvb">Basic · Level 1</div><p>' + d.l1 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + e(d.l1) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + e(d.l1) + '\')">▶ slow</button></div></div>' +
+          '<div class="lv lv2"><div class="lvb">Add Context · Level 3</div><p>' + d.l2 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + e(d.l2) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + e(d.l2) + '\')">▶ slow</button></div></div>' +
+          '<div class="lv lv3"><div class="lvb">Fluent · Level 5</div><p>' + d.l3 + '</p>' +
+            '<div class="pr"><button class="pb" onclick="sp(this,\'' + e(d.l3) + '\')">▶ listen</button>' +
+            '<button class="pb" onclick="spS(this,\'' + e(d.l3) + '\')">▶ slow</button></div></div>' +
+        '</div>' +
+      '</div>';
+    c.appendChild(div);
+  });
+}
+buildQB(L1, 'l1q');
+buildQB(L2, 'l2q');
+buildQB(L3, 'l3q');
+
+// ── MUST-KNOW CHIPS ────────────────────────────────────────────────────────
+function buildChips(id, chips) {
+  var c = document.getElementById(id);
+  chips.forEach(function(ch) {
+    var b = document.createElement('button');
+    b.className = 'mch';
+    b.textContent = ch;
+    b.onclick = function() { sp(b, ch.replace(/…$/, '')); };
+    c.appendChild(b);
+  });
+}
+buildChips('mk1', ["I'm really into…","I'd say…","Honestly…","Lately…","hang out with friends","chill out at home","I'm currently…","One of my goals is…","I've always been into…","I can't function without…","I ended up choosing because…","these days I tend to…"]);
+buildChips('mk2', ["same here","I know what you mean","open up","get along with","tell me more","I click with…","I vibe with…","once I'm comfortable…","I warm up to people quickly","No way!","Seriously?","That sounds fun!"]);
+buildChips('mk3', ["around seven","after class","before going to bed","by the end of the day","first thing in the morning","late at night","on weekends","before I know it","by the time I get home","these days"]);
+
+// ── REFLEX DRILL ───────────────────────────────────────────────────────────
+var allQ = L1.map(function(d) { return { q: d.q, l: 'l1' }; })
+  .concat(L2.map(function(d) { return { q: d.q, l: 'l2' }; }))
+  .concat(L3.map(function(d) { return { q: d.q, l: 'l3' }; }));
+var drillT = null, drillN = 0, drillS = 0, drillRun = false;
+
+function startD() {
+  document.getElementById('rs').style.display = 'none';
+  document.getElementById('rn').style.display = 'inline-flex';
+  nextQ();
+}
+function nextQ() {
+  if (drillRun) { clearInterval(drillT); drillRun = false; }
+  var les = document.getElementById('rles').value;
+  var pool = les === 'all' ? allQ : allQ.filter(function(q) { return q.l === les; });
+  var q = pool[Math.floor(Math.random() * pool.length)];
+  document.getElementById('rdd').innerHTML = '<div class="dq">"' + q.q + '"</div>';
+  sp({ classList: { add: function() {}, remove: function() {} } }, q.q);
+  var pct = 100;
+  drillRun = true;
+  document.getElementById('rtf').style.background = 'var(--teal)';
+  drillT = setInterval(function() {
+    pct = Math.max(0, pct - 2);
+    document.getElementById('rtf').style.width = pct + '%';
+    if (pct < 40) document.getElementById('rtf').style.background = 'var(--amb)';
+    if (pct < 15) document.getElementById('rtf').style.background = 'var(--cor)';
+    if (pct <= 0) { clearInterval(drillT); drillRun = false; }
+  }, 100);
+  drillN++; drillS++;
+  document.getElementById('sdn').textContent = drillN;
+  document.getElementById('sst').textContent = drillS;
+}
+function resetD() {
+  clearInterval(drillT); drillRun = false; drillN = 0; drillS = 0;
+  document.getElementById('sdn').textContent = 0;
+  document.getElementById('sst').textContent = 0;
+  document.getElementById('rdd').innerHTML = '<div class="dp">Press START to begin</div>';
+  document.getElementById('rtf').style.width = '100%';
+  document.getElementById('rtf').style.background = 'var(--teal)';
+  document.getElementById('rs').style.display = 'inline-flex';
+  document.getElementById('rn').style.display = 'none';
+}
+
+// ── SHADOWING ──────────────────────────────────────────────────────────────
+var SHD = {
+  l1: [
+    { en: "I'm originally from Hanoi, but I've been living here for about a year now.", vi: "grew up in + have been living here for…" },
+    { en: "I'm really into chill pop music lately — it helps me relax after stressful classes.", vi: "I'm really into… + it helps me relax…" },
+    { en: "One of my goals right now is to improve my English and build my confidence speaking.", vi: "One of my goals is… + build confidence" },
+    { en: "I'd say I'm somewhere in between — I enjoy being around people but I also need time alone to recharge.", vi: "I'd say I'm somewhere in between… + I recharge by…" },
+    { en: "I used to find English really stressful, but it's gotten so much more fun lately.", vi: "I used to find… but now… + lately" },
+  ],
+  l2: [
+    { en: "I actually really enjoy meeting new people — I find it genuinely interesting to hear about different experiences.", vi: "I actually really enjoy… + I find it genuinely…" },
+    { en: "I don't open up easily at first, but once I'm comfortable, it's pretty instant.", vi: "once I'm comfortable… + open up" },
+    { en: "I vibe with people who are genuine, who laugh easily, and who actually listen when you talk.", vi: "I vibe with people who… (×3 relative clauses)" },
+    { en: "No way! That sounds absolutely crazy! What happened next?", vi: "reaction chain: disbelief → intensity → follow-up Q" },
+    { en: "I know what you mean — I totally feel the same way about that.", vi: "I know what you mean + same here" },
+  ],
+  l3: [
+    { en: "After a long day, my brain feels completely exhausted, so I just grab a snack and scroll through YouTube.", vi: "Emotion → Action → Context (storytelling formula)" },
+    { en: "Before I know it, an hour has gone by and it's already midnight.", vi: "before I know it… + time expression" },
+    { en: "By the end of the day I'm usually completely drained — I don't have energy for anything.", vi: "by the end of the day + emotional state" },
+    { en: "My ideal weekend? Wake up whenever I feel like it, get a really good coffee, and have absolutely no plans.", vi: "my ideal… + list structure" },
+    { en: "I drag myself out of bed around 7:30 and I'm still half asleep by the time I get to class.", vi: "drag myself out of bed + by the time…" },
+  ],
+};
+
+var CSD = [
+  { sl: "What do you usually do?", fa: "Whaddaya usually do?", nt: "what do you → Whaddaya" },
+  { sl: "Did you enjoy it?", fa: "Didja enjoy it?", nt: "did you → Didja" },
+  { sl: "I want to go home.", fa: "I wanna go home.", nt: "want to → wanna" },
+  { sl: "Don't you think so?", fa: "Dontcha think so?", nt: "don't you → Dontcha" },
+  { sl: "I am going to study.", fa: "I'm gonna study.", nt: "going to → gonna" },
+  { sl: "I have been into music a lot lately.", fa: "I've been into music a lot lately.", nt: "I have been → I've been (linking)" },
+];
+
+function buildShadow() {
+  ['l1', 'l2', 'l3'].forEach(function(l) {
+    var c = document.getElementById('sh' + l);
+    SHD[l].forEach(function(item) {
+      var div = document.createElement('div');
+      div.className = 'shtr';
+      var esc = item.en.replace(/'/g, "\\'");
+      div.innerHTML =
+        '<div class="te">' + item.en + '</div>' +
+        '<div class="tv">' + item.vi + '</div>' +
+        '<div class="tc">' +
+          '<button class="spb on" onclick="shadowP(this,\'' + esc + '\',0.65,1.02)">🐢 Slow & Clear</button>' +
+          '<button class="spb" onclick="shadowP(this,\'' + esc + '\',0.85,1.12)">▶ Moderate</button>' +
+          '<button class="spb" onclick="shadowP(this,\'' + esc + '\',1.05,1.20)">🚀 Natural</button>' +
+        '</div>';
+      c.appendChild(div);
+    });
+  });
+  var cc = document.getElementById('shcs');
+  CSD.forEach(function(item) {
+    var div = document.createElement('div');
+    div.className = 'csr';
+    var esl = item.sl.replace(/'/g, "\\'");
+    var efa = item.fa.replace(/'/g, "\\'");
+    div.innerHTML =
+      '<div class="csl">Pattern — ' + item.nt + '</div>' +
+      '<div class="css1">Slow: "' + item.sl + '"</div>' +
+      '<div class="css2">Natural: "' + item.fa + '"</div>' +
+      '<div class="csb">' +
+        '<button class="csp" style="color:var(--mut);border-color:var(--brd)" onclick="sp(this,\'' + esl + '\',0.65)">▶ Slow</button>' +
+        '<button class="csp" style="color:var(--teal);border-color:rgba(0,212,170,.4)" onclick="sp(this,\'' + efa + '\',0.95)">▶ Natural speed</button>' +
+      '</div>';
+    cc.appendChild(div);
+  });
+}
+function shadowP(btn, text, rate, pitch) {
+  var par = btn.closest('.shtr');
+  par.querySelectorAll('.spb').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  sp(btn, text, rate, pitch || 1.10);
+}
+buildShadow();
+
+// ── DICTATION ──────────────────────────────────────────────────────────────
+var DDATA = [
+  { set: "Set 1 — Lesson 1 · Identity & Hobbies", items: [
+    "I'm really into chill pop music lately.",
+    "I've always been drawn to big cities because of the energy and convenience.",
+    "Honestly, I can't function without my morning coffee.",
+    "I spend a lot of time just chilling out with my headphones on after class.",
+    "One of my goals right now is to improve my English and speak more naturally.",
+  ]},
+  { set: "Set 2 — Lesson 2 · Social Conversation", items: [
+    "I'd say I warm up to people pretty quickly once I get started.",
+    "What makes conversations boring is when only one person does all the talking.",
+    "I vibe with people who are genuine and not too judgmental.",
+    "Once I'm comfortable, I open up a lot more than people expect.",
+    "I don't open up easily at first, but once I click with someone it's pretty instant.",
+  ]},
+  { set: "Set 3 — Lesson 3 · Daily Routines", items: [
+    "I usually drag myself out of bed around seven thirty and I'm still half asleep.",
+    "By the end of the day I feel completely drained and I don't have energy for anything.",
+    "Before I know it, an hour has gone by and it's already midnight.",
+    "I find it helps to prepare for the next day the night before going to bed.",
+    "TikTok is my biggest time thief because hours just disappear when I open that app.",
+  ]},
+];
+
+function buildDict() {
+  var c = document.getElementById('dicd');
+  DDATA.forEach(function(set) {
+    var w = document.createElement('div');
+    var sid = set.set.replace(/\s/g, '').slice(0, 10);
+    w.innerHTML = '<div class="sl" style="margin-bottom:10px">' + set.set + '</div>';
+    set.items.forEach(function(sentence, i) {
+      var card = document.createElement('div');
+      card.className = 'dc2';
+      var id = sid + i;
+      var esc = sentence.replace(/'/g, "\\'").replace(/,/g, '[c]');
+      card.innerHTML =
+        '<div class="dct">' +
+          '<div class="dcl">Sentence ' + (i + 1) + '</div>' +
+          '<button class="btn bg" style="padding:4px 11px;font-size:11px" onclick="sp(this,\'' + sentence.replace(/'/g, "\\'") + '\')">▶ Listen</button>' +
+          '<button class="btn bg" style="padding:4px 11px;font-size:11px" onclick="spS(this,\'' + sentence.replace(/'/g, "\\'") + '\')">▶ Slow</button>' +
+        '</div>' +
+        '<div class="dcs" id="sent-' + id + '" onclick="this.classList.toggle(\'show\')">' + sentence + ' <span style="font-size:10px;color:var(--mut)">(click to reveal)</span></div>' +
+        '<textarea class="dca" id="ans-' + id + '" placeholder="Type what you heard here..."></textarea>' +
+        '<button class="btn ba" style="padding:4px 12px;font-size:11px;margin-top:6px" onclick="chkD(\'' + id + '\',\'' + esc + '\')">✓ Check</button>' +
+        '<div class="dcf" id="fb-' + id + '"></div>';
+      w.appendChild(card);
+    });
+    c.appendChild(w);
+    var dv = document.createElement('div');
+    dv.className = 'dv';
+    c.appendChild(dv);
+  });
+}
+
+function chkD(id, answer) {
+  var u = document.getElementById('ans-' + id).value.trim().toLowerCase().replace(/[.,!?]/g, '');
+  var a = answer.replace(/\[c\]/g, ',').toLowerCase().replace(/[.,!?]/g, '');
+  var fb = document.getElementById('fb-' + id);
+  if (u === a || sim(u, a) > 0.82) {
+    fb.className = 'dcf ok';
+    fb.textContent = '✓ Correct! Read aloud 3 times with proper stress and rhythm.';
+  } else {
+    fb.className = 'dcf no';
+    fb.textContent = '✗ Not quite. Listen again → try once more. Answer: "' + answer.replace(/\[c\]/g, ',') + '"';
+  }
+}
+function sim(a, b) {
+  var l = a.length > b.length ? a : b;
+  if (!l.length) return 1;
+  return (l.length - ed(a, b)) / l.length;
+}
+function ed(a, b) {
+  var m = a.length, n = b.length;
+  var dp = [];
+  for (var i = 0; i <= m; i++) {
+    dp[i] = [];
+    for (var j = 0; j <= n; j++) dp[i][j] = i === 0 ? j : j === 0 ? i : 0;
+  }
+  for (var i = 1; i <= m; i++)
+    for (var j = 1; j <= n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+buildDict();
+
+// ── PHONICS ────────────────────────────────────────────────────────────────
+var PHD = [
+  { sym: "/θ/", desc: "Tongue lightly between teeth, breathe out (voiceless)\n→ NOT /t/ or /s/", pairs: [["think","θɪŋk"],["sink","sɪŋk"],["three","θriː"],["tree","triː"]] },
+  { sym: "/ð/", desc: "Tongue between teeth, voiced\n→ NOT /d/ or /z/", pairs: [["this","ðɪs"],["dis","dɪs"],["they","ðeɪ"],["day","deɪ"]] },
+  { sym: "/æ/", desc: "Wider mouth opening than /e/, slightly longer\n→ NOT a short /e/", pairs: [["cat","kæt"],["cut","kʌt"],["bad","bæd"],["bed","bed"]] },
+  { sym: "/ɪ/ vs /iː/", desc: "Short & relaxed (/ɪ/) vs Long & tense (/iː/)\n→ Distinction is critical", pairs: [["sit","sɪt"],["seat","siːt"],["bit","bɪt"],["beat","biːt"]] },
+  { sym: "/r/", desc: "Tongue curled back, not touching the palate\n→ NOT /l/", pairs: [["really","ˈriːli"],["lily","ˈlɪli"],["right","raɪt"],["light","laɪt"]] },
+  { sym: "/v/", desc: "Upper teeth lightly on lower lip, voiced\n→ NOT /b/ or /f/", pairs: [["very","ˈveri"],["berry","ˈberi"],["vine","vaɪn"],["wine","waɪn"]] },
+];
+
+function buildPhon() {
+  var c = document.getElementById('phg');
+  PHD.forEach(function(p) {
+    var card = document.createElement('div');
+    card.className = 'phc';
+    card.innerHTML = '<div class="ps">' + p.sym + '</div><div class="pd">' + p.desc.replace(/\n/g, '<br>') + '</div>';
+    for (var i = 0; i < p.pairs.length; i += 2) {
+      var row = document.createElement('div');
+      row.className = 'mp';
+      [p.pairs[i], p.pairs[i + 1]].forEach(function(wp) {
+        var d = document.createElement('div');
+        d.className = 'mw';
+        d.innerHTML = '<div class="mww">' + wp[0] + '</div><div class="mwi">' + wp[1] + '</div>';
+        (function(el, word) { el.onclick = function() { spPhon(el, word); }; })(d, wp[0]);
+        row.appendChild(d);
+      });
+      card.appendChild(row);
+    }
+    c.appendChild(card);
+  });
+
+  var sd = document.getElementById('sdemos');
+  var demos = [
+    { label: "Stress content words (nouns, verbs, adjectives, adverbs)",
+      words: [{w:"I",s:0},{w:"'m",s:0},{w:"really",s:1},{w:"into",s:0},{w:"MUSIC",s:2},{w:"lately.",s:1}],
+      full: "I'm really into music lately." },
+    { label: "Questions — rising intonation at the end ↗",
+      words: [{w:"What",s:1},{w:"do",s:0},{w:"you",s:0},{w:"usually",s:1},{w:"do",s:0},{w:"on",s:0},{w:"WEEKENDS?",s:2}],
+      full: "What do you usually do on weekends?" },
+    { label: "Storytelling — punch emotion and action words",
+      words: [{w:"After",s:0},{w:"a",s:0},{w:"LONG",s:2},{w:"day,",s:0},{w:"my",s:0},{w:"brain",s:1},{w:"feels",s:0},{w:"COMPLETELY",s:2},{w:"EXHAUSTED.",s:2}],
+      full: "After a long day, my brain feels completely exhausted." },
+    { label: "Ask back — natural rising intonation ↗",
+      words: [{w:"What",s:1},{w:"about",s:0},{w:"YOU?",s:2},{w:"Are",s:0},{w:"you",s:0},{w:"into",s:0},{w:"music",s:1},{w:"too?",s:1}],
+      full: "What about you? Are you into music too?" },
+  ];
+  demos.forEach(function(d) {
+    var div = document.createElement('div');
+    div.className = 'sdemo';
+    var words = d.words.map(function(w) {
+      return '<span class="sw' + (w.s === 2 ? ' ss' : w.s === 1 ? ' s' : '') + '">' + w.w + ' </span>';
+    }).join('');
+    div.innerHTML =
+      '<div class="sl" style="margin-bottom:7px">' + d.label + '</div>' +
+      '<div style="line-height:2.1;margin-bottom:11px">' + words + '</div>' +
+      '<button class="pb" onclick="sp(this,\'' + d.full.replace(/'/g, "\\'") + '\')">▶ Listen with correct stress</button>' +
+      '<button class="pb" onclick="spS(this,\'' + d.full.replace(/'/g, "\\'") + '\')">▶ Slow</button>';
+    sd.appendChild(div);
+  });
+}
+buildPhon();
+
+// ── CHECKLIST ──────────────────────────────────────────────────────────────
+function tck(el) {
+  el.classList.toggle('dn');
+  var dn = document.querySelectorAll('.ci.dn').length;
+  var tot = document.querySelectorAll('.ci').length;
+  document.getElementById('cpf').style.width = (dn / tot * 100) + '%';
+  document.getElementById('cpl').textContent = dn + ' / ' + tot + ' completed';
+}
+</script>
+</body>
+</html>
