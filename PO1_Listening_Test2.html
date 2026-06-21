@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>[PO] Listening Test 2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c}
+.brand{text-align:center;font-size:.68rem;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.55);text-transform:uppercase;margin-bottom:2px}
+.header{background:linear-gradient(135deg,#1e3a8a,#065f46);color:#fff;padding:18px 32px 20px}
+.header h1{font-size:1.5rem;font-weight:800;letter-spacing:-.01em}
+.header p{font-size:.83rem;opacity:.8;margin-top:3px}
+.container{max-width:960px;margin:0 auto;padding:24px 16px}
+.part-section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden}
+.part-header{color:#fff;padding:14px 22px;display:flex;align-items:center;gap:10px}
+.part-header h2{font-size:1.05rem;font-weight:700}
+.part-header .badge{background:rgba(255,255,255,.2);border-radius:20px;padding:2px 11px;font-size:.78rem}
+.audio-wrap{background:#eef2ff;padding:14px 22px;border-bottom:1px solid #e2e8f0}
+.audio-wrap audio{width:100%;height:42px}
+.audio-lbl{font-size:.75rem;color:#4a5568;margin-bottom:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.instruct{padding:10px 22px;background:#fffbeb;border-bottom:1px solid #fef3c7;font-size:.83rem;color:#78350f}
+.qwrap{padding:18px 22px}
+.qblock{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #f1f5f9}
+.qblock:last-child{border:none;margin:0;padding:0}
+.qnum{display:inline-block;background:#e0e7ff;color:#3730a3;border-radius:5px;padding:2px 9px;font-size:.78rem;font-weight:700;margin-bottom:7px}
+.qtext{font-size:.94rem;font-weight:500;margin-bottom:9px;line-height:1.55}
+.opts{display:grid;gap:5px}
+.olbl{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-radius:7px;border:1.5px solid #e2e8f0;cursor:pointer;transition:all .15s;font-size:.91rem;line-height:1.45}
+.olbl:hover{background:#eff6ff;border-color:#93c5fd}
+.olbl input{margin-top:3px;accent-color:#1e3a8a;flex-shrink:0}
+.olbl.correct{background:#d1fae5!important;border-color:#059669!important}
+.olbl.wrong{background:#fee2e2!important;border-color:#dc2626!important}
+.olbl.show-correct{background:#d1fae5!important;border-color:#059669!important}
+.cgroup{background:#f8fafc;border-radius:9px;padding:13px 15px;margin-bottom:18px;border-left:4px solid #6366f1}
+.clbl{font-size:.77rem;font-weight:700;color:#6366f1;letter-spacing:.06em;text-transform:uppercase;margin-bottom:11px}
+.gbox{background:#fffbeb;border:1px solid #fcd34d;border-radius:7px;padding:10px 14px;margin-bottom:10px;font-size:.83rem}
+.gbox h4{font-weight:700;color:#92400e;margin-bottom:6px;font-size:.82rem}
+.gbox table{width:100%;border-collapse:collapse}
+.gbox td,.gbox th{padding:3px 8px;border:1px solid #fcd34d;font-size:.81rem}
+.gbox th{background:#fef3c7;font-weight:700}
+.submit-sec{text-align:center;padding:28px 16px}
+.btn-submit{background:linear-gradient(135deg,#1e3a8a,#065f46);color:#fff;border:none;padding:14px 46px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(30,58,138,.3);transition:all .2s}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,58,138,.4)}
+#results{display:none;background:#fff;border-radius:12px;margin-top:24px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.res-hdr{background:linear-gradient(135deg,#1e3a8a,#065f46);color:#fff;padding:22px 28px;text-align:center}
+.res-hdr h2{font-size:1.3rem;font-weight:700}
+.score-circle{width:110px;height:110px;border-radius:50%;border:5px solid rgba(255,255,255,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:14px auto 0}
+.score-circle .num{font-size:1.9rem;font-weight:800}
+.score-circle .den{font-size:.82rem;opacity:.8}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 22px}
+.scard{background:#f8fafc;border-radius:9px;padding:12px;text-align:center;border:1px solid #e2e8f0}
+.scard .lbl{font-size:.72rem;color:#64748b;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.scard .val{font-size:1.3rem;font-weight:800;color:#1e3a8a;margin-top:3px}
+.scard .tot{font-size:.72rem;color:#94a3b8}
+.pbar-wrap{padding:0 22px 6px}
+.pbar{background:#e2e8f0;border-radius:8px;height:9px}
+.pfill{background:linear-gradient(90deg,#1e3a8a,#065f46);height:9px;border-radius:8px;transition:width 1s ease}
+.ptxt{font-size:.78rem;color:#6b7280;margin-top:4px}
+.review{padding:0 22px 22px}
+.rev-part{font-size:.95rem;font-weight:700;color:#374151;margin:18px 0 10px;padding-bottom:5px;border-bottom:2px solid #e2e8f0}
+.arow{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:.86rem}
+.arow:last-child{border:none}
+.aqn{font-weight:700;color:#6b7280;min-width:30px}
+.ast{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.ast.ok{background:#d1fae5;color:#059669}
+.ast.no{background:#fee2e2;color:#dc2626}
+.adetail{flex:1;line-height:1.5}
+.aexp{font-size:.8rem;color:#6b7280;margin-top:2px}
+.acok{color:#059669;font-weight:600}
+.acno{color:#dc2626}
+.act-bar{text-align:center;padding:14px 22px 24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-teacher{display:inline-flex;align-items:center;gap:7px;background:#059669;color:#fff;border:none;padding:12px 30px;border-radius:50px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-teacher:hover{background:#047857}
+.btn-pdf{display:inline-flex;align-items:center;gap:7px;background:#7c3aed;color:#fff;border:none;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-pdf:hover{background:#6d28d9}
+.btn-print{display:inline-flex;align-items:center;gap:7px;background:#6366f1;color:#fff;border:none;padding:12px 26px;border-radius:50px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-print:hover{background:#4f46e5}
+.err-section{padding:18px 22px 4px;border-top:2px solid #e2e8f0;margin-top:8px}
+.err-section h3{font-size:.95rem;font-weight:700;color:#1e3a8a;margin-bottom:14px}
+.err-cat{margin-bottom:12px}
+.err-cat-label{font-size:.82rem;font-weight:700;color:#374151;margin-bottom:4px;display:flex;justify-content:space-between}
+.err-track{background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden}
+.err-fill{height:8px;border-radius:6px;transition:width 1s ease}
+.err-fill.good{background:#10b981}
+.err-fill.fair{background:#f59e0b}
+.err-fill.poor{background:#ef4444}
+.extra-section{background:#fff;border-radius:12px;margin-bottom:28px;box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden}
+.extra-hdr{padding:14px 22px;display:flex;align-items:center;gap:10px;color:#fff}
+.extra-hdr h2{font-size:1.05rem;font-weight:700}
+.tab-nav{display:flex;border-bottom:2px solid #e2e8f0;padding:0 22px;gap:0;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{padding:10px 16px;font-size:.83rem;font-weight:600;cursor:pointer;border:none;background:none;color:#6b7280;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+.tab-btn.active{color:#1e3a8a;border-bottom-color:#1e3a8a}
+.tab-pane{display:none;padding:20px 22px}
+.tab-pane.active{display:block}
+.gloss-group{margin-bottom:24px}
+.gloss-group-header{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:10px;font-weight:700;font-size:.88rem}
+.gloss-entry{display:grid;grid-template-columns:160px 1fr;gap:8px 14px;padding:9px 12px;border-bottom:1px solid #f1f5f9;font-size:.85rem;align-items:start}
+.gloss-entry:last-child{border:none}
+.gloss-entry:hover{background:#f8fafc}
+.ge-left{display:flex;flex-direction:column;gap:2px}
+.ge-word{font-weight:700;color:#1e3a8a;font-size:.92rem;cursor:pointer}
+.ge-word:hover{text-decoration:underline}
+.ge-ipa{font-family:monospace;font-size:.75rem;color:#6b7280}
+.ge-pos{font-size:.7rem;background:#e0e7ff;color:#3730a3;border-radius:4px;padding:1px 6px;display:inline-block;font-weight:700}
+.ge-right{display:flex;flex-direction:column;gap:3px}
+.ge-def{color:#374151;line-height:1.45}
+.ge-ex{font-style:italic;color:#6b7280;font-size:.8rem;line-height:1.4}
+.vocab-card{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+@media(max-width:600px){.vocab-card{grid-template-columns:1fr}.gloss-entry{grid-template-columns:1fr}}
+.vc-word{background:#eef2ff;border-radius:8px;padding:10px 14px;font-weight:700;color:#1e3a8a;font-size:.92rem;cursor:pointer;border:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px}
+.vc-word:hover{border-color:#6366f1}
+.vc-word.matched{background:#d1fae5;border-color:#059669;color:#065f46}
+.vc-def{background:#f8fafc;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#374151;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.vc-def:hover{border-color:#f59e0b;background:#fffbeb}
+.vc-def.matched{background:#d1fae5;border-color:#059669}
+.vc-def.wrong-flash{background:#fee2e2;border-color:#dc2626}
+.fib-q{margin-bottom:14px}
+.fib-q p{font-size:.9rem;line-height:1.6;margin-bottom:6px}
+.fib-q input{border:1.5px solid #e2e8f0;border-radius:6px;padding:5px 10px;font-size:.88rem;width:170px;outline:none}
+.fib-q input:focus{border-color:#6366f1}
+.fib-q input.correct-input{border-color:#059669;background:#d1fae5}
+.fib-q input.wrong-input{border-color:#dc2626;background:#fee2e2}
+.btn-check{background:#1e3a8a;color:#fff;border:none;padding:9px 22px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;margin-top:10px}
+.btn-check:hover{background:#1e40af}
+.mcq-q{margin-bottom:16px}
+.mcq-q p{font-size:.9rem;font-weight:500;margin-bottom:7px;line-height:1.5}
+.mcq-opts{display:flex;flex-direction:column;gap:5px}
+.mcq-lbl{display:flex;align-items:center;gap:8px;padding:7px 11px;border-radius:7px;border:1.5px solid #e2e8f0;cursor:pointer;font-size:.87rem;transition:all .15s}
+.mcq-lbl:hover{background:#eff6ff;border-color:#93c5fd}
+.mcq-lbl.correct{background:#d1fae5;border-color:#059669}
+.mcq-lbl.wrong{background:#fee2e2;border-color:#dc2626}
+.section-divider{font-size:.82rem;font-weight:700;color:#6b7280;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid #e2e8f0}
+.p2-table-wrap{padding:16px 22px;overflow-x:auto}
+.p2-table{border-collapse:collapse;width:100%}
+.p2-table th{background:#e0e7ff;color:#3730a3;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;text-align:center;border:1px solid #c7d2fe}
+.p2-table th.qcol{text-align:left}
+.p2-table td{padding:5px 14px;border:1px solid #e2e8f0;text-align:center;font-size:.88rem;vertical-align:middle}
+.p2-table td.qcol{font-weight:700;color:#3730a3;text-align:left;font-size:.85rem;white-space:nowrap}
+.p2-table tr:nth-child(even) td{background:#f8fafc}
+.p2-table tr:hover td{background:#eff6ff}
+.p2-opt{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:#374151;cursor:pointer;white-space:nowrap}
+.p2-opt input{accent-color:#1e3a8a;width:15px;height:15px;cursor:pointer}
+.p2-opt.correct label,.p2-opt.show-correct label{color:#059669;font-weight:800}
+.p2-opt.wrong label{color:#dc2626}
+.p2-table tr.answered-ok td{background:#d1fae5!important}
+.p2-table tr.answered-no td{background:#fee2e2!important}
+.main-tabs{background:#fff;border-radius:12px 12px 0 0;box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden;margin-bottom:0}
+.main-tab-nav{display:flex;border-bottom:2px solid #e2e8f0;padding:0 16px;gap:0;overflow-x:auto;scrollbar-width:none}
+.main-tab-nav::-webkit-scrollbar{display:none}
+.main-tab-btn{padding:12px 16px;font-size:.84rem;font-weight:700;cursor:pointer;border:none;background:none;color:#6b7280;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .18s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.main-tab-btn:hover{color:#1e3a8a;background:#f8fafc}
+.main-tab-btn.active{color:#1e3a8a;border-bottom-color:#1e3a8a;background:#fff}
+.main-tab-btn .badge-sm{font-size:.7rem;font-weight:700;padding:1px 6px;border-radius:10px;background:#e0e7ff;color:#3730a3}
+.main-tab-btn.active .badge-sm{background:#1e3a8a;color:#fff}
+.main-pane{display:none}
+.main-pane.active{display:block}
+.tab-nav-footer{display:flex;justify-content:space-between;align-items:center;padding:16px 22px 22px;border-top:1px solid #f1f5f9;margin-top:8px}
+.btn-nav{display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;color:#374151;border:none;padding:9px 20px;border-radius:8px;font-size:.87rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-nav:hover{background:#e0e7ff;color:#1e3a8a}
+.btn-nav-primary{background:#1e3a8a;color:#fff}
+.btn-nav-primary:hover{background:#1e40af;color:#fff}
+.student-info{display:flex;gap:10px;margin-top:11px;flex-wrap:wrap}
+.student-info input{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:6px 13px;color:#fff;font-size:.84rem;outline:none;min-width:190px;flex:1}
+.student-info input::placeholder{color:rgba(255,255,255,.5)}
+.student-info input:focus{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.65)}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px}
+.ov-card{border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}
+.ov-card-hdr{padding:12px 16px;color:#fff;font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:8px}
+.ov-card-body{padding:14px 16px;font-size:.85rem;line-height:1.65;color:#374151}
+.ov-card-body ul{padding-left:16px;margin-top:6px}
+.ov-card-body li{margin-bottom:4px}
+.ov-tip{background:#f0f9ff;border:1px solid #bae6fd;border-radius:9px;padding:12px 16px;margin-top:8px;font-size:.84rem;color:#0369a1;line-height:1.6}
+.ov-tip strong{display:block;margin-bottom:4px;color:#0c4a6e;font-size:.85rem}
+.ov-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ov-step{background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:700;color:#374151;white-space:nowrap}
+.ov-step.active-step{background:#1e3a8a;color:#fff;border-color:#1e3a8a}
+.ov-arrow{color:#94a3b8;font-size:.9rem}
+/* Pronunciation section */
+.pron-chip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;padding:5px 10px;font-size:.82rem;font-weight:700;color:#1e3a8a;cursor:pointer;transition:all .15s;white-space:nowrap}
+.pron-chip:hover{background:#eff6ff;border-color:#93c5fd;transform:translateY(-1px)}
+.chip-ipa{font-family:monospace;font-size:.72rem;color:#6b7280;font-weight:400}
+.mp-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:9px;padding:12px 14px}
+.mp-label{font-family:monospace;font-size:.85rem;font-weight:800;color:#1e3a8a;margin-bottom:8px}
+.mp-pair{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.85rem}
+.mp-word{cursor:pointer;font-weight:700;color:#374151;padding:3px 8px;border-radius:5px;background:#fff;border:1px solid #e2e8f0;transition:all .15s}
+.mp-word:hover{background:#eff6ff;border-color:#93c5fd}
+.mp-arrow{color:#94a3b8;font-size:.8rem}
+.mp-note{font-size:.75rem;color:#6b7280;margin-top:6px;font-style:italic;border-top:1px solid #f1f5f9;padding-top:5px}
+.sq-item{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;padding:12px 14px}
+.sq-word{font-size:1rem;font-weight:700;color:#1e3a8a;margin-bottom:8px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.sq-opts{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.sq-opt{padding:5px 14px;border-radius:6px;border:1.5px solid #e2e8f0;font-family:monospace;font-size:.82rem;font-weight:700;cursor:pointer;background:#fff;color:#374151;transition:all .15s}
+.sq-opt:hover{background:#eff6ff;border-color:#93c5fd}
+.sq-opt.selected{background:#e0e7ff;border-color:#6366f1;color:#3730a3}
+.sq-opt.correct{background:#d1fae5!important;border-color:#059669!important;color:#065f46}
+.sq-opt.wrong{background:#fee2e2!important;border-color:#dc2626!important;color:#b91c1c}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="brand">HUONG STELLA PARADIGM</div>
+  <h1>[PO] Listening Test 2</h1>
+  <p>Parts 2 &middot; 3 &middot; 4 &nbsp;|&nbsp; 94 questions &nbsp;|&nbsp; Full audio included</p>
+  <div class="student-info">
+    <input type="text" id="studentName" placeholder="&#128100; Your full name" autocomplete="name">
+    <input type="email" id="studentEmail" placeholder="&#9993; Your email address" autocomplete="email">
+  </div>
+</div>
+<div class="container"><div class="main-tabs">
+<nav class="main-tab-nav">
+  <button id="mtab-overview" class="main-tab-btn active" onclick="showMainTab('overview')">&#128203; Overview</button>
+  <button id="mtab-vocab"    class="main-tab-btn"        onclick="showMainTab('vocab')">&#128218; Vocabulary</button>
+  <button id="mtab-pron"    class="main-tab-btn"        onclick="showMainTab('pron')">&#127908; Pronunciation</button>
+  <button id="mtab-p2"      class="main-tab-btn"        onclick="showMainTab('p2')">Part 2 <span class="badge-sm">Q7-31</span></button>
+  <button id="mtab-p3"      class="main-tab-btn"        onclick="showMainTab('p3')">Part 3 <span class="badge-sm">Q32-70</span></button>
+  <button id="mtab-p4"      class="main-tab-btn"        onclick="showMainTab('p4')">Part 4 <span class="badge-sm">Q71-100</span></button>
+  <button id="mtab-results" class="main-tab-btn" onclick="document.getElementById('results').scrollIntoView({behavior:'smooth'})" style="display:none">&#128202; Results</button>
+</nav>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div id="main-overview" class="main-pane active">
+<div class="extra-section">
+<div class="extra-hdr" style="background:linear-gradient(135deg,#0f172a,#1e3a8a)">
+  <h2>&#128203; Test Overview &amp; Study Guide</h2>
+</div>
+<div style="padding:20px 22px">
+<p style="font-size:.88rem;color:#6b7280;margin-bottom:18px">Before you begin, review the structure of this test and key strategies for each part. Then try Vocabulary warmup before starting the audio sections.</p>
+<div style="font-size:.8rem;font-weight:700;color:#6b7280;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Recommended Study Flow</div>
+<div class="ov-flow">
+  <div class="ov-step active-step">1. Overview</div><div class="ov-arrow">&#8594;</div>
+  <div class="ov-step">2. Vocabulary</div><div class="ov-arrow">&#8594;</div>
+  <div class="ov-step">3. Part 2</div><div class="ov-arrow">&#8594;</div>
+  <div class="ov-step">4. Part 3</div><div class="ov-arrow">&#8594;</div>
+  <div class="ov-step">5. Part 4</div><div class="ov-arrow">&#8594;</div>
+  <div class="ov-step">6. Results &amp; Review</div>
+</div>
+<div class="ov-grid">
+  <div class="ov-card">
+    <div class="ov-card-hdr" style="background:#065f46">&#9999;&#65039; Part 2 — Question-Response (Q7–31)</div>
+    <div class="ov-card-body">
+      <strong>25 questions.</strong> Hear a question or statement + three responses (A/B/C). No printed text. Choose the best response.
+      <ul>
+        <li><b>WH- questions</b> — Who / What / Where / When / Why / How</li>
+        <li><b>Yes/No &amp; Tag questions</b> — confirmation requests</li>
+        <li><b>Statement responses</b> — react to a remark or suggestion</li>
+      </ul>
+      <div class="ov-tip"><strong>&#128161; Key Strategy</strong>Listen for the first word — it reveals the question type. Eliminate options that repeat words from the stimulus without answering logically.</div>
+    </div>
+  </div>
+  <div class="ov-card">
+    <div class="ov-card-hdr" style="background:#7c3aed">&#128483;&#65039; Part 3 — Conversations (Q32–70)</div>
+    <div class="ov-card-body">
+      <strong>13 conversations, 3 questions each.</strong> Two or three speakers. Q65-70 include graphics (seating chart &amp; market share pie chart).
+      <ul>
+        <li><b>Main idea / purpose</b></li>
+        <li><b>Factual detail</b> — who/what/when/where</li>
+        <li><b>Inference &amp; intention</b> — implied meaning, quoted speech</li>
+        <li><b>Graphic</b> — match audio to table or chart</li>
+      </ul>
+      <div class="ov-tip"><strong>&#128161; Key Strategy</strong>Pre-read all 3 questions before the audio plays. For graphic questions, scan the table first. The first speaker turn usually identifies the situation.</div>
+    </div>
+  </div>
+  <div class="ov-card">
+    <div class="ov-card-hdr" style="background:#b45309">&#127908; Part 4 — Talks (Q71–100)</div>
+    <div class="ov-card-body">
+      <strong>10 monologues, 3 questions each.</strong> One speaker. Q95-100 include graphics (auto repair price table &amp; spa feedback survey).
+      <ul>
+        <li><b>Main purpose</b> — What is the talk about?</li>
+        <li><b>Factual detail</b> — specific info mentioned</li>
+        <li><b>Inference</b> — Who is the speaker/audience?</li>
+        <li><b>Graphic</b> — cross-reference audio with table</li>
+      </ul>
+      <div class="ov-tip"><strong>&#128161; Key Strategy</strong>The opening sentence almost always states the main purpose. For intention questions (quoted speech), ask: "What is the speaker trying to accomplish?"</div>
+    </div>
+  </div>
+</div>
+<div style="background:#f8fafc;border-radius:10px;padding:16px 18px;border:1px solid #e2e8f0;margin-top:4px">
+  <div style="font-weight:700;font-size:.9rem;color:#1e3a8a;margin-bottom:10px">&#9888;&#65039; Common Traps</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.83rem;color:#374151">
+    <div style="background:#fee2e2;border-radius:7px;padding:8px 12px;border-left:3px solid #ef4444"><b>Word repetition trap</b><br>A choice that repeats words from the audio is usually wrong — correct answers paraphrase.</div>
+    <div style="background:#fef3c7;border-radius:7px;padding:8px 12px;border-left:3px solid #f59e0b"><b>Similar-sound trap</b><br>Watch for words that sound alike but mean different things ("acquisition" vs. "addition").</div>
+    <div style="background:#ede9fe;border-radius:7px;padding:8px 12px;border-left:3px solid #7c3aed"><b>Scope trap</b><br>An answer may be true in general but not what was specifically asked.</div>
+    <div style="background:#d1fae5;border-radius:7px;padding:8px 12px;border-left:3px solid #059669"><b>Indirect answer</b><br>In Part 2, correct answers often imply yes/no through action rather than stating it directly.</div>
+  </div>
+</div>
+</div>
+</div>
+<div class="tab-nav-footer">
+  <span></span>
+  <button class="btn-nav btn-nav-primary" onclick="showMainTab('vocab')">Next: Vocabulary &#8594;</button>
+</div></div>
+
+<!-- PRONUNCIATION TAB -->
+<div id="main-pron" class="main-pane">
+<div class="extra-section">
+<div class="extra-hdr" style="background:linear-gradient(135deg,#0f766e,#0369a1)">
+  <h2>&#127908; Pronunciation — Vowels &amp; Diphthongs</h2>
+  <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:2px 11px;font-size:.78rem">Click &#128266; to hear</span>
+</div>
+
+<div style="padding:16px 22px 4px">
+<p style="font-size:.84rem;color:#6b7280;margin-bottom:14px">All examples below are drawn from vocabulary in this test. Click any word to hear it pronounced. Focus on the highlighted <strong>vowel sound</strong> in each word.</p>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — PURE VOWELS (MONOPHTHONGS)
+══════════════════════════════════════════════ -->
+<div style="font-size:.8rem;font-weight:700;color:#0369a1;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:5px;border-bottom:2px solid #bae6fd">&#127381; Pure Vowels (Monophthongs)</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-bottom:20px">
+
+  <!-- /iː/ -->
+  <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#166534;background:#bbf7d0;padding:3px 10px;border-radius:6px">/iː/</span>
+      <span style="font-size:.8rem;color:#4b7c5a;font-weight:600">long "ee" — tense, lips spread wide</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('VIP')">&#128266; <b>V-I</b>-P <span class="chip-ipa">/viː aɪ piː/</span></span>
+      <span class="pron-chip" onclick="speakWord('energy')">&#128266; <b>e</b>nergy <span class="chip-ipa">/ˈen·ər·dʒ<u>iː</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('employee')">&#128266; employ<b>ee</b> <span class="chip-ipa">/ɪmˈplɔɪ·<u>iː</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('catering')">&#128266; cat<b>e</b>ring <span class="chip-ipa">/ˈkeɪt·ər·<u>ɪ</u>ŋ/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#166534;margin-top:7px;background:#dcfce7;border-radius:5px;padding:5px 8px">&#128161; Mouth shape: smile wide, tongue high at front. Hold the sound longer than /ɪ/.</div>
+  </div>
+
+  <!-- /ɪ/ -->
+  <div style="background:#f0f9ff;border:1.5px solid #7dd3fc;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#0c4a6e;background:#bae6fd;padding:3px 10px;border-radius:6px">/ɪ/</span>
+      <span style="font-size:.8rem;color:#0369a1;font-weight:600">short "ih" — relaxed, tongue slightly high</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('innovative')">&#128266; <b>i</b>nnovative <span class="chip-ipa">/<u>ɪ</u>n·ə·veɪ·tɪv/</span></span>
+      <span class="pron-chip" onclick="speakWord('immigration')">&#128266; <b>i</b>mmigration <span class="chip-ipa">/<u>ɪ</u>m·ɪ·ɡreɪ·ʃən/</span></span>
+      <span class="pron-chip" onclick="speakWord('prestigious')">&#128266; prest<b>i</b>gious <span class="chip-ipa">/pre·st<u>ɪ</u>·dʒəs/</span></span>
+      <span class="pron-chip" onclick="speakWord('pharmaceutical')">&#128266; pharma<b>ceu</b>tical <span class="chip-ipa">/fɑːr·mə·s<u>uː</u>·tɪ·kl/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#0369a1;margin-top:7px;background:#e0f2fe;border-radius:5px;padding:5px 8px">&#128161; Shorter &amp; more relaxed than /iː/. The jaw drops slightly more. Common in unstressed syllables.</div>
+  </div>
+
+  <!-- /e/ -->
+  <div style="background:#fff7ed;border:1.5px solid #fdba74;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#9a3412;background:#fed7aa;padding:3px 10px;border-radius:6px">/e/</span>
+      <span style="font-size:.8rem;color:#c2410c;font-weight:600">short "eh" — mid-front, like "bed"</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('energy')">&#128266; <b>e</b>nergy <span class="chip-ipa">/<u>e</u>n·ər·dʒi/</span></span>
+      <span class="pron-chip" onclick="speakWord('personnel')">&#128266; p<b>e</b>rsonnel <span class="chip-ipa">/pɜːr·sə·n<u>e</u>l/</span></span>
+      <span class="pron-chip" onclick="speakWord('sanitary')">&#128266; s<b>a</b>nitary <span class="chip-ipa">/ˈs<u>æ</u>n·ɪ·t<u>e</u>r·i/</span></span>
+      <span class="pron-chip" onclick="speakWord('inspection')">&#128266; insp<b>e</b>ction <span class="chip-ipa">/ɪn·sp<u>e</u>k·ʃən/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#9a3412;margin-top:7px;background:#ffedd5;border-radius:5px;padding:5px 8px">&#128161; Mid-front vowel. Jaw is open about halfway. Do NOT glide — it's a pure, flat sound.</div>
+  </div>
+
+  <!-- /æ/ -->
+  <div style="background:#fdf4ff;border:1.5px solid #d8b4fe;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#6b21a8;background:#ede9fe;padding:3px 10px;border-radius:6px">/æ/</span>
+      <span style="font-size:.8rem;color:#7c3aed;font-weight:600">short "aa" — low-front, mouth wide open</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('adaptability')">&#128266; <b>a</b>dapt <span class="chip-ipa">/<u>æ</u>·dæpt/</span></span>
+      <span class="pron-chip" onclick="speakWord('pharmaceutical')">&#128266; ph<b>a</b>rma <span class="chip-ipa">/f<u>ɑː</u>r·mə/</span></span>
+      <span class="pron-chip" onclick="speakWord('acquisition')">&#128266; <b>a</b>cquisition <span class="chip-ipa">/<u>æ</u>k·wɪ·zɪ·ʃən/</span></span>
+      <span class="pron-chip" onclick="speakWord('catering')">&#128266; c<b>a</b>tering <span class="chip-ipa">/ˈkeɪt·ər·ɪŋ/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#6b21a8;margin-top:7px;background:#faf5ff;border-radius:5px;padding:5px 8px">&#128161; Widest mouth opening. Drop your jaw fully, tongue flat at front. Often over-pronounced by Vietnamese learners.</div>
+  </div>
+
+  <!-- /ʌ/ -->
+  <div style="background:#fff1f2;border:1.5px solid #fda4af;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#9f1239;background:#ffe4e6;padding:3px 10px;border-radius:6px">/ʌ/</span>
+      <span style="font-size:.8rem;color:#be123c;font-weight:600">short "uh" — central, relaxed jaw</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('luncheon')">&#128266; l<b>u</b>ncheon <span class="chip-ipa">/l<u>ʌ</u>n·tʃən/</span></span>
+      <span class="pron-chip" onclick="speakWord('bumper')">&#128266; b<b>u</b>mper <span class="chip-ipa">/b<u>ʌ</u>m·pər/</span></span>
+      <span class="pron-chip" onclick="speakWord('entrepreneur')">&#128266; entr<b>e</b>preneur <span class="chip-ipa">/ˌɑːn·trə·prə·n<u>ɜː</u>r/</span></span>
+      <span class="pron-chip" onclick="speakWord('construction')">&#128266; constr<b>u</b>ction <span class="chip-ipa">/kən·str<u>ʌ</u>k·ʃən/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#9f1239;margin-top:7px;background:#fff1f2;border-radius:5px;padding:5px 8px">&#128161; Central vowel — tongue in middle of mouth, jaw slightly open. Very common in stressed syllables spelled with "u".</div>
+  </div>
+
+  <!-- /ɜː/ -->
+  <div style="background:#f0fdf4;border:1.5px solid #4ade80;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#14532d;background:#bbf7d0;padding:3px 10px;border-radius:6px">/ɜː/</span>
+      <span style="font-size:.8rem;color:#15803d;font-weight:600">long "er" — mid-central, no lip rounding</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('personnel')">&#128266; p<b>er</b>sonnel <span class="chip-ipa">/p<u>ɜː</u>r·sə·nel/</span></span>
+      <span class="pron-chip" onclick="speakWord('entrepreneur')">&#128266; entrepren<b>eu</b>r <span class="chip-ipa">/ˌɑːn·trə·prə·n<u>ɜː</u>r/</span></span>
+      <span class="pron-chip" onclick="speakWord('service')">&#128266; s<b>er</b>vice <span class="chip-ipa">/ˈs<u>ɜː</u>r·vɪs/</span></span>
+      <span class="pron-chip" onclick="speakWord('work permit')">&#128266; w<b>or</b>k <span class="chip-ipa">/w<u>ɜː</u>rk/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#14532d;margin-top:7px;background:#dcfce7;border-radius:5px;padding:5px 8px">&#128161; Often spelled: "er", "ir", "ur", "ear" (in "learn"), "or" (in "word"). Tongue is central, held slightly longer.</div>
+  </div>
+
+  <!-- /ɑː/ -->
+  <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#92400e;background:#fef3c7;padding:3px 10px;border-radius:6px">/ɑː/</span>
+      <span style="font-size:.8rem;color:#b45309;font-weight:600">long "ah" — low-back, mouth open wide</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('spa')">&#128266; sp<b>a</b> <span class="chip-ipa">/sp<u>ɑː</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('pharmaceutical')">&#128266; ph<b>ar</b>ma <span class="chip-ipa">/f<u>ɑː</u>r·mə/</span></span>
+      <span class="pron-chip" onclick="speakWord('automotive')">&#128266; <b>au</b>tomotive <span class="chip-ipa">/<u>ɔː</u>·tə·moʊ·tɪv/</span></span>
+      <span class="pron-chip" onclick="speakWord('department')">&#128266; dep<b>ar</b>tment <span class="chip-ipa">/dɪ·p<u>ɑː</u>rt·mənt/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#92400e;margin-top:7px;background:#fef3c7;border-radius:5px;padding:5px 8px">&#128161; Mouth fully open, tongue pulled back and low. Common with "ar" and the vowel in "spa", "start", "car".</div>
+  </div>
+
+  <!-- /ə/ schwa -->
+  <div style="background:#f8fafc;border:1.5px solid #94a3b8;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#1e293b;background:#e2e8f0;padding:3px 10px;border-radius:6px">/ə/</span>
+      <span style="font-size:.8rem;color:#475569;font-weight:600">schwa — unstressed, neutral, shortest vowel</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('acquisition')">&#128266; acquisiti<b>o</b>n <span class="chip-ipa">/æk·wɪ·zɪ·ʃ<u>ə</u>n/</span></span>
+      <span class="pron-chip" onclick="speakWord('catering')">&#128266; cater<b>i</b>ng <span class="chip-ipa">/ˈkeɪt·<u>ə</u>r·ɪŋ/</span></span>
+      <span class="pron-chip" onclick="speakWord('luncheon')">&#128266; luncheon <span class="chip-ipa">/ˈlʌntʃ·<u>ə</u>n/</span></span>
+      <span class="pron-chip" onclick="speakWord('evacuation')">&#128266; evac<b>u</b>ation <span class="chip-ipa">/ɪ·væk·ju·<u>eɪ</u>·ʃ<u>ə</u>n/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#475569;margin-top:7px;background:#f1f5f9;border-radius:5px;padding:5px 8px">&#128161; The most common sound in English! Always in UNSTRESSED syllables. Completely neutral — no jaw movement. Vowel letter can be: a, e, i, o, u.</div>
+  </div>
+
+</div><!-- end monophthongs grid -->
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2 — DIPHTHONGS
+══════════════════════════════════════════════ -->
+<div style="font-size:.8rem;font-weight:700;color:#7c3aed;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:5px;border-bottom:2px solid #ddd6fe">&#127381; Diphthongs (Gliding Vowels)</div>
+<p style="font-size:.83rem;color:#6b7280;margin-bottom:14px">A diphthong is <strong>two vowel sounds</strong> blended in one syllable — the tongue <em>glides</em> from one position to another. The first sound is always stronger.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-bottom:20px">
+
+  <!-- /eɪ/ -->
+  <div style="background:#f0f9ff;border:1.5px solid #38bdf8;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#0c4a6e;background:#bae6fd;padding:3px 10px;border-radius:6px">/eɪ/</span>
+      <span style="font-size:.8rem;color:#0369a1;font-weight:600">"ay" — glides from /e/ → /ɪ/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('safety badge')">&#128266; s<b>a</b>fety <span class="chip-ipa">/ˈs<u>eɪ</u>f·ti/</span></span>
+      <span class="pron-chip" onclick="speakWord('catering')">&#128266; c<b>a</b>tering <span class="chip-ipa">/ˈk<u>eɪ</u>t·ər·ɪŋ/</span></span>
+      <span class="pron-chip" onclick="speakWord('innovative')">&#128266; innov<b>a</b>tive <span class="chip-ipa">/ˈɪn·ə·v<u>eɪ</u>·tɪv/</span></span>
+      <span class="pron-chip" onclick="speakWord('evacuation')">&#128266; evac<b>ua</b>tion <span class="chip-ipa">/ɪ·væk·ju·<u>eɪ</u>·ʃən/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#0c4a6e;margin-top:7px;background:#e0f2fe;border-radius:5px;padding:5px 8px">&#128161; Glide: start at /e/ (like "bed") then slide tongue up to /ɪ/. Spelled: "a" (make), "ai" (wait), "ay" (say), "-ate" endings.</div>
+  </div>
+
+  <!-- /aɪ/ -->
+  <div style="background:#fdf4ff;border:1.5px solid #c084fc;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#6b21a8;background:#ede9fe;padding:3px 10px;border-radius:6px">/aɪ/</span>
+      <span style="font-size:.8rem;color:#7c3aed;font-weight:600">"eye" — glides from /a/ → /ɪ/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('side-view mirror')">&#128266; s<b>i</b>de <span class="chip-ipa">/s<u>aɪ</u>d/</span></span>
+      <span class="pron-chip" onclick="speakWord('tire change')">&#128266; t<b>i</b>re <span class="chip-ipa">/t<u>aɪ</u>r/</span></span>
+      <span class="pron-chip" onclick="speakWord('client')">&#128266; cl<b>i</b>ent <span class="chip-ipa">/ˈkl<u>aɪ</u>·ənt/</span></span>
+      <span class="pron-chip" onclick="speakWord('identify')">&#128266; <b>i</b>dentif<b>y</b> <span class="chip-ipa">/<u>aɪ</u>·ˈden·tɪ·f<u>aɪ</u>/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#6b21a8;margin-top:7px;background:#faf5ff;border-radius:5px;padding:5px 8px">&#128161; Glide: start low-front /a/ (big jaw drop), then slide up to /ɪ/. Spelled: "i" (time), "ie" (die), "igh" (night), "y" (my).</div>
+  </div>
+
+  <!-- /ɔɪ/ -->
+  <div style="background:#f0fdf4;border:1.5px solid #4ade80;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#14532d;background:#bbf7d0;padding:3px 10px;border-radius:6px">/ɔɪ/</span>
+      <span style="font-size:.8rem;color:#15803d;font-weight:600">"oy" — glides from /ɔː/ → /ɪ/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('appointment')">&#128266; app<b>oi</b>ntment <span class="chip-ipa">/ə·ˈp<u>ɔɪ</u>nt·mənt/</span></span>
+      <span class="pron-chip" onclick="speakWord('employee')">&#128266; empl<b>oy</b>ee <span class="chip-ipa">/ɪm·ˈpl<u>ɔɪ</u>·iː/</span></span>
+      <span class="pron-chip" onclick="speakWord('invoice')">&#128266; inv<b>oi</b>ce <span class="chip-ipa">/ˈɪn·v<u>ɔɪ</u>s/</span></span>
+      <span class="pron-chip" onclick="speakWord('avoid')">&#128266; av<b>oi</b>d <span class="chip-ipa">/ə·ˈv<u>ɔɪ</u>d/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#14532d;margin-top:7px;background:#dcfce7;border-radius:5px;padding:5px 8px">&#128161; Glide: start with rounded lips /ɔː/ (like "law"), then slide to /ɪ/. Spelled: "oi" (point), "oy" (enjoy).</div>
+  </div>
+
+  <!-- /aʊ/ -->
+  <div style="background:#fff7ed;border:1.5px solid #fb923c;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#7c2d12;background:#fed7aa;padding:3px 10px;border-radius:6px">/aʊ/</span>
+      <span style="font-size:.8rem;color:#c2410c;font-weight:600">"ow" — glides from /a/ → /ʊ/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('outdoor')">&#128266; <b>ou</b>tdoor <span class="chip-ipa">/<u>aʊ</u>t·dɔːr/</span></span>
+      <span class="pron-chip" onclick="speakWord('south')">&#128266; s<b>ou</b>th <span class="chip-ipa">/s<u>aʊ</u>θ/</span></span>
+      <span class="pron-chip" onclick="speakWord('downtown')">&#128266; d<b>ow</b>ntown <span class="chip-ipa">/ˈd<u>aʊ</u>n·taʊn/</span></span>
+      <span class="pron-chip" onclick="speakWord('account')">&#128266; acc<b>ou</b>nt <span class="chip-ipa">/ə·ˈk<u>aʊ</u>nt/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#7c2d12;margin-top:7px;background:#ffedd5;border-radius:5px;padding:5px 8px">&#128161; Glide: mouth opens wide /a/, then lips round and close towards /ʊ/. Spelled: "ou" (out), "ow" (town). Do NOT say /ɔː/.</div>
+  </div>
+
+  <!-- /oʊ/ -->
+  <div style="background:#fffbeb;border:1.5px solid #fbbf24;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#78350f;background:#fef3c7;padding:3px 10px;border-radius:6px">/oʊ/</span>
+      <span style="font-size:.8rem;color:#b45309;font-weight:600">"oh" — glides from /o/ → /ʊ/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('local')">&#128266; l<b>o</b>cal <span class="chip-ipa">/ˈl<u>oʊ</u>·kəl/</span></span>
+      <span class="pron-chip" onclick="speakWord('hotel')">&#128266; h<b>o</b>tel <span class="chip-ipa">/h<u>oʊ</u>·ˈtel/</span></span>
+      <span class="pron-chip" onclick="speakWord('renovation')">&#128266; ren<b>o</b>vation <span class="chip-ipa">/ˌren·ə·ˈv<u>eɪ</u>·ʃən/</span></span>
+      <span class="pron-chip" onclick="speakWord('proposal')">&#128266; prop<b>o</b>sal <span class="chip-ipa">/prə·ˈp<u>oʊ</u>·zəl/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#78350f;margin-top:7px;background:#fef9c3;border-radius:5px;padding:5px 8px">&#128161; Glide: start with mid-back /o/, then round lips into /ʊ/. Spelled: "o" (no), "oa" (coat), "ow" (know), "oe" (toe).</div>
+  </div>
+
+  <!-- /ɪə/ -->
+  <div style="background:#f0f9ff;border:1.5px solid #67e8f9;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#0e7490;background:#cffafe;padding:3px 10px;border-radius:6px">/ɪə/</span>
+      <span style="font-size:.8rem;color:#0891b2;font-weight:600">"ear" — glides from /ɪ/ → /ə/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('engineer')">&#128266; engin<b>eer</b> <span class="chip-ipa">/ˌen·dʒɪ·ˈn<u>ɪər</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('career')">&#128266; car<b>eer</b> <span class="chip-ipa">/kə·ˈr<u>ɪər</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('idea')">&#128266; id<b>ea</b> <span class="chip-ipa">/aɪ·ˈd<u>ɪə</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('experience')">&#128266; exper<b>ie</b>nce <span class="chip-ipa">/ɪk·ˈsp<u>ɪər</u>·ɪ·əns/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#0e7490;margin-top:7px;background:#ecfeff;border-radius:5px;padding:5px 8px">&#128161; Glide: start at /ɪ/ (relaxed high-front), then tongue drops to schwa /ə/. Spelled: "ear" (hear), "eer" (career), "ere" (here).</div>
+  </div>
+
+  <!-- /eə/ -->
+  <div style="background:#f0fdf4;border:1.5px solid #6ee7b7;border-radius:10px;padding:13px 15px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#064e3b;background:#a7f3d0;padding:3px 10px;border-radius:6px">/eə/</span>
+      <span style="font-size:.8rem;color:#047857;font-weight:600">"air" — glides from /e/ → /ə/</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+      <span class="pron-chip" onclick="speakWord('repair')">&#128266; rep<b>air</b> <span class="chip-ipa">/rɪ·ˈp<u>eər</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('aware')">&#128266; aw<b>are</b> <span class="chip-ipa">/ə·ˈw<u>eər</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('there')">&#128266; th<b>ere</b> <span class="chip-ipa">/ð<u>eər</u>/</span></span>
+      <span class="pron-chip" onclick="speakWord('chairman')">&#128266; ch<b>air</b>man <span class="chip-ipa">/ˈtʃ<u>eər</u>·mən/</span></span>
+    </div>
+    <div style="font-size:.76rem;color:#064e3b;margin-top:7px;background:#d1fae5;border-radius:5px;padding:5px 8px">&#128161; Glide: start at /e/ (like "bed"), then jaw relaxes to schwa. Spelled: "air" (fair), "are" (care), "ear" (wear), "ere" (where).</div>
+  </div>
+
+</div><!-- end diphthongs grid -->
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3 — MINIMAL PAIRS EXERCISE
+══════════════════════════════════════════════ -->
+<div style="font-size:.8rem;font-weight:700;color:#0f766e;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:5px;border-bottom:2px solid #99f6e4">&#127381; Minimal Pairs — Sound Discrimination</div>
+<p style="font-size:.83rem;color:#6b7280;margin-bottom:14px">These word pairs differ by <strong>only one vowel sound</strong>. Listen carefully and click each word to compare.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:20px">
+
+  <div class="mp-card">
+    <div class="mp-label">/iː/ vs /ɪ/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('leave')" class="mp-word">/iː/ l<b>ea</b>ve</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('live')" class="mp-word">/ɪ/ l<b>i</b>ve</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('heat')" class="mp-word">/iː/ h<b>ea</b>t</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('hit')" class="mp-word">/ɪ/ h<b>i</b>t</span>
+    </div>
+    <div class="mp-note">Tip: /iː/ is longer &amp; more tense — feel the stretch in your lips!</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/e/ vs /æ/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('bed')" class="mp-word">/e/ b<b>e</b>d</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('bad')" class="mp-word">/æ/ b<b>a</b>d</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('said')" class="mp-word">/e/ s<b>ai</b>d</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('sad')" class="mp-word">/æ/ s<b>a</b>d</span>
+    </div>
+    <div class="mp-note">Tip: /æ/ needs a bigger jaw drop — "bad" not "bed"!</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/ʌ/ vs /ɑː/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('cut')" class="mp-word">/ʌ/ c<b>u</b>t</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('cart')" class="mp-word">/ɑː/ c<b>ar</b>t</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('luck')" class="mp-word">/ʌ/ l<b>u</b>ck</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('lark')" class="mp-word">/ɑː/ l<b>ar</b>k</span>
+    </div>
+    <div class="mp-note">Tip: /ɑː/ is longer, tongue pulled back. /ʌ/ is shorter, central tongue.</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/eɪ/ vs /e/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('made')" class="mp-word">/eɪ/ m<b>a</b>de</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('med')" class="mp-word">/e/ m<b>e</b>d</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('rate')" class="mp-word">/eɪ/ r<b>a</b>te</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('red')" class="mp-word">/e/ r<b>e</b>d</span>
+    </div>
+    <div class="mp-note">Tip: /eɪ/ has a glide (two sounds). /e/ is flat &amp; pure (one sound).</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/aɪ/ vs /eɪ/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('side')" class="mp-word">/aɪ/ s<b>i</b>de</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('said')" class="mp-word">/e/ s<b>ai</b>d</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('client')">&#128266; cl<b>i</b>ent /aɪ/</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('safety')">&#128266; s<b>a</b>fety /eɪ/</span>
+    </div>
+    <div class="mp-note">Tip: /aɪ/ starts with jaw fully down. /eɪ/ starts mid — less drop.</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/aʊ/ vs /oʊ/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('out')" class="mp-word">/aʊ/ <b>ou</b>t</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('oat')" class="mp-word">/oʊ/ <b>oa</b>t</span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('outdoor')" class="mp-word">/aʊ/ <b>ou</b>tdoor</span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('hotel')" class="mp-word">/oʊ/ h<b>o</b>tel</span>
+    </div>
+    <div class="mp-note">Tip: /aʊ/ starts wide open then rounds. /oʊ/ stays more rounded throughout.</div>
+  </div>
+
+  <div class="mp-card">
+    <div class="mp-label">/ɪə/ vs /eə/</div>
+    <div class="mp-pair">
+      <span onclick="speakWord('ear')" class="mp-word">/ɪə/ <b>ear</b></span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('air')" class="mp-word">/eə/ <b>air</b></span>
+    </div>
+    <div class="mp-pair">
+      <span onclick="speakWord('engineer')" class="mp-word">/ɪə/ engin<b>eer</b></span>
+      <span class="mp-arrow">↔</span>
+      <span onclick="speakWord('repair')" class="mp-word">/eə/ rep<b>air</b></span>
+    </div>
+    <div class="mp-note">Tip: /ɪə/ — tongue HIGH then drops. /eə/ — tongue MID then drops.</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 4 — SOUND IDENTIFICATION QUIZ
+══════════════════════════════════════════════ -->
+<div style="font-size:.8rem;font-weight:700;color:#6366f1;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;padding-bottom:5px;border-bottom:2px solid #c7d2fe">&#127381; Sound Identification Quiz</div>
+<p style="font-size:.83rem;color:#6b7280;margin-bottom:12px">Listen to each word (click &#128266;) and identify the vowel/diphthong sound of the <strong>underlined</strong> syllable.</p>
+
+<div id="sound-quiz" style="display:grid;gap:10px;margin-bottom:16px"></div>
+<button class="btn-check" onclick="checkSoundQuiz()">Check Answers</button>
+<div id="sound-quiz-score" style="margin-top:10px;font-size:.85rem;font-weight:700"></div>
+
+</div><!-- end padding div -->
+</div><!-- end extra-section -->
+<div class="tab-nav-footer">
+  <button class="btn-nav" onclick="showMainTab('vocab')">&#8592; Vocabulary</button>
+  <button class="btn-nav btn-nav-primary" onclick="showMainTab('p2')">Start Test: Part 2 &#8594;</button>
+</div></div>
+
+<!-- VOCABULARY TAB -->
+<div id="main-vocab" class="main-pane">
+<div class="extra-section">
+<div class="extra-hdr" style="background:linear-gradient(135deg,#7c3aed,#4f46e5)">
+  <h2>&#128218; Vocabulary — Pre-Listening Warmup</h2>
+  <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:2px 11px;font-size:.78rem">Study before listening</span>
+</div>
+<div class="tab-nav" id="vocab-tab-nav">
+  <button class="tab-btn active" onclick="showVTab('glossary')">&#128216; Glossary</button>
+  <button class="tab-btn" onclick="showVTab('match')">&#128279; Matching</button>
+  <button class="tab-btn" onclick="showVTab('fib')">&#9999;&#65039; Fill in Blank</button>
+  <button class="tab-btn" onclick="showVTab('mcq')">&#10067; Multiple Choice</button>
+</div>
+
+<!-- GLOSSARY -->
+<div id="vtab-glossary" class="tab-pane active">
+<p style="font-size:.84rem;color:#6b7280;margin-bottom:16px">Click any word to hear its pronunciation. Study these words before the listening test.</p>
+
+<div class="gloss-group">
+<div class="gloss-group-header" style="background:#eef2ff;color:#1e3a8a">&#128188; Business &amp; Communication</div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('acquisition')">&#128266; acquisition</div><div class="ge-ipa">/ˌækwɪˈzɪʃən/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The act of a company taking ownership of another company</div><div class="ge-ex">"The acquisition increased our market share by 15 percent."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('market share')">&#128266; market share</div><div class="ge-ipa">/ˈmɑːrkɪt ʃer/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The percentage of total industry sales captured by a company</div><div class="ge-ex">"Our competitors have been steadily increasing their market share."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('transition plan')">&#128266; transition plan</div><div class="ge-ipa">/trænˈzɪʃən plæn/</div><div class="ge-pos">n phr</div></div><div class="ge-right"><div class="ge-def">A structured schedule for moving an employee into a new role</div><div class="ge-ex">"I'm calling to explain the employee transition plan for next month."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('board meeting')">&#128266; board meeting</div><div class="ge-ipa">/bɔːrd ˈmiːtɪŋ/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">A formal meeting of a company's board of directors</div><div class="ge-ex">"She will present the pharmaceutical research at tomorrow's board meeting."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('pharmaceutical')">&#128266; pharmaceutical</div><div class="ge-ipa">/ˌfɑːrməˈsuːtɪkl/</div><div class="ge-pos">adj/n</div></div><div class="ge-right"><div class="ge-def">Relating to medicinal drugs or the drug industry</div><div class="ge-ex">"The pharmaceutical company is launching a new product line."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('innovative')">&#128266; innovative</div><div class="ge-ipa">/ˈɪnəveɪtɪv/</div><div class="ge-pos">adj</div></div><div class="ge-right"><div class="ge-def">Featuring new ideas or methods; creatively advanced</div><div class="ge-ex">"Few people are capable of such an innovative design."</div></div></div>
+</div>
+
+<div class="gloss-group">
+<div class="gloss-group-header" style="background:#f0fdf4;color:#065f46">&#127828; Hospitality &amp; Events</div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('catering')">&#128266; catering</div><div class="ge-ipa">/ˈkeɪtərɪŋ/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The business of providing food and drinks at events</div><div class="ge-ex">"The catering company is missing several dishes for the event."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('luncheon')">&#128266; luncheon</div><div class="ge-ipa">/ˈlʌntʃən/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">A formal lunch, especially one held for a special occasion</div><div class="ge-ex">"The business luncheon will be held in the rooftop garden."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('sanitary inspection')">&#128266; sanitary inspection</div><div class="ge-ipa">/ˈsænɪteri ɪnˈspekʃən/</div><div class="ge-pos">n phr</div></div><div class="ge-right"><div class="ge-def">An official check of hygiene and food safety standards at a facility</div><div class="ge-ex">"The restaurant received a sanitary inspection from the health authority."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('evacuation')">&#128266; evacuation</div><div class="ge-ipa">/ɪˌvækjuˈeɪʃən/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The organized movement of people away from a dangerous place</div><div class="ge-ex">"Employees will practice their evacuation routes this afternoon."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('VIP')">&#128266; VIP</div><div class="ge-ipa">/ˌviː aɪ ˈpiː/</div><div class="ge-pos">n/adj</div></div><div class="ge-right"><div class="ge-def">Very Important Person; receiving special treatment or seating</div><div class="ge-ex">"The client was moved to the VIP section of the concert hall."</div></div></div>
+</div>
+
+<div class="gloss-group">
+<div class="gloss-group-header" style="background:#f0f9ff;color:#0369a1">&#127968; Travel &amp; Services</div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('immigration')">&#128266; immigration</div><div class="ge-ipa">/ˌɪmɪˈɡreɪʃən/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The process of entering a new country to live or work</div><div class="ge-ex">"Mr. Johnson can check his passport status on the immigration office website."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('municipal')">&#128266; municipal</div><div class="ge-ipa">/mjuːˈnɪsɪpəl/</div><div class="ge-pos">adj</div></div><div class="ge-right"><div class="ge-def">Relating to a city or local government</div><div class="ge-ex">"She wants to visit the municipal garden in the city center."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('spa')">&#128266; spa</div><div class="ge-ipa">/spɑː/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">A place offering health and beauty treatments</div><div class="ge-ex">"Ms. Lena Park is the owner of a successful spa and massage business."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('bumper')">&#128266; bumper</div><div class="ge-ipa">/ˈbʌmpər/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The bar at the front or rear of a vehicle that absorbs impact</div><div class="ge-ex">"The Aurora Auto Repair Shop charges $170 for front bumper repair."</div></div></div>
+</div>
+
+<div class="gloss-group">
+<div class="gloss-group-header" style="background:#fff7ed;color:#9a3412">&#128661; Automotive &amp; Technology</div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('electric vehicle')">&#128266; electric vehicle</div><div class="ge-ipa">/ɪˈlektrɪk ˈviːɪkl/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">A car or transport powered entirely by electricity</div><div class="ge-ex">"The company will launch the BK SUV electric vehicle at the Seoul Auto Show."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('energy-efficient')">&#128266; energy-efficient</div><div class="ge-ipa">/ˈenərdʒi ɪˌfɪʃənt/</div><div class="ge-pos">adj</div></div><div class="ge-right"><div class="ge-def">Achieving maximum output with minimum energy input</div><div class="ge-ex">"The printer's main advantage is that it is very energy-efficient."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('power saving')">&#128266; power saving</div><div class="ge-ipa">/ˈpaʊər ˌseɪvɪŋ/</div><div class="ge-pos">adj</div></div><div class="ge-right"><div class="ge-def">Designed to reduce electricity consumption automatically</div><div class="ge-ex">"The new printer has a built-in power saving feature."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('prestigious')">&#128266; prestigious</div><div class="ge-ipa">/preˈstɪdʒəs/</div><div class="ge-pos">adj</div></div><div class="ge-right"><div class="ge-def">Inspiring respect and admiration; of high status</div><div class="ge-ex">"Mr. Gibson received a prestigious award two years ago."</div></div></div>
+</div>
+
+<div class="gloss-group">
+<div class="gloss-group-header" style="background:#fdf4ff;color:#6b21a8">&#127959; Employment &amp; Training</div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('personnel director')">&#128266; personnel director</div><div class="ge-ipa">/ˌpɜːrsəˈnel dəˈrektər/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The executive responsible for hiring, training, and HR management</div><div class="ge-ex">"The woman interviewing Mr. Gibson is most likely a personnel director."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('safety badge')">&#128266; safety badge</div><div class="ge-ipa">/ˈseɪfti bædʒ/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">An identification tag required for access to secure areas</div><div class="ge-ex">"New employees need safety badges before entering the facility."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('adaptability')">&#128266; adaptability</div><div class="ge-ipa">/əˌdæptəˈbɪlɪti/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">The ability to adjust to new conditions or environments</div><div class="ge-ex">"The restaurant owner's speech focused on adaptability in business."</div></div></div>
+<div class="gloss-entry"><div class="ge-left"><div class="ge-word" onclick="speakWord('dentist appointment')">&#128266; dental appointment</div><div class="ge-ipa">/ˈdentl əˈpɔɪntmənt/</div><div class="ge-pos">n</div></div><div class="ge-right"><div class="ge-def">A scheduled visit to the dentist for check-up or treatment</div><div class="ge-ex">"She can't work on Friday because she has a dental appointment."</div></div></div>
+</div>
+</div><!-- end glossary -->
+
+<!-- MATCHING TAB -->
+<div id="vtab-match" class="tab-pane">
+<p style="font-size:.85rem;color:#6b7280;margin-bottom:14px">Click a <strong>word</strong>, then click its <strong>definition</strong>. Click &#128266; to hear pronunciation.</p>
+<div id="vocab-score" style="margin-bottom:10px;font-size:.85rem;color:#6b7280"></div>
+<div class="vocab-card" id="vocab-words">
+  <div class="vc-word" data-id="1" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('acquisition')">&#128266;</span> acquisition</div>
+  <div class="vc-word" data-id="2" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('catering')">&#128266;</span> catering</div>
+  <div class="vc-word" data-id="3" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('evacuation')">&#128266;</span> evacuation</div>
+  <div class="vc-word" data-id="4" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('innovative')">&#128266;</span> innovative</div>
+  <div class="vc-word" data-id="5" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('pharmaceutical')">&#128266;</span> pharmaceutical</div>
+  <div class="vc-word" data-id="6" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('prestigious')">&#128266;</span> prestigious</div>
+  <div class="vc-word" data-id="7" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('luncheon')">&#128266;</span> luncheon</div>
+  <div class="vc-word" data-id="8" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('municipal')">&#128266;</span> municipal</div>
+  <div class="vc-word" data-id="9" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('adaptability')">&#128266;</span> adaptability</div>
+  <div class="vc-word" data-id="10" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('energy-efficient')">&#128266;</span> energy-efficient</div>
+  <div class="vc-word" data-id="11" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('immigration')">&#128266;</span> immigration</div>
+  <div class="vc-word" data-id="12" onclick="selectWord(this)"><span onclick="event.stopPropagation();speakWord('transition plan')">&#128266;</span> transition plan</div>
+</div>
+<div class="section-divider">Definitions</div>
+<div class="vocab-card" id="vocab-defs">
+  <div class="vc-def" data-id="1" onclick="selectDef(this)">Taking ownership of another company</div>
+  <div class="vc-def" data-id="7" onclick="selectDef(this)">A formal lunch for a special occasion</div>
+  <div class="vc-def" data-id="3" onclick="selectDef(this)">Organized movement of people away from danger</div>
+  <div class="vc-def" data-id="10" onclick="selectDef(this)">Achieving maximum output with minimum energy</div>
+  <div class="vc-def" data-id="5" onclick="selectDef(this)">Relating to medicinal drugs or the drug industry</div>
+  <div class="vc-def" data-id="9" onclick="selectDef(this)">Ability to adjust to new conditions or environments</div>
+  <div class="vc-def" data-id="4" onclick="selectDef(this)">Featuring new ideas or methods; creatively advanced</div>
+  <div class="vc-def" data-id="2" onclick="selectDef(this)">Business of providing food and drinks at events</div>
+  <div class="vc-def" data-id="6" onclick="selectDef(this)">Inspiring respect and admiration; high status</div>
+  <div class="vc-def" data-id="8" onclick="selectDef(this)">Relating to a city or local government</div>
+  <div class="vc-def" data-id="11" onclick="selectDef(this)">Process of entering a new country to live or work</div>
+  <div class="vc-def" data-id="12" onclick="selectDef(this)">Structured schedule for moving an employee into a new role</div>
+</div>
+</div>
+
+<!-- FILL IN BLANK TAB -->
+<div id="vtab-fib" class="tab-pane">
+<p style="font-size:.85rem;color:#6b7280;margin-bottom:14px">Complete each sentence with the correct word. Click &#128266; to hear the target word.</p>
+<div id="fib-questions">
+  <div class="fib-q"><p>1. The company completed an <input class="fib-input" data-ans="acquisition" placeholder="?"> of a smaller competitor, increasing its market share. <span onclick="speakWord('acquisition')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>2. Employees will follow their <input class="fib-input" data-ans="evacuation" placeholder="?"> routes during tomorrow's emergency drill. <span onclick="speakWord('evacuation')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>3. The <input class="fib-input" data-ans="catering" placeholder="?"> company was missing several dishes needed for the event. <span onclick="speakWord('catering')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>4. The new electric car has a highly <input class="fib-input" data-ans="innovative" placeholder="?"> design that few engineers could achieve. <span onclick="speakWord('innovative')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>5. The <input class="fib-input" data-ans="pharmaceutical" placeholder="?"> company presented its new medicine at the board meeting. <span onclick="speakWord('pharmaceutical')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>6. Mr. Gibson received a <input class="fib-input" data-ans="prestigious" placeholder="?"> award for his work as hotel manager. <span onclick="speakWord('prestigious')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>7. The annual business <input class="fib-input" data-ans="luncheon" placeholder="?"> is planned for the rooftop terrace next Friday. <span onclick="speakWord('luncheon')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>8. She wanted to visit the <input class="fib-input" data-ans="municipal" placeholder="?"> garden near the center of town. <span onclick="speakWord('municipal')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>9. Mr. Johnson needs to check the <input class="fib-input" data-ans="immigration" placeholder="?"> office website to track his passport application. <span onclick="speakWord('immigration')" style="cursor:pointer">&#128266;</span></p></div>
+  <div class="fib-q"><p>10. The high-speed printer's key selling point is its <input class="fib-input" data-ans="energy-efficient" placeholder="?"> power saving mode. <span onclick="speakWord('energy-efficient')" style="cursor:pointer">&#128266;</span></p></div>
+</div>
+<button class="btn-check" onclick="checkFIB()">Check Answers</button>
+<div id="fib-score" style="margin-top:10px;font-size:.85rem"></div>
+</div>
+
+<!-- MCQ TAB -->
+<div id="vtab-mcq" class="tab-pane">
+<p style="font-size:.85rem;color:#6b7280;margin-bottom:14px">Choose the answer that best matches the bold word as used in context.</p>
+<div id="mcq-list">
+  <div class="mcq-q" data-ans="D"><p>1. "The <strong>acquisition</strong> gave our company a 15% increase in market share."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm1" value="A"> (A) dismissal</label><label class="mcq-lbl"><input type="radio" name="vm1" value="B"> (B) partnership agreement</label><label class="mcq-lbl"><input type="radio" name="vm1" value="C"> (C) product launch</label><label class="mcq-lbl"><input type="radio" name="vm1" value="D"> (D) takeover of another company</label></div></div>
+  <div class="mcq-q" data-ans="B"><p>2. "Her speech at the ceremony focused on <strong>adaptability</strong> in the restaurant business."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm2" value="A"> (A) refusing to change</label><label class="mcq-lbl"><input type="radio" name="vm2" value="B"> (B) ability to adjust to new situations</label><label class="mcq-lbl"><input type="radio" name="vm2" value="C"> (C) financial planning</label><label class="mcq-lbl"><input type="radio" name="vm2" value="D"> (D) strict adherence to rules</label></div></div>
+  <div class="mcq-q" data-ans="C"><p>3. "The printer's main advantage is that it is very <strong>energy-efficient</strong>."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm3" value="A"> (A) very loud</label><label class="mcq-lbl"><input type="radio" name="vm3" value="B"> (B) extremely fast</label><label class="mcq-lbl"><input type="radio" name="vm3" value="C"> (C) using less electricity to do the same job</label><label class="mcq-lbl"><input type="radio" name="vm3" value="D"> (D) free of charge</label></div></div>
+  <div class="mcq-q" data-ans="A"><p>4. "Employees will practice their <strong>evacuation</strong> routes this afternoon."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm4" value="A"> (A) emergency exit procedures</label><label class="mcq-lbl"><input type="radio" name="vm4" value="B"> (B) commuting paths to work</label><label class="mcq-lbl"><input type="radio" name="vm4" value="C"> (C) delivery schedules</label><label class="mcq-lbl"><input type="radio" name="vm4" value="D"> (D) meeting room locations</label></div></div>
+  <div class="mcq-q" data-ans="B"><p>5. "The company plans to launch a new <strong>pharmaceutical</strong> product at the conference."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm5" value="A"> (A) agricultural</label><label class="mcq-lbl"><input type="radio" name="vm5" value="B"> (B) medicinal drug-related</label><label class="mcq-lbl"><input type="radio" name="vm5" value="C"> (C) financial</label><label class="mcq-lbl"><input type="radio" name="vm5" value="D"> (D) automotive</label></div></div>
+  <div class="mcq-q" data-ans="D"><p>6. "The restaurant owner received a <strong>prestigious</strong> award for excellence in local cuisine."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm6" value="A"> (A) unexpected</label><label class="mcq-lbl"><input type="radio" name="vm6" value="B"> (B) financial</label><label class="mcq-lbl"><input type="radio" name="vm6" value="C"> (C) anonymous</label><label class="mcq-lbl"><input type="radio" name="vm6" value="D"> (D) highly respected and admired</label></div></div>
+  <div class="mcq-q" data-ans="A"><p>7. "The health inspector conducted a <strong>sanitary</strong> inspection of the kitchen."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm7" value="A"> (A) relating to hygiene and cleanliness</label><label class="mcq-lbl"><input type="radio" name="vm7" value="B"> (B) relating to salaries</label><label class="mcq-lbl"><input type="radio" name="vm7" value="C"> (C) relating to the schedule</label><label class="mcq-lbl"><input type="radio" name="vm7" value="D"> (D) relating to the building structure</label></div></div>
+  <div class="mcq-q" data-ans="C"><p>8. "She was moved from Section 1 to the <strong>VIP</strong> section of the concert hall."</p><div class="mcq-opts"><label class="mcq-lbl"><input type="radio" name="vm8" value="A"> (A) cheapest seats</label><label class="mcq-lbl"><input type="radio" name="vm8" value="B"> (B) media press area</label><label class="mcq-lbl"><input type="radio" name="vm8" value="C"> (C) reserved area for important guests</label><label class="mcq-lbl"><input type="radio" name="vm8" value="D"> (D) standing room only area</label></div></div>
+</div>
+<button class="btn-check" onclick="checkMCQ()">Check Answers</button>
+<div id="mcq-score" style="margin-top:10px;font-size:.85rem"></div>
+</div>
+
+</div><!-- end extra-section -->
+<div class="tab-nav-footer">
+  <button class="btn-nav" onclick="showMainTab('overview')">&#8592; Overview</button>
+  <button class="btn-nav btn-nav-primary" onclick="showMainTab('pron')">Next: Pronunciation &#8594;</button>
+</div></div>
+
+<!-- PART 2 TAB -->
+<div id="main-p2" class="main-pane">
+<div class="part-section">
+<div class="part-header" style="background:#065f46"><h2>&#9999;&#65039; Part 2 — Question-Response</h2><span class="badge">Q7–31 &nbsp;|&nbsp; 25 Questions</span></div>
+<div class="audio-wrap"><div class="audio-lbl">Part 2 Audio</div><audio controls src="TEST2_P2.mp3"></audio></div>
+<div class="instruct">Listen and choose the best response: (A), (B), or (C). Choices are spoken — not printed.</div>
+<div class="p2-table-wrap">
+<table class="p2-table">
+<thead><tr><th class="qcol">Q</th><th>(A)</th><th>(B)</th><th>(C)</th></tr></thead>
+<tbody id="p2-tbody">
+</tbody>
+</table>
+</div>
+</div>
+<div class="tab-nav-footer">
+  <button class="btn-nav" onclick="showMainTab('pron')">&#8592; Pronunciation</button>
+  <button class="btn-nav btn-nav-primary" onclick="showMainTab('p3')">Next: Part 3 &#8594;</button>
+</div></div>
+
+<!-- PART 3 TAB -->
+<div id="main-p3" class="main-pane">
+<div class="part-section">
+<div class="part-header" style="background:#7c3aed"><h2>&#128483;&#65039; Part 3 — Conversations</h2><span class="badge">Q32–70 &nbsp;|&nbsp; 39 Questions</span></div>
+<div class="audio-wrap"><div class="audio-lbl">Part 3 Audio</div><audio controls src="TEST2_P3.mp3"></audio></div>
+<div class="instruct">Listen to each conversation and answer 3 questions. For Q65-70, refer to the graphic.</div>
+<div class="qwrap" id="p3-wrap"></div>
+</div>
+<div class="tab-nav-footer">
+  <button class="btn-nav" onclick="showMainTab('p2')">&#8592; Part 2</button>
+  <button class="btn-nav btn-nav-primary" onclick="showMainTab('p4')">Next: Part 4 &#8594;</button>
+</div></div>
+
+<!-- PART 4 TAB -->
+<div id="main-p4" class="main-pane">
+<div class="part-section">
+<div class="part-header" style="background:#b45309"><h2>&#127908; Part 4 — Talks</h2><span class="badge">Q71–100 &nbsp;|&nbsp; 30 Questions</span></div>
+<div class="audio-wrap"><div class="audio-lbl">Part 4 Audio</div><audio controls src="TEST2_P4.mp3"></audio></div>
+<div class="instruct">Listen to each talk and answer 3 questions. For Q95-100, refer to the graphic.</div>
+<div class="qwrap" id="p4-wrap"></div>
+</div>
+<div class="tab-nav-footer">
+  <button class="btn-nav" onclick="showMainTab('p3')">&#8592; Part 3</button>
+</div>
+<div class="submit-sec">
+  <button class="btn-submit" onclick="submitTest()">&#9989; Submit &amp; See Results</button>
+</div>
+</div>
+
+</div><!-- end container / main-tabs wrapper -->
+
+<!-- RESULTS -->
+<div class="container">
+<div id="results">
+<div class="res-hdr">
+  <h2>&#128202; Your Results — Test 2</h2>
+  <div class="score-circle"><span class="num" id="s-total">-</span><span class="den">/94</span></div>
+</div>
+<div class="sgrid">
+  <div class="scard"><div class="lbl">Part 2</div><div class="val" id="s2">-</div><div class="tot">/25</div></div>
+  <div class="scard"><div class="lbl">Part 3</div><div class="val" id="s3">-</div><div class="tot">/39</div></div>
+  <div class="scard"><div class="lbl">Part 4</div><div class="val" id="s4">-</div><div class="tot">/30</div></div>
+</div>
+<div class="pbar-wrap">
+  <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+  <div class="ptxt" id="ptxt"></div>
+</div>
+<div class="err-section">
+  <h3>&#128269; Performance by Part</h3>
+  <div class="err-cat">
+    <div class="err-cat-label"><span>Part 2 — Question-Response</span><span id="ep2pct">-</span></div>
+    <div class="err-track"><div class="err-fill" id="ep2bar" style="width:0%"></div></div>
+  </div>
+  <div class="err-cat">
+    <div class="err-cat-label"><span>Part 3 — Conversations</span><span id="ep3pct">-</span></div>
+    <div class="err-track"><div class="err-fill" id="ep3bar" style="width:0%"></div></div>
+  </div>
+  <div class="err-cat">
+    <div class="err-cat-label"><span>Part 4 — Talks</span><span id="ep4pct">-</span></div>
+    <div class="err-track"><div class="err-fill" id="ep4bar" style="width:0%"></div></div>
+  </div>
+</div>
+<div class="review">
+  <div class="rev-part">Part 2 — Review</div>
+  <div id="rev2"></div>
+  <div class="rev-part">Part 3 — Review</div>
+  <div id="rev3"></div>
+  <div class="rev-part">Part 4 — Review</div>
+  <div id="rev4"></div>
+</div>
+<div class="act-bar">
+  <a class="btn-teacher" href="" id="email-btn">&#128140; Email to Teacher</a>
+  <button class="btn-pdf" onclick="exportPDF()">&#128196; Export PDF</button>
+  <button class="btn-print" onclick="window.print()">&#128438; Print</button>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// ANSWER KEY
+// ============================================================
+const ANSWERS = {
+  7:'B',8:'A',9:'C',10:'A',11:'C',12:'B',13:'C',14:'B',15:'C',
+  16:'B',17:'B',18:'B',19:'B',20:'A',21:'A',22:'C',23:'B',24:'B',
+  25:'A',26:'C',27:'A',28:'C',29:'C',30:'B',31:'C',
+  32:'D',33:'D',34:'B',35:'C',36:'B',37:'B',38:'B',39:'A',40:'B',
+  41:'D',42:'A',43:'D',44:'C',45:'A',46:'D',47:'D',48:'B',49:'A',
+  50:'A',51:'B',52:'C',53:'A',54:'C',55:'C',56:'B',57:'D',58:'D',
+  59:'B',60:'C',61:'C',62:'C',63:'C',64:'C',65:'A',66:'C',67:'B',
+  68:'D',69:'B',70:'D',
+  71:'C',72:'B',73:'C',74:'C',75:'A',76:'B',77:'B',78:'B',79:'D',
+  80:'D',81:'A',82:'A',83:'C',84:'A',85:'C',86:'A',87:'C',88:'B',
+  89:'D',90:'B',91:'C',92:'B',93:'B',94:'B',95:'D',96:'A',97:'B',
+  98:'D',99:'A',100:'C'
+};
+
+// ============================================================
+// PART 2 — Build table rows
+// ============================================================
+const p2Data = [
+  [7],[8],[9],[10],[11],[12],[13],[14],[15],[16],
+  [17],[18],[19],[20],[21],[22],[23],[24],[25],
+  [26],[27],[28],[29],[30],[31]
+];
+
+function buildP2(){
+  const tbody = document.getElementById('p2-tbody');
+  p2Data.forEach(([q])=>{
+    const tr = document.createElement('tr');
+    tr.id = 'p2r-'+q;
+    tr.innerHTML = `<td class="qcol">Q ${q}</td>`+
+      ['A','B','C'].map(opt=>`<td><span class="p2-opt" id="p2o-${q}-${opt}"><input type="radio" name="p2q${q}" id="p2r${q}${opt}" value="${opt}" onchange="markP2(${q})"><label for="p2r${q}${opt}">${opt}</label></span></td>`).join('');
+    tbody.appendChild(tr);
+  });
+}
+
+function markP2(q){
+  const sel = document.querySelector(`input[name="p2q${q}"]:checked`);
+  if(!sel) return;
+}
+
+// ============================================================
+// PART 3 — Conversation data
+// ============================================================
+const p3Groups = [
+  {
+    label:'Q32–34 | Weekend Beach Trip',
+    qs:[
+      {n:32, t:'What are the speakers discussing?', opts:['An itinerary','A sales goal','A company conference','A short trip']},
+      {n:33, t:'Why is the woman not able to come?', opts:['She is visiting his brothers.','She is working on weekends.','She is going out of town.','She is expecting guests.']},
+      {n:34, t:'What does the woman tell the man?', opts:['There is no more room available.','The beach is wonderful.','She will go there next summer.','The company will experience excellent sales growth.']}
+    ]
+  },
+  {
+    label:'Q35–37 | Camping Company / Friday Coverage',
+    qs:[
+      {n:35, t:'What kind of company do the speakers most likely work at?', opts:['An event company','A landscaping company','A camping company','A property development company']},
+      {n:36, t:'Why can\'t the woman work on Friday?', opts:['She will leave for camping.','She has to spend time with her family.','She has an interview for her new job.','She has a dental appointment.']},
+      {n:37, t:'What does the woman mention about Mr. Winston?', opts:['He will arrive late on Friday.','He cannot work overtime.','He needs to leave the office earlier.','He has to work the night shift.']}
+    ]
+  },
+  {
+    label:'Q38–40 | Publishing / Online Sales',
+    qs:[
+      {n:38, t:'What type of business do the speakers most likely work in?', opts:['Newspaper','Publishing','Advertising','Web site manufacturing']},
+      {n:39, t:'What does the man suggest that they do?', opts:['Set up online ordering','Open another branch office in Asia','Advertise their products online','Hire more Web designers']},
+      {n:40, t:'What will happen next week?', opts:['A new book exhibition will be held.','A presentation will take place.','A contract for the publication will be made.','A new shipping company will be hired.']}
+    ]
+  },
+  {
+    label:'Q41–43 | Job Application — Engineering Firm',
+    qs:[
+      {n:41, t:'What kind of company is the man most likely applying to?', opts:['A financial institution','A business consulting firm','A real estate agency','An engineering firm']},
+      {n:42, t:'How did the man know the position would be open?', opts:['From a colleague','From a press release','From an online job advertisement','From the current head researcher']},
+      {n:43, t:'What will the company provide for the man?', opts:['Traffic information','Personnel records','An interview schedule','Incidental expenses']}
+    ]
+  },
+  {
+    label:'Q44–46 | Catering Company / Missing Dishes',
+    qs:[
+      {n:44, t:'Where do the speakers most likely work?', opts:['At a hospital','At a manufacturing plant','At a catering company','At a department store']},
+      {n:45, t:'What does the man imply when he says, "Please give us some help"?', opts:['He doesn\'t have time to buy dishes.','He needs some help to achieve his goal.','He thinks more staff members should be hired.','He believes the driving directions are incorrect.']},
+      {n:46, t:'What will the woman most likely do next?', opts:['Repair a delivery truck','Provide detailed information','Use a corporate credit card','Send an employee to a store']}
+    ]
+  },
+  {
+    label:'Q47–49 | Board Meeting / Pharmaceutical Presentation',
+    qs:[
+      {n:47, t:'What is the woman going to do tomorrow?', opts:['Contact a client','Schedule a board meeting','Do her research','Give a presentation']},
+      {n:48, t:'What is the woman\'s problem?', opts:['She got a flat tire on her way to work.','She has been given less time.','She lost her presentation materials.','She stopped taking her medicine.']},
+      {n:49, t:'What will the woman probably do next?', opts:['Practice a speech','Approve a new medicine project','Prepare a contract','Meet the vice president in person']}
+    ]
+  },
+  {
+    label:'Q50–52 | Tourist Destinations / Mexico Business Trip',
+    qs:[
+      {n:50, t:'What are the speakers talking about?', opts:['Entertaining visitors','Traveling to Seattle','Going on a business trip','Buying some tickets']},
+      {n:51, t:'Where does the woman want to go?', opts:['To the airport','To the municipal garden','To the Statue of Liberty','To the Mexican Embassy']},
+      {n:52, t:'What is the man going to do next week?', opts:['Go to Seattle','Cancel a visit','Travel to a foreign country','Purchase a tour package']}
+    ]
+  },
+  {
+    label:'Q53–55 | New Employee Training / Safety Badges',
+    qs:[
+      {n:53, t:'What is the woman preparing for?', opts:['A training session','A job interview','A safety inspection','A new product demonstration']},
+      {n:54, t:'Why does the man say, "No problem"?', opts:['He wants to take some time off.','He approves of the woman\'s proposal.','He is offering to help the woman.','He has no problem with his colleagues.']},
+      {n:55, t:'What will the man most likely do next?', opts:['Cancel a meeting','Check some equipment','Call the security office','Discuss a new presentation']}
+    ]
+  },
+  {
+    label:'Q56–58 | Hotel Manager Interview (3-Person)',
+    qs:[
+      {n:56, t:'Who most likely is the woman?', opts:['A real estate agent','A personnel director','A hotel manager','A college professor']},
+      {n:57, t:'What does Mr. Gibson say he did two years ago?', opts:['He sold many properties.','He was promoted to hotel manager.','He obtained a master\'s degree.','He received a prestigious award.']},
+      {n:58, t:'What does Mr. Gibson want to do next year?', opts:['Submit a job application','Register for a course for employees','Rent some hotel rooms','Enhance his personal development']}
+    ]
+  },
+  {
+    label:'Q59–61 | High-Speed Printer / Power Saving Feature',
+    qs:[
+      {n:59, t:'What are the speakers talking about?', opts:['Repairing a damaged piece of equipment','Operating a machine','Calling a technician','Organizing a demonstration']},
+      {n:60, t:'According to the man, what is the advantage of the equipment?', opts:['It doesn\'t make any noise.','It is very easy to operate.','It is very energy-efficient.','It is ergonomically designed.']},
+      {n:61, t:'How did the man learn to use the equipment?', opts:['He used the same type of machine.','He learned it from his co-worker.','He went to a product demonstration before.','He watched a video instruction manual.']}
+    ]
+  },
+  {
+    label:'Q62–64 | Business Luncheon / Outdoor Event',
+    qs:[
+      {n:62, t:'What event are the speakers discussing?', opts:['An awards ceremony','A local job fair','A company lunch','A grand opening']},
+      {n:63, t:'What does the man imply when he says, "The weather\'s been so nice"?', opts:['He would like more vacation time.','He wants to plan an outdoor event.','He wants to take advantage of a beautiful day.','He expects the weather will change tonight.']},
+      {n:64, t:'What does the woman offer to do?', opts:['Reschedule a company outing','Install a new audio-visual system','Contact a colleague','Purchase new office chairs']}
+    ]
+  },
+  {
+    label:'Q65–67 | Symphony Seating (Graphic)',
+    graphic: {
+      title:'Symphony Seating Chart',
+      html:`<table><tr><th colspan="4">Stage</th></tr><tr><th>Section 1</th><th>Section 2</th><th>Section 3</th><th>Section 4</th></tr><tr><td>General</td><td>Media</td><td>VIP</td><td>General</td></tr></table>`
+    },
+    qs:[
+      {n:65, t:'Look at the graphic. Where was Mr. Porter\'s original seat?', opts:['Section 1','Section 2','Section 3','Section 4']},
+      {n:66, t:'According to the woman, what did the section head do for the client?', opts:['Provided some office furniture','Changed the show time','Gave him a better seat','Picked him up at the local airport']},
+      {n:67, t:'Why should the man go back to his car?', opts:['To pick up another client','To get his ticket for the event','To get some important documents','To park his car in another garage']}
+    ]
+  },
+  {
+    label:'Q68–70 | Company Acquisition / Market Share (Graphic)',
+    graphic: {
+      title:'Market Share — Computer Companies',
+      html:`<table><tr><th>Company</th><th>Symbol</th></tr><tr><td>Dell Electronics</td><td>&#9632;</td></tr><tr><td>Cheese Computer</td><td>&#9632;</td></tr><tr><td>Mandoo Computer</td><td>&#9632;</td></tr><tr><td>Park Technologies</td><td>&#9632;</td></tr></table><p style="font-size:.78rem;color:#6b7280;margin-top:4px">Pie chart shows relative market share of the four companies.</p>`
+    },
+    qs:[
+      {n:68, t:'What are the speakers talking about?', opts:['A budget problem','A market change','An accounting mistake','A company acquisition']},
+      {n:69, t:'Look at the graphic. Where do the speakers most likely work?', opts:['Dell Electronics','Cheese Computer','Mandoo Computer','Park Technologies']},
+      {n:70, t:'Why does the man say he is not convinced?', opts:['Many employees have been laid off.','Sales at some competitors are increasing sharply.','Some foreign investments have been canceled.','A company\'s profits are not as good as expected.']}
+    ]
+  }
+];
+
+// ============================================================
+// PART 4 — Talk data
+// ============================================================
+const p4Groups = [
+  {
+    label:'Q71–73 | Immigration Office Voicemail',
+    qs:[
+      {n:71, t:'What did Mr. Johnson apply for?', opts:['A work visa','An identification card','A passport','Permanent residency']},
+      {n:72, t:'What does the speaker say about Mr. Johnson\'s application?', opts:['It will be returned.','It will be processed.','It arrived late.','It is not complete.']},
+      {n:73, t:'How can Mr. Johnson check the status of his application?', opts:['By sending an email','By calling Ms. Morgan','By accessing a Web site','By visiting the immigration office']}
+    ]
+  },
+  {
+    label:'Q74–76 | Emergency Evacuation Drill Announcement',
+    qs:[
+      {n:74, t:'What does the speaker say will take place tomorrow?', opts:['An orientation','A building inspection','An evacuation drill','A factory tour']},
+      {n:75, t:'What does the speaker imply when she says, "I know you might be a little annoyed by this inspection"?', opts:['The inspection is being unexpectedly conducted.','Some drills are not functioning properly.','A shocking accident has happened.','Strict standards have been imposed in assessing employees.']},
+      {n:76, t:'According to the speaker, what will employees do this afternoon?', opts:['Conduct a practice evacuation','Learn their evacuation routes','Go on a factory tour','Discuss work assignments']}
+    ]
+  },
+  {
+    label:'Q77–79 | Jack\'s Bar & Grill Closure (Hurricane)',
+    qs:[
+      {n:77, t:'Where would the message be heard?', opts:['On the radio','On the telephone','At a meeting','At a restaurant']},
+      {n:78, t:'Why is the establishment going to be closed today?', opts:['A renovation will be made.','Weather conditions will be poor.','A national holiday has been scheduled.','A private banquet has been reserved.']},
+      {n:79, t:'What does the speaker say will happen tomorrow?', opts:['The weather will clear up.','A new menu will be released.','A celebration party will begin.','There will be a delayed opening.']}
+    ]
+  },
+  {
+    label:'Q80–82 | Employee Transition Plan Phone Call',
+    qs:[
+      {n:80, t:'Why is the speaker calling?', opts:['To call in sick','To report a mistake','To ask for some detailed information','To explain an employee transition plan']},
+      {n:81, t:'What does the speaker mean when he says, "But he had a car accident this morning"?', opts:['He can\'t train Ms. Winston.','He won\'t be able to attend an event.','He has covered all his medical costs.','He has recently worked a lot of late nights.']},
+      {n:82, t:'What will the speaker do tomorrow?', opts:['Meet with an employee','Leave the company','Get a report done','Review a proposal']}
+    ]
+  },
+  {
+    label:'Q83–85 | Restaurant Sanitary Inspection',
+    qs:[
+      {n:83, t:'What is the topic of the message?', opts:['A grocery store opening','An imposition of a fine','A sanitary inspection','A newly released kitchen appliance']},
+      {n:84, t:'What does the speaker mention?', opts:['A cooler is broken.','The basement is leaking.','The pool needs repairing.','The food is too cold.']},
+      {n:85, t:'What does the speaker say about Ms. Watson?', opts:['She is his supervisor.','She will be fined 1,000 dollars.','She will return next week.','She expects to meet with the restaurant owner.']}
+    ]
+  },
+  {
+    label:'Q86–88 | Radio Interview — Fitness Expert Mr. White',
+    qs:[
+      {n:86, t:'What is the subject of Mr. White\'s book?', opts:['Living healthy','Making a film','Preventing a disease','How to be a famous entertainer']},
+      {n:87, t:'According to the speaker, what does Mr. White offer on his Web site?', opts:['Movie clips','Diverse exercise methods','DVDs for sale','Recent success stories']},
+      {n:88, t:'What will probably happen next?', opts:['The radio program will end.','A guest will speak.','There will be a commercial break.','An interview will take place.']}
+    ]
+  },
+  {
+    label:'Q89–91 | Restaurant Owner Ceremony Speech',
+    qs:[
+      {n:89, t:'Who is the speaker?', opts:['A business consultant','A chef','A farmer','A restaurateur']},
+      {n:90, t:'What is the main topic of the talk?', opts:['Money management','Adaptability','Local food','Business relationships']},
+      {n:91, t:'What will the listeners do next?', opts:['Practice cooking','Make a presentation','Watch a video','Visit a farm']}
+    ]
+  },
+  {
+    label:'Q92–94 | Electric Vehicle Company Meeting (BK SUV / Seoul Auto Show)',
+    qs:[
+      {n:92, t:'Why does the speaker say, "Few people are capable of such an innovative design"?', opts:['He wants to cancel a project.','He is commending some employees.','He is proud of his achievement.','He suggests recruiting design experts.']},
+      {n:93, t:'According to the speaker, what will the company do in September?', opts:['Acquire another company','Participate in an event','Modify existing designs','Announce an award winner']},
+      {n:94, t:'What does the speaker suggest the listeners do?', opts:['Come up with new designs','Submit request forms','Test-drive a new car','Organize a corporate event']}
+    ]
+  },
+  {
+    label:'Q95–97 | Auto Repair Shop Call (Graphic)',
+    graphic: {
+      title:'Aurora Auto Repair Shop',
+      html:`<table><tr><th>Service</th><th>Charge</th></tr><tr><td>Engine Oil Change</td><td>$40</td></tr><tr><td>Side-View / Rear-View Mirror Replacement</td><td>$50</td></tr><tr><td>Front / Rear Tire Change</td><td>$90</td></tr><tr><td>Front / Rear Bumper Repair</td><td>$170</td></tr></table>`
+    },
+    qs:[
+      {n:95, t:'What is the purpose of the call?', opts:['To place an order','To give directions','To make an appointment','To report the completion of a job']},
+      {n:96, t:'What did the speaker find while working?', opts:['A mirror was broken.','A tire was flat.','A bill was not fully paid.','Some replacement parts were out of stock.']},
+      {n:97, t:'Look at the graphic. How much will Mr. Washington save?', opts:['$40','$50','$90','$170']}
+    ]
+  },
+  {
+    label:'Q98–100 | Spa & Massage Customer Call (Graphic)',
+    graphic: {
+      title:'Feedback Survey',
+      html:`<table><tr><th>Category</th><th>Rating</th></tr><tr><td>Cleanliness</td><td>&#9733;&#9733;&#9733;&#9733; 4 stars</td></tr><tr><td>Location</td><td>&#9733;&#9733;&#9733;&#9733; 4 stars</td></tr><tr><td>Staff friendliness</td><td>&#9733;&#9733;&#9733;&#9733;&#9733; 5 stars</td></tr><tr><td>Cost</td><td>&#9733;&#9733;&#9733; 3 stars</td></tr></table>`
+    },
+    qs:[
+      {n:98, t:'Who most likely is Ms. Lena Park?', opts:['A hotel manager','A fitness instructor','A marketing expert','An entrepreneur']},
+      {n:99, t:'What does the speaker say she is giving the listener?', opts:['A gift certificate','A fitness magazine','A product warranty','A discount coupon']},
+      {n:100, t:'Look at the graphic. Which category does the speaker ask for additional information about?', opts:['Cleanliness','Location','Staff friendliness','Cost']}
+    ]
+  }
+];
+
+// ============================================================
+// BUILD Part 3 / 4 HTML
+// ============================================================
+function buildQGroup(groups, wrapId){
+  const wrap = document.getElementById(wrapId);
+  groups.forEach(grp=>{
+    const div = document.createElement('div');
+    div.className = 'cgroup';
+    let html = `<div class="clbl">${grp.label}</div>`;
+    if(grp.graphic){
+      html += `<div class="gbox"><h4>&#128200; ${grp.graphic.title}</h4>${grp.graphic.html}</div>`;
+    }
+    grp.qs.forEach(q=>{
+      html += `<div class="qblock" id="qb${q.n}">
+        <span class="qnum">Q ${q.n}</span>
+        <div class="qtext">${q.t}</div>
+        <div class="opts">`;
+      ['A','B','C','D'].forEach((opt,i)=>{
+        html += `<label class="olbl" id="ol${q.n}${opt}">
+          <input type="radio" name="q${q.n}" value="${opt}" onchange="markQ(${q.n})">
+          <span>(${opt}) ${q.opts[i]}</span>
+        </label>`;
+      });
+      html += `</div></div>`;
+    });
+    div.innerHTML = html;
+    wrap.appendChild(div);
+  });
+}
+
+// ============================================================
+// ANSWER MARKING
+// ============================================================
+function markQ(n){
+  // Just record for now; visual feedback on submit
+}
+
+// ============================================================
+// SUBMIT
+// ============================================================
+function submitTest(){
+  let total=0, s2=0, s3=0, s4=0;
+  const revs = {2:[],3:[],4:[]};
+
+  // Part 2
+  for(let q=7;q<=31;q++){
+    const sel = document.querySelector(`input[name="p2q${q}"]:checked`);
+    const ans = sel ? sel.value : null;
+    const cor = ANSWERS[q];
+    const ok = ans===cor;
+    if(ok){s2++;total++;}
+    const tr = document.getElementById('p2r-'+q);
+    if(tr){
+      tr.className = ok ? 'answered-ok' : 'answered-no';
+    }
+    ['A','B','C'].forEach(opt=>{
+      const el = document.getElementById(`p2o-${q}-${opt}`);
+      if(!el) return;
+      el.className='p2-opt';
+      if(opt===cor) el.className+=' show-correct';
+      else if(opt===ans && !ok) el.className+=' wrong';
+    });
+    revs[2].push({q, ans, cor, ok});
+  }
+
+  // Part 3
+  for(let q=32;q<=70;q++){
+    const sel = document.querySelector(`input[name="q${q}"]:checked`);
+    const ans = sel ? sel.value : null;
+    const cor = ANSWERS[q];
+    const ok = ans===cor;
+    if(ok){s3++;total++;}
+    ['A','B','C','D'].forEach(opt=>{
+      const el = document.getElementById(`ol${q}${opt}`);
+      if(!el) return;
+      el.className='olbl';
+      if(opt===cor) el.className+=' show-correct';
+      else if(opt===ans && !ok) el.className+=' wrong';
+    });
+    revs[3].push({q, ans, cor, ok});
+  }
+
+  // Part 4
+  for(let q=71;q<=100;q++){
+    const sel = document.querySelector(`input[name="q${q}"]:checked`);
+    const ans = sel ? sel.value : null;
+    const cor = ANSWERS[q];
+    const ok = ans===cor;
+    if(ok){s4++;total++;}
+    ['A','B','C','D'].forEach(opt=>{
+      const el = document.getElementById(`ol${q}${opt}`);
+      if(!el) return;
+      el.className='olbl';
+      if(opt===cor) el.className+=' show-correct';
+      else if(opt===ans && !ok) el.className+=' wrong';
+    });
+    revs[4].push({q, ans, cor, ok});
+  }
+
+  // Display results
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s2').textContent = s2;
+  document.getElementById('s3').textContent = s3;
+  document.getElementById('s4').textContent = s4;
+
+  const pct = Math.round(total/94*100);
+  document.getElementById('pfill').style.width = pct+'%';
+  document.getElementById('ptxt').textContent = pct+'% correct ('+total+'/94)';
+
+  // Error bars
+  function setBar(barId, pctId, val, max){
+    const p = Math.round(val/max*100);
+    const el = document.getElementById(barId);
+    el.style.width = p+'%';
+    el.className = 'err-fill '+(p>=80?'good':p>=60?'fair':'poor');
+    document.getElementById(pctId).textContent = val+'/'+max+' ('+p+'%)';
+  }
+  setBar('ep2bar','ep2pct',s2,25);
+  setBar('ep3bar','ep3pct',s3,39);
+  setBar('ep4bar','ep4pct',s4,30);
+
+  // Review rows
+  function buildRev(containerId, items){
+    const el = document.getElementById(containerId);
+    el.innerHTML = items.map(({q,ans,cor,ok})=>`
+      <div class="arow">
+        <span class="aqn">Q${q}</span>
+        <span class="ast ${ok?'ok':'no'}">${ok?'✓':'✗'}</span>
+        <span class="adetail">
+          ${ok?`<span class="acok">Correct: (${cor})</span>`
+              :`Your answer: <span class="acno">${ans||'—'}</span> &nbsp; Correct: <span class="acok">(${cor})</span>`}
+        </span>
+      </div>`).join('');
+  }
+  buildRev('rev2', revs[2]);
+  buildRev('rev3', revs[3]);
+  buildRev('rev4', revs[4]);
+
+  // Email
+  const sName = document.getElementById('studentName').value||'Student';
+  const sEmail = document.getElementById('studentEmail').value||'';
+  const body = encodeURIComponent(
+    `Dear Teacher,\n\nStudent: ${sName}\nEmail: ${sEmail}\n\nTest 2 Results:\nTotal: ${total}/94\nPart 2: ${s2}/25  Part 3: ${s3}/39  Part 4: ${s4}/30\n\nPart 2 details:\n`+
+    revs[2].map(r=>`Q${r.q}: ${r.ok?'✓':'✗'} (${r.ans||'—'} / correct: ${r.cor})`).join('\n')+
+    `\n\nPart 3 details:\n`+
+    revs[3].map(r=>`Q${r.q}: ${r.ok?'✓':'✗'} (${r.ans||'—'} / correct: ${r.cor})`).join('\n')+
+    `\n\nPart 4 details:\n`+
+    revs[4].map(r=>`Q${r.q}: ${r.ok?'✓':'✗'} (${r.ans||'—'} / correct: ${r.cor})`).join('\n')
+  );
+  document.getElementById('email-btn').href=`mailto:huongstella8@gmail.com?subject=Test 2 Results — ${sName}&body=${body}`;
+
+  // Show results
+  const r = document.getElementById('results');
+  r.style.display='block';
+  document.getElementById('mtab-results').style.display='flex';
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),100);
+}
+
+// ============================================================
+// PDF EXPORT
+// ============================================================
+function exportPDF(){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF();
+  let y = 14;
+  const sName = document.getElementById('studentName').value||'Student';
+  const s2 = document.getElementById('s2').textContent;
+  const s3 = document.getElementById('s3').textContent;
+  const s4 = document.getElementById('s4').textContent;
+  const t  = document.getElementById('s-total').textContent;
+  doc.setFontSize(16); doc.setFont('helvetica','bold');
+  doc.text('[PO] Listening Test 2 — Results', 14, y); y+=10;
+  doc.setFontSize(11); doc.setFont('helvetica','normal');
+  doc.text('Student: '+sName, 14, y); y+=7;
+  doc.text('Total: '+t+'/94   Part 2: '+s2+'/25   Part 3: '+s3+'/39   Part 4: '+s4+'/30', 14, y); y+=10;
+  doc.setFont('helvetica','bold');
+  [[7,31,'Part 2 - Question Response'],[32,70,'Part 3 - Conversations'],[71,100,'Part 4 - Talks']].forEach(([from,to,label])=>{
+    doc.text(label, 14, y); y+=7; doc.setFont('helvetica','normal');
+    for(let q=from;q<=to;q++){
+      const sel = document.querySelector(`input[name="${q<32?'p2q':'q'}${q}"]:checked`);
+      const ans = sel?sel.value:'—';
+      const cor = ANSWERS[q];
+      const ok = ans===cor;
+      if(y>275){doc.addPage();y=14;}
+      doc.setTextColor(ok?0:200, ok?150:0, 0);
+      doc.text(`Q${q}: ${ok?'✓':'✗'}  Answer: ${ans}  Correct: ${cor}`, 18, y); y+=6;
+    }
+    doc.setTextColor(0,0,0); doc.setFont('helvetica','bold'); y+=3;
+  });
+  doc.save('Test2_Results_'+sName.replace(/\s/g,'_')+'.pdf');
+}
+
+// ============================================================
+// VOCABULARY GAMES
+// ============================================================
+let selWord=null;
+function selectWord(el){
+  document.querySelectorAll('.vc-word').forEach(e=>e.style.borderColor='transparent');
+  selWord=el; el.style.borderColor='#6366f1';
+}
+function selectDef(el){
+  if(!selWord) return;
+  const wid = selWord.dataset.id;
+  const did = el.dataset.id;
+  if(wid===did){
+    selWord.classList.add('matched'); el.classList.add('matched');
+    selWord.onclick=null; el.onclick=null;
+    const score = document.querySelectorAll('.vc-word.matched').length;
+    const total = document.querySelectorAll('.vc-word').length;
+    document.getElementById('vocab-score').textContent = '✅ '+score+'/'+total+' matched!';
+  } else {
+    el.classList.add('wrong-flash');
+    setTimeout(()=>el.classList.remove('wrong-flash'),700);
+  }
+  selWord.style.borderColor='transparent'; selWord=null;
+}
+
+function checkFIB(){
+  let c=0,t=0;
+  document.querySelectorAll('.fib-input').forEach(inp=>{
+    t++;
+    const correct = inp.dataset.ans.toLowerCase();
+    const val = inp.value.trim().toLowerCase();
+    if(val===correct){inp.classList.remove('wrong-input');inp.classList.add('correct-input');c++;}
+    else{inp.classList.remove('correct-input');inp.classList.add('wrong-input');inp.placeholder=inp.dataset.ans;}
+  });
+  document.getElementById('fib-score').textContent = `${c}/${t} correct`;
+}
+
+function checkMCQ(){
+  let c=0,t=0;
+  document.querySelectorAll('#mcq-list .mcq-q').forEach(qEl=>{
+    t++;
+    const cor=qEl.dataset.ans;
+    const sel=qEl.querySelector('input:checked');
+    qEl.querySelectorAll('.mcq-lbl').forEach(lbl=>{
+      lbl.classList.remove('correct','wrong');
+      const v=lbl.querySelector('input').value;
+      if(v===cor) lbl.classList.add('correct');
+      else if(sel&&v===sel.value&&sel.value!==cor) lbl.classList.add('wrong');
+    });
+    if(sel&&sel.value===cor) c++;
+  });
+  document.getElementById('mcq-score').textContent = `${c}/${t} correct`;
+}
+
+// ============================================================
+// TAB NAVIGATION
+// ============================================================
+function showMainTab(id){
+  document.querySelectorAll('.main-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.main-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('main-'+id).classList.add('active');
+  document.getElementById('mtab-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showVTab(id){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('vtab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ============================================================
+// TEXT-TO-SPEECH
+// ============================================================
+function speakWord(word){
+  if('speechSynthesis' in window){
+    const u=new SpeechSynthesisUtterance(word);
+    u.lang='en-US'; u.rate=0.85;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }
+}
+
+// ============================================================
+// SOUND IDENTIFICATION QUIZ
+// ============================================================
+const soundQuizData = [
+  {word:'acquisition', display:'<u>ac</u>quisition', speak:'acquisition', target:'æ', opts:['/æ/','eɪ/','/ɪ/','/ɑː/'], hint:'The stressed syllable is "ac-" — wide open mouth'},
+  {word:'catering', display:'c<u>a</u>tering', speak:'catering', target:'eɪ/', opts:['/æ/','/eɪ/','/ɑː/','/e/'], hint:'"a" in "cater" glides — it\'s like saying "AY"'},
+  {word:'luncheon', display:'l<u>u</u>ncheon', speak:'luncheon', target:'ʌ', opts:['/uː/','/ʌ/','/ɑː/','/oʊ/'], hint:'Short, central sound — like "cut"'},
+  {word:'engineer', display:'engin<u>eer</u>', speak:'engineer', target:'ɪə', opts:['/eə/','/ɪə/','/ɔɪ/','/eɪ/'], hint:'Tongue starts HIGH then drops to schwa'},
+  {word:'appointment', display:'app<u>oi</u>ntment', speak:'appointment', target:'ɔɪ', opts:['/aɪ/','/oʊ/','/ɔɪ/','/aʊ/'], hint:'Rounded start, like "aw" + "ee"'},
+  {word:'outdoor', display:'<u>ou</u>tdoor', speak:'outdoor', target:'aʊ', opts:['/oʊ/','/aʊ/','/ɔː/','/ɑː/'], hint:'Jaw drops wide THEN lips round'},
+  {word:'repair', display:'rep<u>air</u>', speak:'repair', target:'eə', opts:['/ɪə/','/eə/','/eɪ/','/ɜː/'], hint:'Like "air" — mid tongue then drops to schwa'},
+  {word:'evacuation', display:'evac<u>ua</u>tion', speak:'evacuation', target:'eɪ', opts:['/æ/','/ɑː/','/eɪ/','/ɪ/'], hint:'The stressed "a" in -ation words almost always sounds like "AY"'},
+  {word:'entrepreneur', display:'entrepren<u>eu</u>r', speak:'entrepreneur', target:'ɜː', opts:['/uː/','/ɜː/','/ə/','/eɪ/'], hint:'Like "her" or "sir" — mid-central, no lip rounding'},
+  {word:'hotel', display:'h<u>o</u>tel', speak:'hotel', target:'oʊ', opts:['/ɔː/','/ɑː/','/oʊ/','/ʌ/'], hint:'The "o" in hotel is a diphthong — it glides!'},
+];
+
+function buildSoundQuiz(){
+  const container = document.getElementById('sound-quiz');
+  soundQuizData.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'sq-item';
+    div.id = 'sq-'+i;
+    div.innerHTML = `
+      <div class="sq-word" onclick="speakWord('${item.speak}')">&#128266; <span>${item.display}</span></div>
+      <div style="font-size:.78rem;color:#6b7280;margin-bottom:6px">Which vowel sound does the underlined part make?</div>
+      <div class="sq-opts">
+        ${item.opts.map(opt=>`<button class="sq-opt" data-val="${opt}" data-idx="${i}" onclick="selectSQOpt(this)">${opt}</button>`).join('')}
+      </div>
+      <div class="sq-hint" id="sq-hint-${i}" style="font-size:.77rem;color:#6b7280;margin-top:6px;display:none">&#128161; ${item.hint}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectSQOpt(btn){
+  const idx = btn.dataset.idx;
+  const container = document.getElementById('sq-'+idx);
+  // Lock after checking
+  if(container.querySelector('.correct,.wrong')) return;
+  // Deselect all siblings, select this one
+  container.querySelectorAll('.sq-opt').forEach(b=>{
+    b.classList.remove('selected');
+    delete b.dataset.selected;
+  });
+  btn.classList.add('selected');
+  btn.dataset.selected = 'true';
+}
+
+function checkSoundQuiz(){
+  let correct=0;
+  const normalize = s => s.replace(/\//g,'');
+  soundQuizData.forEach((item,i)=>{
+    const container = document.getElementById('sq-'+i);
+    const selected = container.querySelector('.sq-opt.selected');
+    container.querySelectorAll('.sq-opt').forEach(btn=>{
+      if(normalize(btn.dataset.val) === normalize(item.target)){
+        btn.classList.add('correct');
+        btn.classList.remove('selected');
+      } else if(btn === selected){
+        btn.classList.add('wrong');
+        btn.classList.remove('selected');
+      }
+    });
+    if(selected && normalize(selected.dataset.val) === normalize(item.target)) correct++;
+    document.getElementById('sq-hint-'+i).style.display = 'block';
+  });
+  const score = document.getElementById('sound-quiz-score');
+  score.textContent = `${correct}/${soundQuizData.length} correct ✅`;
+  score.style.color = correct >= 7 ? '#059669' : correct >= 5 ? '#b45309' : '#dc2626';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildP2();
+buildQGroup(p3Groups,'p3-wrap');
+buildQGroup(p4Groups,'p4-wrap');
+buildSoundQuiz();
+</script>
+</body>
+</html>
