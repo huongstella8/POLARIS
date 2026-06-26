@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 Reading Practice Level 2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#222}
+.brandbar{position:fixed;top:0;left:0;right:0;height:18px;background:#0d0d1a;display:flex;align-items:center;justify-content:center;z-index:300}
+.brandbar span{color:#6a7fdb;font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:.85}
+.topbar{position:fixed;top:18px;left:0;right:0;height:54px;background:#1a1a2e;display:flex;align-items:center;padding:0 14px;gap:10px;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.apptitle{color:#fff;font-size:1.05rem;font-weight:700;white-space:nowrap;margin-right:6px}
+.tabs{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:5px 10px;border-radius:6px;cursor:pointer;font-size:.78rem;white-space:nowrap;border:1.5px solid transparent;color:#aaa;background:transparent;transition:.2s}
+.tab:hover{background:#2d2d4e;color:#fff}
+.tab.active{background:#4f8ef7;color:#fff;border-color:#4f8ef7}
+.tab.done{border-color:#27ae60;color:#27ae60}
+.tab.done.active{background:#27ae60;color:#fff}
+.timer-chip{background:#0f3460;color:#00e5ff;font-family:monospace;font-size:1rem;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap;min-width:70px;text-align:center}
+.rpt-btn{background:#e74c3c;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;white-space:nowrap}
+.rpt-btn:hover{background:#c0392b}
+.student-inputs{display:flex;gap:6px;flex-shrink:1;min-width:0}
+.stu-input{background:#0f1b3d;border:1px solid #2a3a6a;color:#c8d4f0;border-radius:5px;padding:3px 8px;font-size:.75rem;width:140px;outline:none;flex-shrink:1}
+.stu-input:focus{border-color:#4f8ef7}
+.stu-input::placeholder{color:#506090}
+.split{display:flex;height:calc(100vh - 72px);margin-top:72px;overflow:hidden}
+.textpanel{width:46%;background:#fff;overflow-y:auto;padding:22px 24px;border-right:2px solid #e0e6ed;flex-shrink:0}
+.qpanel{flex:1;background:#f8f9fc;overflow-y:auto;padding:22px 24px}
+.ptitle{font-size:1.25rem;font-weight:800;color:#1a1a2e;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #4f8ef7}
+.rp{margin-bottom:12px;line-height:1.7;font-size:.95rem;color:#333}
+.gm{display:inline-block;background:#fff3cd;border:1.5px solid #f0c040;color:#856404;font-weight:700;font-size:.82rem;padding:1px 6px;border-radius:4px;margin:0 2px}
+.exbox{background:#fff;border-radius:10px;padding:18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8ecf0}
+.extitle{font-weight:700;color:#1a1a2e;font-size:1rem;margin-bottom:6px}
+.exinstr{color:#555;font-size:.88rem;margin-bottom:14px;padding:8px 12px;background:#f0f4ff;border-radius:6px;border-left:3px solid #4f8ef7}
+.opttable{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:.88rem}
+.opttable td{padding:6px 8px;border:1px solid #e8ecf0;vertical-align:top}
+.opttable .olabel{font-weight:700;color:#4f8ef7;width:32px;text-align:center;background:#f0f4ff}
+.gap-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.9rem}
+.gap-label{font-weight:700;color:#666;width:58px;flex-shrink:0}
+.gap-sel{flex:1;padding:6px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem;background:#fff}
+.mcq-opt{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:7px;margin-bottom:6px;cursor:pointer;border:1.5px solid #e0e6ed;background:#fff;transition:.15s}
+.mcq-opt:hover{background:#f0f4ff;border-color:#4f8ef7}
+.mcq-opt input[type=radio]{margin-top:3px;flex-shrink:0}
+.mcq-opt label{cursor:pointer;font-size:.9rem;line-height:1.5}
+.tf-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:8px 10px;background:#fafbff;border-radius:7px;border:1px solid #e8ecf0}
+.tf-stmt{flex:1;font-size:.9rem;line-height:1.5}
+.tf-btns{display:flex;gap:6px;flex-shrink:0}
+.tf-btn{padding:4px 12px;border-radius:5px;border:1.5px solid #ccc;cursor:pointer;font-size:.85rem;font-weight:600;background:#fff;transition:.15s}
+.tf-btn:hover{background:#e8ecf0}
+.tf-btn.sel-T{background:#27ae60;color:#fff;border-color:#27ae60}
+.tf-btn.sel-F{background:#e74c3c;color:#fff;border-color:#e74c3c}
+.tf-btn.sel-NG{background:#888;color:#fff;border-color:#888}
+.sa-row{margin-bottom:10px}
+.sa-q{font-size:.9rem;margin-bottom:4px;color:#333;line-height:1.5}
+.sa-inp{width:100%;padding:7px 10px;border:1.5px solid #ccd;border-radius:6px;font-size:.9rem}
+.match-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.9rem}
+.match-label{font-weight:700;color:#4f8ef7;flex-shrink:0;min-width:28px}
+.match-text{flex:1;color:#333;line-height:1.4}
+.match-sel{padding:5px 8px;border:1.5px solid #ccd;border-radius:6px;font-size:.88rem;min-width:80px}
+.sub-row{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.sub-btn{padding:10px 22px;background:#4f8ef7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.95rem;font-weight:700}
+.sub-btn:hover{background:#2d6fd4}
+.redo-btn{padding:8px 18px;background:#27ae60;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600}
+.redo-btn:hover{background:#1e8449}
+.attempt-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.atag{padding:3px 10px;border-radius:12px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid}
+.atag.best{background:#fff3cd;border-color:#f0c040;color:#856404}
+.atag.pass{background:#d5f5e3;border-color:#27ae60;color:#1a5632}
+.atag.fail{background:#fde8e8;border-color:#e74c3c;color:#922b21}
+.res-banner{padding:12px 16px;border-radius:8px;margin:12px 0;font-weight:700;font-size:1rem}
+.res-pass{background:#d5f5e3;color:#1a5632;border:1.5px solid #27ae60}
+.res-fail{background:#fde8e8;color:#922b21;border:1.5px solid #e74c3c}
+.q-result{margin-bottom:10px;border-radius:8px;overflow:hidden;border:1.5px solid #e8ecf0}
+.q-result-head{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:.88rem;font-weight:600}
+.q-result-head.correct{background:#d5f5e3;color:#1a5632}
+.q-result-head.wrong{background:#fde8e8;color:#922b21}
+.q-result-head.partial{background:#fff3cd;color:#856404}
+.expl-box{padding:12px 14px;background:#fafbff;border-top:1px solid #e8ecf0}
+.expl-loc{font-size:.82rem;color:#555;margin-bottom:5px}
+.expl-loc b{color:#4f8ef7}
+.expl-qt{font-size:.85rem;font-style:italic;color:#333;background:#f0f4ff;padding:5px 10px;border-radius:5px;margin-bottom:6px;border-left:3px solid #4f8ef7}
+.expl-para{font-size:.85rem;color:#333;margin-bottom:5px;line-height:1.55}
+.expl-para b{color:#1a1a2e}
+.expl-tip{font-size:.82rem;color:#555;background:#fffbf0;padding:5px 10px;border-radius:5px;border-left:3px solid #f0c040}
+.expl-tip b{color:#856404}
+.score-bar-wrap{background:#e8ecf0;border-radius:10px;height:10px;overflow:hidden;margin:10px 0}
+.score-bar{height:100%;border-radius:10px;transition:width .5s}
+.report-screen{padding:24px;max-width:900px;margin:0 auto}
+.report-screen h1{font-size:1.5rem;color:#1a1a2e;margin-bottom:20px;padding-bottom:10px;border-bottom:3px solid #4f8ef7}
+.sbox{background:#fff;border-radius:10px;padding:18px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1px solid #e8ecf0}
+.sbox h2{font-size:1.05rem;color:#1a1a2e;margin-bottom:12px;padding-bottom:8px;border-bottom:1.5px solid #e8ecf0}
+.rtable{width:100%;border-collapse:collapse;font-size:.88rem}
+.rtable th{background:#1a1a2e;color:#fff;padding:8px 10px;text-align:left}
+.rtable td{padding:8px 10px;border-bottom:1px solid #e8ecf0;vertical-align:top}
+.rtable tr:last-child td{border-bottom:none}
+.rtable tr:nth-child(even) td{background:#f8f9fc}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.78rem;font-weight:700}
+.badge-g{background:#d5f5e3;color:#1a5632}
+.badge-r{background:#fde8e8;color:#922b21}
+.badge-y{background:#fff3cd;color:#856404}
+.rec-item{padding:8px 12px;border-radius:7px;margin-bottom:7px;border-left:4px solid #4f8ef7;background:#f0f4ff;font-size:.9rem}
+.rec-item.warn{border-color:#e74c3c;background:#fde8e8}
+.rec-item.ok{border-color:#27ae60;background:#d5f5e3}
+.xbtn{padding:9px 18px;border:none;border-radius:7px;cursor:pointer;font-size:.88rem;font-weight:700;margin-right:8px;margin-bottom:6px}
+.xbtn.pdf{background:#1a1a2e;color:#fff}
+.xbtn.em{background:#e74c3c;color:#fff}
+.xbtn:hover{opacity:.88}
+.back-btn{background:#555;color:#fff;border:none;padding:7px 16px;border-radius:7px;cursor:pointer;font-size:.88rem;margin-bottom:16px}
+.back-btn:hover{background:#333}
+.ov-card{display:flex;align-items:center;gap:20px;padding:16px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:10px;color:#fff;margin-bottom:14px}
+.ov-pct{font-size:3rem;font-weight:900;color:#4f8ef7}
+.ov-info{flex:1}
+.ov-info .ov-label{font-size:.85rem;color:#aaa;margin-bottom:2px}
+.ov-info .ov-pts{font-size:1.1rem;font-weight:700}
+.trend-up{color:#27ae60}
+.trend-dn{color:#e74c3c}
+.vocab-btn{background:#0f3460;color:#a0c0ff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;white-space:nowrap;margin-left:4px}
+.vocab-btn:hover{background:#16213e}
+.vtoolbar{display:flex;align-items:center;gap:6px;padding:8px 14px;background:#f8f9ff;border-bottom:1px solid #e0e6ed;flex-wrap:wrap;margin-top:72px}
+.vf-btn{padding:4px 11px;border-radius:20px;border:1px solid #c0c8e0;background:#fff;cursor:pointer;font-size:.73rem;color:#555;white-space:nowrap}
+.vf-btn.active{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.vm-btn{padding:5px 13px;border-radius:6px;border:1px solid #c0c8e0;background:#fff;cursor:pointer;font-size:.78rem;color:#555}
+.vm-btn.active{background:#4f8ef7;color:#fff;border-color:#4f8ef7}
+.vsep{width:1px;height:22px;background:#d0d8f0;flex-shrink:0}
+.vbody{height:calc(100vh - 144px);overflow-y:auto;padding:14px 18px}
+.wlist{display:grid;gap:7px}
+.wcard{background:#fff;border:1px solid #e0e6ed;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.wcard-word{font-weight:700;font-size:.95rem;color:#1a1a2e;min-width:110px}
+.wt{font-size:.68rem;padding:2px 7px;border-radius:10px;font-weight:700;flex-shrink:0}
+.wt-v{background:#dff0d8;color:#2d6a4f}.wt-n{background:#d6eaf8;color:#1a5276}
+.wt-adj{background:#fdebd0;color:#784212}.wt-adv{background:#e8daef;color:#6c3483}
+.wt-phr{background:#fce4ec;color:#880e4f}
+.wcard-def{flex:1;font-size:.8rem;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wstatus{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.st-k{background:#dff0d8;color:#2d6a4f}.st-l{background:#fff3cd;color:#856404}.st-n{background:#e2e8f0;color:#64748b}
+.fc-wrap,.mcq-wrap,.wr-wrap{max-width:520px;margin:0 auto}
+.fc-prog{font-size:.78rem;color:#888;margin-bottom:10px;text-align:center}
+.fc-card{background:#fff;border:1.5px solid #d0d8f0;border-radius:14px;padding:28px 24px;text-align:center;margin-bottom:14px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.fc-word{font-size:2rem;font-weight:800;color:#1a1a2e;margin-bottom:6px}
+.fc-rev{padding:9px 24px;border-radius:8px;border:1.5px solid #4f8ef7;background:#fff;color:#4f8ef7;font-size:.88rem;font-weight:600;cursor:pointer;margin-top:10px}
+.fc-rev:hover{background:#4f8ef7;color:#fff}
+.fc-def{font-size:.97rem;color:#333;margin:12px 0 8px;line-height:1.55}
+.fc-ex{font-size:.82rem;color:#666;font-style:italic;border-left:3px solid #4f8ef7;padding-left:9px;text-align:left;margin-bottom:8px}
+.fc-src{font-size:.7rem;color:#4f8ef7;margin-bottom:14px}
+.fc-acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.fc-k{padding:9px 18px;border-radius:8px;background:#dff0d8;color:#2d6a4f;border:none;cursor:pointer;font-size:.82rem;font-weight:600}
+.fc-sl{padding:9px 18px;border-radius:8px;background:#fff3cd;color:#856404;border:none;cursor:pointer;font-size:.82rem;font-weight:600}
+.fc-dk{padding:9px 18px;border-radius:8px;background:#f8d7da;color:#842029;border:none;cursor:pointer;font-size:.82rem;font-weight:600}
+.fc-skip{padding:9px 14px;border-radius:8px;background:#f0f4ff;color:#555;border:1px solid #d0d8f0;cursor:pointer;font-size:.82rem}
+.mcq-q{background:#fff;border:1.5px solid #d0d8f0;border-radius:12px;padding:20px 18px;margin-bottom:12px;font-size:.95rem;color:#1a1a2e;line-height:1.5;text-align:center}
+.mcq-opts{display:grid;gap:7px;margin-bottom:12px}
+.mcq-opt-v{padding:11px 14px;border-radius:8px;border:1.5px solid #d0d8f0;background:#fff;cursor:pointer;font-size:.87rem;color:#333;text-align:left}
+.mcq-opt-v:hover:not(.mcq-c):not(.mcq-w){background:#f0f4ff}
+.mcq-c{background:#dff0d8;border-color:#7ecba1;color:#1a7a4a}
+.mcq-w{background:#f8d7da;border-color:#f5a0a8;color:#842029}
+.mcq-nxt{display:block;width:100%;padding:10px;border-radius:8px;background:#1a1a2e;color:#fff;border:none;cursor:pointer;font-size:.88rem;font-weight:600}
+.wr-q{background:#fff;border:1.5px solid #d0d8f0;border-radius:12px;padding:20px 18px;margin-bottom:12px;font-size:.95rem;color:#333;line-height:1.55;text-align:center}
+.wr-hint{font-size:.75rem;color:#888;margin-bottom:10px}
+.wr-inp{width:100%;padding:10px 14px;border:1.5px solid #d0d8f0;border-radius:8px;font-size:.95rem;margin-bottom:9px;outline:none}
+.wr-inp:focus{border-color:#4f8ef7}
+.wr-chk{padding:10px 26px;border-radius:8px;background:#4f8ef7;color:#fff;border:none;cursor:pointer;font-size:.88rem;font-weight:600}
+.wr-res{padding:10px 14px;border-radius:8px;font-size:.87rem;margin-bottom:9px}
+.wr-ok{background:#dff0d8;color:#1a7a4a}.wr-bad{background:#f8d7da;color:#842029}
+.vc-done{text-align:center;padding-top:40px}
+.vc-done h2{color:#1a1a2e;margin-bottom:8px;font-size:1.15rem}
+.vc-done p{color:#666;margin-bottom:18px;font-size:.9rem}
+.spk-btn{background:none;border:none;cursor:pointer;font-size:1rem;padding:0 4px;opacity:.6;line-height:1;vertical-align:middle;flex-shrink:0;transition:opacity .15s}
+.spk-btn:hover{opacity:1}
+.wipa{font-size:.72rem;color:#6a7fdb;font-family:monospace;white-space:nowrap;flex-shrink:0;margin-left:2px}
+.fc-ipa{font-size:.9rem;color:#6a7fdb;font-family:monospace;margin:4px 0 10px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+var TEACHER='huongstella8@gmail.com';
+var studentName='';
+var studentEmail='';
+
+var P=[
+{"id":1,"title":"A Life Without Pain","topic":"Feelings – Living Without Pain","emoji":"😶",
+"textHTML":"<div class='ptitle'>📖 A Life Without Pain</div><div class='rp'><b>A.</b> All children hurt themselves from time to time. But when thirteen-year-old Ashlyn Blocker was younger, she had more accidents and injuries than her friends. For example, she once put her hands on a very hot engine and got a serious burn. She only knew about it when she looked at her skin. She showed her parents and they took her straight to hospital. Ashlyn simply did not know when she injured herself.</div><div class='rp'><b>B.</b> When Ashlyn was a baby, her parents knew she was different: she didn't cry. Then, when she was eight months old, they noticed there was some blood in her eye, so they took her to see a doctor. The doctor was shocked and confused when he looked at Ashlyn's eye: there was a serious cut. So why wasn't the baby girl upset? Why didn't she cry? The eye injury soon got better, but doctors realised that Ashlyn had a very unusual medical condition: she couldn't feel any pain.</div><div class='rp'><b>C.</b> This condition is very rare: only about a hundred people a year in the USA are born with it, and many of them die because of it. Pain is a natural warning: when you're ill or injured, your body hurts and this tells you there's a problem. People who can't feel pain often die young because when they break a bone or have a problem with their heart, they just don't realise.</div><div class='rp'><b>D.</b> The first few years of Ashlyn's life were very difficult. She often tripped and injured herself. Once, she broke her ankle and didn't know, so she didn't stop running. At school, Ashlyn needed a lot of attention to keep her safe. For example, in the playground, one teacher watched Ashlyn all the time. When other children fell over, the teachers could ask, 'Does it hurt?' But of course, with Ashlyn, it was not so simple, and the teachers had to search for cuts, bruises or other injuries.</div><div class='rp'><b>E.</b> When she was five, Ashlyn's story appeared in newspapers. Then she had invitations to appear on TV programmes. Scientists studied the causes of her condition and found it was a genetic disorder. For some reason, pain signals do not reach her brain. However, at the moment, there is no hope of a cure.</div><div class='rp'><b>F.</b> Ashlyn is now a teenager. She says that life is better now because she knows about her condition and she is more careful. She has a boyfriend. She wears gloves when she works with hot things in the kitchen. She says she is happy: 'Life is good. I'm enjoying myself. But yes, sometimes I wish I could feel pain. Then I could be like everyone else.'</div>",
+"exercises":[
+{"type":"text-match","title":"Exercise 1","instr":"Match each question (1–7) with the correct paragraph (A–F). Two questions cannot be answered by any paragraph – choose NG (Not Given) for those.","texts":[{"l":"A","t":"Para A"},{"l":"B","t":"Para B"},{"l":"C","t":"Para C"},{"l":"D","t":"Para D"},{"l":"E","t":"Para E"},{"l":"F","t":"Para F"},{"l":"NG","t":"Not Given"}],
+"questions":[
+{"text":"In which paragraph does the writer tell us when doctors realised Ashlyn had a medical problem?","answer":"B","expl":{"loc":"Paragraph B","quote":"doctors realised that Ashlyn had a very unusual medical condition: she couldn't feel any pain.","para":"Para B describes Ashlyn's eye injury at 8 months old, which led doctors to discover her condition.","tip":"Key phrase: 'doctors realised' → scan for the moment of medical discovery."}},
+{"text":"In which paragraph does the writer tell us what causes her condition?","answer":"E","expl":{"loc":"Paragraph E","quote":"Scientists studied the causes of her condition and found it was a genetic disorder. For some reason, pain signals do not reach her brain.","para":"Para E explicitly states the cause: a genetic disorder where pain signals don't reach the brain.","tip":"'Causes' → look for 'genetic', 'disorder', or 'signals'. The cause is always explained after the condition is introduced."}},
+{"text":"In which paragraph does the writer tell us what happened when she burned her hands?","answer":"A","expl":{"loc":"Paragraph A","quote":"she once put her hands on a very hot engine and got a serious burn... She showed her parents and they took her straight to hospital.","para":"Para A gives the specific example of the engine burn and what happened next.","tip":"'Burned her hands' → scan for 'burn', 'engine', 'hot'. The consequence (hospital) follows immediately."}},
+{"text":"In which paragraph does the writer tell us what scientists are doing to find a cure?","answer":"NG","expl":{"loc":"Not Given – no paragraph covers this","quote":"at the moment, there is no hope of a cure.","para":"Para E says there is NO hope of a cure, but gives no details about what scientists are doing to find one. NG is correct.","tip":"The text says 'no hope of a cure' – this tells you there is NO cure, not that scientists are working on one. Negative statements ≠ answer."}},
+{"text":"In which paragraph does the writer tell us why some people die from this condition?","answer":"C","expl":{"loc":"Paragraph C","quote":"People who can't feel pain often die young because when they break a bone or have a problem with their heart, they just don't realise.","para":"Para C explains the fatal mechanism: people die because they don't notice serious injuries.","tip":"'Why some people die' → look for 'die' + a reason clause (because...). Para C directly answers this."}},
+{"text":"In which paragraph does the writer tell us what treatment Ashlyn receives every day for her problem?","answer":"NG","expl":{"loc":"Not Given – no paragraph covers daily treatment","quote":"","para":"The text never describes any daily medical treatment or medication for Ashlyn. Para D mentions teacher supervision at school, but that is not 'treatment'. NG is correct.","tip":"Daily treatment / medication is never mentioned. Supervision at school ≠ treatment. Choose NG when the specific information is simply absent."}},
+{"text":"In which paragraph does the writer tell us how school life for Ashlyn was unusual?","answer":"D","expl":{"loc":"Paragraph D","quote":"At school, Ashlyn needed a lot of attention to keep her safe. One teacher watched Ashlyn all the time. Teachers had to search for cuts, bruises or other injuries.","para":"Para D describes the constant supervision and special precautions taken at school – completely unlike other children's experience.","tip":"'School life unusual' → scan for 'school', 'teacher', 'playground'. Para D is dedicated to the school experience."}}
+]}
+]},
+
+{"id":2,"title":"Lost at Sea","topic":"Adventure – Survival at Sea","emoji":"🌊",
+"textHTML":"<div class='ptitle'>📖 Lost at Sea</div><div class='rp'>A dream holiday turned into a nightmare for an American brother and sister called Dan and Kate Suski. They were enjoying a fishing trip in the Caribbean, near the stunning island of St Lucia, when their boat sank, leaving them and their captain to fight for their lives.</div><div class='rp'>The fishing trip began well enough. The weather wasn't brilliant, but Dan wasn't complaining: he had a huge fish on his line! He was trying to pull it onto the boat and Kate was helping him. But then, the captain realised there was a problem. Water was coming into the cabin and the boat was sinking fast. The captain used his radio to send a message for help. Then he shouted to the Suskis, 'Jump out! Jump out!' <span class='gm'>[1]</span> They were about 15 km from land.</div><div class='rp'>The captain told the Suskis to wait with him in the water. Help was coming. The weather was now awful, but they were wearing life jackets. After an hour, the captain and the Suskis lost each other, and there was no sign of rescue. <span class='gm'>[2]</span> They were both thinking the same terrifying thought: sharks!</div><div class='rp'>A plane and a helicopter appeared in the sky, but nobody saw Dan and Kate in the water. Hours passed and night came. The Suskis swam for fourteen hours. Then, in the moonlight, they saw some cliffs. They were only a few metres from land! <span class='gm'>[3]</span> The waves were breaking against sharp rocks; it was too dangerous. So Kate and Dan swam past the cliffs. By now, they were exhausted. Eventually, they reached a sandy beach. <span class='gm'>[4]</span></div><div class='rp'>Then they started to look for a town or village. On the way, they picked and ate green bananas. Dan said later that it was the worst – and best – food of his life! After three hours, they met a young farm worker. <span class='gm'>[5]</span> He also gave them some tragic news: the captain was lost at sea.</div><div class='rp'>Dan and Kate Suski spent a few days in hospital. Their story appeared in news programmes around the world. And there was one final piece of astonishing news: the captain also survived. A rescue boat found him after 23 hours in the water!</div>",
+"exercises":[
+{"type":"gap-match","title":"Exercise 1","instr":"Match sentences A–G with gaps 1–5 in the text. There are two extra sentences.","opts":[
+{"l":"A","t":"So Dan and Kate started to swim as fast as they could towards land."},
+{"l":"B","t":"The captain helped them as they climbed onto dry land."},
+{"l":"C","t":"He gave them water and food, and stayed with them until the police arrived."},
+{"l":"D","t":"So they did, and a few minutes later, the boat disappeared under the waves."},
+{"l":"E","t":"Out of the water at last, they lay down and rested."},
+{"l":"F","t":"But the sharks swam away after a few minutes."},
+{"l":"G","t":"But they couldn't get out of the water here."}
+],"numGaps":5,"answers":{"1":"D","2":"A","3":"G","4":"E","5":"C"},"extra":"BF",
+"expls":{
+"1":{"loc":"Para 2 – after the captain shouts 'Jump out!'","quote":"Then he shouted to the Suskis, 'Jump out! Jump out!' [1] They were about 15 km from land.","para":"D ('So they did, and a few minutes later, the boat disappeared under the waves') directly continues the captain's command. 'So they did' = they jumped. The boat then sinking explains WHY jumping was urgent.","tip":"'So they did' = they followed the command to jump. Look for 'so' to link a command with its execution."},
+"2":{"loc":"Para 3 – after 'no sign of rescue'","quote":"After an hour, the captain and the Suskis lost each other, and there was no sign of rescue. [2] They were both thinking the same terrifying thought: sharks!","para":"A ('So Dan and Kate started to swim as fast as they could towards land') explains the action the siblings took after realising no rescue was coming. Swimming quickly then logically leads to fear of sharks.","tip":"No rescue → make a decision. A explains their response (swim). The 'terrifying thought' of sharks follows naturally from swimming alone."},
+"3":{"loc":"Para 4 – after 'only a few metres from land'","quote":"They were only a few metres from land! [3] The waves were breaking against sharp rocks; it was too dangerous.","para":"G ('But they couldn't get out of the water here') introduces the problem of being close but unable to exit. The following sentence explains WHY (sharp rocks, waves).","tip":"'But' signals a problem after good news (land visible). G introduces the obstacle, the next sentence gives the reason (rocks)."},
+"4":{"loc":"Para 4 – after 'they reached a sandy beach'","quote":"Eventually, they reached a sandy beach. [4]","para":"E ('Out of the water at last, they lay down and rested') is the natural reaction after 14 hours of swimming. A safe beach = finally being able to rest.","tip":"After extreme physical effort (14 hours swimming), resting is the obvious first action on reaching a safe beach."},
+"5":{"loc":"Para 5 – after 'met a young farm worker'","quote":"After three hours, they met a young farm worker. [5] He also gave them some tragic news.","para":"C ('He gave them water and food, and stayed with them until the police arrived') describes the farm worker's help. 'He also gave them tragic news' links perfectly to C's 'He' – the same person.","tip":"'He' in [5] and in the next sentence both refer to the farm worker. C explains his helpful actions first, then the text adds the tragic news."},
+"extra":{"loc":"B and F are the extra sentences","quote":"","para":"B says the captain helped them – but the captain was LOST at sea (the text says so). F says sharks swam away – but the text says they were thinking ABOUT sharks, not that sharks actually appeared.","tip":"B contradicts the text (captain was lost). F adds detail about sharks that the text never confirms happened."}}},
+{"type":"true-false","title":"Exercise 2","instr":"Read the text again. Are these sentences True (T) or False (F)?","statements":[
+{"text":"When Dan and Kate were fishing, the weather was brilliant.","answer":"F","expl":{"loc":"Para 2, sentence 2","quote":"The weather wasn't brilliant, but Dan wasn't complaining.","para":"FALSE: The text explicitly says 'the weather wasn't brilliant'. Brilliant = very good, so this is false.","tip":"Near-direct quote: 'weather wasn't brilliant' directly contradicts 'weather was brilliant'."}},
+{"text":"Dan was the first person to see that there was a problem with the boat.","answer":"F","expl":{"loc":"Para 2, sentences 4–5","quote":"the captain realised there was a problem. Water was coming into the cabin and the boat was sinking fast.","para":"FALSE: The captain realised first, not Dan. Dan was busy pulling a fish.","tip":"'The captain realised' → it was the captain, not Dan. Read who realised first."}},
+{"text":"The boat sank before Dan and Kate could jump into the water.","answer":"F","expl":{"loc":"Paras 2 and gap 1","quote":"'Jump out! Jump out!' [1] So they did, and a few minutes later, the boat disappeared under the waves.","para":"FALSE: They jumped FIRST ('so they did'), and then the boat sank ('a few minutes later'). Order matters.","tip":"Timeline: jump → then boat sinks. 'A few minutes later' after they jumped confirms the order."}},
+{"text":"A helicopter saw Dan and Kate in the sea, but it couldn't rescue them.","answer":"F","expl":{"loc":"Para 4, sentence 1","quote":"A plane and a helicopter appeared in the sky, but nobody saw Dan and Kate in the water.","para":"FALSE: The statement says the helicopter SAW them. The text says 'nobody saw' them. They were invisible to rescuers.","tip":"Key difference: 'saw but couldn't rescue' (false) vs 'nobody saw them' (true). The helicopter didn't see them."}},
+{"text":"When Dan and Kate reached land, they couldn't get out of the water at first.","answer":"T","expl":{"loc":"Para 4 – cliffs section","quote":"But they couldn't get out of the water here. The waves were breaking against sharp rocks; it was too dangerous.","para":"TRUE: Sentence G (in gap 3) confirms they couldn't exit at the cliffs. They had to swim further to find a beach.","tip":"G = 'couldn't get out of the water here' → True. They first reached dangerous cliffs, then swam to a beach."}},
+{"text":"There was nobody on the beach when Dan and Kate got out of the sea.","answer":"T","expl":{"loc":"Para 5, first sentence","quote":"Then they started to look for a town or village.","para":"TRUE: They had to SEARCH for people ('look for a town or village'), implying the beach was empty when they arrived.","tip":"If someone was there to help, they wouldn't need to 'look for a town'. The act of searching implies they were alone."}},
+{"text":"The captain swam to the beach a few hours after Dan and Kate.","answer":"F","expl":{"loc":"Para 6, last sentence","quote":"the captain also survived. A rescue boat found him after 23 hours in the water.","para":"FALSE: The captain didn't swim to the beach – a RESCUE BOAT found him 23 hours later. He didn't make it to land on his own.","tip":"'A rescue boat found him' – he was rescued at sea, not on the beach. 23 hours ≠ 'a few hours'."}}
+]}
+]},
+
+{"id":3,"title":"Video Games & Health","topic":"On Screen – Video Games","emoji":"🎮",
+"textHTML":"<div class='ptitle'>📖 Why Video Games Are Good for Your Health</div><div class='rp'>Many people assume that video games have a negative effect on young people. A lot of time in front of a screen is bad for the mind and the body, they believe. Newspaper headlines often express the same opinion – and combat games cause the most concern because of the violence.</div><div class='rp'>But is there any evidence for this view? According to a report in <i>American Psychologist</i>, the truth is not so simple. Playing video games is sometimes good for children's education, health and social skills.</div><div class='rp'>Research shows that video games can actually improve certain mental skills. This is especially true for combat games. These games teach players to think about objects in three dimensions and this makes them better at studying science, technology, engineering and maths. Other types of video game do not usually provide these benefits.</div><div class='rp'>However, other types of video game can have other positive effects. In 2013, scientists did some research into the effect of role-playing games (RPGs) on children. The research showed that when children spend a lot of time playing RPGs, they get better grades at school than children who do not play them.</div><div class='rp'>Other research showed that playing any kind of video game, including violent games, improves children's creativity. But using a computer or smartphone for emails or other tasks does not provide this benefit.</div><div class='rp'>Quick and simple games like Angry Birds can improve players' mood and prevent them from feeling anxious. This emotional benefit is important, the report suggests. Feeling relaxed and happy is good for your health.</div><div class='rp'>The report also describes another emotional benefit of video games: they teach children how to react well to failure. In video games, players continually fail and try again. This makes them emotionally strong in real life.</div><div class='rp'>Video games can improve social skills too, the report says. More than 70% of gamers play with a friend, not alone, and millions of people take part in huge online games like Minecraft and Farmville. The players learn useful social skills: how to lead a group, how to work together and how to make decisions.</div><div class='rp'>Overall, the report does not deny that some video games can have negative effects; but it is important to think about the benefits too. And remember: you mustn't believe everything you read in the newspapers!</div>",
+"exercises":[
+{"type":"mcq-list","title":"Exercise 1","instr":"Choose the correct answers (a–d).","questions":[
+{"text":"Newspaper headlines about video games…","opts":[{"l":"a","t":"only talk about violent games."},{"l":"b","t":"always present the same view."},{"l":"c","t":"do not tell the truth."},{"l":"d","t":"usually present a negative view."}],"answer":"d","expl":{"loc":"Para 1","quote":"Newspaper headlines often express the same opinion – and combat games cause the most concern.","para":"D is correct: headlines 'often' (= usually) express negative opinions. A is wrong – it says 'only violent', but headlines discuss games generally. B says 'always' – too strong (text says 'often'). C says they lie – not stated.","tip":"'Often' in the text = 'usually' in option d. Watch out for 'only' (a) and 'always' (b) – these absolute words are usually wrong."}},
+{"text":"You learn to think about things in three dimensions when you…","opts":[{"l":"a","t":"play combat games."},{"l":"b","t":"play any kind of video game."},{"l":"c","t":"study engineering or maths."},{"l":"d","t":"do scientific studies."}],"answer":"a","expl":{"loc":"Para 3","quote":"This is especially true for combat games. These games teach players to think about objects in three dimensions.","para":"A is correct. Para 3 specifically says this is 'especially true for combat games' and then says 'other types of video game do NOT usually provide these benefits'.","tip":"'Especially true for combat games' narrows the answer to a. Para 3 also explicitly says OTHER game types don't provide this – eliminating b."}},
+{"text":"Research shows that role-playing games…","opts":[{"l":"a","t":"are the only games that make children more creative."},{"l":"b","t":"do not provide as many benefits as violent games."},{"l":"c","t":"help children to do well at school."},{"l":"d","t":"help children learn to fail successfully."}],"answer":"c","expl":{"loc":"Para 4","quote":"when children spend a lot of time playing RPGs, they get better grades at school than children who do not play them.","para":"C is correct: 'better grades at school' = 'do well at school'. A is wrong – ALL games improve creativity (Para 5). B is not mentioned. D refers to all games failing and trying again, not specifically RPGs.","tip":"'Better grades at school' (text) = 'do well at school' (option c). Match the paraphrase."}},
+{"text":"The report also suggests that video gamers…","opts":[{"l":"a","t":"spend a lot of time on their own."},{"l":"b","t":"learn some useful skills by playing with others."},{"l":"c","t":"usually fail in other areas of their lives."},{"l":"d","t":"spend a lot of time on smartphones."}],"answer":"b","expl":{"loc":"Para 8","quote":"The players learn useful social skills: how to lead a group, how to work together and how to make decisions.","para":"B is correct: 'useful social skills by playing with others' = playing together in online games. A is wrong – text says 70% play WITH a friend. C is wrong – failing in games makes them strong (not failing in life). D is wrong – smartphones ≠ video games.","tip":"'Useful social skills' (text) = 'useful skills by playing with others' (option b). The 70% statistic confirms they play with others."}},
+{"text":"According to the report, the effect of video games on children…","opts":[{"l":"a","t":"is mostly good."},{"l":"b","t":"is mostly bad."},{"l":"c","t":"is not known."},{"l":"d","t":"is not very important."}],"answer":"a","expl":{"loc":"Para 9 (conclusion)","quote":"the report does not deny that some video games can have negative effects; but it is important to think about the benefits too.","para":"A is correct. The article's title says 'good for your health', lists many benefits, and the conclusion acknowledges some negatives BUT emphasises benefits. 'Mostly good' captures this balanced-but-positive tone.","tip":"The overall tone is positive (lists benefits in paras 3–8) with just a small admission of negatives in the conclusion. Mostly good = correct."}}
+]},
+{"type":"short-answer","title":"Exercise 2","instr":"Answer the questions using information from the text.","questions":[
+{"text":"What do many people assume about the effects of video games on young people?","answer":"Many people assume that video games have a negative effect on young people.","kw":["negative","assume","effect"],"expl":{"loc":"Para 1, sentence 1","quote":"Many people assume that video games have a negative effect on young people.","para":"Near-direct quote from the first sentence. The key word is 'assume' (= believe without proof) and 'negative effect'.","tip":"The question uses 'assume' and so does the text. Identify the subject (many people) + verb (assume) + object (negative effect)."}},
+{"text":"What kinds of skills can combat games improve?","answer":"Mental skills / thinking about objects in three dimensions / spatial skills.","kw":["mental","dimension","spatial","three"],"expl":{"loc":"Para 3","quote":"video games can actually improve certain mental skills. This is especially true for combat games. These games teach players to think about objects in three dimensions.","para":"Two key answers: 'mental skills' (general) and 'thinking in three dimensions' (specific). Both are acceptable.","tip":"Para 3 gives two answers: mental skills AND 3D thinking. Give at least one for full credit."}},
+{"text":"What can simple games like Angry Birds prevent?","answer":"They can prevent players from feeling anxious.","kw":["anxious","anxiety","prevent","mood"],"expl":{"loc":"Para 6","quote":"Quick and simple games like Angry Birds can improve players' mood and prevent them from feeling anxious.","para":"The answer is 'prevent them from feeling anxious'. This is a direct quote from the text.","tip":"'Prevent + from + -ing' is the structure. Angry Birds example → prevent feeling anxious."}},
+{"text":"What kind of game helps children to get better grades at school, according to a 2013 report?","answer":"Role-playing games (RPGs).","kw":["role","rpg","playing"],"expl":{"loc":"Para 4","quote":"scientists did some research into the effect of role-playing games (RPGs) on children. The research showed that when children spend a lot of time playing RPGs, they get better grades at school.","para":"The answer is RPGs (role-playing games). The year 2013 in the question is a search anchor – find '2013' in the text, then read around it.","tip":"Year anchors: scan for '2013' in the text. The game type mentioned in the same sentence is the answer."}},
+{"text":"What kind of game teaches children how to work together?","answer":"Online games (e.g. Minecraft, Farmville).","kw":["online","minecraft","farmville","social"],"expl":{"loc":"Para 8","quote":"millions of people take part in huge online games like Minecraft and Farmville. The players learn useful social skills: how to lead a group, how to work together and how to make decisions.","para":"Online games (specifically Minecraft/Farmville) teach social skills including 'how to work together'.","tip":"'Work together' appears directly in the text. Find it and read back to identify the game type (online games)."}}
+]}
+]},
+
+{"id":4,"title":"Gliders in the Storm","topic":"Our Planet – Extreme Weather","emoji":"🪂",
+"textHTML":"<div class='ptitle'>📖 Gliders in the Storm – A Bumpy Ride</div><div class='rp'>In February 2007, about two hundred paragliders were in Australia for a few days to prepare for the World Championship. They included Ewa Wiśnierska, a German paragliding champion. One morning, as the competitors <span class='gm'>[1]</span>, they noticed that a thunderstorm was approaching. However, they decided to carry on. After all, these were the best paragliders in the world; they were certainly skilful enough <span class='gm'>[2]</span>. Or so they thought.</div><div class='rp'>Unfortunately, as the competitors took off, the weather <span class='gm'>[3]</span> quickly. That was the start of the most terrifying and dangerous experience of her life. Ewa tried to get away from the storm, but two enormous clouds <span class='gm'>[4]</span>. The clouds pulled Ewa up inside the storm like a leaf in the wind. She <span class='gm'>[5]</span> with lightning and hail all around her. 'I was shaking,' she told reporters afterwards. 'The last thing I remember, it was dark. I could hear lightning all around me.'</div><div class='rp'>She rose to an altitude of nearly 10,000 m – that's higher than the top of Mount Everest – and then <span class='gm'>[6]</span>. At that height, the temperature was about –40°C and there was very little oxygen. Death <span class='gm'>[7]</span>.</div><div class='rp'>For forty minutes, Ewa was unconscious. When she woke up, she was still inside the storm. It was dark and hailstones were flying past. They were as big as tennis balls. But fortunately her glider, <span class='gm'>[8]</span>, was still in one piece.</div><div class='rp'>Eventually, Ewa came out of the storm cloud and saw a small farm on the ground. She headed towards it and landed safely. She fell to the ground and rolled over, too weak and confused to call for help. When her team reached her, she was 60 km away from the place <span class='gm'>[9]</span>. She was covered in ice – but alive!</div><div class='rp'>Godfrey Wenness, the organiser of the championships, described Ewa as the luckiest woman in the world. 'This is like winning the lottery ten times in a row. That's how lucky this woman is. There's no logical reason why <span class='gm'>[10]</span>,' he said. Sadly, a Chinese competitor was not as lucky as Ewa. He flew into the same storm and died. Ewa had frostbite on her ears and legs and went to hospital for treatment, but a few days later, she competed in the World Championship. 'Flying is too fantastic to stop because of an accident,' she said.</div>",
+"exercises":[
+{"type":"gap-match","title":"Exercise – Gap Fill","instr":"Match phrases A–K with gaps 1–10. There is one extra phrase you will not need.","opts":[
+{"l":"A","t":"flew higher and higher"},
+{"l":"B","t":"to keep away from some dark clouds"},
+{"l":"C","t":"which was spinning above her head"},
+{"l":"D","t":"seemed certain"},
+{"l":"E","t":"came together and trapped her"},
+{"l":"F","t":"where she took off"},
+{"l":"G","t":"to spend more time on the ground"},
+{"l":"H","t":"were getting ready to take off"},
+{"l":"I","t":"she got away with it"},
+{"l":"J","t":"lost consciousness"},
+{"l":"K","t":"became worse"}
+],"numGaps":10,"answers":{"1":"H","2":"B","3":"K","4":"E","5":"A","6":"J","7":"D","8":"C","9":"F","10":"I"},"extra":"G",
+"expls":{
+"1":{"loc":"Para 1 – 'as the competitors [1]'","quote":"One morning, as the competitors [1], they noticed that a thunderstorm was approaching.","para":"H ('were getting ready to take off') fits the past continuous structure 'as the competitors ___'. They hadn't taken off yet – they noticed the storm while PREPARING to fly.","tip":"Grammar clue: 'as the competitors ___' needs a past continuous verb phrase. H ('were getting ready') fits perfectly."},
+"2":{"loc":"Para 1 – 'skilful enough [2]'","quote":"they were certainly skilful enough [2]. Or so they thought.","para":"B ('to keep away from some dark clouds') completes 'skilful enough TO ___'. They thought they could avoid the clouds. 'Or so they thought' = they were wrong.","tip":"'Skilful enough + infinitive' → find a phrase starting with 'to'. B = 'to keep away from...'"},
+"3":{"loc":"Para 2 – 'the weather [3] quickly'","quote":"as the competitors took off, the weather [3] quickly.","para":"K ('became worse') fits: the weather deteriorated rapidly after takeoff. 'Quickly' shows sudden change.","tip":"'The weather [3] quickly' needs a verb. K = 'became worse' is a simple past verb phrase describing rapid deterioration."},
+"4":{"loc":"Para 2 – 'two enormous clouds [4]'","quote":"Ewa tried to get away from the storm, but two enormous clouds [4].","para":"E ('came together and trapped her') describes the clouds surrounding Ewa. The 'but' signals a bad outcome despite her efforts.","tip":"'But' + subject (clouds) + [4] → the clouds did something bad to Ewa. E describes them closing in and trapping her."},
+"5":{"loc":"Para 2 – 'She [5] with lightning and hail'","quote":"The clouds pulled Ewa up inside the storm like a leaf in the wind. She [5] with lightning and hail all around her.","para":"A ('flew higher and higher') describes Ewa's ascent inside the storm. The previous sentence says 'clouds pulled Ewa up', so 'flew higher' is the natural continuation.","tip":"'Pulled up' → 'flew higher and higher'. The upward motion is the key connection between sentences."},
+"6":{"loc":"Para 3 – 'rose to 10,000m and then [6]'","quote":"She rose to an altitude of nearly 10,000 m – that's higher than the top of Mount Everest – and then [6].","para":"J ('lost consciousness') explains what happened at 10,000m with –40°C and no oxygen – she passed out. Her quote in para 2 ('The last thing I remember...') confirms she lost consciousness.","tip":"'The last thing I remember' in para 2 confirms she became unconscious. At –40°C with no oxygen = lose consciousness."},
+"7":{"loc":"Para 3 – 'Death [7]'","quote":"At that height, the temperature was about –40°C and there was very little oxygen. Death [7].","para":"D ('seemed certain') completes 'Death seemed certain' – she was expected to die at 10,000m with those conditions.","tip":"Short sentence: 'Death [7]'. Subject = Death, [7] = predicate. D = 'seemed certain' makes a complete simple sentence."},
+"8":{"loc":"Para 4 – 'her glider, [8], was still in one piece'","quote":"But fortunately her glider, [8], was still in one piece.","para":"C ('which was spinning above her head') is a relative clause (which + verb) providing extra info about the glider. Commas signal a non-defining relative clause.","tip":"Two commas around the gap = relative clause. C starts with 'which' = relative pronoun. 'Spinning above her head' shows the glider was still flying."},
+"9":{"loc":"Para 5 – '60 km away from the place [9]'","quote":"she was 60 km away from the place [9]. She was covered in ice – but alive!","para":"F ('where she took off') completes 'the place WHERE she took off'. A relative clause of place starting with 'where'.","tip":"'The place [9]' = 'the place WHERE ___'. F = 'where she took off' completes this relative clause perfectly."},
+"10":{"loc":"Para 6 – 'no logical reason why [10]'","quote":"There's no logical reason why [10],' he said.","para":"I ('she got away with it') = she survived against all odds. 'Got away with it' means surviving something that should have been fatal.","tip":"'No logical reason why [10]' needs a subject (she) + got away. I = 'she got away with it' = survived impossibly."},
+"extra":{"loc":"G is the extra phrase","quote":"","para":"G ('to spend more time on the ground') doesn't fit anywhere. The text is about people WANTING to fly, not wanting to stay on the ground. The context never calls for this idea.","tip":"G introduces 'wanting to stay on the ground' – no gap in the text expresses this idea. Paragliders chose to fly despite the storm."}}}
+]},
+
+{"id":5,"title":"Best Jobs in the World","topic":"Ambition – Dream Careers","emoji":"💼",
+"textHTML":"<div class='ptitle'>📖 The Best Jobs in the World … Probably</div><div class='rp'><b>A</b> – Back in 2012, Andrew Johnson was near the end of his History & Photography degree in Chicago. He planned to apply to film school after graduation, rather than look for a job. But then his dad noticed an advertisement for a job with toy manufacturer Lego. Andrew, who was already a Lego fan, sent in an application. It included a video of himself making models. The company loved it and invited him to take part in an unusual interview. He had to compete against seven other finalists in a model-building test. Andrew won, and as a result, they offered him a job: he joined the team at Legoland Discovery Centre in Illinois as a Master Model Builder. He meets visitors and helps to give them exciting new ideas. Perhaps one day he'll go to film school, but for now, he's happy. 'Lego was always just a hobby, but now I can do what I love and get paid for it,' said Andrew in an interview.</div><div class='rp'><b>B</b> – Do you find it difficult to get out of bed sometimes, especially on frosty winter mornings? Well, imagine having a job where you don't have to. Jo Unsworth works as a duvet tester for John Lewis, a British department store. She has the job of finding the most comfortable duvets in the world to sell in their shops. Jo has a degree in textiles, so she can recognise good quality. But the real test of a duvet is sleeping under it. 'It's probably the only career where it's OK to fall asleep while you're at work,' Jo says. She often can't believe how lucky she is to have her 'dream job!' What is more, she finds it rewarding: 'If I do my job properly, hundreds of other people sleep better. It's brilliant!'</div><div class='rp'><b>C</b> – Some film providers like Netflix employ people to watch new films and TV series from the comfort of their own home! Their job is to make a note of what type of film it is (horror, rom-com, etc.) and what age group and type of person might like it. The film provider can then recommend it to their members. Joe Mason finished his degree in film studies about two years ago and didn't know what to do next. Then he read an article about film taggers. 'It sounded like a fantastic job so I did some research online and wrote to Netflix,' said Joe. At first they weren't interested, but when Joe told them he speaks fluent French – his mum is French – they gave him a job. He watches French films and TV programmes. 'It's a great job because I can work when I want. I can take a day off if I like and work at the weekend instead.' The only problem with the job is that Joe can't choose what he wants to watch. 'Sometimes I have to watch 15 episodes of rubbish! But I shouldn't complain really.'</div>",
+"exercises":[
+{"type":"short-answer","title":"Exercise – Sentence Completion","instr":"Complete the sentences with information from the texts. Write 1–2 words only.","questions":[
+{"text":"The Lego company was very keen on the _________ that Andrew sent with his job application. (1 word)","answer":"video","kw":["video"],"expl":{"loc":"Para A","quote":"It included a video of himself making models. The company loved it.","para":"The company 'loved' the video – 'loved it' = 'very keen on'. The video was the standout part of his application.","tip":"'Very keen on' = 'loved'. Find what the company reacted positively to → the video."}},
+{"text":"Andrew is happy to earn money for something that used to be a _________. (1 word)","answer":"hobby","kw":["hobby"],"expl":{"loc":"Para A, last quote","quote":"'Lego was always just a hobby, but now I can do what I love and get paid for it.'","para":"Andrew's direct quote: Lego was 'just a hobby' → now he earns money from it.","tip":"Direct quote answer: 'Lego was always just a hobby' → hobby fills the blank."}},
+{"text":"Jo Unsworth has a job at a famous British _________ _________. (2 words)","answer":"department store","kw":["department","store"],"expl":{"loc":"Para B","quote":"Jo Unsworth works as a duvet tester for John Lewis, a British department store.","para":"John Lewis is described as 'a British department store'. The 2 words are 'department store'.","tip":"Look for 'British' + a business type near Jo's name → 'department store'."}},
+{"text":"Jo's university qualification helps her to identify _________ _________ when she sees it. (2 words)","answer":"good quality","kw":["quality","good"],"expl":{"loc":"Para B","quote":"Jo has a degree in textiles, so she can recognise good quality.","para":"Her degree → ability to 'recognise good quality'. The 2 words are 'good quality'.","tip":"'University qualification' = 'degree'. What does the degree help her recognise? → 'good quality'."}},
+{"text":"An advantage of Joe's job is that he can _________ when he wants. (1 word)","answer":"work","kw":["work"],"expl":{"loc":"Para C","quote":"'It's a great job because I can work when I want.'","para":"Joe's direct quote: 'work when I want'. The advantage is flexibility of working hours.","tip":"Direct quote: 'I can work when I want' → work fills the blank."}},
+{"text":"A disadvantage of Joe's job is that he can't _________ what programmes to watch. (1 word)","answer":"choose","kw":["choose"],"expl":{"loc":"Para C, last sentences","quote":"The only problem with the job is that Joe can't choose what he wants to watch.","para":"'The only problem' = disadvantage. 'Can't choose' fills the blank.","tip":"'Disadvantage' = 'the only problem'. The problem: can't choose what to watch."}}
+]}
+]},
+
+{"id":6,"title":"Free at Last?","topic":"Tourism – Holidays Without Parents","emoji":"🏕️",
+"textHTML":"<div class='ptitle'>📖 Free at Last?</div><div class='rp'><i>Have you ever seen travel programmes on TV about teenagers on holiday without parents? They're always having a wild and exciting time. But is it really like that? We asked three writers to tell us their personal experiences…</i></div><div class='rp'><b>A – Hilary Bradt</b> (co-founder of a travel guide company)<br>When I was fifteen, I went to stay with my penfriend in north Germany. It was my first trip abroad and the first without my parents, and I hated every minute of it. The worst moment was probably the time when I was alone in the house and somebody rang the doorbell. They rang it again and again – but I ignored it. Then I saw the visitor walking around the house looking through the windows. Frightened, I hid under the dining-room table. That afternoon, Christina's mother came home from work and said, 'I needed to pick up some papers from the house today and I didn't have my key. I rang the bell. But you didn't hear me.' 'Oh, I was in my room, I expect,' I said. 'Sorry!' My face went red, because she knew I was lying. I'm certain she saw me under the table.</div><div class='rp'><b>B – Kevin Rushby</b> (writer)<br>At sixteen, I hitch-hiked down to Cornwall in the south-west of England with a friend. We spent the holiday walking along the coastal path with a tent and a backpack, staying at campsites on the way. The weather was fantastic and the sea was beautiful. We had almost no money and lived on sandwiches and tea. One of the first things I learned was this: a fire and a mug of tea can make the world seem perfect. The second thing: spending more money does not mean having more fun. What really mattered was talking to people. I had to do lots of chatting, negotiating, discussing and questioning. Strangers could be very helpful and interesting, I discovered. They could also be dangerous, boring and stupid. It was up to me to judge them and decide – and that skill has been useful to me many times since then. I wrote it all down, but I've lost the notebook now, unfortunately.</div><div class='rp'><b>C – Terry Alderton</b> (comedian)<br>My friends and I were nineteen and on holiday in the coolest place in the world: Ibiza. On the first day, I fell asleep on the beach – with no suncream. My friends knew I was getting sunburned, but they didn't wake me up because they thought it was funny. When I woke up, I felt a little sore. Then I took off my sunglasses and my friends all fell on the floor, laughing. I had two clear white rings around my eyes! That night, we all went out dancing and of course I had to keep wearing the same sunglasses because of my sunburn. I wasn't enjoying myself, so I left before my friends. For some reason, I didn't want to wait for a bus back to our hotel, so I walked seven kilometres along busy roads. When I finally arrived, my friends were already there, sitting around the pool. I've never understood how they got there so quickly.</div>",
+"exercises":[
+{"type":"mcq-list","title":"Exercise – Multiple Choice","instr":"Circle the correct answers (a–d).","questions":[
+{"text":"Hilary went red because her penfriend's mother knew…","opts":[{"l":"a","t":"that Hilary didn't hear the doorbell."},{"l":"b","t":"that Hilary was in her bedroom."},{"l":"c","t":"that Hilary was not telling the truth."},{"l":"d","t":"why Hilary did not want to open the door."}],"answer":"c","expl":{"loc":"Para A, last sentences","quote":"My face went red, because she knew I was lying. I'm certain she saw me under the table.","para":"C is correct: Hilary lied ('I was in my room') and her face went red because the mother KNEW she was lying (she saw Hilary under the table). A is wrong – the mother heard the bell ringing (she rang it herself). B is what Hilary claimed, not the truth.","tip":"'She knew I was lying' = 'knew Hilary was not telling the truth'. Near-direct quote match."}},
+{"text":"On Kevin's first holiday without his parents, he…","opts":[{"l":"a","t":"walked all the way to the south-west of England."},{"l":"b","t":"decided to hitch-hike around south-west England."},{"l":"c","t":"spent the holiday at a campsite in Cornwall."},{"l":"d","t":"camped at various places along the coast."}],"answer":"d","expl":{"loc":"Para B, sentences 2–3","quote":"We spent the holiday walking along the coastal path with a tent and a backpack, staying at campsites on the way.","para":"D is correct: 'camped at various places along the coast' = 'walking along the coastal path staying at campsites on the way'. A is wrong – he hitch-hiked (not walked all the way). C says ONE campsite but text says multiple ('campsites on the way').","tip":"'Various places' = 'campsites on the way' (multiple sites along the path). C says one campsite – wrong."}},
+{"text":"Meeting lots of different people taught Kevin…","opts":[{"l":"a","t":"some useful skills that he later lost."},{"l":"b","t":"that negotiating with strangers can be dangerous."},{"l":"c","t":"how to decide what strangers are like."},{"l":"d","t":"that talking to strangers is usually boring."}],"answer":"c","expl":{"loc":"Para B","quote":"It was up to me to judge them and decide – and that skill has been useful to me many times since then.","para":"C is correct: 'how to decide what strangers are like' = 'to judge them and decide'. A is wrong – the skill was useful (not lost; he lost his NOTEBOOK, not the skill). B and D are too negative – text says strangers can be helpful AND dangerous.","tip":"'Judge them and decide' (text) = 'decide what strangers are like' (option c). Note: he lost his notebook, not the skill."}},
+{"text":"Terry had circles around his eyes because…","opts":[{"l":"a","t":"his friends put lots of suncream on his face."},{"l":"b","t":"the rest of his face was red from the sun."},{"l":"c","t":"his eyes were sore from too much sun."},{"l":"d","t":"he wanted to make his friends laugh."}],"answer":"b","expl":{"loc":"Para C","quote":"I fell asleep on the beach – with no suncream... I had two clear white rings around my eyes!","para":"B is correct: he wore sunglasses while sleeping. The sunglasses BLOCKED the sun from the eye area, so those areas stayed white/pale while the rest of his face burned red. The white rings = areas protected by sunglasses.","tip":"Logic: sunglasses block sun → protected skin stays WHITE; exposed skin = RED. White rings = protected areas around eyes."}},
+{"text":"Terry decided to walk back to the hotel because…","opts":[{"l":"a","t":"he wanted to get back to the hotel before his friends."},{"l":"b","t":"he knew there were no more buses."},{"l":"c","t":"he didn't feel like standing at the bus stop."},{"l":"d","t":"he knew it was not very far."}],"answer":"c","expl":{"loc":"Para C","quote":"For some reason, I didn't want to wait for a bus back to our hotel, so I walked seven kilometres along busy roads.","para":"C is correct: 'didn't want to WAIT for a bus' = 'didn't feel like STANDING at the bus stop'. A is wrong – his friends arrived before him, so he didn't get there first. B is wrong – the text says he didn't WANT to wait, not that there were no buses. D is wrong – 7 km is quite far.","tip":"'Didn't want to wait for a bus' (text) = 'didn't feel like standing at the bus stop' (option c). The reason is personal preference, not bus availability."}}
+]}
+]},
+
+{"id":7,"title":"Aaron Levie – Box Clever","topic":"Money – Young Entrepreneurs","emoji":"💰",
+"textHTML":"<div class='ptitle'>📖 Aaron Levie – Box Clever</div><div class='rp'>Aaron Levie loves to eat tinned spaghetti, drives a six-year-old car, and has business meetings at a takeaway. He lives in an ordinary apartment, doesn't take holidays and, at the age of 27, says his biggest luxury is his smartphone. <span class='gm'>[1]</span> However, as co-founder and CEO of Box, a successful IT company, he is worth about $100 million. And he works very hard for his money: most days, he does not leave the office until after midnight. 'I work so many hours because I love what I do. I'm incredibly excited about the business,' says Levie.</div><div class='rp'>When Levie and his childhood friend Dylan Smith started their company in 2005, they had not even finished their university degrees. Box grew fast because it offered a better way of storing data, and soon they had contracts with many of the biggest companies in the USA. Levie left university without finishing his course.</div><div class='rp'>Like most new businesses, Box did not bring in much income at the start. Levie paid himself a salary of only $500 a month, and lived off tinned spaghetti and instant noodles. <span class='gm'>[2]</span> Sometimes he even slept there too.</div><div class='rp'>When Box began, Levie and Smith looked for funding. <span class='gm'>[3]</span> For that reason, nobody wanted to risk lending them money. They wrote letter after letter but could not find any investors. Eventually, a well-known entrepreneur called Mark Cuban agreed to put money into Box. Once he had decided to do that, others followed and the business grew quickly. That was eight years ago.</div><div class='rp'>Now, Box has grown a lot and so have its profits, making Levie a multi-millionaire. <span class='gm'>[4]</span> But Levie says that it doesn't interest him. 'I'm certainly not into money. I don't live in the office – now I have an apartment six minutes' drive away – but there is no enormous house up in the hills.' <span class='gm'>[5]</span> Otherwise, he has lunch meetings in burger bars. 'And I still really like tinned spaghetti. I'd be happy if I had it every day!'</div>",
+"exercises":[
+{"type":"gap-match","title":"Exercise 1","instr":"Match sentences A–G with gaps 1–5. There are two extra sentences.","opts":[
+{"l":"A","t":"Back in 2005, cloud storage was quite a new idea."},
+{"l":"B","t":"His success in business has brought him an enormous amount of money."},
+{"l":"C","t":"He only goes to expensive restaurants if an important customer wants to eat there."},
+{"l":"D","t":"For two and a half years, he spent nearly all his time at his office."},
+{"l":"E","t":"Most people his age would lead an extravagant lifestyle if they had so much money."},
+{"l":"F","t":"If you met him, you probably wouldn't realise that he is a multi-millionaire."},
+{"l":"G","t":"Cloud storage is one of the fastest-growing areas of business."}
+],"numGaps":5,"answers":{"1":"F","2":"D","3":"A","4":"E","5":"C"},"extra":"BG",
+"expls":{
+"1":{"loc":"Para 1 – after describing his simple lifestyle","quote":"He lives in an ordinary apartment… his biggest luxury is his smartphone. [1] However, as co-founder and CEO of Box…","para":"F ('If you met him, you probably wouldn't realise that he is a multi-millionaire') contrasts his simple life with his wealth. The 'However' that follows confirms the contrast: ordinary lifestyle BUT multi-millionaire.","tip":"'However' after [1] signals a contrast. F sets up that contrast: he LOOKS ordinary → you wouldn't KNOW he's rich."},
+"2":{"loc":"Para 3 – after 'lived off tinned spaghetti'","quote":"lived off tinned spaghetti and instant noodles. [2] Sometimes he even slept there too.","para":"D ('For two and a half years, he spent nearly all his time at his office') explains WHY he 'sometimes slept there'. Spending all time at the office logically leads to sleeping there occasionally.","tip":"'Slept there too' = slept at the office. D says he spent all his time at the office → 'too' confirms sleeping was additional to working there."},
+"3":{"loc":"Para 4 – before 'nobody wanted to risk lending them money'","quote":"Levie and Smith looked for funding. [3] For that reason, nobody wanted to risk lending them money.","para":"A ('Back in 2005, cloud storage was quite a new idea') gives the REASON why nobody lent them money. 'For that reason' = because of [3] = because cloud storage was new and unproven.","tip":"'For that reason' = because of [3]. A provides the reason: cloud storage was too new → investors felt unsafe."},
+"4":{"loc":"Para 5 – after 'making Levie a multi-millionaire'","quote":"Box has grown a lot and so have its profits, making Levie a multi-millionaire. [4] But Levie says that it doesn't interest him.","para":"E ('Most people his age would lead an extravagant lifestyle if they had so much money') sets up the contrast with Levie. 'But Levie says it doesn't interest him' – E explains what MOST people would do, making Levie's frugality more remarkable.","tip":"'But Levie says it doesn't interest him' – E explains what others would do (extravagant lifestyle), making the 'but' contrast work."},
+"5":{"loc":"Para 5 – 'no enormous house… [5] Otherwise, burger bars'","quote":"there is no enormous house up in the hills.' [5] Otherwise, he has lunch meetings in burger bars.","para":"C ('He only goes to expensive restaurants if an important customer wants to eat there') is the one exception to his frugal eating. 'Otherwise' = in all other cases = burger bars. C + 'Otherwise' = the full picture of his eating habits.","tip":"'Otherwise' after [5] = 'except for [5]'. C describes the exception; 'otherwise' describes the normal (burger bars)."},
+"extra":{"loc":"B and G are the extra sentences","quote":"","para":"B says 'success brought him an enormous amount of money' – this is covered in the text already ('making Levie a multi-millionaire'). G says cloud storage is 'fastest-growing' – the text says it was 'quite a new idea', not specifically fastest-growing.","tip":"Avoid choosing sentences that repeat information already in the text. B and G add no new necessary link between paragraphs."}}},
+{"type":"true-false","title":"Exercise 2","instr":"Are these sentences True (T) or False (F)?","statements":[
+{"text":"Aaron Levie lives in a luxury apartment.","answer":"F","expl":{"loc":"Para 1","quote":"He lives in an ordinary apartment.","para":"FALSE: The text says 'an ordinary apartment', not a luxury one. He deliberately avoids luxury.","tip":"'Ordinary' = not luxury. Direct contradiction of the statement."}},
+{"text":"Levie doesn't mind working long hours because he is really enthusiastic about his work.","answer":"T","expl":{"loc":"Para 1","quote":"'I work so many hours because I love what I do. I'm incredibly excited about the business.'","para":"TRUE: 'love what I do' + 'incredibly excited' = really enthusiastic. 'Doesn't mind working long hours' = works willingly.","tip":"'Incredibly excited' = really enthusiastic. His own words confirm he enjoys the work."}},
+{"text":"Levie was a student when he co-founded the company Box.","answer":"T","expl":{"loc":"Para 2","quote":"When Levie and his childhood friend Dylan Smith started their company in 2005, they had not even finished their university degrees.","para":"TRUE: 'had not even finished their university degrees' = he was still a student when Box started.","tip":"'Had not finished degrees' = still a student. He started Box BEFORE graduating."}},
+{"text":"Mark Cuban was the first businessman to invest in Box.","answer":"T","expl":{"loc":"Para 4","quote":"Eventually, a well-known entrepreneur called Mark Cuban agreed to put money into Box. Once he had decided to do that, others followed.","para":"TRUE: 'Others followed' after Mark Cuban – he came first, then others invested. 'Eventually' shows he was the one who broke the deadlock.","tip":"'Others followed' = Mark Cuban went first, then others copied him. He was the first."}},
+{"text":"Since he became rich and successful, Levie's lifestyle has not changed very much.","answer":"T","expl":{"loc":"Para 5","quote":"'I'm certainly not into money. I don't live in the office – now I have an apartment six minutes' drive away – but there is no enormous house up in the hills.'","para":"TRUE: He still eats tinned spaghetti, has lunch in burger bars, and lives simply despite being worth $100 million. Very little has changed.","tip":"He still eats tinned spaghetti (mentioned twice), still avoids luxury. Simple lifestyle = unchanged since university days."}}
+]}
+]},
+
+{"id":8,"title":"The Somerton Man","topic":"Crime – Unsolved Mysteries","emoji":"🔍",
+"textHTML":"<div class='ptitle'>📖 Who Was the Somerton Man?</div><div class='rp'>It began at 6:30 a.m. on 1 December 1948 when some passers-by discovered the body of a man on Somerton Beach in Adelaide, Australia, just west of the city. The police arrived and launched a murder investigation. At the hospital, doctors examined the body but could not find out for sure how the man had died. In his pockets were a bus ticket from the city, a train ticket, a comb, chewing gum, cigarettes and matches. There was no wallet or identification. Nobody knew who the man was. The police continued their investigation. They could not identify the man using fingerprints or dental records.</div><div class='rp'>Then, two weeks after the discovery of the body, there was a breakthrough: they found a suitcase that the man had left at Adelaide station the day before his death. Inside the case were some clothes, a knife, scissors and a brush. However, these possessions did not reveal the man's identity. In fact, somebody had removed the labels from most of his clothes and another label from the suitcase itself.</div><div class='rp'>A new expert joined the investigation: John Cleland, a professor at the University of Adelaide. In April, he found a clue that everybody else had missed: a small piece of paper in a secret pocket inside the dead man's trousers. On the paper were two words in Persian: <i>tamám shud</i>. The words are from a famous Persian poem, and they mean 'it is the end'. Somebody had torn the paper from an old copy of a book.</div><div class='rp'>A few months later, a man gave police a copy of the book containing the poem. He said somebody had dropped it into his open-top car the day after the man on Somerton Beach died. The last page of the book – with the final two words – was missing.</div><div class='rp'>In the book, the police found two clues: a telephone number and a message. The message was in a secret code. The second line was crossed out, and some letters were unclear. The telephone number belonged to a nurse. She said she had given a copy of the book to a soldier called Alfred Boxall in 1945. Finally, the police had solved the mystery: obviously, the dead man was Alfred Boxall!</div><div class='rp'>There was only one problem: Alfred Boxall was still alive. The police found him and interviewed him. What is more, he still had his copy of the book. The mystery of the body on Somerton Beach continued. So what about the mysterious five-line message? Could that contain the answer to this puzzle? Perhaps, but unfortunately we do not know what the message says. Nobody has ever solved the secret code.</div>",
+"exercises":[
+{"type":"mcq-list","title":"Exercise – Multiple Choice","instr":"Circle the correct answers (a–d).","questions":[
+{"text":"The suitcase did not help to identify the man because…","opts":[{"l":"a","t":"nothing in it had a name."},{"l":"b","t":"nobody was sure the suitcase belonged to him."},{"l":"c","t":"it only contained cigarettes, matches and a few other possessions."},{"l":"d","t":"they didn't find it until weeks after his death."}],"answer":"a","expl":{"loc":"Para 2","quote":"somebody had removed the labels from most of his clothes and another label from the suitcase itself.","para":"A is correct: 'nothing had a name' = labels were removed → no names. B is wrong – text says it WAS his suitcase (he left it at the station). C is wrong – the pockets had cigarettes etc., not the suitcase. D is wrong – found 2 weeks later, and 'left there the day before his death'.","tip":"'Labels removed' = nothing with his name on it = 'nothing in it had a name'. Labels = names on clothing."}},
+{"text":"University professor John Cleland was the only person who…","opts":[{"l":"a","t":"understood the meaning of tamám shud."},{"l":"b","t":"found the secret pocket in the dead man's trousers."},{"l":"c","t":"had read the poem."},{"l":"d","t":"looked for clues to the dead man's identity."}],"answer":"b","expl":{"loc":"Para 3","quote":"he found a clue that everybody else had missed: a small piece of paper in a secret pocket inside the dead man's trousers.","para":"B is correct: 'everybody else had missed' = only HE found it. A is wrong – many people may know the poem's meaning. C is wrong – the poem was famous. D is wrong – the whole investigation team looked for clues.","tip":"'A clue that everybody else had missed' = he was the ONLY one who found the secret pocket. The key word is 'missed' – others looked but didn't find it."}},
+{"text":"The two clues contained in the book with the missing page were…","opts":[{"l":"a","t":"a soldier's telephone number and a secret message."},{"l":"b","t":"a message in Persian and a nurse's telephone number."},{"l":"c","t":"a secret message and a nurse's telephone number."},{"l":"d","t":"two telephone numbers and the name of a nurse."}],"answer":"c","expl":{"loc":"Para 5","quote":"In the book, the police found two clues: a telephone number and a message. The message was in a secret code... The telephone number belonged to a nurse.","para":"C is correct: a secret message (in code) + a nurse's telephone number. A is wrong – it's a nurse's number, not a soldier's. B is wrong – the message was NOT in Persian (it was in code). D is wrong – only one number.","tip":"Two clues: telephone number (belongs to nurse) + message (in secret code). Match both parts of option c."}},
+{"text":"After they'd interviewed the nurse, the police wrongly thought that…","opts":[{"l":"a","t":"she had given Alfred Boxall a copy of the book."},{"l":"b","t":"the dead man was Alfred Boxall."},{"l":"c","t":"she could tell them what the secret message said."},{"l":"d","t":"the dead man had given her a copy of the book."}],"answer":"b","expl":{"loc":"Para 5–6","quote":"Finally, the police had solved the mystery: obviously, the dead man was Alfred Boxall! There was only one problem: Alfred Boxall was still alive.","para":"B is correct: they WRONGLY concluded the dead man was Boxall. A is actually TRUE (the nurse DID give Boxall a book) – but the police didn't think this wrongly. C and D are not mentioned.","tip":"The word 'wrongly' = the police made a mistake. Their mistake was assuming the dead man = Alfred Boxall. But he was alive."}},
+{"text":"After many investigations, we now know…","opts":[{"l":"a","t":"the identity of the dead man."},{"l":"b","t":"what the secret message in the book means."},{"l":"c","t":"how and why the man died."},{"l":"d","t":"where the piece of paper containing the words tamám shud came from."}],"answer":"d","expl":{"loc":"Para 4 + Para 6","quote":"a man gave police a copy of the book... He said somebody had dropped it into his open-top car the day after the man on Somerton Beach died.","para":"D is correct: we DO know where the paper came from (torn from a book dropped in an open-top car). A is wrong – identity still unknown. B is wrong – nobody solved the code. C is wrong – cause of death unknown.","tip":"Check what IS known vs what ISN'T: Identity=no, code=no, cause=no, but source of paper=YES (open-top car)."}}
+]}
+]},
+
+{"id":9,"title":"Inventions the World Forgot","topic":"Technology – Forgotten Inventions","emoji":"⚙️",
+"textHTML":"<div class='ptitle'>📖 Inventions the World Forgot</div><div class='rp'><b>1 – The Telharmonium</b><br>The Telharmonium was the world's first electronic musical instrument. It was designed by an American, Thaddeus Cahill, in 1897. Three models of the instrument were built; the first weighed about 7,000 kg, and the other two weighed nearly 200,000 kg! Music from the instrument was broadcast to people's homes using another new invention: the telephone. For the first time, people could stay at home and listen on their telephones to live music from another part of the country. (The radio had not been invented.) People loved these concerts, but there were problems. Some telephone users who were not listening to the concert were interrupted by loud music half way through their conversation! By 1914, the world was no longer interested in the Telharmonium. After Cahill's death in 1934, his brother kept one of the three models, but in 1962 it was destroyed. No recordings of the music were kept, so the Telharmonium and its unique sound have disappeared forever.</div><div class='rp'><b>2 – The Rejuvenator</b><br>In the early part of the 20th century, there was a lot of interest in the power of electricity to cure medical conditions. A device called the Rejuvenator was invented by British scientist Otto Overbeck in 1925. It was used in the home to treat all kinds of medical problems, including deafness and baldness, and became very popular. It was advertised in newspapers and members of the public were invited to watch live demonstrations in theatres. The users placed electrodes on any part of their body and a small electric current was passed through it. It was unclear exactly how the machine worked, but hundreds were sold all around the world and Overbeck became rich. In the 1950s, it was still possible to buy new parts for these machines, but today they are only seen in museums.</div><div class='rp'><b>3 – The Writing Ball</b><br>The Writing Ball was invented in 1865 by Rasmus Malling-Hansen from Denmark. It was a machine for typing onto paper. Malling-Hansen spent a long time working on the design. For example, he made sure all the keys were placed in the best positions for typing quickly. The machine even used electricity to make the movement faster. There was one problem, however: you could not see the paper as you were typing. Nevertheless, the Writing Ball was sold all over Europe and was very successful. However, each model was made by hand. Soon, other machines became more popular because they were made in factories and were cheaper. A new keyboard was developed with the keys arranged differently. This arrangement is now used on phones and computer keyboards all over the world, even though it was quicker to type using the Writing Ball. The once-popular Writing Ball was forgotten.</div><div class='rp'><b>4 – The Antikythera Mechanism</b><br>In 1901, a ship was discovered at the bottom of the sea near the Greek island of Antikythera. On the ship was an ancient machine. It had been made about 1,900 years earlier, in 2 BC. For many years after its discovery, nobody understood exactly what the machine was for. But in the 1970s, scientists used X-rays to find out its secrets. Amazingly, they found that the machine was an ancient computer. It had been designed to predict the movements of the sun, the moon and the planets. It did this using more than thirty hand-made metal wheels of different sizes. A study of the mechanism in 2006 was led by Professor Michael Edmunds from Cardiff University. He described the device as 'just extraordinary, the only thing of its kind' and 'more valuable than the Mona Lisa'. Reconstructions have been made and the device works perfectly.</div>",
+"exercises":[
+{"type":"short-answer","title":"Exercise 1 – Text Matching","instr":"Match questions A–F with the correct text number(s) (1, 2, 3, or 4). Some questions match more than one text – write all the numbers that apply.","questions":[
+{"text":"A: Which invention(s) was/were lost and then found again?","answer":"4","kw":["4"],"expl":{"loc":"Text 4 – Antikythera Mechanism","quote":"In 1901, a ship was discovered at the bottom of the sea near the Greek island of Antikythera.","para":"Only Text 4: the Antikythera Mechanism was on a sunken ship for ~1,900 years, then found in 1901. The other inventions were forgotten/destroyed, not lost at sea and found.","tip":"'Lost and found again' = at the bottom of the sea → found by divers. Only the Antikythera Mechanism was literally found after being lost."}},
+{"text":"B: Which invention(s) was/were popular for a time but then disappeared?","answer":"1, 2, 3","kw":["1","2","3"],"expl":{"loc":"Texts 1, 2, 3","quote":"By 1914, the world was no longer interested in the Telharmonium... today they are only seen in museums... The once-popular Writing Ball was forgotten.","para":"Texts 1, 2, and 3 all describe inventions that were once popular but later disappeared or were forgotten. Text 4 (Antikythera) was never popular with the public – it was ancient and unknown.","tip":"Look for 'popular then disappeared' language: 'no longer interested' (1), 'only in museums' (2), 'forgotten' (3)."}},
+{"text":"C: Which invention(s) used electricity?","answer":"1, 2, 3","kw":["1","2","3"],"expl":{"loc":"Texts 1, 2, 3","quote":"1: world's first electronic instrument; 2: a small electric current; 3: used electricity to make the movement faster.","para":"All three: Telharmonium (electronic instrument), Rejuvenator (electric current), Writing Ball (used electricity). The Antikythera Mechanism was purely mechanical – no electricity.","tip":"Scan each text for 'electric' or 'electricity'. Texts 1, 2, 3 all contain electrical references. Text 4 is mechanical (metal wheels)."}},
+{"text":"D: Which invention(s) was/were designed by an unknown inventor?","answer":"4","kw":["4"],"expl":{"loc":"Text 4 – Antikythera Mechanism","quote":"On the ship was an ancient machine. It had been made about 1,900 years earlier, in 2 BC.","para":"Text 4: the Antikythera Mechanism's inventor is unknown – the text gives no inventor's name. Texts 1 (Cahill), 2 (Overbeck), and 3 (Malling-Hansen) all have named inventors.","tip":"Scan each text for an inventor's name. No name for the Antikythera Mechanism → unknown inventor = Text 4."}},
+{"text":"E: Which invention(s) was/were designed to improve your health?","answer":"2","kw":["2"],"expl":{"loc":"Text 2 – The Rejuvenator","quote":"It was used in the home to treat all kinds of medical problems, including deafness and baldness.","para":"Only Text 2: the Rejuvenator was specifically designed to treat medical conditions. The others were musical (1), typing (3), or astronomical (4).","tip":"'Improve health' = 'treat medical problems'. Only the Rejuvenator (Text 2) was designed for this purpose."}},
+{"text":"F: Which invention(s) was/were first designed in the 19th century?","answer":"1, 3","kw":["1","3"],"expl":{"loc":"Texts 1 and 3","quote":"1: designed by Thaddeus Cahill in 1897; 3: invented in 1865 by Rasmus Malling-Hansen.","para":"Text 1 (1897) and Text 3 (1865) are both 19th century (1800s). Text 2 (Rejuvenator) was 1925 – 20th century. Text 4 (Antikythera) was 2 BC – ancient.","tip":"19th century = 1800–1899. Check dates: 1897 (✓), 1925 (✗), 1865 (✓), 2 BC (✗)."}}
+]},
+{"type":"true-false-ng","title":"Exercise 2 – True, False or Not Given","instr":"Read the texts. Decide if these sentences are True (T), False (F) or Not Given (NG). Choose NG if the text does not give enough information to decide.","statements":[
+{"text":"1. The Telharmonium was invented before the radio.","answer":"T","expl":{"loc":"Text 1","quote":"(The radio had not been invented.)","para":"TRUE: The text states in brackets that the radio didn't exist at the time of the Telharmonium. Telharmonium (1897) → radio was invented later.","tip":"Parenthetical confirmation: '(The radio had not been invented)' = the Telharmonium came first."}},
+{"text":"2. Thaddeus Cahill destroyed the final model of his invention before he died.","answer":"F","expl":{"loc":"Text 1","quote":"After Cahill's death in 1934, his brother kept one of the three models, but in 1962 it was destroyed.","para":"FALSE: Cahill did NOT destroy it. He died in 1934, and his BROTHER kept the model, which was then destroyed in 1962 (28 years after Cahill died).","tip":"Timeline: Cahill dies (1934) → brother keeps model → destroyed (1962). Cahill was already dead when the model was destroyed."}},
+{"text":"3. The Rejuvenator successfully cured deafness and baldness in hundreds of people.","answer":"NG","expl":{"loc":"Text 2","quote":"It was used in the home to treat all kinds of medical problems, including deafness and baldness.","para":"NOT GIVEN: The text says it was USED to treat these conditions, but never says it successfully CURED anyone. 'Hundreds were sold' ≠ 'hundreds were cured'. The text is silent on effectiveness.","tip":"Key difference: 'used to treat' ≠ 'successfully cured'. The text never confirms the treatment worked. No cure data = NG."}},
+{"text":"4. The Rejuvenator was a commercial success even though it was not clear how it worked.","answer":"T","expl":{"loc":"Text 2","quote":"It was unclear exactly how the machine worked, but hundreds were sold all around the world and Overbeck became rich.","para":"TRUE: Commercial success = 'hundreds sold worldwide' + 'Overbeck became rich'. 'Not clear how it worked' = 'unclear exactly how the machine worked'. Both parts confirmed.","tip":"Two parts to verify: (1) unclear how it worked ✓ and (2) commercial success ✓. Both are confirmed directly."}},
+{"text":"5. The Writing Ball was the first machine that used electricity for typing.","answer":"NG","expl":{"loc":"Text 3","quote":"The machine even used electricity to make the movement faster.","para":"NOT GIVEN: The text says the Writing Ball used electricity, but never claims it was the FIRST typing machine to do so. No other typing machine is mentioned for comparison. 'First' cannot be confirmed or denied from the text.","tip":"'The first' = a superlative claim. The text never uses 'first' in relation to electricity and typing. You cannot confirm 'first' without a comparison – NG."}},
+{"text":"6. Other typing machines were cheaper to make because they were not made by hand.","answer":"T","expl":{"loc":"Text 3","quote":"each model [of the Writing Ball] was made by hand. Soon, other machines became more popular because they were made in factories and were cheaper.","para":"TRUE: The Writing Ball = made by hand. Other machines = made in factories = cheaper. Factory production (not handmade) = reason for cheaper price.","tip":"Contrast: Writing Ball (by hand = expensive) vs other machines (factory = cheaper). Directly stated in the text."}},
+{"text":"7. The Antikythera Mechanism was at the bottom of the sea for nearly 2,000 years.","answer":"F","expl":{"loc":"Text 4","quote":"It had been made about 1,900 years earlier, in 2 BC.","para":"FALSE: The text says it was made 'about 1,900 years' before its discovery (1901 AD). 1,900 years ≠ 'nearly 2,000 years'. The text is specific: approximately 1,900 years, not nearly 2,000.","tip":"1,900 ≠ nearly 2,000. The text uses a specific number (1,900). 'Nearly 2,000' would require ~1,950+. This is False because the text contradicts it."}},
+{"text":"8. For about 70 years after it was found, the purpose of the mechanism was not known.","answer":"T","expl":{"loc":"Text 4","quote":"In 1901, a ship was discovered... For many years after its discovery, nobody understood exactly what the machine was for. But in the 1970s, scientists used X-rays to find out its secrets.","para":"TRUE: Found in 1901, understood in 1970s = approximately 70 years. 'For many years nobody understood' = purpose not known for ~70 years.","tip":"1901 to 1970s = approximately 70 years. 'For many years nobody understood' confirms the long period of uncertainty."}}
+]}
+]}
+];
+
+
+var VOCAB=[
+{"id":"pain","word":"pain","type":"n","def":"the feeling you have when part of your body hurts","example":"Ashlyn simply did not know when she injured herself – she couldn't feel any pain.","practice":1,"diff":1,"ipa":"/peɪn/"},
+{"id":"injury","word":"injury","type":"n","def":"physical damage done to a person's body","example":"Ashlyn had more accidents and injuries than her friends.","practice":1,"diff":1,"ipa":"/ˈɪndʒəri/"},
+{"id":"condition_med","word":"condition","type":"n","def":"a medical problem that affects someone for a long time","example":"Doctors realised that Ashlyn had a very unusual medical condition.","practice":1,"diff":1,"ipa":"/kənˈdɪʃən/"},
+{"id":"rare","word":"rare","type":"adj","def":"not common; not happening or existing very often","example":"This condition is very rare: only about a hundred people a year in the USA are born with it.","practice":1,"diff":1,"ipa":"/reər/"},
+{"id":"warning","word":"warning","type":"n","def":"something that tells you that something bad might happen","example":"Pain is a natural warning: when you're ill or injured, your body hurts.","practice":1,"diff":2,"ipa":"/ˈwɔːnɪŋ/"},
+{"id":"bruise","word":"bruise","type":"n","def":"a dark mark on the skin caused by a hit or fall","example":"Teachers had to search for cuts, bruises or other injuries.","practice":1,"diff":2,"ipa":"/bruːz/"},
+{"id":"genetic","word":"genetic","type":"adj","def":"relating to genes; passed from parent to child through DNA","example":"Scientists found it was a genetic disorder.","practice":1,"diff":3,"ipa":"/dʒəˈnetɪk/"},
+{"id":"cure","word":"cure","type":"n","def":"a treatment that makes a disease or condition go away completely","example":"At the moment, there is no hope of a cure.","practice":1,"diff":2,"ipa":"/kjʊər/"},
+
+{"id":"nightmare","word":"nightmare","type":"n","def":"a very frightening or unpleasant experience","example":"A dream holiday turned into a nightmare for Dan and Kate Suski.","practice":2,"diff":2,"ipa":"/ˈnaɪtmeər/"},
+{"id":"stunning","word":"stunning","type":"adj","def":"very impressive or beautiful","example":"They were near the stunning island of St Lucia.","practice":2,"diff":2,"ipa":"/ˈstʌnɪŋ/"},
+{"id":"terrifying","word":"terrifying","type":"adj","def":"making you feel very frightened","example":"They were both thinking the same terrifying thought: sharks!","practice":2,"diff":2,"ipa":"/ˈterɪfaɪɪŋ/"},
+{"id":"exhausted","word":"exhausted","type":"adj","def":"extremely tired, with no energy left","example":"By now, they were exhausted.","practice":2,"diff":2,"ipa":"/ɪɡˈzɔːstɪd/"},
+{"id":"rescue","word":"rescue","type":"n","def":"the act of saving someone from a dangerous or difficult situation","example":"There was no sign of rescue after an hour in the water.","practice":2,"diff":1,"ipa":"/ˈreskjuː/"},
+{"id":"astonishing","word":"astonishing","type":"adj","def":"very surprising; making you feel great surprise","example":"There was one final piece of astonishing news: the captain also survived.","practice":2,"diff":2,"ipa":"/əˈstɒnɪʃɪŋ/"},
+{"id":"survive_2","word":"survive","type":"v","def":"to continue to live after a dangerous or difficult experience","example":"The captain also survived. A rescue boat found him after 23 hours in the water.","practice":2,"diff":1,"ipa":"/səˈvaɪv/"},
+
+{"id":"assume","word":"assume","type":"v","def":"to think something is true without proof or checking","example":"Many people assume that video games have a negative effect on young people.","practice":3,"diff":2,"ipa":"/əˈsjuːm/"},
+{"id":"evidence","word":"evidence","type":"n","def":"facts or information showing whether something is true","example":"But is there any evidence for this view?","practice":3,"diff":2,"ipa":"/ˈevɪdəns/"},
+{"id":"creativity","word":"creativity","type":"n","def":"the ability to produce new and original ideas or things","example":"Playing any kind of video game improves children's creativity.","practice":3,"diff":3,"ipa":"/ˌkriːeɪˈtɪvɪti/"},
+{"id":"anxious","word":"anxious","type":"adj","def":"worried and nervous about something that might happen","example":"Simple games like Angry Birds can prevent players from feeling anxious.","practice":3,"diff":2,"ipa":"/ˈæŋkʃəs/"},
+{"id":"benefit","word":"benefit","type":"n","def":"an advantage or something that helps you","example":"This emotional benefit is important, the report suggests.","practice":3,"diff":2,"ipa":"/ˈbenɪfɪt/"},
+{"id":"deny","word":"deny","type":"v","def":"to say that something is not true","example":"The report does not deny that some video games can have negative effects.","practice":3,"diff":2,"ipa":"/dɪˈnaɪ/"},
+{"id":"combat","word":"combat","type":"adj","def":"relating to fighting or war (here: combat games = fighting games)","example":"This is especially true for combat games.","practice":3,"diff":2,"ipa":"/ˈkɒmbæt/"},
+
+{"id":"altitude","word":"altitude","type":"n","def":"the height of something above sea level","example":"She rose to an altitude of nearly 10,000 m.","practice":4,"diff":3,"ipa":"/ˈæltɪtjuːd/"},
+{"id":"unconscious","word":"unconscious","type":"adj","def":"not awake and not aware of what is happening around you","example":"For forty minutes, Ewa was unconscious.","practice":4,"diff":2,"ipa":"/ʌnˈkɒnʃəs/"},
+{"id":"hailstone","word":"hailstone","type":"n","def":"a small ball of ice that falls from the sky like very hard rain","example":"Hailstones were flying past. They were as big as tennis balls.","practice":4,"diff":3,"ipa":"/ˈheɪlstəʊn/"},
+{"id":"approach","word":"approach","type":"v","def":"to come nearer to something or someone","example":"They noticed that a thunderstorm was approaching.","practice":4,"diff":2,"ipa":"/əˈprəʊtʃ/"},
+{"id":"frostbite","word":"frostbite","type":"n","def":"injury to parts of the body caused by extreme cold","example":"Ewa had frostbite on her ears and legs.","practice":4,"diff":3,"ipa":"/ˈfrɒstbaɪt/"},
+{"id":"spin","word":"spin","type":"v","def":"to turn around quickly","example":"Her glider, which was spinning above her head, was still in one piece.","practice":4,"diff":2,"ipa":"/spɪn/"},
+{"id":"predict","word":"predict","type":"v","def":"to say what you think will happen in the future","example":"The mechanism had been designed to predict the movements of the sun and moon.","practice":4,"diff":2,"ipa":"/prɪˈdɪkt/"},
+
+{"id":"application","word":"application","type":"n","def":"a formal written request, especially for a job","example":"Andrew sent in an application. It included a video of himself making models.","practice":5,"diff":2,"ipa":"/ˌæplɪˈkeɪʃən/"},
+{"id":"degree_n","word":"degree","type":"n","def":"a qualification given by a university after completing a course","example":"Andrew was near the end of his History and Photography degree.","practice":5,"diff":1,"ipa":"/dɪˈɡriː/"},
+{"id":"rewarding","word":"rewarding","type":"adj","def":"making you feel satisfied because you have done something useful","example":"She finds it rewarding: 'If I do my job properly, hundreds of other people sleep better.'","practice":5,"diff":2,"ipa":"/rɪˈwɔːdɪŋ/"},
+{"id":"graduation","word":"graduation","type":"n","def":"the ceremony when you receive your university degree","example":"He planned to apply to film school after graduation.","practice":5,"diff":2,"ipa":"/ˌɡrædʒuˈeɪʃən/"},
+{"id":"fluent","word":"fluent","type":"adj","def":"able to speak a language very well and naturally","example":"When Joe told them he speaks fluent French, they gave him a job.","practice":5,"diff":2,"ipa":"/ˈfluːənt/"},
+{"id":"employ","word":"employ","type":"v","def":"to pay someone regularly to work for you","example":"Some film providers like Netflix employ people to watch new films from home.","practice":5,"diff":1,"ipa":"/ɪmˈplɔɪ/"},
+
+{"id":"abroad","word":"abroad","type":"adv","def":"in or to another country","example":"It was my first trip abroad and the first without my parents.","practice":6,"diff":1,"ipa":"/əˈbrɔːd/"},
+{"id":"hitchhike","word":"hitch-hike","type":"v","def":"to travel by getting free rides in other people's cars","example":"At sixteen, I hitch-hiked down to Cornwall with a friend.","practice":6,"diff":2,"ipa":"/ˈhɪtʃhaɪk/"},
+{"id":"campsite","word":"campsite","type":"n","def":"an area of land where you can put up a tent and camp","example":"We spent the holiday staying at campsites on the way.","practice":6,"diff":1,"ipa":"/ˈkæmpsaɪt/"},
+{"id":"sunburn","word":"sunburn","type":"n","def":"painful red skin caused by spending too long in the sun","example":"I had to keep wearing sunglasses because of my sunburn.","practice":6,"diff":1,"ipa":"/ˈsʌnbɜːn/"},
+{"id":"negotiate","word":"negotiate","type":"v","def":"to discuss something with others to reach an agreement","example":"I had to do lots of chatting, negotiating, discussing and questioning.","practice":6,"diff":3,"ipa":"/nɪˈɡəʊʃieɪt/"},
+{"id":"judge_v","word":"judge","type":"v","def":"to form an opinion about someone or something","example":"It was up to me to judge them and decide.","practice":6,"diff":2,"ipa":"/dʒʌdʒ/"},
+
+{"id":"luxury","word":"luxury","type":"n","def":"something expensive that is pleasant but not necessary","example":"His biggest luxury is his smartphone.","practice":7,"diff":2,"ipa":"/ˈlʌkʃəri/"},
+{"id":"income","word":"income","type":"n","def":"money that you receive regularly from work or investments","example":"Box did not bring in much income at the start.","practice":7,"diff":2,"ipa":"/ˈɪŋkʌm/"},
+{"id":"entrepreneur","word":"entrepreneur","type":"n","def":"a person who starts businesses and takes financial risks","example":"A well-known entrepreneur called Mark Cuban agreed to put money into Box.","practice":7,"diff":3,"ipa":"/ˌɒntrəprəˈnɜː/"},
+{"id":"funding","word":"funding","type":"n","def":"money provided for a particular purpose","example":"Levie and Smith looked for funding but could not find any investors.","practice":7,"diff":2,"ipa":"/ˈfʌndɪŋ/"},
+{"id":"profit","word":"profit","type":"n","def":"money a business makes after paying all its costs","example":"Box has grown and so have its profits, making Levie a multi-millionaire.","practice":7,"diff":2,"ipa":"/ˈprɒfɪt/"},
+{"id":"extravagant","word":"extravagant","type":"adj","def":"spending too much money or using too much of something","example":"Most people his age would lead an extravagant lifestyle if they had so much money.","practice":7,"diff":3,"ipa":"/ɪkˈstrævəɡənt/"},
+{"id":"contract","word":"contract","type":"n","def":"a formal written agreement between people or companies","example":"They soon had contracts with many of the biggest companies in the USA.","practice":7,"diff":2,"ipa":"/ˈkɒntrækt/"},
+
+{"id":"investigation","word":"investigation","type":"n","def":"the process of trying to find out the truth about something","example":"The police arrived and launched a murder investigation.","practice":8,"diff":2,"ipa":"/ɪnˌvestɪˈɡeɪʃən/"},
+{"id":"identification","word":"identification","type":"n","def":"the process of recognising or proving who someone is","example":"There was no wallet or identification.","practice":8,"diff":3,"ipa":"/aɪˌdentɪfɪˈkeɪʃən/"},
+{"id":"clue","word":"clue","type":"n","def":"a piece of information that helps you solve a problem or mystery","example":"He found a clue that everybody else had missed.","practice":8,"diff":1,"ipa":"/kluː/"},
+{"id":"mystery","word":"mystery","type":"n","def":"something that is strange and difficult to explain or understand","example":"The mystery of the body on Somerton Beach continued.","practice":8,"diff":2,"ipa":"/ˈmɪstəri/"},
+{"id":"breakthrough","word":"breakthrough","type":"n","def":"an important discovery or development that helps progress","example":"Two weeks after the discovery, there was a breakthrough.","practice":8,"diff":2,"ipa":"/ˈbreɪkθruː/"},
+{"id":"identity","word":"identity","type":"n","def":"who a person is","example":"These possessions did not reveal the man's identity.","practice":8,"diff":2,"ipa":"/aɪˈdentɪti/"},
+
+{"id":"broadcast","word":"broadcast","type":"v","def":"to send out a programme on radio or television to many people","example":"Music from the instrument was broadcast to people's homes using the telephone.","practice":9,"diff":2,"ipa":"/ˈbrɔːdkɑːst/"},
+{"id":"invent","word":"invent","type":"v","def":"to design or create something for the first time","example":"The Telharmonium was designed by Thaddeus Cahill, in 1897.","practice":9,"diff":1,"ipa":"/ɪnˈvent/"},
+{"id":"demonstration","word":"demonstration","type":"n","def":"an event where you show people how something works","example":"Members of the public were invited to watch live demonstrations in theatres.","practice":9,"diff":2,"ipa":"/ˌdemənˈstreɪʃən/"},
+{"id":"arrangement","word":"arrangement","type":"n","def":"the way things are organised or placed in a particular order","example":"A new keyboard was developed with the keys arranged differently. This arrangement is now used all over the world.","practice":9,"diff":2,"ipa":"/əˈreɪndʒmənt/"},
+{"id":"mechanism","word":"mechanism","type":"n","def":"a system of parts in a machine that work together","example":"The Antikythera Mechanism used more than thirty hand-made metal wheels.","practice":9,"diff":3,"ipa":"/ˈmekənɪzəm/"},
+{"id":"reconstruct","word":"reconstruct","type":"v","def":"to build or create something again that was lost or destroyed","example":"Reconstructions have been made and the device works perfectly.","practice":9,"diff":2,"ipa":"/ˌriːkənˈstrʌkt/"},
+{"id":"ancient","word":"ancient","type":"adj","def":"very old; belonging to a time long ago","example":"It had been made about 1,900 years earlier, in 2 BC.","practice":9,"diff":1,"ipa":"/ˈeɪnʃənt/"}
+];
+
+
+var vocabProgress={};
+var VS={active:false,filter:'all',mode:'list',idx:0,revealed:false,q:null,checked:false,sessionWords:[],score:0,total:0};
+var state={cur:0,submitted:false,userAnswers:{},showReport:false,viewAttempt:null};
+var attempts=P.map(function(){return[];});
+var timers=P.map(function(){return 0;});
+var timerInterval=null,timerRunning=false;
+
+function startTimer(){
+  if(timerRunning)return;
+  timerRunning=true;
+  timerInterval=setInterval(function(){
+    if(!state.submitted){timers[state.cur]++;var el=document.getElementById('timer');if(el)el.textContent=fmt(timers[state.cur]);}
+  },1000);
+}
+function stopTimer(){timerRunning=false;clearInterval(timerInterval);timerInterval=null;}
+function fmt(s){var m=Math.floor(s/60),sec=s%60;return(m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9]/g,'');}
+
+function collectAnswers(){
+  var p=P[state.cur],ans={};
+  p.exercises.forEach(function(ex,ei){
+    var id='p'+p.id+'e'+ei;
+    if(ex.type==='gap-match'){
+      ans[ei]={};
+      for(var g=1;g<=ex.numGaps;g++){var el=document.getElementById(id+'g'+g);ans[ei][g]=el?el.value.trim().toUpperCase():'';}
+    } else if(ex.type==='single-mcq'){
+      var sel=document.querySelector('input[name="'+id+'mcq"]:checked');ans[ei]=sel?sel.value:'';
+    } else if(ex.type==='true-false'||ex.type==='true-false-ng'){
+      ans[ei]={};
+      ex.statements.forEach(function(st,si){var sel=document.querySelector('input[name="'+id+'tf'+si+'"]:checked');ans[ei][si]=sel?sel.value:'';});
+    } else if(ex.type==='short-answer'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){var el=document.getElementById(id+'sa'+qi);ans[ei][qi]=el?el.value.trim():'';});
+    } else if(ex.type==='mcq-list'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){var sel=document.querySelector('input[name="'+id+'mcq'+qi+'"]:checked');ans[ei][qi]=sel?sel.value:'';});
+    } else if(ex.type==='text-match'){
+      ans[ei]={};
+      ex.questions.forEach(function(q,qi){var el=document.getElementById(id+'tm'+qi);ans[ei][qi]=el?el.value.trim().toUpperCase():'';});
+    }
+  });
+  return ans;
+}
+
+function scoreEx(ex,ea){
+  var score=0,total=0,results=[];
+  if(ex.type==='gap-match'){
+    for(var g=1;g<=ex.numGaps;g++){
+      total++;
+      var ua=(ea[g]||'').toUpperCase(),ca=ex.answers[String(g)].toUpperCase(),ok=ua===ca;
+      if(ok)score++;
+      results.push({q:'Gap '+g,user:ua,correct:ca,ok:ok,expl:ex.expls[String(g)]});
+    }
+    if(ex.expls&&ex.expls.extra)results.push({q:'Extra sentence(s)',user:'',correct:ex.extra,ok:true,expl:ex.expls.extra,info:true});
+  } else if(ex.type==='true-false'||ex.type==='true-false-ng'){
+    ex.statements.forEach(function(st,si){
+      total++;
+      var ua=(ea[si]||'').toUpperCase(),ca=st.answer.toUpperCase(),ok=ua===ca;
+      if(ok)score++;
+      results.push({q:st.text,user:ua,correct:ca,ok:ok,expl:st.expl});
+    });
+  } else if(ex.type==='short-answer'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toLowerCase(),kws=q.kw||[];
+      var ok=kws.some(function(k){return ua.indexOf(k.toLowerCase())>=0;});
+      if(!ok&&ua.length>1)ok=norm(ua).indexOf(norm(q.answer.substring(0,6)))>=0;
+      if(ok)score++;
+      results.push({q:q.text,user:ea[qi]||'',correct:q.answer,ok:ok,expl:q.expl});
+    });
+  } else if(ex.type==='mcq-list'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toLowerCase(),ca=q.answer.toLowerCase(),ok=ua===ca;
+      if(ok)score++;
+      results.push({q:q.text,user:ua,correct:ca,ok:ok,expl:q.expl});
+    });
+  } else if(ex.type==='text-match'){
+    ex.questions.forEach(function(q,qi){
+      total++;
+      var ua=(ea[qi]||'').toUpperCase(),ca=q.answer.toUpperCase(),ok=ua===ca;
+      if(ok)score++;
+      results.push({q:q.text,user:ua,correct:ca,ok:ok,expl:q.expl});
+    });
+  }
+  return{score:score,total:total,results:results};
+}
+
+function scoreAll(userAns){
+  var p=P[state.cur],totalScore=0,totalMax=0,exResults=[];
+  p.exercises.forEach(function(ex,ei){var r=scoreEx(ex,userAns[ei]||{});totalScore+=r.score;totalMax+=r.total;exResults.push(r);});
+  return{score:totalScore,total:totalMax,pct:totalMax>0?Math.round(totalScore/totalMax*100):0,exResults:exResults};
+}
+
+function submitPractice(){
+  stopTimer();
+  var ua=collectAnswers();state.userAnswers=ua;state.submitted=true;
+  var sr=scoreAll(ua);sr.time=timers[state.cur];sr.attempt=attempts[state.cur].length+1;
+  attempts[state.cur].push(sr);render();
+}
+function redoPractice(){stopTimer();timers[state.cur]=0;state.submitted=false;state.userAnswers={};state.viewAttempt=null;render();setTimeout(startTimer,300);}
+function goPractice(i){stopTimer();state.cur=i;state.submitted=false;state.userAnswers={};state.viewAttempt=null;render();setTimeout(startTimer,300);}
+
+function EX(e){
+  if(!e)return '';
+  var h='<div class="expl-box">';
+  if(e.loc)h+='<div class="expl-loc">📍 <b>Location:</b> '+e.loc+'</div>';
+  if(e.quote)h+='<div class="expl-qt">💬 "'+e.quote+'"</div>';
+  if(e.para)h+='<div class="expl-para">🔄 <b>Why this answer:</b> '+e.para+'</div>';
+  if(e.tip)h+='<div class="expl-tip">🔍 <b>How to spot paraphrase:</b> '+e.tip+'</div>';
+  return h+'</div>';
+}
+
+function tfClick(name,val){
+  document.getElementById(name+val).checked=true;
+  ['T','F','NG'].forEach(function(v){
+    var b=document.getElementById(name+'B'+v);
+    if(b)b.className='tf-btn'+(v===val?' sel-'+v:'');
+  });
+}
+
+function renderExInput(ex,ei,pid){
+  var id='p'+pid+'e'+ei;
+  var h='<div class="exbox"><div class="extitle">'+ex.title+'</div><div class="exinstr">'+ex.instr+'</div>';
+
+  if(ex.type==='gap-match'){
+    h+='<table class="opttable"><tr><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Label</th><th style="background:#1a1a2e;color:#fff;padding:6px 8px">Sentence</th></tr>';
+    ex.opts.forEach(function(o){h+='<tr><td class="olabel">'+o.l+'</td><td>'+o.t+'</td></tr>';});
+    h+='</table>';
+    for(var g=1;g<=ex.numGaps;g++){
+      h+='<div class="gap-row"><span class="gap-label">Gap '+g+':</span><select class="gap-sel" id="'+id+'g'+g+'"><option value="">– choose –</option>';
+      ex.opts.forEach(function(o){h+='<option value="'+o.l+'">'+o.l+'</option>';});
+      h+='</select></div>';
+    }
+  } else if(ex.type==='true-false'){
+    ex.statements.forEach(function(st,si){
+      h+='<div class="tf-row"><div class="tf-stmt">'+st.text+'</div><div class="tf-btns">';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="T" id="'+id+'tf'+si+'T" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BT" onclick="tfClick(\''+id+'tf'+si+'\',\'T\')">T</button>';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="F" id="'+id+'tf'+si+'F" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BF" onclick="tfClick(\''+id+'tf'+si+'\',\'F\')">F</button>';
+      h+='</div></div>';
+    });
+  } else if(ex.type==='true-false-ng'){
+    ex.statements.forEach(function(st,si){
+      h+='<div class="tf-row"><div class="tf-stmt">'+st.text+'</div><div class="tf-btns">';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="T" id="'+id+'tf'+si+'T" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BT" onclick="tfClick(\''+id+'tf'+si+'\',\'T\')">T</button>';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="F" id="'+id+'tf'+si+'F" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BF" onclick="tfClick(\''+id+'tf'+si+'\',\'F\')">F</button>';
+      h+='<input type="radio" name="'+id+'tf'+si+'" value="NG" id="'+id+'tf'+si+'NG" style="display:none">';
+      h+='<button class="tf-btn" id="'+id+'tf'+si+'BNG" onclick="tfClick(\''+id+'tf'+si+'\',\'NG\')">NG</button>';
+      h+='</div></div>';
+    });
+  } else if(ex.type==='short-answer'){
+    ex.questions.forEach(function(q,qi){
+      h+='<div class="sa-row"><div class="sa-q"><b>'+(qi+1)+'.</b> '+q.text+'</div>';
+      h+='<input class="sa-inp" id="'+id+'sa'+qi+'" placeholder="Type your answer…"></div>';
+    });
+  } else if(ex.type==='mcq-list'){
+    ex.questions.forEach(function(q,qi){
+      h+='<div style="margin-bottom:14px"><div class="sa-q"><b>'+(qi+1)+'.</b> '+q.text+'</div>';
+      q.opts.forEach(function(o){
+        h+='<label class="mcq-opt"><input type="radio" name="'+id+'mcq'+qi+'" value="'+o.l+'"> '+o.l.toUpperCase()+'. '+o.t+'</label>';
+      });
+      h+='</div>';
+    });
+  } else if(ex.type==='text-match'){
+    h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">';
+    ex.texts.forEach(function(t){h+='<span style="background:#f0f4ff;border:1px solid #4f8ef7;padding:3px 10px;border-radius:12px;font-size:.85rem"><b>'+t.l+'</b> = '+t.t+'</span>';});
+    h+='</div>';
+    ex.questions.forEach(function(q,qi){
+      h+='<div class="match-row"><span class="match-label" style="min-width:30px;color:#856404"><b>'+(qi+1)+'.</b></span>';
+      h+='<span class="match-text">'+q.text+'</span>';
+      h+='<select class="match-sel" id="'+id+'tm'+qi+'"><option value="">–</option>';
+      ex.texts.forEach(function(t){h+='<option value="'+t.l+'">'+t.l+'</option>';});
+      h+='</select></div>';
+    });
+  }
+  return h+'</div>';
+}
+
+function renderResults(sr){
+  var pct=sr.pct,p=P[state.cur];
+  var h='<div class="res-banner '+(pct>=60?'res-pass':'res-fail')+'">Attempt '+sr.attempt+': <span style="font-size:1.4rem">'+pct+'%</span> ('+sr.score+'/'+sr.total+' points) — '+fmt(sr.time)+'</div>';
+  p.exercises.forEach(function(ex,ei){
+    var er=sr.exResults[ei];
+    h+='<div style="margin-bottom:6px;font-weight:700;color:#1a1a2e">'+ex.title+' ('+er.score+'/'+er.total+')</div>';
+    er.results.forEach(function(r){
+      if(r.info)return;
+      var cls=r.ok?'correct':'wrong',icon=r.ok?'✅':'❌';
+      h+='<div class="q-result"><div class="q-result-head '+cls+'">'+icon+' '+r.q;
+      if(!r.ok)h+=' — Your answer: <b>'+r.user+'</b> | Correct: <b>'+r.correct+'</b>';
+      h+='</div>';
+      if(r.expl)h+=EX(r.expl);
+      h+='</div>';
+    });
+  });
+  return h;
+}
+
+function render(){
+  var app=document.getElementById('app');
+  if(VS.active){app.innerHTML=renderVocabScreen();return;}
+  if(state.showReport){app.innerHTML=renderReportScreen();return;}
+  var p=P[state.cur];
+  var tabsH='';
+  P.forEach(function(pr,i){
+    var cls='tab'+(i===state.cur?' active':'')+(attempts[i].length>0?' done':'');
+    tabsH+='<div class="'+cls+'" onclick="goPractice('+i+')">'+pr.emoji+' P'+pr.id+'</div>';
+  });
+  var attH='';
+  if(attempts[state.cur].length>0){
+    attH='<div class="attempt-tags">';
+    attempts[state.cur].forEach(function(a,i){
+      var best=a.pct===Math.max.apply(null,attempts[state.cur].map(function(x){return x.pct;}));
+      var cls='atag '+(best?'best':a.pct>=60?'pass':'fail');
+      attH+='<div class="'+cls+'" onclick="viewAttempt('+i+')">Attempt '+(i+1)+': '+a.pct+'%</div>';
+    });
+    attH+='</div>';
+  }
+  var qContent='';
+  if(state.viewAttempt!==null&&!state.submitted){
+    var vsr=attempts[state.cur][state.viewAttempt];
+    qContent=attH+'<h3 style="margin-bottom:12px;color:#1a1a2e">📊 Attempt '+(state.viewAttempt+1)+' Results</h3>'+renderResults(vsr);
+    qContent+='<div class="sub-row"><button class="redo-btn" onclick="redoPractice()">🔄 Try Again</button><button class="back-btn" onclick="backFromView()">← Back to Practice</button></div>';
+  } else if(state.submitted){
+    var sr=attempts[state.cur][attempts[state.cur].length-1];
+    qContent=attH+renderResults(sr);
+    qContent+='<div class="sub-row"><button class="redo-btn" onclick="redoPractice()">🔄 Try Again</button></div>';
+  } else {
+    qContent=attH;
+    p.exercises.forEach(function(ex,ei){qContent+=renderExInput(ex,ei,p.id);});
+    qContent+='<div class="sub-row"><button class="sub-btn" onclick="submitPractice()">✅ Submit & Check Answers</button></div>';
+  }
+  app.innerHTML=
+    '<div class="brandbar"><span>Huong Stella Paradigm</span></div>'+
+    '<div class="topbar">'+
+      '<div class="apptitle">📖 Reading Practice Level 2</div>'+
+      '<div class="tabs">'+tabsH+'</div>'+
+      '<div class="student-inputs">'+
+        '<input class="stu-input" placeholder="Tên học viên" value="'+studentName.replace(/"/g,'&quot;')+'" oninput="studentName=this.value">'+
+        '<input class="stu-input" placeholder="Email học viên" value="'+studentEmail.replace(/"/g,'&quot;')+'" oninput="studentEmail=this.value">'+
+      '</div>'+
+      '<div class="timer-chip" id="timer">'+fmt(timers[state.cur])+'</div>'+
+      '<button class="rpt-btn" onclick="showReportFn()">📊 Report</button>'+
+      '<button class="vocab-btn" onclick="showVocab()">📚 Vocab</button>'+
+    '</div>'+
+    '<div class="split">'+
+      '<div class="textpanel">'+p.textHTML+'</div>'+
+      '<div class="qpanel">'+
+        '<div style="font-size:.8rem;color:#888;margin-bottom:8px">📌 '+p.topic+'</div>'+
+        '<h2 style="font-size:1.1rem;color:#1a1a2e;margin-bottom:12px">'+p.emoji+' Practice '+p.id+': '+p.title+'</h2>'+
+        qContent+
+      '</div>'+
+    '</div>';
+}
+
+function viewAttempt(i){state.viewAttempt=i;state.submitted=false;render();}
+function backFromView(){state.viewAttempt=null;render();}
+function showReportFn(){state.showReport=true;stopTimer();render();}
+function backFromReport(){state.showReport=false;render();setTimeout(startTimer,200);}
+
+function renderReportScreen(){
+  var totScore=0,totMax=0,practiceRows='',typeErrors={},topicErrors={};
+  P.forEach(function(p,i){
+    var ats=attempts[i];
+    if(!ats.length){practiceRows+='<tr><td>P'+p.id+' – '+p.title+'</td><td colspan="4" style="color:#aaa;font-style:italic">Not attempted</td></tr>';return;}
+    var best=ats.reduce(function(b,a){return a.pct>b.pct?a:b;},ats[0]),last=ats[ats.length-1];
+    totScore+=last.score;totMax+=last.total;
+    var trend=ats.length>1?(last.pct>ats[ats.length-2].pct?'<span class="trend-up">↑</span>':'<span class="trend-dn">↓</span>'):'–';
+    var badge=best.pct>=80?'badge-g':best.pct>=60?'badge-y':'badge-r';
+    practiceRows+='<tr><td>'+p.emoji+' P'+p.id+' – '+p.title+'</td><td><span class="badge '+badge+'">'+best.pct+'%</span></td><td>'+last.pct+'%</td><td>'+fmt(best.time)+'</td><td>'+trend+'</td></tr>';
+    p.exercises.forEach(function(ex,ei){
+      var er=last.exResults[ei];
+      if(!typeErrors[ex.type])typeErrors[ex.type]={wrong:0,total:0};
+      typeErrors[ex.type].wrong+=er.total-er.score;typeErrors[ex.type].total+=er.total;
+    });
+    if(!topicErrors[p.topic])topicErrors[p.topic]={wrong:0,total:0};
+    topicErrors[p.topic].wrong+=last.total-last.score;topicErrors[p.topic].total+=last.total;
+  });
+  var ovPct=totMax>0?Math.round(totScore/totMax*100):0;
+  var ovBadge=ovPct>=80?'#27ae60':ovPct>=60?'#f39c12':'#e74c3c';
+  var typeRows='';
+  var typeNames={'gap-match':'Gap matching','mcq-list':'Multiple choice','true-false':'True / False','true-false-ng':'T / F / Not Given','short-answer':'Short answer','text-match':'Paragraph matching'};
+  Object.keys(typeErrors).sort(function(a,b){return(typeErrors[b].wrong/typeErrors[b].total)-(typeErrors[a].wrong/typeErrors[a].total);}).forEach(function(k){
+    var t=typeErrors[k],ep=Math.round(t.wrong/t.total*100);
+    var badge=ep>=40?'badge-r':ep>=20?'badge-y':'badge-g';
+    typeRows+='<tr><td>'+(typeNames[k]||k)+'</td><td>'+t.wrong+'/'+t.total+'</td><td><span class="badge '+badge+'">'+ep+'% error</span></td></tr>';
+  });
+  var topicRows='';
+  Object.keys(topicErrors).forEach(function(k){
+    var t=topicErrors[k],ep=Math.round(t.wrong/t.total*100);
+    var badge=ep>=40?'badge-r':ep>=20?'badge-y':'badge-g';
+    topicRows+='<tr><td>'+k+'</td><td><span class="badge '+badge+'">'+ep+'% error</span></td></tr>';
+  });
+  var recs=[];
+  if(ovPct<60)recs.push({type:'warn',text:'<b>Overall score below 60%:</b> Read the entire paragraph before answering. Never answer from the first sentence alone.'});
+  if(ovPct>=60&&ovPct<80)recs.push({type:'',text:'<b>Good progress!</b> To reach 80%: practise spotting paraphrase – synonyms and grammar changes between the question and the text.'});
+  if(ovPct>=80)recs.push({type:'ok',text:'<b>Excellent!</b> Try to complete each practice in under 12 minutes to build exam speed.'});
+  recs.push({type:'',text:'<b>For T/F/NG:</b> NG means the text does not say enough to decide. If you cannot find a clear True or False signal in the text → choose NG.'});
+  recs.push({type:'',text:'<b>For gap-fill:</b> Read the sentence BEFORE and AFTER each gap. Look for grammar clues (connectors: but, so, however, because).'});
+  recs.push({type:'',text:'<b>For paragraph matching:</b> Scan for key nouns (names, dates, places) in the question, then find the same or a synonym in the text.'});
+  var recsH=recs.map(function(r){return '<div class="rec-item '+r.type+'">'+r.text+'</div>';}).join('');
+  var h='<div class="brandbar"><span>Huong Stella Paradigm</span></div>';
+  h+='<div style="padding:72px 0 0 0"></div>';
+  h+='<button class="back-btn" onclick="backFromReport()">← Back to Practice</button>';
+  h+='<div class="report-screen"><h1>📊 Results Report – Level 2</h1>';
+  h+='<div class="sbox"><div class="ov-card"><div class="ov-pct" style="color:'+ovBadge+'">'+ovPct+'%</div>';
+  h+='<div class="ov-info"><div class="ov-label">Overall Score (Level 2)</div><div class="ov-pts">'+totScore+' / '+totMax+' points</div>';
+  h+='<div class="score-bar-wrap"><div class="score-bar" style="width:'+ovPct+'%;background:'+ovBadge+'"></div></div></div></div></div>';
+  h+='<div class="sbox"><h2>📋 Per-Practice Results</h2><table class="rtable"><tr><th>Practice</th><th>Best %</th><th>Last %</th><th>Best Time</th><th>Trend</th></tr>'+practiceRows+'</table></div>';
+  h+='<div class="sbox"><h2>❌ Error Rate by Question Type</h2><table class="rtable"><tr><th>Question Type</th><th>Errors</th><th>Error Rate</th></tr>'+typeRows+'</table></div>';
+  h+='<div class="sbox"><h2>📚 Error Rate by Topic</h2><table class="rtable"><tr><th>Topic</th><th>Error Rate</th></tr>'+topicRows+'</table></div>';
+  h+='<div class="sbox"><h2>💡 Recommendations</h2>'+recsH+'</div>';
+  h+='<div class="sbox"><h2>📧 Send to Teacher</h2><button class="xbtn em" onclick="sendEmail()">📧 Send Results to Teacher</button></div></div>';
+  return h;
+}
+
+function sendEmail(){
+  var lines=['Reading Practice Level 2 Results','Date: '+new Date().toLocaleDateString(),''];
+  var totScore=0,totMax=0;
+  P.forEach(function(p,i){
+    var ats=attempts[i];
+    if(!ats.length){lines.push('P'+p.id+' '+p.title+': Not attempted');return;}
+    var last=ats[ats.length-1];totScore+=last.score;totMax+=last.total;
+    lines.push('P'+p.id+' '+p.title+': '+last.pct+'% ('+last.score+'/'+last.total+') – '+ats.length+' attempt(s)');
+  });
+  lines.push('');lines.push('OVERALL: '+(totMax>0?Math.round(totScore/totMax*100):0)+'% ('+totScore+'/'+totMax+')');
+  var body=encodeURIComponent(lines.join('\n'));
+  var subj=encodeURIComponent('Reading Practice Level 2 Results – '+new Date().toLocaleDateString());
+  window.location.href='mailto:'+TEACHER+'?subject='+subj+'&body='+body;
+}
+
+// ── VOCAB SCREEN ──
+function showVocab(){VS.active=true;VS.mode='list';VS.filter='all';VS.idx=0;VS.revealed=false;VS.q=null;VS.checked=false;VS.sessionWords=[];stopTimer();render();}
+function backFromVocab(){VS.active=false;render();setTimeout(startTimer,200);}
+function setVF(f){VS.filter=f;VS.idx=0;VS.revealed=false;VS.q=null;VS.checked=false;VS.sessionWords=[];render();}
+function setVM(m){VS.mode=m;VS.idx=0;VS.revealed=false;VS.q=null;VS.checked=false;VS.sessionWords=[];render();}
+function getVW(){return VOCAB.filter(function(w){if(VS.filter==='all')return true;if(VS.filter==='weak')return vocabProgress[w.id]!=='known';if(VS.filter==='known')return vocabProgress[w.id]==='known';return w.practice===parseInt(VS.filter);});}
+function shuffV(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function markV(id,s){vocabProgress[id]=s;VS.idx++;VS.revealed=false;render();}
+function wt(t){var c={v:'wt-v',n:'wt-n',adj:'wt-adj',adv:'wt-adv',phr:'wt-phr'}[t]||'wt-n';return '<span class="wt '+c+'">'+t+'</span>';}
+function wst(id){var s=vocabProgress[id]||'new';return s==='known'?'<div class="wstatus st-k">✓</div>':s==='learning'?'<div class="wstatus st-l">~</div>':'<div class="wstatus st-n">·</div>';}
+function ptag(n){var pp=P[n-1];return pp?pp.emoji+' P'+n:'P'+n;}
+function vscore(){return Object.keys(vocabProgress).filter(function(k){return vocabProgress[k]==='known';}).length;}
+function getSW(){if(!VS.sessionWords.length){VS.sessionWords=shuffV(getVW().slice());}return VS.sessionWords;}
+function doneScreen(sc,tot){
+  return '<div class="vc-done"><div style="font-size:2.8rem;margin-bottom:14px">🎉</div><h2>Session complete!</h2><p>Score: '+sc+' / '+tot+' words</p><button class="fc-rev" onclick="VS.idx=0;VS.sessionWords=[];VS.score=0;VS.total=0;VS.q=null;VS.checked=false;render()">↩ Restart</button></div>';
+}
+
+function renderVocabScreen(){
+  var known=vscore();
+  var h='<div class="brandbar"><span>Huong Stella Paradigm</span></div>';
+  h+='<div class="topbar"><button class="back-btn" onclick="backFromVocab()">← Back</button><div class="apptitle">📚 Vocabulary – Level 2</div><div style="flex:1"></div><div style="font-size:.78rem;color:#aaa">'+known+' / '+VOCAB.length+' known</div></div>';
+  var fkeys=['all','1','2','3','4','5','6','7','8','9','weak','known'];
+  var flabels={all:'All',1:'P1',2:'P2',3:'P3',4:'P4',5:'P5',6:'P6',7:'P7',8:'P8',9:'P9',weak:'⭐ Needs review',known:'✓ Known'};
+  h+='<div class="vtoolbar">';
+  fkeys.forEach(function(f){h+='<button class="vf-btn'+(VS.filter===f?' active':'')+'" data-vf="'+f+'" onclick="setVF(this.dataset.vf)">'+flabels[f]+'</button>';});
+  h+='<div class="vsep"></div>';
+  [['list','📋 List'],['flashcard','🃏 Flashcard'],['mcq','❓ MCQ'],['recall','✏️ Recall']].forEach(function(m){
+    h+='<button class="vm-btn'+(VS.mode===m[0]?' active':'')+'" data-vm="'+m[0]+'" onclick="setVM(this.dataset.vm)">'+m[1]+'</button>';
+  });
+  h+='</div><div class="vbody">';
+  if(VS.mode==='list')h+=renderVList();
+  else if(VS.mode==='flashcard')h+=renderFC();
+  else if(VS.mode==='mcq')h+=renderMCQv();
+  else if(VS.mode==='recall')h+=renderWR();
+  return h+'</div>';
+}
+
+function renderVList(){
+  var words=getVW();
+  if(!words.length)return '<div style="text-align:center;color:#888;padding:40px">No words match this filter.</div>';
+  var h='<div class="wlist">';
+  words.forEach(function(w){
+    h+='<div class="wcard">';
+    h+='<div class="wcard-word">'+w.word+'</div>';
+    h+=spkBtn(w.word);
+    h+='<span class="wipa">'+(w.ipa||'')+'</span>';
+    h+=wt(w.type);
+    h+='<div class="wcard-def">'+w.def+'</div>';
+    h+='<div style="font-size:.68rem;color:#aaa;white-space:nowrap">'+ptag(w.practice)+'</div>';
+    h+=wst(w.id)+'</div>';
+  });
+  return h+'</div>';
+}
+
+function renderFC(){
+  var words=getSW();
+  if(!words.length)return '<div style="text-align:center;color:#888;padding:40px">No words in this filter.</div>';
+  if(VS.idx>=words.length){var k=words.filter(function(w){return vocabProgress[w.id]==='known';}).length;return doneScreen(k,words.length);}
+  var w=words[VS.idx];
+  var h='<div class="fc-wrap"><div class="fc-prog">'+(VS.idx+1)+' / '+words.length+'</div><div class="fc-card">';
+  if(!VS.revealed){
+    h+='<div class="fc-word">'+w.word+'</div>'+spkBtn(w.word)+'<div class="fc-ipa">'+(w.ipa||'')+'</div>'+wt(w.type);
+    h+='<button class="fc-rev" onclick="VS.revealed=true;render()">Show definition</button>';
+  } else {
+    h+='<div class="fc-word">'+w.word+'</div>'+spkBtn(w.word)+'<div class="fc-ipa">'+(w.ipa||'')+'</div>'+wt(w.type);
+    h+='<div class="fc-def">'+w.def+'</div><div class="fc-ex">'+w.example+'</div><div class="fc-src">📖 '+ptag(w.practice)+'</div>';
+  }
+  h+='</div>';
+  if(VS.revealed){
+    h+='<div class="fc-acts">';
+    h+='<button class="fc-dk" data-vid="'+w.id+'" data-vs="new" onclick="markV(this.dataset.vid,this.dataset.vs)">✗ Don\'t know</button>';
+    h+='<button class="fc-sl" data-vid="'+w.id+'" data-vs="learning" onclick="markV(this.dataset.vid,this.dataset.vs)">~ Still learning</button>';
+    h+='<button class="fc-k" data-vid="'+w.id+'" data-vs="known" onclick="markV(this.dataset.vid,this.dataset.vs)">✓ Know it!</button>';
+    h+='</div>';
+  } else {
+    h+='<button class="fc-skip" onclick="VS.idx++;VS.revealed=false;render()">Skip →</button>';
+  }
+  return h+'</div>';
+}
+
+function renderMCQv(){
+  var words=getSW();
+  if(!words.length)return '<div style="text-align:center;color:#888;padding:40px">No words in this filter.</div>';
+  if(VS.idx>=words.length)return doneScreen(VS.score,VS.total);
+  if(!VS.q||VS.q.wid!==words[VS.idx].id){
+    var w=words[VS.idx];
+    var wrong=VOCAB.filter(function(x){return x.id!==w.id;});shuffV(wrong);
+    var opts=[{def:w.def,ok:true}];wrong.slice(0,3).forEach(function(x){opts.push({def:x.def,ok:false});});shuffV(opts);
+    VS.q={wid:w.id,word:w.word,type:w.type,ipa:w.ipa,opts:opts,sel:null};VS.checked=false;
+  }
+  var q=VS.q;
+  var h='<div class="mcq-wrap"><div class="fc-prog">'+(VS.idx+1)+' / '+words.length+' · Score: '+VS.score+'/'+VS.total+'</div>';
+  h+='<div class="mcq-q"><strong style="font-size:1.3rem">'+q.word+'</strong> '+spkBtn(q.word)+' '+wt(q.type)+'<br><small style="color:#888">Which definition is correct?</small></div>';
+  h+='<div class="mcq-opts">';
+  q.opts.forEach(function(o,i){
+    var cls='mcq-opt-v';
+    if(VS.checked)cls+=o.ok?' mcq-c':(q.sel===i?' mcq-w':'');
+    var clk=VS.checked?'':' onclick="VS.q.sel='+i+';VS.checked=true;'+(o.ok?'VS.score++;':'')+'VS.total++;render()"';
+    h+='<div class="'+cls+'"'+clk+'>'+o.def+'</div>';
+  });
+  h+='</div>';
+  if(VS.checked)h+='<button class="mcq-nxt" onclick="VS.idx++;VS.q=null;VS.checked=false;render()">Next →</button>';
+  return h+'</div>';
+}
+
+function renderWR(){
+  var words=getSW();
+  if(!words.length)return '<div style="text-align:center;color:#888;padding:40px">No words in this filter.</div>';
+  if(VS.idx>=words.length)return doneScreen(VS.score,VS.total);
+  var w=words[VS.idx];
+  var h='<div class="wr-wrap"><div class="fc-prog">'+(VS.idx+1)+' / '+words.length+' · Score: '+VS.score+'/'+VS.total+'</div>';
+  h+='<div class="wr-q">'+w.def+'<br><small class="wr-hint">'+ptag(w.practice)+' · '+w.type+'</small></div>';
+  if(!VS.checked){
+    h+='<input class="wr-inp" id="wr-i" placeholder="Type the word…" onkeydown="if(event.key===\'Enter\')checkWR()">';
+    h+='<button class="wr-chk" onclick="checkWR()">Check</button>';
+  } else {
+    var ua=VS.q&&VS.q.ua?VS.q.ua:'';
+    var ok=ua.toLowerCase().trim()===w.word.toLowerCase().trim();
+    h+='<div class="wr-res '+(ok?'wr-ok':'wr-bad')+'">';
+    h+=ok?'✓ Correct! ':'✗ Answer: ';
+    h+='<strong>'+w.word+'</strong> '+spkBtn(w.word)+' <span class="wipa">'+(w.ipa||'')+'</span>';
+    if(!ok)h+='<br><small style="opacity:.75">You wrote: "'+ua+'"</small>';
+    h+='</div><div style="font-size:.82rem;font-style:italic;color:#666;background:#f0f4ff;border-radius:8px;padding:9px 12px;margin-bottom:9px">'+w.example+'</div>';
+    h+='<button class="wr-chk" onclick="VS.idx++;VS.q=null;VS.checked=false;render()">Next →</button>';
+  }
+  return h+'</div>';
+}
+
+function checkWR(){
+  var inp=document.getElementById('wr-i');if(!inp)return;
+  var words=VS.sessionWords,w=words[VS.idx],val=inp.value;
+  var ok=val.toLowerCase().trim()===w.word.toLowerCase().trim();
+  if(ok)VS.score++;VS.total++;VS.q={ua:val};VS.checked=true;render();
+}
+
+function speakWord(word){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(word);u.lang='en-GB';u.rate=0.82;u.pitch=1;
+  window.speechSynthesis.speak(u);
+}
+function spkBtn(word){
+  return '<button class="spk-btn" data-spk="'+word+'" onclick="speakWord(this.dataset.spk)" title="Listen">🔊</button>';
+}
+
+render();
+setTimeout(startTimer,500);
+</script>
+</body>
+</html>
