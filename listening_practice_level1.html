@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Practice – Level 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* ── BRAND BAR ── */
+.brand-bar{background:#1e3a8a;color:#93c5fd;font-size:.72rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;text-align:center;padding:5px 12px}
+
+/* ── NAV BAR ── */
+.navbar{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.navbar h1{font-size:1.15rem;font-weight:700;letter-spacing:.3px}
+.nav-meta{font-size:.8rem;opacity:.85}
+.progress-bar-wrap{height:6px;background:#bfdbfe;border-radius:3px;margin-top:6px}
+.progress-bar{height:6px;background:#f59e0b;border-radius:3px;transition:width .4s}
+
+/* ── CONTENT AREA ── */
+.content{max-width:860px;margin:0 auto;padding:28px 20px 60px;width:100%}
+
+/* ── CARDS ── */
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:24px 28px;margin-bottom:22px}
+.card h2{font-size:1.15rem;color:#1e40af;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card h2 .badge{background:#e0e7ff;color:#3730a3;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.strategy-box{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:6px;padding:12px 16px;margin-bottom:18px;font-size:.9rem;line-height:1.6;color:#1e3a8a}
+.strategy-box strong{display:block;margin-bottom:4px;color:#1d4ed8}
+.audio-note{background:#fef3c7;border-left:4px solid #f59e0b;border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:.85rem;color:#92400e}
+.audio-note strong{color:#b45309}
+
+/* ── EXERCISES ── */
+.exercise{margin-bottom:24px}
+.exercise h3{font-size:.95rem;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #e5e7eb}
+.exercise p{font-size:.88rem;color:#4b5563;margin-bottom:10px;line-height:1.6}
+.q-row{display:flex;align-items:flex-start;gap:12px;padding:9px 12px;border-radius:8px;margin-bottom:8px;background:#f9fafb;border:1px solid #e5e7eb;transition:background .2s}
+.q-row:hover{background:#f0f4ff}
+.q-num{font-weight:700;color:#6b7280;min-width:22px;padding-top:2px;font-size:.85rem}
+.q-text{flex:1;font-size:.88rem;color:#374151;line-height:1.5}
+.q-input{margin-top:0}
+
+/* Radio & select styles */
+.radio-group{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.radio-group label{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:.86rem;padding:4px 10px;border-radius:20px;border:1px solid #d1d5db;background:#fff;transition:all .15s}
+.radio-group label:hover{border-color:#3b82f6;background:#eff6ff}
+.radio-group input[type=radio]{accent-color:#2563eb}
+.radio-group input[type=radio]:checked + span{color:#2563eb;font-weight:600}
+
+select.q-select{border:1px solid #d1d5db;border-radius:6px;padding:5px 8px;font-size:.86rem;background:#fff;color:#374151;cursor:pointer;max-width:220px}
+select.q-select:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+
+input.q-text-input{border:1px solid #d1d5db;border-radius:6px;padding:6px 10px;font-size:.86rem;width:100%;max-width:260px;color:#374151}
+input.q-text-input:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+
+textarea.q-textarea{border:1px solid #d1d5db;border-radius:6px;padding:8px 10px;font-size:.86rem;width:100%;min-height:70px;resize:vertical;color:#374151;line-height:1.5}
+textarea.q-textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+
+/* Self-assessment */
+.self-assess{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.self-assess label{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:.84rem;padding:5px 12px;border-radius:20px;border:1px solid #d1d5db;background:#fff}
+.self-assess label:hover{border-color:#10b981;background:#ecfdf5}
+.self-assess input[type=radio]{accent-color:#10b981}
+
+/* ── FEEDBACK ── */
+.feedback-row{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:.82rem}
+.fb-correct{color:#059669;font-weight:600}
+.fb-wrong{color:#dc2626;font-weight:600}
+.fb-label{color:#6b7280}
+.q-row.correct-answer{background:#ecfdf5!important;border-color:#6ee7b7}
+.q-row.wrong-answer{background:#fef2f2!important;border-color:#fca5a5}
+
+/* ── SCORE BOX ── */
+.score-box{background:linear-gradient(135deg,#dbeafe,#ede9fe);border-radius:10px;padding:18px 22px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.score-main{font-size:2rem;font-weight:800;color:#1e40af}
+.score-label{font-size:.85rem;color:#4b5563;margin-top:2px}
+.score-pct{font-size:1rem;font-weight:700;padding:4px 14px;border-radius:20px}
+.score-pct.green{background:#d1fae5;color:#065f46}
+.score-pct.yellow{background:#fef3c7;color:#92400e}
+.score-pct.red{background:#fee2e2;color:#991b1b}
+
+/* Attempt history */
+.attempt-history{margin-top:14px}
+.attempt-history h4{font-size:.85rem;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.attempt-list{display:flex;flex-wrap:wrap;gap:8px}
+.attempt-chip{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:20px;padding:4px 12px;font-size:.8rem;color:#4b5563}
+.attempt-chip .chip-score{font-weight:700;color:#1d4ed8}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
+.btn-primary{background:#2563eb;color:#fff}
+.btn-primary:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.3)}
+.btn-success{background:#10b981;color:#fff}
+.btn-success:hover{background:#059669}
+.btn-secondary{background:#e5e7eb;color:#374151}
+.btn-secondary:hover{background:#d1d5db}
+.btn-orange{background:#f59e0b;color:#fff}
+.btn-orange:hover{background:#d97706}
+.btn-red{background:#ef4444;color:#fff}
+.btn-red:hover{background:#dc2626}
+.btn-sm{padding:6px 14px;font-size:.82rem}
+.btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* ── HOME SCREEN ── */
+.home-hero{text-align:center;padding:40px 20px 30px}
+.home-hero h1{font-size:2rem;font-weight:800;color:#1e40af;margin-bottom:10px}
+.home-hero p{font-size:1rem;color:#4b5563;max-width:520px;margin:0 auto 28px;line-height:1.6}
+.practice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:10px}
+.practice-card{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);padding:18px 20px;cursor:pointer;border:2px solid transparent;transition:all .2s;text-align:left}
+.practice-card:hover{border-color:#3b82f6;transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,.15)}
+.practice-card .p-num{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6b7280;margin-bottom:6px}
+.practice-card .p-title{font-size:.95rem;font-weight:700;color:#1e40af;margin-bottom:6px}
+.practice-card .p-status{font-size:.78rem;color:#6b7280}
+.practice-card.done{border-color:#10b981}
+.practice-card.done .p-status{color:#059669;font-weight:600}
+
+/* ── RESULTS SCREEN ── */
+.results-header{text-align:center;padding:30px 20px 10px}
+.results-header h1{font-size:1.7rem;font-weight:800;color:#1e40af;margin-bottom:8px}
+.total-score{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin:20px 0}
+.big-score{font-size:3.5rem;font-weight:900;color:#2563eb;line-height:1}
+.big-score-label{font-size:.9rem;color:#6b7280}
+.results-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.results-table th{background:#eff6ff;color:#1e40af;padding:10px 14px;text-align:left;font-weight:700;border-bottom:2px solid #bfdbfe}
+.results-table td{padding:9px 14px;border-bottom:1px solid #e5e7eb}
+.results-table tr:hover td{background:#f8faff}
+.mistake-list{list-style:none}
+.mistake-list li{padding:8px 0;border-bottom:1px solid #e5e7eb;font-size:.88rem;display:flex;gap:8px;align-items:flex-start}
+.mistake-list li::before{content:"✗";color:#ef4444;font-weight:700;flex-shrink:0}
+.rec-list{list-style:none}
+.rec-list li{padding:8px 0 8px 26px;border-bottom:1px solid #e5e7eb;font-size:.88rem;position:relative}
+.rec-list li::before{content:"→";position:absolute;left:0;color:#2563eb;font-weight:700}
+
+/* ── PRINT / PDF ── */
+@media print{
+  .navbar,.btn-group,.nav-buttons,.no-print{display:none!important}
+  .screen{display:flex!important}
+  .card{box-shadow:none;border:1px solid #e5e7eb;break-inside:avoid}
+  body{background:#fff}
+  .content{max-width:100%;padding:10px}
+}
+
+/* ── MISC ── */
+.nav-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;padding-top:16px;border-top:2px solid #e5e7eb}
+.divider{border:none;border-top:1px solid #e5e7eb;margin:16px 0}
+.correct-badge{display:inline-block;background:#d1fae5;color:#065f46;font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:20px}
+.wrong-badge{display:inline-block;background:#fee2e2;color:#991b1b;font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:20px}
+.info-badge{display:inline-block;background:#e0e7ff;color:#3730a3;font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:20px}
+.email-box{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:10px;padding:20px;text-align:center}
+.email-box h3{color:#065f46;font-size:1.05rem;margin-bottom:10px}
+.email-box p{font-size:.87rem;color:#374151;margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 0 – HOME
+═══════════════════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>🎧 Listening Practice – Level 1</h1>
+    <span class="nav-meta" id="home-meta">9 Practices</span>
+  </div>
+  <div class="content">
+    <div class="home-hero">
+      <h1>Listening Practice</h1>
+      <p>Complete each practice after listening to the audio. Record your answers, then submit for instant scoring. You can redo any practice as many times as you like.</p>
+    </div>
+
+    <!-- Student info -->
+    <div class="card" style="margin-bottom:24px">
+      <h2 style="margin-bottom:14px">👤 Student Information</h2>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <label style="font-size:.83rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Full Name *</label>
+          <input type="text" id="student-name" class="q-text-input" placeholder="Enter your full name…" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
+        </div>
+        <div style="flex:1;min-width:200px">
+          <label style="font-size:.83rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Email *</label>
+          <input type="email" id="student-email" class="q-text-input" placeholder="your@email.com" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
+        </div>
+      </div>
+      <p style="font-size:.78rem;color:#9ca3af;margin-top:10px">Your name and email will appear in your results and be sent to the teacher.</p>
+    </div>
+
+    <div class="practice-grid" id="practice-grid"></div>
+    <div class="btn-group" style="justify-content:center;margin-top:24px">
+      <button class="btn btn-success" onclick="goToResults()">📊 View Total Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 1 – PRACTICE 1: Similar Sounds
+═══════════════════════════════════════════════════ -->
+<div id="screen-1" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 1 – Similar Sounds</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:11%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy 1</strong>
+        In English, you cannot always predict how a word sounds by looking at the spelling. Learning how words are pronounced will allow you to understand them when you hear them.
+      </div>
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy 2</strong>
+        Some words sound similar but have very different meanings. Being able to detect the small difference in pronunciation will help you to understand them when you hear them. Use the context to help you too.
+      </div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 1.17 – Which word do you hear first?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to Audio 1.17, then select which word in each pair you heard first.</div>
+      <div id="p1-ex6"></div>
+    </div>
+
+    <!-- Exercise 7 -->
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 1.18 – Which word does each sentence include?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to Audio 1.18. For each sentence, select the word from Exercise 6 that you hear.</div>
+      <div id="p1-ex7"></div>
+    </div>
+
+    <!-- Exercise 8 -->
+    <div class="card">
+      <h2><span class="badge">Ex 8</span> Audio 1.19 – True or False?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to Ryan and Joanna talking about housework.</div>
+      <div id="p1-ex8"></div>
+    </div>
+
+    <div id="p1-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(1)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(1)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(2)">Next Practice →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 2 – PRACTICE 2: Numbers, Dates, Times
+═══════════════════════════════════════════════════ -->
+<div id="screen-2" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 2 – Numbers, Dates &amp; Times</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:22%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        Make sure you know how dates, times and numbers are spoken so that you can identify them when you hear them.
+      </div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 1.30 – Write the number, date or time you hear</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to sentences A–G and write what you hear.</div>
+      <div id="p2-ex4"></div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 1.31 – Which sentence is NOT true?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to the radio interview with a student at the Brooklyn Free School.</div>
+      <p style="font-size:.88rem;color:#374151;margin-bottom:12px">1. Classes at the school are very small.<br>2. They study the usual school subjects.<br>3. Nathan doesn't enjoy school.</p>
+      <div id="p2-ex5"></div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 1.31 – Choose the correct answer</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen again and choose a, b or c.</div>
+      <div id="p2-ex6"></div>
+    </div>
+
+    <div id="p2-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(2)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(2)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(1)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(3)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 3 – PRACTICE 3: Word Stress
+═══════════════════════════════════════════════════ -->
+<div id="screen-3" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 3 – Word Stress &amp; Making Arrangements</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:33%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        In English, words with more than one syllable have the stress on one of the syllables. This means that the syllable is louder than the others. Being familiar with word stress makes it easier to recognise words when you hear them.
+      </div>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 2.06 – Circle the word with a different stress pattern</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and identify the word with a different stress pattern in each group.</div>
+      <div id="p3-ex3"></div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.08 – True or False? (Radio fashion programme)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to a radio programme about fashion.</div>
+      <div id="p3-ex6"></div>
+    </div>
+
+    <!-- Exercise 5 (Making Arrangements) -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.14 – Making Arrangements (Circle the correct answer)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to three conversations.</div>
+      <div id="p3-ex5"></div>
+    </div>
+
+    <div id="p3-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(3)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(3)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(2)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(4)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 4 – PRACTICE 4: Unstressed Words
+═══════════════════════════════════════════════════ -->
+<div id="screen-4" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 4 – Unstressed Words</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:44%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        Unstressed words can be difficult to catch in natural speech. Being able to recognise the unstressed form of words will help you to understand them when you hear them.
+      </div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 2.20 – How are the italicised words pronounced?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and write the pronunciation of each underlined word (use phonetic symbols).</div>
+      <div id="p4-ex4"></div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.21 – Which sentence is correct?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to the freegan interview.</div>
+      <p style="font-size:.88rem;color:#374151;margin-bottom:12px">1. Adam eats food from rubbish bins outside shops.<br>2. Adam gives food to homeless people.<br>3. Adam doesn't like spending money on food.</p>
+      <div id="p4-ex5"></div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.22 – Complete the sentences (unstressed words)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and fill in the gaps with unstressed words.</div>
+      <div id="p4-ex6"></div>
+    </div>
+
+    <!-- Exercise 7 -->
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 2.21 – True or False? (Sentences from Ex 6)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen again and verify the completed sentences.</div>
+      <div id="p4-ex7"></div>
+    </div>
+
+    <div id="p4-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(4)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(4)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(3)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(5)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 5 – PRACTICE 5: Main Ideas
+═══════════════════════════════════════════════════ -->
+<div id="screen-5" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 5 – Understanding Main Ideas</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:55%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        Sometimes it isn't necessary to understand all of the details when you listen, as long as you understand the main ideas. In these cases, focus on what you need to know and do not worry if you do not understand every word.
+      </div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 2.32 – Choose the correct answer</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen. Do not worry if you don't understand everything.</div>
+      <div id="p5-ex4"></div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.33 – Match speakers (1–4) with sentences (A–E)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and match. There is one extra sentence.</div>
+      <p style="font-size:.87rem;color:#374151;margin-bottom:12px">
+        <strong>A.</strong> Explains why he/she doesn't like life in the town.<br>
+        <strong>B.</strong> Is encouraging people to come and live in the country.<br>
+        <strong>C.</strong> Complains that there isn't much to do where he/she lives.<br>
+        <strong>D.</strong> Is advertising a radio programme.<br>
+        <strong>E.</strong> Would like a house in the city and one in the country.
+      </p>
+      <div id="p5-ex5"></div>
+    </div>
+
+    <div id="p5-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(5)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(5)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(4)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(6)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 6 – PRACTICE 6: Missing Sounds
+═══════════════════════════════════════════════════ -->
+<div id="screen-6" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 6 – Missing Sounds</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:66%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        In connected speech, some sounds disappear when we join words together. This is especially true of /d/ and /t/ sounds at the end of a word, when the next word begins with a consonant.
+      </div>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 3.07 – Which word loses its /d/ or /t/ sound?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to each sentence at natural speed and identify the word where /d/ or /t/ disappears.</div>
+      <div id="p6-ex3"></div>
+    </div>
+
+    <!-- Exercise 7 -->
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 3.10 – Match speakers (1–4) with sentences (A–E)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to four people describing their experiences in the wild. There is one extra sentence.</div>
+      <p style="font-size:.87rem;color:#374151;margin-bottom:12px">
+        <strong>A.</strong> The speaker describes a problem with a vehicle.<br>
+        <strong>B.</strong> The speaker camped in a beautiful place.<br>
+        <strong>C.</strong> We learn how a mobile helped to solve the problem.<br>
+        <strong>D.</strong> The speaker explains why it's important to always take a phone with you.<br>
+        <strong>E.</strong> The speaker nearly lost some possessions.
+      </p>
+      <div id="p6-ex7"></div>
+    </div>
+
+    <div id="p6-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(6)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(6)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(5)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(7)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 7 – PRACTICE 7: Instructions
+═══════════════════════════════════════════════════ -->
+<div id="screen-7" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 7 – Listening to Instructions</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:77%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        When you are listening to a set of instructions, it can help if you can first identify the steps. You can do this by identifying sequencing words (e.g. first of all, secondly, then, etc.).
+      </div>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 3.20 – Number the pictures in the correct order</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to instructions for setting up a new printer. Enter which letter (A–H) goes in each position.</div>
+      <div id="p7-ex3"></div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 3.21 – How many steps in each conversation? (3, 4 or 5)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to three conversations with a computer Help Desk.</div>
+      <div id="p7-ex5"></div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 3.21 – Circle the correct words</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen again.</div>
+      <div id="p7-ex6"></div>
+    </div>
+
+    <div id="p7-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(7)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(7)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(6)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(8)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 8 – PRACTICE 8: Prediction (Self-Assessment)
+═══════════════════════════════════════════════════ -->
+<div id="screen-8" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 8 – Prediction</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:88%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        When you listen in your own language, you 'listen ahead' and can often predict how a phrase or sentence will finish. Try to do this when you are listening to English too.
+      </div>
+    </div>
+
+    <!-- Exercise 3 (self-assessment) -->
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 3.31 – Predict how each sentence ends</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and try to predict how each sentence will end. There are many possible answers.</div>
+      <p style="font-size:.87rem;color:#6b7280;margin-bottom:14px;font-style:italic">This is an open-ended prediction exercise. Rate your own performance below.</p>
+      <div id="p8-ex3"></div>
+    </div>
+
+    <!-- Exercise 5 (self-assessment) -->
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 3.33 – Predict the next words (Tommy Caldwell &amp; Kevin Jorgeson)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> When the recording pauses, write up to 5 words you think will come next. You hear each part twice.</div>
+      <p style="font-size:.87rem;color:#374151;margin-bottom:12px">Pause points:</p>
+      <div id="p8-ex5"></div>
+    </div>
+
+    <div id="p8-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(8)">✅ Submit Self-Assessment</button>
+      <button class="btn btn-secondary" onclick="redoPractice(8)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(7)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-secondary" onclick="goToPractice(9)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 9 – PRACTICE 9: Connected Speech
+═══════════════════════════════════════════════════ -->
+<div id="screen-9" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar">
+    <h1>Practice 9 – Connected Speech</h1>
+    <div><div class="progress-bar-wrap" style="width:160px"><div class="progress-bar" style="width:100%"></div></div></div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <div class="strategy-box">
+        <strong>📘 Listening Strategy</strong>
+        In connected speech, auxiliary and modal verbs, prepositions, and pronouns are usually unstressed, and the sounds sometimes change.
+      </div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 4.06 – Complete the questions (add missing words)</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen and fill in the missing words in each question.</div>
+      <div id="p9-ex4"></div>
+    </div>
+
+    <!-- Exercise 6 -->
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 4.07 – Complete the conversation questions</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen to the conversation and fill in the missing words.</div>
+      <div id="p9-ex6"></div>
+    </div>
+
+    <!-- Exercise 7 -->
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 4.07 – True or False?</h2>
+      <div class="audio-note"><strong>🔊 Audio required:</strong> Listen again.</div>
+      <div id="p9-ex7"></div>
+    </div>
+
+    <div id="p9-score-area"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="submitPractice(9)">✅ Submit Answers</button>
+      <button class="btn btn-secondary" onclick="redoPractice(9)">🔄 Redo</button>
+      <button class="btn btn-secondary" onclick="goToPractice(8)">← Previous</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+      <button class="btn btn-success" onclick="goToResults()">📊 See Total Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 10 – RESULTS
+═══════════════════════════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="brand-bar no-print">Huong Stella Paradigm</div>
+  <div class="navbar no-print">
+    <h1>📊 Total Results</h1>
+    <div style="font-size:.82rem;opacity:.85">Listening Practice Level 1</div>
+  </div>
+  <div class="content">
+    <div id="results-content"></div>
+    <div class="btn-group no-print">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <button class="btn btn-success" id="email-btn" onclick="sendEmail()">📧 Send to Teacher</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA & ANSWER KEY
+// ═══════════════════════════════════════════════════
+
+const TEACHER_EMAIL = 'huongstella8@gmail.com';
+
+function saveStudentInfo(){
+  try{
+    localStorage.setItem('lp1-name',document.getElementById('student-name').value);
+    localStorage.setItem('lp1-email',document.getElementById('student-email').value);
+  }catch(e){}
+}
+function loadStudentInfo(){
+  try{
+    const n=localStorage.getItem('lp1-name');
+    const e=localStorage.getItem('lp1-email');
+    if(n) document.getElementById('student-name').value=n;
+    if(e) document.getElementById('student-email').value=e;
+  }catch(e){}
+}
+function getStudentName(){return (document.getElementById('student-name')||{value:''}).value.trim()||'(Unknown)';}
+function getStudentEmail(){return (document.getElementById('student-email')||{value:''}).value.trim();}
+
+// Attempts stored in memory (and localStorage for persistence)
+let attempts = loadAttempts();
+
+const PRACTICES = [
+  { id:1, title:'Similar Sounds', topics:['Similar vowel sounds','T/F comprehension'] },
+  { id:2, title:'Numbers, Dates & Times', topics:['Identifying numbers/dates/times','Multiple choice'] },
+  { id:3, title:'Word Stress & Making Arrangements', topics:['Stress patterns','T/F','Conversations'] },
+  { id:4, title:'Unstressed Words', topics:['Weak forms','Fill in gaps','T/F'] },
+  { id:5, title:'Understanding Main Ideas', topics:['Multiple choice','Matching'] },
+  { id:6, title:'Missing Sounds', topics:['Elision /d/ /t/','Matching speakers'] },
+  { id:7, title:'Listening to Instructions', topics:['Sequencing','Steps','Key words'] },
+  { id:8, title:'Prediction', topics:['Self-assessment – predicting sentences'] },
+  { id:9, title:'Connected Speech', topics:['Fill in reduced forms','T/F'] }
+];
+
+// Answer key
+const AK = {
+  p1:{
+    ex6:['a','b','a','b','b','b'], // men,cup,far,wait,leave,March
+    ex7:['men','cup','far','wet','leave','match'],
+    ex8:['F','F','T','T','T','F']
+  },
+  p2:{
+    ex4:['3 october','1100','1 april 2001','7.45','1000','june 2019','7.30'],
+    ex5:['3'],
+    ex6:['a','c','b','a','b','b','c']
+  },
+  p3:{
+    ex3:['visit','japan','moment','hotel','today','copy'],
+    ex6:['F','F','T','F','T','T','T','F'],
+    ex5:['sunday afternoon','the ice rink','have lunch','12.30','the cinema','7.45']
+  },
+  p4:{
+    ex4:['/frəm/','/ə/','/jə/','/kən/','/tə/','/ən/','/səm/','/fə/'],
+    ex5:['2'],
+    ex6:[
+      ['is a','from','in the'],
+      ['he','from','and'],
+      ['he','or','a'],
+      ['he has to','the','when it\'s'],
+      ['a lot of','are'],
+      ['they','to his','for a']
+    ],
+    ex7:['F','T','T','T','F','F']
+  },
+  p5:{
+    ex4:['b','c','a','b'],
+    ex5:['B','D','C','A']
+  },
+  p6:{
+    ex3:['best','old','next','cold','must','last'],
+    ex7:['C','E','B','D']
+  },
+  p7:{
+    ex3:['C','E','A','B','F','H','D','G'],
+    ex5:['5','4','3'],
+    ex6:['cable','password','recycle bin','documents','memory stick','204']
+  },
+  p8:{ // self-assessment only
+    ex3:['','','','',''],
+    ex5:['','','','']
+  },
+  p9:{
+    ex4:['are you going to','are you going to','do you want to','can you','do you have to','are you going to do'],
+    ex6:['kind of','are you looking','are you','could you','can we','are you'],
+    ex7:['T','F','F','F','T','F']
+  }
+};
+
+// Human-readable correct answers for display
+const CORRECT_LABELS = {
+  p1:{
+    ex6:['a) men','b) cup','a) far','b) wait','b) leave','b) March'],
+    ex7:['men','cup','far','wet','leave','match'],
+    ex8:['False (He thinks his bedroom is untidy)','False (Her sister Clare tidies the bedroom)','True','True','True','False (Her brother has got exams)']
+  },
+  p2:{
+    ex4:['3 October','1,100','1 April 2001','7.45','1,000','June 2019','7.30'],
+    ex5:['Sentence 3'],
+    ex6:['a) 15','c) 12–18','b) 60','a) sometimes','b) 13','b) 9 a.m. to 3 p.m.','c) $20,000']
+  },
+  p3:{
+    ex3:['visit','Japan','moment','hotel','today','copy'],
+    ex6:['False','False','True','False','True','True','True','False'],
+    ex5:['Sunday afternoon','the ice rink','have lunch','12.30','the cinema','7.45']
+  },
+  p4:{
+    ex4:['/frəm/','/ ə /','/ jə /','/ kən /','/ tə /','/ ən /','/ səm /','/ fə /'],
+    ex5:['Sentence 2'],
+    ex6:['is a … from … in the','He … from … and','He … or … a','He has to … the … when it\'s','A lot of … are','They … to his … for a'],
+    ex7:['False','True','True','True','False','False']
+  },
+  p5:{
+    ex4:['b) The arrangements for the morning','c) At their house','a) The path isn\'t safe','b) Recommend a house for sale'],
+    ex5:['B','D','C','A  (E is extra)']
+  },
+  p6:{
+    ex3:['"best" friend (t before fr)','o"ld" man (d before m)','ne"xt" week (t before w)','co"ld" morning (d before m)','mu"st" go (t before g)','la"st" summer (t before s)'],
+    ex7:['C','E','B','D  (A is extra)']
+  },
+  p7:{
+    ex3:['1→C','2→E','3→A','4→B','5→F','6→H','7→D','8→G'],
+    ex5:['5 steps','4 steps','3 steps'],
+    ex6:['cable','password','recycle bin','documents','memory stick','204']
+  },
+  p8:{
+    ex3:['Self-assessed'],
+    ex5:['Self-assessed']
+  },
+  p9:{
+    ex4:['are you going to','are you going to','do you want to','can you','do you have to','are you going to do'],
+    ex6:['kind of / are you looking for','are you looking','are you','could you / can you','can we','are you'],
+    ex7:['True','False (she may want a house)','False (wrong amounts)','False (it IS in Bristol)','True','False (not all weekend)']
+  }
+};
+
+// ═══════════════════════════════════════════════════
+// EXERCISE BUILDERS
+// ═══════════════════════════════════════════════════
+
+function buildP1(){
+  // Ex 6 – radio a/b pairs
+  const ex6Q = [
+    {n:'1',a:'men',b:'man'},{n:'2',a:'cap',b:'cup'},
+    {n:'3',a:'far',b:'for'},{n:'4',a:'wet',b:'wait'},
+    {n:'5',a:'live',b:'leave'},{n:'6',a:'match',b:'March'}
+  ];
+  let h='';
+  ex6Q.forEach((q,i)=>{
+    h+=`<div class="q-row" id="p1-ex6-row-${i}">
+      <span class="q-num">${q.n}.</span>
+      <div class="q-text">
+        <div class="radio-group">
+          <label><input type="radio" name="p1-ex6-${i}" value="a"><span>a) ${q.a}</span></label>
+          <label><input type="radio" name="p1-ex6-${i}" value="b"><span>b) ${q.b}</span></label>
+        </div>
+        <div class="feedback-row" id="p1-ex6-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p1-ex6').innerHTML=h;
+
+  // Ex 7 – select from 12 words
+  const words7=['men','man','cap','cup','far','for','wet','wait','live','leave','match','March'];
+  const sentences7=['Sentence 1','Sentence 2','Sentence 3','Sentence 4','Sentence 5','Sentence 6'];
+  let h7='';
+  sentences7.forEach((s,i)=>{
+    h7+=`<div class="q-row" id="p1-ex7-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${s}
+        <br><select class="q-select" id="p1-ex7-${i}" style="margin-top:6px">
+          <option value="">— select —</option>
+          ${words7.map(w=>`<option value="${w.toLowerCase()}">${w}</option>`).join('')}
+        </select>
+        <div class="feedback-row" id="p1-ex7-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p1-ex7').innerHTML=h7;
+
+  // Ex 8 – T/F
+  const stmts8=[
+    'Ryan thinks that his bedroom is tidy.',
+    'Joanna tidies her bedroom.',
+    'Ryan hasn\'t got time to tidy his bedroom every day.',
+    'Joanna\'s family shares the housework.',
+    'Joanna and Ryan like housework more than homework.',
+    'Joanna has got exams at the moment.'
+  ];
+  buildTF('p1-ex8','p1-ex8',stmts8);
+}
+
+function buildP2(){
+  // Ex 4 – text inputs
+  const labels4=['A','B','C','D','E','F','G'];
+  let h='';
+  labels4.forEach((l,i)=>{
+    h+=`<div class="q-row" id="p2-ex4-row-${i}">
+      <span class="q-num">${l}.</span>
+      <div class="q-text">
+        <input type="text" class="q-text-input" id="p2-ex4-${i}" placeholder="Enter number, date or time…">
+        <div class="feedback-row" id="p2-ex4-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p2-ex4').innerHTML=h;
+
+  // Ex 5 – radio 1/2/3
+  document.getElementById('p2-ex5').innerHTML=`
+    <div class="q-row" id="p2-ex5-row-0">
+      <span class="q-num">?</span>
+      <div class="q-text">Which sentence is NOT true?
+        <div class="radio-group" style="margin-top:6px">
+          <label><input type="radio" name="p2-ex5" value="1"><span>Sentence 1</span></label>
+          <label><input type="radio" name="p2-ex5" value="2"><span>Sentence 2</span></label>
+          <label><input type="radio" name="p2-ex5" value="3"><span>Sentence 3</span></label>
+        </div>
+        <div class="feedback-row" id="p2-ex5-fb-0"></div>
+      </div></div>`;
+
+  // Ex 6 – multiple choice a/b/c
+  const qs6=[
+    {q:'Nathan is _____ years old.',opts:['a) 15','b) 16','c) 17']},
+    {q:'In Nathan\'s part of the school the students are aged _____.',opts:['a) 4–11','b) 4–18','c) 12–18']},
+    {q:'Nathan\'s part of the school has about _____ students.',opts:['a) 16','b) 60','c) 66']},
+    {q:'Nathan sits next to students of his own age.',opts:['a) sometimes','b) never','c) always']},
+    {q:'The boy who helps Nathan with maths is _____ years old.',opts:['a) 11','b) 13','c) 18']},
+    {q:'Lessons are from _____.',opts:['a) 8 a.m.–3 p.m.','b) 9 a.m.–3 p.m.','c) 9 a.m.–4 p.m.']},
+    {q:'It costs _____ a year to study at the school.',opts:['a) $2,000','b) $12,000','c) $20,000']}
+  ];
+  let h6='';
+  qs6.forEach((q,i)=>{
+    h6+=`<div class="q-row" id="p2-ex6-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${q.q}
+        <div class="radio-group" style="margin-top:6px">
+          ${q.opts.map(o=>`<label><input type="radio" name="p2-ex6-${i}" value="${o[0]}"><span>${o}</span></label>`).join('')}
+        </div>
+        <div class="feedback-row" id="p2-ex6-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p2-ex6').innerHTML=h6;
+}
+
+function buildP3(){
+  // Ex 3 – select word with different stress
+  const groups3=[
+    {words:['design','begin','believe','visit']},
+    {words:['Japan','Scotland','Poland','Russia']},
+    {words:['mistake','police','moment','explain']},
+    {words:['model','hotel','hostel','channel']},
+    {words:['always','never','today','often']},
+    {words:['correct','copy','decide','describe']}
+  ];
+  let h='';
+  groups3.forEach((g,i)=>{
+    h+=`<div class="q-row" id="p3-ex3-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${g.words.join(' / ')}
+        <br><select class="q-select" id="p3-ex3-${i}" style="margin-top:6px">
+          <option value="">— select the odd one out —</option>
+          ${g.words.map(w=>`<option value="${w.toLowerCase()}">${w}</option>`).join('')}
+        </select>
+        <div class="feedback-row" id="p3-ex3-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p3-ex3').innerHTML=h;
+
+  // Ex 6 – T/F
+  const stmts6=[
+    'The clothes in the show are for winter and spring.',
+    'Stella and Tonya are wearing summer clothes.',
+    'Tonya is wearing a short jacket, a baggy top and white shorts.',
+    'Stella has got a baggy dress, an orange scarf and boots.',
+    'The third model is a man.',
+    'Martin is wearing yellow and black trainers.',
+    'Martin starts to dance.',
+    'A photographer falls over Martin and the girls.'
+  ];
+  buildTF('p3-ex6','p3-ex6',stmts6);
+
+  // Ex 5 – Making arrangements (radio choices)
+  const qs5=[
+    {n:'Conv.1 Q1',q:'Max is going fishing on:',opts:['Saturday afternoon','Sunday afternoon']},
+    {n:'Conv.1 Q2',q:'They agree to meet at:',opts:['Sophie\'s house','the ice rink']},
+    {n:'Conv.2 Q3',q:'Amy and Adam arrange to:',opts:['go shopping','have lunch']},
+    {n:'Conv.2 Q4',q:'They\'re meeting at:',opts:['11.30','12.30']},
+    {n:'Conv.3 Q5',q:'Tommy wants to go to:',opts:['a musical','the cinema']},
+    {n:'Conv.3 Q6',q:'They\'re meeting at:',opts:['7.45','8.15']}
+  ];
+  let h5='';
+  qs5.forEach((q,i)=>{
+    h5+=`<div class="q-row" id="p3-ex5-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text"><em>${q.n}</em> – ${q.q}
+        <div class="radio-group" style="margin-top:6px">
+          ${q.opts.map(o=>`<label><input type="radio" name="p3-ex5-${i}" value="${o.toLowerCase()}"><span>${o}</span></label>`).join('')}
+        </div>
+        <div class="feedback-row" id="p3-ex5-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p3-ex5').innerHTML=h5;
+}
+
+function buildP4(){
+  // Ex 4 – pronunciation of unstressed words
+  const items4=[
+    {n:'1',sentence:'Pizza\'s from <em>Italy</em>.',hint:'from'},
+    {n:'2',sentence:'Here are two <em>apples</em>.',hint:'a/an'},
+    {n:'3',sentence:'Where\'s <em>your</em> cup?',hint:'your'},
+    {n:'4',sentence:'I <em>can</em> help you.',hint:'can'},
+    {n:'5',sentence:'I\'m going <em>to</em> the cafe.',hint:'to'},
+    {n:'6',sentence:'salt <em>and</em> pepper',hint:'and'},
+    {n:'7',sentence:'Here\'s <em>some</em> cheese.',hint:'some'},
+    {n:'8',sentence:'This apple is <em>for</em> you.',hint:'for'}
+  ];
+  let h='';
+  items4.forEach((it,i)=>{
+    h+=`<div class="q-row" id="p4-ex4-row-${i}">
+      <span class="q-num">${it.n}.</span>
+      <div class="q-text">${it.sentence}
+        <br><input type="text" class="q-text-input" id="p4-ex4-${i}" placeholder="Enter pronunciation (e.g. /frəm/)…" style="margin-top:6px">
+        <div class="feedback-row" id="p4-ex4-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p4-ex4').innerHTML=h;
+
+  // Ex 5 – which sentence is correct
+  document.getElementById('p4-ex5').innerHTML=`
+    <div class="q-row" id="p4-ex5-row-0">
+      <span class="q-num">?</span>
+      <div class="q-text">Which sentence is correct?
+        <div class="radio-group" style="margin-top:6px">
+          <label><input type="radio" name="p4-ex5" value="1"><span>Sentence 1</span></label>
+          <label><input type="radio" name="p4-ex5" value="2"><span>Sentence 2</span></label>
+          <label><input type="radio" name="p4-ex5" value="3"><span>Sentence 3</span></label>
+        </div>
+        <div class="feedback-row" id="p4-ex5-fb-0"></div>
+      </div></div>`;
+
+  // Ex 6 – fill blanks (3 blanks each sentence)
+  const s6=[
+    {n:'1',text:'Adam ___ freegan ___ Luton ___ UK.',ph:['is a','from','in the']},
+    {n:'2',text:'___ collects food ___ supermarkets ___ restaurants.',ph:['He','from','and']},
+    {n:'3',text:'___ collects food three ___ four times ___ week.',ph:['He','or','a']},
+    {n:'4',text:'___ collect food ___ dark.',ph:['He has to','the / when it\'s']},
+    {n:'5',text:'___ Adam\'s friends ___ freegans.',ph:['A lot of','are']},
+    {n:'6',text:'___ never come ___ house ___ meal.',ph:['They','to his','for a']}
+  ];
+  let h6='';
+  s6.forEach((s,i)=>{
+    const parts=s.text.split('___');
+    let row='<div class="q-text" style="line-height:2">';
+    parts.forEach((p,j)=>{
+      row+=p;
+      if(j<parts.length-1){
+        row+=`<input type="text" class="q-text-input" id="p4-ex6-${i}-${j}" placeholder="${s.ph[j]||'…'}" style="width:100px;display:inline;margin:0 4px">`;
+      }
+    });
+    row+=`<div class="feedback-row" id="p4-ex6-fb-${i}"></div></div>`;
+    h6+=`<div class="q-row" id="p4-ex6-row-${i}"><span class="q-num">${s.n}.</span>${row}</div>`;
+  });
+  document.getElementById('p4-ex6').innerHTML=h6;
+
+  // Ex 7 – T/F
+  const stmts7=[
+    'Adam is a freegan from Luton in the UK.',
+    'He collects food from supermarkets and restaurants.',
+    'He collects food three or four times a week.',
+    'He has to collect food when it\'s dark.',
+    'A lot of Adam\'s friends are freegans.',
+    'They never come to his house for a meal.'
+  ];
+  buildTF('p4-ex7','p4-ex7',stmts7);
+}
+
+function buildP5(){
+  // Ex 4 – multiple choice
+  const qs4=[
+    {q:'What is the speaker talking about?',opts:['a) The best place to visit in London','b) The arrangements for the morning','c) What they need to take with them']},
+    {q:'Where are the man and woman going to eat?',opts:['a) On the train','b) At the station','c) At their house']},
+    {q:'Why does the tourist decide not to visit the castle?',opts:['a) The path isn\'t safe','b) It\'s a long walk','c) It\'s already getting late']},
+    {q:'The speaker\'s main aim is to:',opts:['a) Compare two different villages','b) Recommend a house that is for sale','c) Recommend a village to live in']}
+  ];
+  let h='';
+  qs4.forEach((q,i)=>{
+    h+=`<div class="q-row" id="p5-ex4-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${q.q}
+        <div class="radio-group" style="margin-top:6px">
+          ${q.opts.map(o=>`<label><input type="radio" name="p5-ex4-${i}" value="${o[0]}"><span>${o}</span></label>`).join('')}
+        </div>
+        <div class="feedback-row" id="p5-ex4-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p5-ex4').innerHTML=h;
+
+  // Ex 5 – matching (select A-E for each speaker)
+  const speakers5=['Speaker 1','Speaker 2','Speaker 3','Speaker 4'];
+  let h5='';
+  speakers5.forEach((sp,i)=>{
+    h5+=`<div class="q-row" id="p5-ex5-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${sp}
+        <br><select class="q-select" id="p5-ex5-${i}" style="margin-top:6px">
+          <option value="">— select sentence —</option>
+          <option value="A">A</option><option value="B">B</option>
+          <option value="C">C</option><option value="D">D</option><option value="E">E</option>
+        </select>
+        <div class="feedback-row" id="p5-ex5-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p5-ex5').innerHTML=h5;
+}
+
+function buildP6(){
+  // Ex 3 – which word loses /d/ or /t/
+  const sentences3=[
+    {s:'Kate is my best friend.',words:['Kate','best','friend']},
+    {s:'My grandad is an old man.',words:['grandad','old','man']},
+    {s:'I\'m going to the USA next week.',words:['going','next','week']},
+    {s:'It\'s a cold morning.',words:['It\'s','cold','morning']},
+    {s:'You must go to the doctor.',words:['must','go','doctor']},
+    {s:'We camped in Wales last summer.',words:['camped','last','summer']}
+  ];
+  let h='';
+  sentences3.forEach((s,i)=>{
+    h+=`<div class="q-row" id="p6-ex3-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text"><em>${s.s}</em>
+        <br><select class="q-select" id="p6-ex3-${i}" style="margin-top:6px">
+          <option value="">— select word —</option>
+          ${s.words.map(w=>`<option value="${w.toLowerCase()}">${w}</option>`).join('')}
+        </select>
+        <div class="feedback-row" id="p6-ex3-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p6-ex3').innerHTML=h;
+
+  // Ex 7 – matching speakers
+  const speakers7=['Speaker 1','Speaker 2','Speaker 3','Speaker 4'];
+  let h7='';
+  speakers7.forEach((sp,i)=>{
+    h7+=`<div class="q-row" id="p6-ex7-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${sp}
+        <br><select class="q-select" id="p6-ex7-${i}" style="margin-top:6px">
+          <option value="">— select sentence —</option>
+          <option value="A">A</option><option value="B">B</option>
+          <option value="C">C</option><option value="D">D</option><option value="E">E</option>
+        </select>
+        <div class="feedback-row" id="p6-ex7-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p6-ex7').innerHTML=h7;
+}
+
+function buildP7(){
+  // Ex 3 – enter picture letter for each position
+  let h='';
+  for(let i=0;i<8;i++){
+    h+=`<div class="q-row" id="p7-ex3-row-${i}">
+      <span class="q-num">Position ${i+1}.</span>
+      <div class="q-text">
+        <select class="q-select" id="p7-ex3-${i}">
+          <option value="">— select picture —</option>
+          ${['A','B','C','D','E','F','G','H'].map(l=>`<option value="${l}">${l}</option>`).join('')}
+        </select>
+        <div class="feedback-row" id="p7-ex3-fb-${i}"></div>
+      </div></div>`;
+  }
+  document.getElementById('p7-ex3').innerHTML=h;
+
+  // Ex 5 – how many steps
+  const convs5=['Conversation 1','Conversation 2','Conversation 3'];
+  let h5='';
+  convs5.forEach((c,i)=>{
+    h5+=`<div class="q-row" id="p7-ex5-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${c}
+        <div class="radio-group" style="margin-top:6px">
+          <label><input type="radio" name="p7-ex5-${i}" value="3"><span>3 steps</span></label>
+          <label><input type="radio" name="p7-ex5-${i}" value="4"><span>4 steps</span></label>
+          <label><input type="radio" name="p7-ex5-${i}" value="5"><span>5 steps</span></label>
+        </div>
+        <div class="feedback-row" id="p7-ex5-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p7-ex5').innerHTML=h5;
+
+  // Ex 6 – choose correct word
+  const qs6=[
+    {n:'Conv.1 Q1',q:'The woman asks the man to check the power ___.',opts:['source','cable']},
+    {n:'Conv.1 Q2',q:'At first the man forgets his ___.',opts:['password','office network']},
+    {n:'Conv.2 Q3',q:'The woman finds the missing files in the ___.',opts:['recycle bin','desktop']},
+    {n:'Conv.2 Q4',q:'The man tells the woman to drag the ___ into the folder.',opts:['documents','recycle bin']},
+    {n:'Conv.3 Q5',q:'Ben can\'t use his ___.',opts:['memory stick','computer']},
+    {n:'Conv.3 Q6',q:'Sally works in room ___.',opts:['240','204']}
+  ];
+  let h6='';
+  qs6.forEach((q,i)=>{
+    h6+=`<div class="q-row" id="p7-ex6-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text"><em>${q.n}</em> – ${q.q}
+        <div class="radio-group" style="margin-top:6px">
+          ${q.opts.map(o=>`<label><input type="radio" name="p7-ex6-${i}" value="${o.toLowerCase()}"><span>${o}</span></label>`).join('')}
+        </div>
+        <div class="feedback-row" id="p7-ex6-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p7-ex6').innerHTML=h6;
+}
+
+function buildP8(){
+  // Ex 3 – self-assessment
+  const prompts3=['Prompt 1','Prompt 2','Prompt 3','Prompt 4','Prompt 5'];
+  let h='';
+  prompts3.forEach((p,i)=>{
+    h+=`<div class="q-row">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${p}
+        <br><textarea class="q-textarea" id="p8-ex3-${i}" placeholder="Write your prediction here…" style="margin-top:6px"></textarea>
+        <div style="margin-top:6px;font-size:.82rem;color:#6b7280">Self-rate:
+          <div class="self-assess">
+            <label><input type="radio" name="p8-ex3-r-${i}" value="3"><span>✅ I predicted well</span></label>
+            <label><input type="radio" name="p8-ex3-r-${i}" value="2"><span>🟡 Partially correct</span></label>
+            <label><input type="radio" name="p8-ex3-r-${i}" value="1"><span>❌ I missed it</span></label>
+          </div>
+        </div>
+        <div class="feedback-row" id="p8-ex3-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p8-ex3').innerHTML=h;
+
+  // Ex 5 – pause points prediction
+  const pauses=['…the sun went down','Pause 2','Pause 3','Pause 4'];
+  let h5='';
+  pauses.forEach((p,i)=>{
+    h5+=`<div class="q-row">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">After: <strong>${p}</strong>
+        <br><input type="text" class="q-text-input" id="p8-ex5-${i}" placeholder="Write up to 5 words…" style="margin-top:6px;max-width:340px">
+        <div style="margin-top:6px;font-size:.82rem;color:#6b7280">Self-rate:
+          <div class="self-assess">
+            <label><input type="radio" name="p8-ex5-r-${i}" value="3"><span>✅ Good prediction</span></label>
+            <label><input type="radio" name="p8-ex5-r-${i}" value="2"><span>🟡 Close</span></label>
+            <label><input type="radio" name="p8-ex5-r-${i}" value="1"><span>❌ Missed</span></label>
+          </div>
+        </div>
+      </div></div>`;
+  });
+  document.getElementById('p8-ex5').innerHTML=h5;
+}
+
+function buildP9(){
+  // Ex 4 – fill in words
+  const qs4=[
+    {q:'Where ___ do when you leave school?',hint:'add two words'},
+    {q:'What ___ do at the weekend?',hint:'add four words'},
+    {q:'What ___ live?',hint:'add four words'},
+    {q:'___ speak any languages apart from your own language and English?',hint:'add two words'},
+    {q:'___ pay to study at university in your country?',hint:'add four words'},
+    {q:'What job do other ___ when you finish your studies?',hint:'add six words'}
+  ];
+  let h='';
+  qs4.forEach((q,i)=>{
+    h+=`<div class="q-row" id="p9-ex4-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${q.q} <span style="color:#9ca3af;font-size:.8rem">(${q.hint})</span>
+        <br><input type="text" class="q-text-input" id="p9-ex4-${i}" placeholder="Type missing words…" style="margin-top:6px">
+        <div class="feedback-row" id="p9-ex4-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById('p9-ex4').innerHTML=h;
+
+  // Ex 6 – fill in blanks in questions
+  const qs6=[
+    {n:'1',q:'Can I help you?',blank:false},
+    {n:'2',q:'What ___ place ___ looking for?',blanks:2,ph:['kind of','are you']},
+    {n:'3',q:'Or ___ looking for your own flat?',blanks:1,ph:['are you']},
+    {n:'4',q:'___ show me some houses?',blanks:1,ph:['Could you / Can you']},
+    {n:'5',q:'___ visit the house?',blanks:1,ph:['When can we']},
+    {n:'6',q:'___ free at the weekend?',blanks:1,ph:['Are you']}
+  ];
+  let h6='';
+  qs6.forEach((q,i)=>{
+    if(!q.blank&&!q.blanks){
+      h6+=`<div class="q-row" style="background:#f0fdf4;border-color:#bbf7d0">
+        <span class="q-num">${q.n}.</span>
+        <div class="q-text">${q.q} <span class="correct-badge">Complete</span></div></div>`;
+      return;
+    }
+    // Build with inline inputs
+    const parts=q.q.split('___');
+    let inner='<div class="q-text" style="line-height:2">';
+    parts.forEach((p,j)=>{
+      inner+=p;
+      if(j<parts.length-1){
+        inner+=`<input type="text" class="q-text-input" id="p9-ex6-${i}-${j}" placeholder="${(q.ph&&q.ph[j])||'…'}" style="width:110px;display:inline;margin:0 4px">`;
+      }
+    });
+    inner+=`<div class="feedback-row" id="p9-ex6-fb-${i}"></div></div>`;
+    h6+=`<div class="q-row" id="p9-ex6-row-${i}"><span class="q-num">${q.n}.</span>${inner}</div>`;
+  });
+  document.getElementById('p9-ex6').innerHTML=h6;
+
+  // Ex 7 – T/F
+  const stmts7=[
+    'The student has just finished her first year at university.',
+    'She is certain that she wants to live in a flat.',
+    'A house costs between £70 and £130 per person.',
+    'The first house isn\'t in Bristol.',
+    'The second house isn\'t in a quiet area.',
+    'The student is free all weekend.'
+  ];
+  buildTF('p9-ex7','p9-ex7',stmts7);
+}
+
+// Shared T/F builder
+function buildTF(containerId,prefix,statements){
+  let h='';
+  statements.forEach((s,i)=>{
+    h+=`<div class="q-row" id="${prefix}-row-${i}">
+      <span class="q-num">${i+1}.</span>
+      <div class="q-text">${s}
+        <div class="radio-group" style="margin-top:6px">
+          <label><input type="radio" name="${prefix}-${i}" value="T"><span>True</span></label>
+          <label><input type="radio" name="${prefix}-${i}" value="F"><span>False</span></label>
+        </div>
+        <div class="feedback-row" id="${prefix}-fb-${i}"></div>
+      </div></div>`;
+  });
+  document.getElementById(containerId).innerHTML=h;
+}
+
+// ═══════════════════════════════════════════════════
+// SCORING ENGINE
+// ═══════════════════════════════════════════════════
+
+function getVal(id){
+  const el=document.getElementById(id);
+  if(!el) return '';
+  return el.value.trim().toLowerCase();
+}
+function getRadio(name){
+  const el=document.querySelector(`input[name="${name}"]:checked`);
+  return el?el.value.toLowerCase():'';
+}
+function norm(s){return (s||'').toString().toLowerCase().replace(/[,.\s]+/g,' ').trim();}
+function match(userVal,correctVal){
+  const u=norm(userVal), c=norm(correctVal);
+  return u===c || c.split('/').map(s=>s.trim()).some(v=>u===norm(v));
+}
+
+function scoreItem(userAns, correctAns, rowId, fbId, correctLabel){
+  const isCorrect=match(userAns,correctAns);
+  const row=document.getElementById(rowId);
+  const fb=document.getElementById(fbId);
+  if(row){row.className='q-row '+(isCorrect?'correct-answer':'wrong-answer');}
+  if(fb){
+    fb.innerHTML=isCorrect
+      ?'<span class="fb-correct">✓ Correct</span>'
+      :`<span class="fb-wrong">✗ Incorrect</span> <span class="fb-label">Correct: <strong>${correctLabel}</strong></span>`;
+  }
+  return isCorrect?1:0;
+}
+
+function submitPractice(n){
+  let score=0,max=0;
+  const mistakes=[];
+
+  if(n===1){
+    // Ex 6
+    AK.p1.ex6.forEach((ans,i)=>{
+      const u=getRadio(`p1-ex6-${i}`);
+      const r=scoreItem(u,ans,`p1-ex6-row-${i}`,`p1-ex6-fb-${i}`,CORRECT_LABELS.p1.ex6[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P1 Ex6 Q${i+1}: You answered "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p1.ex6[i]}`);
+    });
+    // Ex 7
+    AK.p1.ex7.forEach((ans,i)=>{
+      const u=getVal(`p1-ex7-${i}`);
+      const r=scoreItem(u,ans,`p1-ex7-row-${i}`,`p1-ex7-fb-${i}`,CORRECT_LABELS.p1.ex7[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P1 Ex7 Q${i+1}: You answered "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p1.ex7[i]}`);
+    });
+    // Ex 8
+    AK.p1.ex8.forEach((ans,i)=>{
+      const u=getRadio(`p1-ex8-${i}`);
+      const r=scoreItem(u,ans,`p1-ex8-row-${i}`,`p1-ex8-fb-${i}`,CORRECT_LABELS.p1.ex8[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P1 Ex8 Q${i+1}: "${document.querySelector(`input[name="p1-ex8-${i}"]:checked`)?'F or T':'(blank)'}" – Correct: ${CORRECT_LABELS.p1.ex8[i]}`);
+    });
+  }
+  else if(n===2){
+    // Ex 4
+    AK.p2.ex4.forEach((ans,i)=>{
+      const u=getVal(`p2-ex4-${i}`);
+      const r=scoreItem(u,ans,`p2-ex4-row-${i}`,`p2-ex4-fb-${i}`,CORRECT_LABELS.p2.ex4[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P2 Ex4 ${String.fromCharCode(65+i)}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p2.ex4[i]}`);
+    });
+    // Ex 5
+    {const u=getRadio('p2-ex5');
+    const r=scoreItem(u,AK.p2.ex5[0],`p2-ex5-row-0`,`p2-ex5-fb-0`,CORRECT_LABELS.p2.ex5[0]);
+    score+=r;max++;
+    if(!r) mistakes.push(`P2 Ex5: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p2.ex5[0]}`);}
+    // Ex 6
+    AK.p2.ex6.forEach((ans,i)=>{
+      const u=getRadio(`p2-ex6-${i}`);
+      const r=scoreItem(u,ans,`p2-ex6-row-${i}`,`p2-ex6-fb-${i}`,CORRECT_LABELS.p2.ex6[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P2 Ex6 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p2.ex6[i]}`);
+    });
+  }
+  else if(n===3){
+    // Ex 3
+    AK.p3.ex3.forEach((ans,i)=>{
+      const u=getVal(`p3-ex3-${i}`);
+      const r=scoreItem(u,ans,`p3-ex3-row-${i}`,`p3-ex3-fb-${i}`,CORRECT_LABELS.p3.ex3[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P3 Ex3 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p3.ex3[i]}`);
+    });
+    // Ex 6
+    AK.p3.ex6.forEach((ans,i)=>{
+      const u=getRadio(`p3-ex6-${i}`);
+      const r=scoreItem(u,ans,`p3-ex6-row-${i}`,`p3-ex6-fb-${i}`,CORRECT_LABELS.p3.ex6[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P3 Ex6 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p3.ex6[i]}`);
+    });
+    // Ex 5 arrangements
+    AK.p3.ex5.forEach((ans,i)=>{
+      const u=getRadio(`p3-ex5-${i}`);
+      const r=scoreItem(u,ans,`p3-ex5-row-${i}`,`p3-ex5-fb-${i}`,CORRECT_LABELS.p3.ex5[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P3 Ex5 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p3.ex5[i]}`);
+    });
+  }
+  else if(n===4){
+    // Ex 4 – flexible phonetic matching
+    AK.p4.ex4.forEach((ans,i)=>{
+      const u=getVal(`p4-ex4-${i}`).replace(/\//g,'').replace(/ə/g,'@');
+      const c=ans.replace(/\//g,'').replace(/ə/g,'@');
+      const isCorrect=norm(u)===norm(c)||norm(getVal(`p4-ex4-${i}`))===norm(ans.replace(/\//g,''));
+      const row=document.getElementById(`p4-ex4-row-${i}`);
+      const fb=document.getElementById(`p4-ex4-fb-${i}`);
+      if(row) row.className='q-row '+(isCorrect?'correct-answer':'wrong-answer');
+      if(fb) fb.innerHTML=isCorrect?'<span class="fb-correct">✓ Correct</span>':`<span class="fb-wrong">✗ Incorrect</span> <span class="fb-label">Correct: <strong>${CORRECT_LABELS.p4.ex4[i]}</strong></span>`;
+      score+=isCorrect?1:0;max++;
+      if(!isCorrect) mistakes.push(`P4 Ex4 Q${i+1}: "${getVal(`p4-ex4-${i}`)||'(blank)'}" – Correct: ${CORRECT_LABELS.p4.ex4[i]}`);
+    });
+    // Ex 5
+    {const u=getRadio('p4-ex5');
+    const r=scoreItem(u,AK.p4.ex5[0],`p4-ex5-row-0`,`p4-ex5-fb-0`,CORRECT_LABELS.p4.ex5[0]);
+    score+=r;max++;
+    if(!r) mistakes.push(`P4 Ex5: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p4.ex5[0]}`);}
+    // Ex 6 – check blanks per sentence
+    AK.p4.ex6.forEach((ansArr,i)=>{
+      let rowCorrect=true;
+      ansArr.forEach((ans,j)=>{
+        const u=getVal(`p4-ex6-${i}-${j}`);
+        if(!match(u,ans)) rowCorrect=false;
+      });
+      const row=document.getElementById(`p4-ex6-row-${i}`);
+      const fb=document.getElementById(`p4-ex6-fb-${i}`);
+      if(row) row.className='q-row '+(rowCorrect?'correct-answer':'wrong-answer');
+      if(fb) fb.innerHTML=rowCorrect?'<span class="fb-correct">✓ Correct</span>':`<span class="fb-wrong">✗ Incorrect</span> <span class="fb-label">Correct: <strong>${CORRECT_LABELS.p4.ex6[i]}</strong></span>`;
+      score+=rowCorrect?1:0;max++;
+      if(!rowCorrect) mistakes.push(`P4 Ex6 Q${i+1}: – Correct: ${CORRECT_LABELS.p4.ex6[i]}`);
+    });
+    // Ex 7
+    AK.p4.ex7.forEach((ans,i)=>{
+      const u=getRadio(`p4-ex7-${i}`);
+      const r=scoreItem(u,ans,`p4-ex7-row-${i}`,`p4-ex7-fb-${i}`,CORRECT_LABELS.p4.ex7[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P4 Ex7 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p4.ex7[i]}`);
+    });
+  }
+  else if(n===5){
+    // Ex 4
+    AK.p5.ex4.forEach((ans,i)=>{
+      const u=getRadio(`p5-ex4-${i}`);
+      const r=scoreItem(u,ans,`p5-ex4-row-${i}`,`p5-ex4-fb-${i}`,CORRECT_LABELS.p5.ex4[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P5 Ex4 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p5.ex4[i]}`);
+    });
+    // Ex 5
+    AK.p5.ex5.forEach((ans,i)=>{
+      const u=getVal(`p5-ex5-${i}`);
+      const r=scoreItem(u,ans,`p5-ex5-row-${i}`,`p5-ex5-fb-${i}`,CORRECT_LABELS.p5.ex5[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P5 Ex5 Speaker ${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p5.ex5[i]}`);
+    });
+  }
+  else if(n===6){
+    // Ex 3
+    AK.p6.ex3.forEach((ans,i)=>{
+      const u=getVal(`p6-ex3-${i}`);
+      const r=scoreItem(u,ans,`p6-ex3-row-${i}`,`p6-ex3-fb-${i}`,CORRECT_LABELS.p6.ex3[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P6 Ex3 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p6.ex3[i]}`);
+    });
+    // Ex 7
+    AK.p6.ex7.forEach((ans,i)=>{
+      const u=getVal(`p6-ex7-${i}`);
+      const r=scoreItem(u,ans,`p6-ex7-row-${i}`,`p6-ex7-fb-${i}`,CORRECT_LABELS.p6.ex7[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P6 Ex7 Speaker ${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p6.ex7[i]}`);
+    });
+  }
+  else if(n===7){
+    // Ex 3
+    AK.p7.ex3.forEach((ans,i)=>{
+      const u=getVal(`p7-ex3-${i}`);
+      const r=scoreItem(u,ans,`p7-ex3-row-${i}`,`p7-ex3-fb-${i}`,CORRECT_LABELS.p7.ex3[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P7 Ex3 Position ${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p7.ex3[i]}`);
+    });
+    // Ex 5
+    AK.p7.ex5.forEach((ans,i)=>{
+      const u=getRadio(`p7-ex5-${i}`);
+      const r=scoreItem(u,ans,`p7-ex5-row-${i}`,`p7-ex5-fb-${i}`,CORRECT_LABELS.p7.ex5[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P7 Ex5 Conv.${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p7.ex5[i]}`);
+    });
+    // Ex 6
+    AK.p7.ex6.forEach((ans,i)=>{
+      const u=getRadio(`p7-ex6-${i}`);
+      const r=scoreItem(u,ans,`p7-ex6-row-${i}`,`p7-ex6-fb-${i}`,CORRECT_LABELS.p7.ex6[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P7 Ex6 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p7.ex6[i]}`);
+    });
+  }
+  else if(n===8){
+    // Self-assessment – sum up self-rated scores
+    for(let i=0;i<5;i++){
+      const v=parseInt(getRadio(`p8-ex3-r-${i}`)||'0');
+      score+=v;max+=3;
+    }
+    for(let i=0;i<4;i++){
+      const v=parseInt(getRadio(`p8-ex5-r-${i}`)||'0');
+      score+=v;max+=3;
+    }
+  }
+  else if(n===9){
+    // Ex 4
+    AK.p9.ex4.forEach((ans,i)=>{
+      const u=getVal(`p9-ex4-${i}`);
+      const r=scoreItem(u,ans,`p9-ex4-row-${i}`,`p9-ex4-fb-${i}`,CORRECT_LABELS.p9.ex4[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P9 Ex4 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p9.ex4[i]}`);
+    });
+    // Ex 6 – blanks (skip row 0 which is complete)
+    const ex6Rows=[1,2,3,4,5];
+    const ex6Answers=AK.p9.ex6;
+    ex6Rows.forEach((rowI,idx)=>{
+      const ans=ex6Answers[idx];
+      // Each row might have 1 or 2 blanks
+      const blanksInRow=(rowI===1)?2:1;
+      let allCorrect=true;
+      for(let b=0;b<blanksInRow;b++){
+        const u=getVal(`p9-ex6-${rowI}-${b}`);
+        if(!match(u,ans.split('/')[b]||ans)) allCorrect=false;
+      }
+      const row=document.getElementById(`p9-ex6-row-${rowI}`);
+      const fb=document.getElementById(`p9-ex6-fb-${rowI}`);
+      if(row) row.className='q-row '+(allCorrect?'correct-answer':'wrong-answer');
+      if(fb) fb.innerHTML=allCorrect?'<span class="fb-correct">✓ Correct</span>':`<span class="fb-wrong">✗ Incorrect</span> <span class="fb-label">Correct: <strong>${CORRECT_LABELS.p9.ex6[idx]}</strong></span>`;
+      score+=allCorrect?1:0;max++;
+      if(!allCorrect) mistakes.push(`P9 Ex6 Q${rowI}: – Correct: ${CORRECT_LABELS.p9.ex6[idx]}`);
+    });
+    // Ex 7
+    AK.p9.ex7.forEach((ans,i)=>{
+      const u=getRadio(`p9-ex7-${i}`);
+      const r=scoreItem(u,ans,`p9-ex7-row-${i}`,`p9-ex7-fb-${i}`,CORRECT_LABELS.p9.ex7[i]);
+      score+=r;max++;
+      if(!r) mistakes.push(`P9 Ex7 Q${i+1}: "${u||'(blank)'}" – Correct: ${CORRECT_LABELS.p9.ex7[i]}`);
+    });
+  }
+
+  // Save attempt
+  const pKey=`p${n}`;
+  if(!attempts[pKey]) attempts[pKey]=[];
+  const attempt={score,max,pct:Math.round(score/max*100),date:new Date().toLocaleString(),mistakes};
+  attempts[pKey].push(attempt);
+  saveAttempts();
+
+  // Render score area
+  renderScoreArea(n,score,max);
+  updatePracticeGrid();
+}
+
+function renderScoreArea(n,score,max){
+  const pKey=`p${n}`;
+  const allAttempts=attempts[pKey]||[];
+  const pct=max>0?Math.round(score/max*100):0;
+  const pctClass=pct>=80?'green':pct>=60?'yellow':'red';
+  let html=`<div class="score-box">
+    <div>
+      <div class="score-main">${score}<span style="font-size:1.2rem;color:#6b7280"> / ${max}</span></div>
+      <div class="score-label">Practice ${n} Score</div>
+    </div>
+    <span class="score-pct ${pctClass}">${pct}%</span>
+  </div>`;
+
+  if(allAttempts.length>1){
+    html+=`<div class="attempt-history"><h4>All Attempts</h4><div class="attempt-list">`;
+    allAttempts.forEach((a,i)=>{
+      const p=a.max>0?Math.round(a.score/a.max*100):0;
+      html+=`<div class="attempt-chip">Attempt ${i+1}: <span class="chip-score">${a.score}/${a.max} (${p}%)</span> — ${a.date}</div>`;
+    });
+    html+=`</div></div>`;
+  }
+  document.getElementById(`p${n}-score-area`).innerHTML=html;
+}
+
+function redoPractice(n){
+  // Reset all inputs
+  const screen=document.getElementById(`screen-${n}`);
+  screen.querySelectorAll('input[type=radio]').forEach(el=>el.checked=false);
+  screen.querySelectorAll('input[type=text],textarea').forEach(el=>el.value='');
+  screen.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  screen.querySelectorAll('.q-row').forEach(el=>{el.className='q-row';});
+  screen.querySelectorAll('[id$="-fb-0"],[id*="-fb-"]:not([id$="-fb-area"])').forEach(el=>el.innerHTML='');
+  // Clear all feedback
+  screen.querySelectorAll('[id*="-fb-"]').forEach(el=>el.innerHTML='');
+  document.getElementById(`p${n}-score-area`).innerHTML='';
+}
+
+// ═══════════════════════════════════════════════════
+// RESULTS SCREEN
+// ═══════════════════════════════════════════════════
+
+function goToResults(){
+  showScreen('results');
+  renderResults();
+}
+
+function renderResults(){
+  let totalScore=0,totalMax=0;
+  const practiceRows=[];
+  const allMistakes=[];
+
+  for(let n=1;n<=9;n++){
+    const pKey=`p${n}`;
+    const att=attempts[pKey]||[];
+    const practice=PRACTICES[n-1];
+    if(att.length===0){
+      practiceRows.push({n,title:practice.title,score:'-',max:'-',pct:'-',attempts:0,status:'Not attempted'});
+    } else {
+      const best=att.reduce((a,b)=>a.pct>b.pct?a:b);
+      const last=att[att.length-1];
+      if(typeof last.max==='number'){totalScore+=last.score;totalMax+=last.max;}
+      practiceRows.push({n,title:practice.title,score:last.score,max:last.max,pct:last.pct,
+        bestPct:best.pct,attempts:att.length,status:last.pct>=80?'✅ Good':'⚠️ Needs work'});
+      (last.mistakes||[]).forEach(m=>allMistakes.push(m));
+    }
+  }
+
+  const totalPct=totalMax>0?Math.round(totalScore/totalMax*100):0;
+  const pctClass=totalPct>=80?'green':totalPct>=60?'yellow':'red';
+
+  // Recommendations
+  const recs=generateRecommendations(practiceRows,allMistakes);
+
+  const sName=getStudentName();
+  const sEmail=getStudentEmail();
+  let html=`
+  <div class="results-header">
+    <h1>📊 Total Results – Listening Practice Level 1</h1>
+    <p style="color:#6b7280;font-size:.9rem">
+      <strong>Student:</strong> ${sName}${sEmail?' &nbsp;|&nbsp; <strong>Email:</strong> '+sEmail:''}
+      &nbsp;&nbsp;<strong>Date:</strong> ${new Date().toLocaleDateString()}
+      &nbsp;&nbsp;<strong>Institution:</strong> Huong Stella Paradigm
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Overall Score</h2>
+    <div class="total-score">
+      <div style="text-align:center">
+        <div class="big-score">${totalScore}</div>
+        <div class="big-score-label">out of ${totalMax}</div>
+      </div>
+      <span class="score-pct ${pctClass}" style="font-size:1.8rem;padding:10px 24px">${totalPct}%</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Results by Practice</h2>
+    <table class="results-table">
+      <thead><tr><th>#</th><th>Practice</th><th>Last Score</th><th>Best %</th><th>Attempts</th><th>Status</th></tr></thead>
+      <tbody>
+        ${practiceRows.map(r=>`<tr>
+          <td>${r.n}</td>
+          <td>${r.title}</td>
+          <td>${r.score==='‐'?'—':r.score+' / '+r.max}</td>
+          <td>${r.bestPct!==undefined?r.bestPct+'%':'—'}</td>
+          <td>${r.attempts}</td>
+          <td>${r.status}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
+
+  if(allMistakes.length>0){
+    html+=`<div class="card">
+      <h2>❌ Mistakes Summary</h2>
+      <p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">Based on your most recent attempt in each practice:</p>
+      <ul class="mistake-list">
+        ${allMistakes.slice(0,40).map(m=>`<li>${m}</li>`).join('')}
+        ${allMistakes.length>40?`<li>…and ${allMistakes.length-40} more.</li>`:''}
+      </ul>
+    </div>`;
+  }
+
+  html+=`<div class="card">
+    <h2>💡 Recommendations & Action Plan</h2>
+    <ul class="rec-list">
+      ${recs.map(r=>`<li>${r}</li>`).join('')}
+    </ul>
+  </div>
+
+  <div class="card email-box no-print">
+    <h3>📧 Send Results to Teacher</h3>
+    <p>Send your complete results and action plan to your teacher at <strong>${TEACHER_EMAIL}</strong></p>
+    <button class="btn btn-success" onclick="sendEmail()">Send Email Now</button>
+  </div>`;
+
+  document.getElementById('results-content').innerHTML=html;
+}
+
+function generateRecommendations(rows,mistakes){
+  const recs=[];
+  const weak=rows.filter(r=>typeof r.pct==='number'&&r.pct<70);
+  const notDone=rows.filter(r=>r.attempts===0);
+
+  if(notDone.length>0)
+    recs.push(`Complete the remaining ${notDone.length} practice(s): ${notDone.map(r=>'Practice '+r.n).join(', ')}.`);
+
+  if(weak.some(r=>r.n===1))
+    recs.push('Practice 1 (Similar Sounds): Focus on minimal pairs – listen and repeat words like <em>men/man</em>, <em>cap/cup</em>. Use an online phonetics chart to study the different vowel sounds /æ/, /ʌ/, /ɑː/, /ɔː/.');
+  if(weak.some(r=>r.n===2))
+    recs.push('Practice 2 (Numbers & Dates): Practise saying and listening to large numbers, ordinal dates, and 12-hour clock times. Try dictation exercises with numbers.');
+  if(weak.some(r=>r.n===3))
+    recs.push('Practice 3 (Word Stress): Learn the most common stress patterns (e.g., nouns stress the first syllable, verbs often stress the second). Use a dictionary that shows stress marks (ˈ).');
+  if(weak.some(r=>r.n===4))
+    recs.push('Practice 4 (Unstressed Words): Study weak forms of common words: <em>to /tə/, for /fə/, can /kən/, from /frəm/</em>. Shadow native speakers to practise connected speech.');
+  if(weak.some(r=>r.n===5))
+    recs.push('Practice 5 (Main Ideas): When listening, don\'t try to understand every word. Focus on the topic sentence and key nouns/verbs. Practise gist-listening with podcasts or radio.');
+  if(weak.some(r=>r.n===6))
+    recs.push('Practice 6 (Missing Sounds): Read the Elision strategy again. Practise reading sentences aloud at natural speed and dropping the /d/ or /t/ before consonants.');
+  if(weak.some(r=>r.n===7))
+    recs.push('Practice 7 (Instructions): Practise following multi-step spoken instructions. Note sequencing words (first, then, next, finally). Listen to instructional podcasts or how-to videos.');
+  if(weak.some(r=>r.n===8))
+    recs.push('Practice 8 (Prediction): Read English texts and predict what comes next before reading. Listen to stories and pause to predict. This builds your "listening ahead" skill.');
+  if(weak.some(r=>r.n===9))
+    recs.push('Practice 9 (Connected Speech): Study how auxiliary verbs reduce in connected speech (<em>gonna, wanna, d\'you</em>). Shadowing exercises and listening to authentic conversations will help.');
+
+  if(weak.length===0&&notDone.length===0)
+    recs.push('Excellent work! You scored well across all practices. To maintain your progress, listen to authentic English content daily (podcasts, films, radio). Consider advancing to Level 2.');
+
+  recs.push('General: Listen to your audio recordings at least once more without looking at the transcript, then again with the transcript to check your understanding.');
+  recs.push('Redo any practice where your score was below 70% at least once more before your next lesson.');
+  recs.push('Keep a vocabulary notebook of words you confused (similar sounds, stress patterns) and review it weekly.');
+
+  return recs;
+}
+
+// ═══════════════════════════════════════════════════
+// EMAIL
+// ═══════════════════════════════════════════════════
+
+function sendEmail(){
+  const sName=getStudentName();
+  const sEmail=getStudentEmail();
+  let body='LISTENING PRACTICE LEVEL 1 – STUDENT RESULTS\n';
+  body+='Institution: Huong Stella Paradigm\n';
+  body+='==============================================\n';
+  body+=`Student: ${sName}\n`;
+  if(sEmail) body+=`Student Email: ${sEmail}\n`;
+  body+=`Date: ${new Date().toLocaleDateString()}\n\n`;
+  body+='SCORES BY PRACTICE:\n';
+
+  for(let n=1;n<=9;n++){
+    const pKey=`p${n}`;
+    const att=attempts[pKey]||[];
+    const practice=PRACTICES[n-1];
+    if(att.length===0){
+      body+=`  Practice ${n} (${practice.title}): Not attempted\n`;
+    } else {
+      body+=`  Practice ${n} (${practice.title}):\n`;
+      att.forEach((a,i)=>{
+        body+=`    Attempt ${i+1}: ${a.score}/${a.max} (${a.pct}%) — ${a.date}\n`;
+      });
+    }
+  }
+
+  body+='\nMISTAKES:\n';
+  let hasMistakes=false;
+  for(let n=1;n<=9;n++){
+    const pKey=`p${n}`;
+    const att=attempts[pKey]||[];
+    if(att.length>0){
+      const last=att[att.length-1];
+      (last.mistakes||[]).forEach(m=>{body+=`  - ${m}\n`;hasMistakes=true;});
+    }
+  }
+  if(!hasMistakes) body+='  No specific mistakes recorded.\n';
+
+  body+='\nRECOMMENDATIONS:\n';
+  const rows=[];
+  for(let n=1;n<=9;n++){
+    const pKey=`p${n}`;
+    const att=attempts[pKey]||[];
+    const practice=PRACTICES[n-1];
+    if(att.length===0) rows.push({n,title:practice.title,attempts:0,pct:null});
+    else{const l=att[att.length-1];rows.push({n,title:practice.title,attempts:att.length,pct:l.pct});}
+  }
+  generateRecommendations(rows,[]).forEach(r=>body+=`  • ${r.replace(/<[^>]+>/g,'')}\n`);
+
+  const subject=encodeURIComponent(`Listening Practice Level 1 – Results – ${sName}`);
+  const encodedBody=encodeURIComponent(body);
+  window.location.href=`mailto:${TEACHER_EMAIL}?subject=${subject}&body=${encodedBody}`;
+}
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION & STORAGE
+// ═══════════════════════════════════════════════════
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+(id==='results'?'results':id)).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){showScreen('home');updatePracticeGrid();}
+function goToPractice(n){showScreen(n);}
+function goToResults(){showScreen('results');renderResults();}
+
+function updatePracticeGrid(){
+  const grid=document.getElementById('practice-grid');
+  if(!grid) return;
+  grid.innerHTML=PRACTICES.map(p=>{
+    const att=attempts[`p${p.id}`]||[];
+    const done=att.length>0;
+    const last=done?att[att.length-1]:null;
+    return `<div class="practice-card ${done?'done':''}" onclick="goToPractice(${p.id})">
+      <div class="p-num">Practice ${p.id}</div>
+      <div class="p-title">${p.title}</div>
+      <div class="p-status">${done?`Last: ${last.score}/${last.max} (${last.pct}%) — ${att.length} attempt(s)`:'Not attempted yet'}</div>
+    </div>`;
+  }).join('');
+}
+
+function loadAttempts(){
+  try{return JSON.parse(localStorage.getItem('lp1-attempts')||'{}');}
+  catch(e){return {};}
+}
+function saveAttempts(){
+  try{localStorage.setItem('lp1-attempts',JSON.stringify(attempts));}
+  catch(e){}
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildP1();buildP2();buildP3();buildP4();
+  buildP5();buildP6();buildP7();buildP8();buildP9();
+  updatePracticeGrid();
+  loadStudentInfo();
+});
+</script>
+</body>
+</html>
