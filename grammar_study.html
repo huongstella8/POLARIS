@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huong Stella Paradigm – Grammar Series</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4ff;--bg2:#e8eeff;--side:#1e1b4b;
+  --purple:#6d28d9;--teal:#0891b2;--gold:#b45309;
+  --green:#059669;--red:#dc2626;--orange:#ea580c;
+  --text:#1e293b;--muted:#475569;--border:#cbd5e1;
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:260px;min-height:100vh;background:var(--side);border-right:1px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;padding-bottom:40px}
+#sidebar .logo{padding:20px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+#sidebar .logo span{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#sidebar .logo small{font-size:11px;color:var(--muted)}
+.nav-group{padding:10px 0}
+.nav-group-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:6px 16px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;font-size:13px;color:var(--muted);text-decoration:none}
+.nav-item:hover{background:rgba(109,40,217,.2);color:#e0d9ff;border-left-color:#a78bfa}
+.nav-item.active{background:rgba(109,40,217,.25);color:#c4b5fd;border-left-color:#c4b5fd;font-weight:600}
+.nav-item .icon{width:20px;text-align:center;font-size:14px;flex-shrink:0}
+.nav-item .score-badge{margin-left:auto;background:var(--green);color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px;display:none}
+.nav-item.scored .score-badge{display:inline}
+
+/* MAIN */
+#main{margin-left:260px;flex:1;padding:32px 36px;max-width:960px}
+.section-page{display:none}
+.section-page.active{display:block}
+
+/* PAGE HEADER */
+.page-header{background:linear-gradient(135deg,rgba(109,40,217,.1),rgba(8,145,178,.08));border:1px solid rgba(109,40,217,.2);border-radius:16px;padding:24px 28px;margin-bottom:28px}
+.page-header h1{font-size:26px;font-weight:700;margin-bottom:6px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-header p{color:var(--muted);font-size:14px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab-btn{padding:9px 20px;cursor:pointer;border:none;background:none;color:#475569;font-size:14px;font-weight:500;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple)}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* TEACHING CARDS */
+.rule-box{background:#fff;border:1px solid rgba(109,40,217,.2);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 4px rgba(109,40,217,.06)}
+.rule-box h3{color:var(--purple);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rule-box ul{padding-left:18px;font-size:14px;line-height:1.8;color:var(--text)}
+.rule-box .example{background:rgba(6,182,212,.06);border-left:3px solid var(--teal);padding:8px 14px;margin:8px 0;border-radius:0 6px 6px 0;font-style:italic;font-size:13.5px;color:#1e40af}
+.rule-box .vn-note{color:#92400e;font-size:13px;margin-top:4px}
+.start-point{background:#e0f9ff;border:1px solid rgba(8,145,178,.25);border-radius:10px;padding:16px 18px;margin:14px 0}
+.start-point h3{color:var(--teal);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.tip-box{background:#fffbeb;border:1px solid rgba(180,83,9,.2);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.tip-box strong{color:var(--gold)}
+.table-wrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(109,40,217,.1);color:var(--purple);padding:9px 12px;text-align:left;font-weight:600}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:hover td{background:rgba(109,40,217,.04)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin:2px 2px}
+.tag.purple{background:rgba(109,40,217,.12);color:#5b21b6}
+.tag.teal{background:rgba(8,145,178,.12);color:#155e75}
+.tag.green{background:rgba(5,150,105,.12);color:#065f46}
+.tag.gold{background:rgba(180,83,9,.12);color:#92400e}
+.tag.red{background:rgba(220,38,38,.12);color:#991b1b}
+.sub-heading{font-size:17px;font-weight:700;color:#1e293b;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid rgba(109,40,217,.2)}
+p.lead{font-size:14.5px;line-height:1.7;color:#334155;margin-bottom:10px}
+
+/* EXERCISES */
+.ex-section{margin:18px 0 28px}
+.ex-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ex-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.q-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:10px 0;transition:border-color .2s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.q-block.correct{border-color:var(--green);background:#f0fdf4}
+.q-block.wrong{border-color:var(--red);background:#fef2f2}
+.q-num{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.q-text{font-size:14.5px;color:var(--text);margin-bottom:10px;line-height:1.6}
+.q-text .blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--purple);color:var(--teal);font-weight:600;text-align:center;padding:0 4px}
+.opt-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.opt{padding:7px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13.5px;transition:all .2s;background:#f8faff;color:var(--text)}
+.opt:hover{border-color:var(--purple);background:rgba(109,40,217,.08)}
+.opt.selected{border-color:var(--purple);background:rgba(109,40,217,.12);color:#5b21b6}
+.opt.correct-opt{border-color:var(--green)!important;background:rgba(16,185,129,.15)!important;color:var(--green)!important}
+.opt.wrong-opt{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;color:var(--red)!important}
+.fill-input{background:#f8faff;border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:14px;width:220px;outline:none;transition:border-color .2s}
+.fill-input:focus{border-color:var(--purple)}
+.fill-input.correct-inp{border-color:var(--green);background:rgba(16,185,129,.08)}
+.fill-input.wrong-inp{border-color:var(--red);background:rgba(239,68,68,.08)}
+.feedback{display:none;margin-top:8px;font-size:13px;padding:6px 10px;border-radius:6px}
+.feedback.show{display:block}
+.feedback.ok{background:#f0fdf4;color:#065f46;border:1px solid #bbf7d0}
+.feedback.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* TRANSLATION */
+.trans-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.vn-sent{font-size:15px;font-weight:600;color:#92400e;margin-bottom:8px}
+.trans-input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;resize:vertical;min-height:50px;transition:border-color .2s}
+.trans-input:focus{border-color:var(--teal)}
+.model-answer{display:none;margin-top:10px;padding:10px 14px;background:#e0f9ff;border-radius:6px;border-left:3px solid var(--teal)}
+.model-answer .label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.model-answer .answer{font-size:14px;color:#1e40af;font-style:italic}
+.model-answer.show{display:block}
+.hint-box{font-size:12px;color:#475569;margin-top:4px;padding:6px 10px;background:#fffbeb;border:1px solid rgba(180,83,9,.12);border-radius:4px}
+.hint-box strong{color:var(--gold)}
+
+/* WRITING */
+.writing-block{background:#fff;border:1px solid rgba(109,40,217,.2);border-radius:10px;padding:18px 20px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.writing-prompt{font-size:14.5px;color:var(--text);margin-bottom:8px;line-height:1.7}
+.writing-criteria{list-style:none;padding:0;margin:8px 0 12px;font-size:13px;color:var(--muted)}
+.writing-criteria li{padding:3px 0;display:flex;gap:8px}
+.writing-criteria li::before{content:'☐';color:var(--purple)}
+.writing-area{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;color:var(--text);font-size:14px;outline:none;resize:vertical;min-height:120px;transition:border-color .2s}
+.writing-area:focus{border-color:var(--purple)}
+.model-para{display:none;margin-top:14px;padding:14px 18px;background:#f5f3ff;border-radius:8px;border-left:3px solid var(--purple)}
+.model-para .label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.model-para .answer{font-size:14px;color:#1e293b;line-height:1.8}
+.model-para .takeaway{margin-top:10px;font-size:13px;color:#7c3aed;font-weight:600}
+.model-para.show{display:block}
+.self-score{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ss-btn{padding:6px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;background:#f8faff;color:#475569;transition:all .2s}
+.ss-btn:hover{border-color:var(--gold);color:#92400e;background:#fffbeb}
+.ss-btn.sel{border-color:var(--gold);background:#fef3c7;color:#92400e;font-weight:700}
+
+/* BUTTONS */
+.btn{padding:10px 22px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.btn-outline{background:#fff;border:1px solid var(--purple);color:var(--purple)}
+.btn-outline:hover{background:rgba(109,40,217,.08)}
+.btn-green{background:var(--green);color:#fff}
+.btn-gold{background:var(--gold);color:#1a1a00;font-weight:700}
+.btn-red{background:var(--red);color:#fff}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.section-score{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 18px;margin-top:20px;display:none;font-size:14px;color:#065f46;font-weight:600}
+.section-score.show{display:block}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.result-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.result-card h3{font-size:13px;color:var(--muted);margin-bottom:4px}
+.result-card .val{font-size:28px;font-weight:700}
+.result-card .val.good{color:var(--green)}.result-card .val.ok{color:var(--gold)}.result-card .val.poor{color:var(--red)}
+.error-log{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0}
+.error-log-header{background:#fef2f2;border-bottom:1px solid var(--border);padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--red)}
+.error-entry{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13.5px}
+.error-entry:last-child{border-bottom:none}
+.error-entry .your-ans{color:var(--red)}.error-entry .correct-ans{color:var(--green)}
+.section-scores-table{width:100%;border-collapse:collapse;font-size:14px}
+.section-scores-table th,.section-scores-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.section-scores-table th{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase}
+
+/* STUDENT INFO */
+#info-overlay{position:fixed;inset:0;background:rgba(30,27,75,.6);backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center}
+.info-card{background:#fff;border:1px solid rgba(109,40,217,.25);border-radius:20px;padding:36px 42px;max-width:460px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(109,40,217,.15)}
+.info-card h2{font-size:22px;font-weight:700;margin-bottom:6px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.info-card p{color:#475569;font-size:14px;margin-bottom:22px}
+.info-field{margin:12px 0;text-align:left}
+.info-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase}
+.info-field input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#1e293b;font-size:14px;outline:none;transition:border-color .2s}
+.info-field input:focus{border-color:var(--purple)}
+
+/* RESPONSIVE */
+@media(max-width:768px){#sidebar{width:220px}#main{margin-left:220px;padding:20px}}
+</style>
+</head>
+<body>
+
+<!-- Student Info Modal -->
+<div id="info-overlay">
+  <div class="info-card">
+    <h2>Huong Stella Paradigm</h2>
+    <p>Grammar Series – Interactive Study &amp; Practice</p>
+    <div class="info-field"><label>Your Name</label><input id="student-name" type="text" placeholder="Enter your full name" /></div>
+    <div class="info-field"><label>Date</label><input id="student-date" type="date" /></div>
+    <div class="info-field"><label>Class / Level</label><input id="student-class" type="text" placeholder="e.g. PO-1" /></div>
+    <div style="margin-top:22px">
+      <button class="btn btn-primary" style="width:100%;padding:12px" onclick="startStudy()">Start Studying 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <div class="logo">
+    <div>
+      <span>Huong Stella Paradigm</span><br>
+      <small>Grammar Series</small>
+    </div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Word Classes</div>
+    <div class="nav-item active" onclick="showSection('s1')" id="nav-s1"><span class="icon">🏗️</span>Sentence Components<span class="score-badge" id="badge-s1"></span></div>
+    <div class="nav-item" onclick="showSection('s2')" id="nav-s2"><span class="icon">📍</span>Adverbials<span class="score-badge" id="badge-s2"></span></div>
+    <div class="nav-item" onclick="showSection('s3')" id="nav-s3"><span class="icon">⚡</span>Adverbs<span class="score-badge" id="badge-s3"></span></div>
+    <div class="nav-item" onclick="showSection('s4')" id="nav-s4"><span class="icon">🎨</span>Adjectives<span class="score-badge" id="badge-s4"></span></div>
+    <div class="nav-item" onclick="showSection('s5')" id="nav-s5"><span class="icon">📊</span>Comparison<span class="score-badge" id="badge-s5"></span></div>
+    <div class="nav-item" onclick="showSection('s6')" id="nav-s6"><span class="icon">📦</span>Nouns<span class="score-badge" id="badge-s6"></span></div>
+    <div class="nav-item" onclick="showSection('s7')" id="nav-s7"><span class="icon">🔖</span>Articles<span class="score-badge" id="badge-s7"></span></div>
+    <div class="nav-item" onclick="showSection('s8')" id="nav-s8"><span class="icon">👤</span>Pronouns<span class="score-badge" id="badge-s8"></span></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Verb Tenses</div>
+    <div class="nav-item" onclick="showSection('s9a')" id="nav-s9a"><span class="icon">🕐</span>Present Simple<span class="score-badge" id="badge-s9a"></span></div>
+    <div class="nav-item" onclick="showSection('s9b')" id="nav-s9b"><span class="icon">🔄</span>Present Continuous<span class="score-badge" id="badge-s9b"></span></div>
+    <div class="nav-item" onclick="showSection('s9c')" id="nav-s9c"><span class="icon">⏪</span>Past Simple<span class="score-badge" id="badge-s9c"></span></div>
+    <div class="nav-item" onclick="showSection('s9d')" id="nav-s9d"><span class="icon">🌊</span>Past Continuous<span class="score-badge" id="badge-s9d"></span></div>
+    <div class="nav-item" onclick="showSection('s9e')" id="nav-s9e"><span class="icon">✅</span>Present Perfect<span class="score-badge" id="badge-s9e"></span></div>
+    <div class="nav-item" onclick="showSection('s9f')" id="nav-s9f"><span class="icon">🔁</span>Pres. Perf. Continuous<span class="score-badge" id="badge-s9f"></span></div>
+    <div class="nav-item" onclick="showSection('s9g')" id="nav-s9g"><span class="icon">📚</span>Past Perfect<span class="score-badge" id="badge-s9g"></span></div>
+    <div class="nav-item" onclick="showSection('s9h')" id="nav-s9h"><span class="icon">💫</span>Future Tenses<span class="score-badge" id="badge-s9h"></span></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Report</div>
+    <div class="nav-item" onclick="showSection('results')" id="nav-results"><span class="icon">📋</span>Results &amp; Report</div>
+  </div>
+  <div style="padding:16px;margin-top:10px">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Overall Progress</div>
+    <div style="background:var(--border);border-radius:99px;height:6px;overflow:hidden">
+      <div id="overall-bar" style="height:100%;background:linear-gradient(90deg,var(--purple),var(--teal));width:0%;transition:width .5s"></div>
+    </div>
+    <div id="overall-pct" style="font-size:12px;color:var(--muted);margin-top:4px">0% complete</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+
+<!-- ===================== SECTION 1: SENTENCE COMPONENTS ===================== -->
+<div id="s1" class="section-page active">
+  <div class="page-header">
+    <h1>🏗️ Sentence Components</h1>
+    <p>Understanding the building blocks of every English sentence</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s1-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s1-ex')">✏️ Exercises</button>
+  </div>
+
+  <!-- LEARN TAB -->
+  <div id="s1-learn" class="tab-content active">
+    <p class="lead">Every English sentence is made of components. The most basic pattern is <strong>Subject + Verb</strong>, and from there we add objects, complements and adverbials.</p>
+    <div class="rule-box">
+      <h3>🏛️ The Five Key Components</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Component</th><th>What it does</th><th>Example</th></tr>
+          <tr><td><span class="tag purple">Subject</span></td><td>Who/what the sentence is about</td><td><em><strong>My arms</strong> are aching.</em></td></tr>
+          <tr><td><span class="tag teal">Verb</span></td><td>The action or state</td><td><em>Something <strong>happened</strong>.</em></td></tr>
+          <tr><td><span class="tag green">Object</span></td><td>Receives the action</td><td><em>She gave <strong>him</strong> <strong>a present</strong>.</em></td></tr>
+          <tr><td><span class="tag gold">Complement</span></td><td>Describes the subject/object</td><td><em>She seems <strong>tired</strong>.</em></td></tr>
+          <tr><td><span class="tag red">Adverbial</span></td><td>Adds context (when/where/how)</td><td><em>He studies <strong>at school</strong>.</em></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="sub-heading">Direct &amp; Indirect Objects</div>
+    <div class="rule-box">
+      <h3>🎯 Two Types of Object</h3>
+      <ul>
+        <li><strong>Direct object</strong> — what is given/done: <em>She gave him <u>a book</u>.</em></li>
+        <li><strong>Indirect object</strong> — to/for whom: <em>She gave <u>him</u> a book.</em></li>
+      </ul>
+      <div class="example">We can also use VERB + direct object + <strong>to/for</strong> + indirect object:<br>
+      → <em>She gave <u>a book</u> to <u>him</u>.</em> &nbsp;|&nbsp; <em>They found <u>a chair</u> for <u>her</u>.</em></div>
+      <div class="example">Verbs that take two objects: <strong>give, send, offer, show, tell, teach, bring, buy, make, find, pick, reserve, win, earn</strong></div>
+    </div>
+    <div class="sub-heading">Word Classes</div>
+    <div class="rule-box">
+      <h3>🔤 Key Word Classes</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Word Class</th><th>Role</th><th>Examples</th></tr>
+          <tr><td>Pronoun</td><td>Replaces a noun</td><td>I, he, she, they, it, we</td></tr>
+          <tr><td>Verb</td><td>Action or state</td><td>run, is, seem, have</td></tr>
+          <tr><td>Adverb</td><td>Modifies verb/adj/adverb</td><td>quickly, very, quite, already</td></tr>
+          <tr><td>Determiner</td><td>Before a noun</td><td>the, a, this, some, many</td></tr>
+          <tr><td>Adjective</td><td>Describes a noun</td><td>happy, tall, interesting</td></tr>
+          <tr><td>Noun</td><td>Person, place, thing, idea</td><td>teacher, city, freedom</td></tr>
+          <tr><td>Preposition</td><td>Links noun to rest of sentence</td><td>at, in, on, for, by, with</td></tr>
+          <tr><td>Linking word</td><td>Connects clauses</td><td>and, but, although, because</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="tip-box"><strong>💡 Vietnamese Note:</strong> Tiếng Việt không chia động từ theo chủ ngữ (he goes ≠ I go), nhưng tiếng Anh thì có. Chủ ngữ quyết định hình thức của động từ.</div>
+  </div>
+
+  <!-- EXERCISE TAB -->
+  <div id="s1-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Identify the Component (MCQ)</div>
+      <div id="s1-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s1-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s1-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s1')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s1')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s1')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 2: ADVERBIALS ===================== -->
+<div id="s2" class="section-page">
+  <div class="page-header">
+    <h1>📍 Adverbials</h1>
+    <p>Phrases and clauses that add context to a sentence</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s2-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s2-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s2-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Start Point</h3>
+      <p style="font-size:14px;line-height:1.8">We can add adverbials to all the five main structures. They can be a single adverb, a prepositional phrase, or a clause.</p>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Adverbial Examples</h3>
+      <div class="example">My arms are acting <strong>terribly</strong>. → single adverb</div>
+      <div class="example"><strong>Of course</strong>, this piano is heavy. → front position phrase</div>
+      <div class="example"><strong>Fortunately</strong>, their house is nearby. → attitude adverbial</div>
+      <div class="example">David <strong>actually</strong> bought Melania a present yesterday. → mid position</div>
+    </div>
+    <div class="rule-box">
+      <h3>📐 Positions of Adverbials</h3>
+      <ul>
+        <li><strong>Front position</strong> — before the subject: <em><u>Of course</u>, she was right.</em></li>
+        <li><strong>Mid position</strong> — between subject and main verb (or after be/auxiliary): <em>She <u>always</u> arrives early.</em></li>
+        <li><strong>End position</strong> — after the verb/object: <em>He ran <u>very quickly</u> <u>down the street</u>.</em></li>
+      </ul>
+      <div class="tip-box" style="margin-top:10px"><strong>⚠️ Never</strong> put an adverbial between a verb and its direct object.<br><em>✗ She bought quickly the newspaper.</em><br><em>✓ She quickly bought the newspaper. / She bought the newspaper quickly.</em></div>
+    </div>
+    <div class="rule-box">
+      <h3>🗂️ Types of Adverbials</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Answers</th><th>Examples</th></tr>
+        <tr><td>Manner</td><td>How?</td><td>quickly, carefully, well, hard</td></tr>
+        <tr><td>Place</td><td>Where?</td><td>at home, in the garden, here, abroad</td></tr>
+        <tr><td>Time</td><td>When?</td><td>yesterday, in 2020, soon, at 5pm</td></tr>
+        <tr><td>Frequency</td><td>How often?</td><td>always, often, sometimes, rarely, never</td></tr>
+        <tr><td>Degree</td><td>How much?</td><td>very, quite, rather, extremely, a bit</td></tr>
+        <tr><td>Attitude</td><td>Speaker's view</td><td>fortunately, honestly, obviously, clearly</td></tr>
+      </table></div>
+    </div>
+    <div class="tip-box"><strong>💡 Thứ tự:</strong> Khi có nhiều trạng từ cuối câu, thứ tự thường là: Manner → Place → Time<br><em>She spoke <u>quietly</u> [manner] <u>in the library</u> [place] <u>last night</u> [time].</em></div>
+  </div>
+  <div id="s2-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Identify the Adverbial (MCQ)</div>
+      <div id="s2-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s2-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s2-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s2')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s2')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s2')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 3: ADVERBS ===================== -->
+<div id="s3" class="section-page">
+  <div class="page-header">
+    <h1>⚡ Adverbs</h1>
+    <p>Position rules, types, and tricky adverbs: quite, already, yet, still, even, really</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s3-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s3-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s3-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>📐 Position Rules</h3>
+      <ul>
+        <li>Adverbs of manner go in <strong>end</strong> position: <em>She sings <u>beautifully</u>.</em></li>
+        <li>Frequency adverbs go in <strong>mid</strong> position (before main verb, after be/auxiliary): <em>She <u>always</u> comes late.</em> / <em>She is <u>never</u> late.</em></li>
+        <li>Definite time/frequency adverbs usually go at the <strong>end</strong>: <em>I visit them <u>every weekend</u>.</em></li>
+        <li><strong>Never</strong> between verb and direct object: <em>✗ She reads carefully books.</em></li>
+      </ul>
+      <div class="example">Mid-position order: Subject + (auxiliary) + <strong>adverb</strong> + main verb<br>
+      → <em>They have <u>always</u> lived here.</em> | <em>He <u>rarely</u> complains.</em></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔍 Quite, Rather, Fairly, Pretty</h3>
+      <ul>
+        <li><strong>quite</strong> = moderately: <em>It's <u>quite</u> good.</em></li>
+        <li><strong>quite</strong> + a/an + adj + noun: <em>It's <u>quite</u> a good film.</em> (NOT a quite good film)</li>
+        <li><strong>rather</strong> suggests surprise or mild criticism: <em>It's <u>rather</u> expensive.</em></li>
+        <li><strong>fairly</strong> = moderately (neutral): <em>The exam was <u>fairly</u> easy.</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>⏰ Already, Still, Yet, Just</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Adverb</th><th>Position</th><th>Use</th><th>Example</th></tr>
+        <tr><td><strong>already</strong></td><td>mid / end</td><td>sooner than expected</td><td><em>She's <u>already</u> left.</em></td></tr>
+        <tr><td><strong>still</strong></td><td>mid</td><td>continuing situation</td><td><em>He's <u>still</u> sleeping.</em></td></tr>
+        <tr><td><strong>yet</strong></td><td>end</td><td>negative/question</td><td><em>I haven't finished <u>yet</u>.</em></td></tr>
+        <tr><td><strong>just</strong></td><td>mid</td><td>very recently</td><td><em>She has <u>just</u> arrived.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>✨ Even &amp; Really</h3>
+      <ul>
+        <li><strong>even</strong> goes before the word it stresses: <em><u>Even</u> the teacher made a mistake.</em></li>
+        <li><strong>even</strong> before a subject means "including this surprising person": <em><u>Even</u> Maria couldn't solve it.</em></li>
+        <li><strong>really</strong> before an adjective = very: <em>It's <u>really</u> difficult.</em></li>
+        <li><strong>really</strong> before a verb = truly: <em>I <u>really</u> don't understand.</em></li>
+        <li><strong>really</strong> at the end = in reality (corrective): <em>What did he say, <u>really</u>?</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Ghi nhớ:</strong> <em>yet</em> luôn ở cuối câu phủ định/câu hỏi | <em>still</em> ở giữa câu | <em>already</em> có thể ở giữa hoặc cuối câu khi nhấn mạnh sự ngạc nhiên.</div>
+  </div>
+  <div id="s3-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Fill in the Correct Adverb / Position</div>
+      <div id="s3-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s3-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s3-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s3')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s3')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s3')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 4: ADJECTIVES ===================== -->
+<div id="s4" class="section-page">
+  <div class="page-header">
+    <h1>🎨 Adjectives</h1>
+    <p>Order, gradability, and adjective patterns</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s4-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s4-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s4-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>📏 Order of Adjectives</h3>
+      <p style="font-size:13.5px;line-height:1.9;color:var(--text)">When multiple adjectives appear before a noun, they follow this order:</p>
+      <div class="table-wrap"><table>
+        <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>Noun</th></tr>
+        <tr><td>Opinion</td><td>Size</td><td>Age</td><td>Shape</td><td>Colour</td><td>Origin</td><td>Material</td><td>Purpose</td><td></td></tr>
+        <tr><td>lovely</td><td>small</td><td>old</td><td>round</td><td>red</td><td>Italian</td><td>wooden</td><td>cooking</td><td>pot</td></tr>
+      </table></div>
+      <div class="example">a <u>beautiful</u> [opinion] <u>tall</u> [size] <u>young</u> [age] <u>Vietnamese</u> [origin] woman</div>
+      <div class="example">a <u>lovely</u> <u>little</u> <u>old</u> <u>rectangular</u> <u>green</u> <u>French</u> <u>silver</u> whittling knife</div>
+    </div>
+    <div class="rule-box">
+      <h3>📊 Gradable vs Non-gradable Adjectives</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Modifiers</th><th>Examples</th></tr>
+        <tr><td>Gradable</td><td>very, rather, quite, fairly, extremely</td><td>big, cold, happy, tired, difficult</td></tr>
+        <tr><td>Non-gradable (extreme)</td><td>absolutely, completely, totally, utterly</td><td>enormous, freezing, exhausted, furious</td></tr>
+        <tr><td>Non-gradable (classifying)</td><td>completely, totally (not very)</td><td>wooden, nuclear, digital, unique</td></tr>
+      </table></div>
+      <div class="example">✓ <em>very cold</em> / <em>absolutely freezing</em> | ✗ <em>very freezing</em></div>
+      <div class="example">✓ <em>quite common</em> / <em>completely unique</em> | ✗ <em>very unique</em></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔗 Adjective Patterns</h3>
+      <ul>
+        <li><strong>Adj + to-infinitive:</strong> <em>I'm happy <u>to help</u>.</em> / <em>It's difficult <u>to understand</u>.</em></li>
+        <li><strong>Adj + -ing:</strong> <em>It's worth <u>reading</u>.</em> / <em>She was busy <u>cooking</u>.</em></li>
+        <li><strong>Adj + that-clause:</strong> <em>I'm glad <u>that you came</u>.</em> / <em>She's aware <u>that it's wrong</u>.</em></li>
+        <li><strong>Adj + preposition:</strong> <em>afraid of, interested in, proud of, responsible for, different from</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>🔗 Linking Verbs + Adjective</h3>
+      <div class="example">be, seem, look, feel, taste, smell, sound, become, remain, appear, get, turn, stay, grow, prove, go, come</div>
+      <div class="example"><em>She <u>looks</u> tired.</em> / <em>The milk <u>has gone</u> sour.</em> / <em>He <u>grew</u> impatient.</em></div>
+    </div>
+    <div class="tip-box"><strong>💡</strong> Sau linking verbs dùng <strong>adjective</strong>, KHÔNG dùng adverb: <em>She looks <u>beautiful</u></em> (NOT beautifully).</div>
+  </div>
+  <div id="s4-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Adjective Order &amp; Gradability</div>
+      <div id="s4-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s4-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s4-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s4')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s4')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s4')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 5: COMPARISON ===================== -->
+<div id="s5" class="section-page">
+  <div class="page-header">
+    <h1>📊 Comparison</h1>
+    <p>Comparative, superlative, and other comparison structures</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s5-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s5-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s5-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Start Point</h3>
+      <div class="example">Accommodation would be <strong>cheaper</strong> in Athens.</div>
+      <div class="example">I want to come home <strong>more relaxed</strong> and <strong>healthier</strong>.</div>
+      <div class="example">It's the <strong>most expensive</strong> flight that day.</div>
+    </div>
+    <div class="rule-box">
+      <h3>📐 Formation</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
+        <tr><td>1-syllable</td><td>+ -er (cheaper)</td><td>the + -est (cheapest)</td></tr>
+        <tr><td>2+ syllables</td><td>more + adj</td><td>the most + adj</td></tr>
+        <tr><td>2-syllable -y</td><td>+ -ier (happier)</td><td>the -iest (happiest)</td></tr>
+        <tr><td>Past participle</td><td>more + adj (more tired)</td><td>the most + adj</td></tr>
+        <tr><td>good / well</td><td>better</td><td>best</td></tr>
+        <tr><td>bad / badly</td><td>worse</td><td>worst</td></tr>
+        <tr><td>far</td><td>farther / further</td><td>farthest / furthest</td></tr>
+        <tr><td>little</td><td>less</td><td>least</td></tr>
+        <tr><td>many / much</td><td>more</td><td>most</td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔄 Other Ways of Comparing</h3>
+      <ul>
+        <li><strong>as … as</strong> = equal: <em>She is <u>as tall as</u> her brother.</em></li>
+        <li><strong>not as … as</strong> = less: <em>This is <u>not as expensive as</u> I thought.</em></li>
+        <li><strong>less … than</strong>: <em>This route is <u>less crowded than</u> the other.</em></li>
+        <li><strong>the + comparative, the + comparative</strong>: <em><u>The more</u> you practise, <u>the better</u> you get.</em></li>
+        <li><strong>much / far / a lot + comparative</strong>: <em>She runs <u>much faster</u> than him.</em></li>
+        <li><strong>a bit / a little + comparative</strong>: <em>It's <u>a bit colder</u> today.</em></li>
+        <li><strong>not as … as</strong> vs <strong>less … than</strong> are interchangeable in formal usage.</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Superlative + ever:</strong> <em>It was the <u>best film I've ever seen</u>.</em><br><strong>💡 as + adverb + as:</strong> <em>She speaks <u>as fluently as</u> a native speaker.</em></div>
+  </div>
+  <div id="s5-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Fill in the Comparative / Superlative</div>
+      <div id="s5-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s5-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s5-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s5')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s5')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s5')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 6: NOUNS ===================== -->
+<div id="s6" class="section-page">
+  <div class="page-header">
+    <h1>📦 Nouns</h1>
+    <p>Countable, uncountable, compound, group nouns and more</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s6-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s6-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s6-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔢 Countable vs Uncountable</h3>
+      <div class="table-wrap"><table>
+        <tr><th></th><th>Countable</th><th>Uncountable</th></tr>
+        <tr><td>Singular/Plural</td><td>a ship / two ships</td><td>water (no plural)</td></tr>
+        <tr><td>Determiners</td><td>a/an, many, few, several</td><td>some, much, little, a lot of</td></tr>
+        <tr><td>Verb agreement</td><td>The ships are...</td><td>The water is...</td></tr>
+      </table></div>
+      <div class="example"><strong>Both countable AND uncountable (different meanings):</strong><br>
+      paper (material, uncountable) ↔ a paper (newspaper/essay, countable)<br>
+      glass (material) ↔ a glass (vessel)<br>
+      experience (in general) ↔ an experience (particular event)</div>
+    </div>
+    <div class="rule-box">
+      <h3>⚠️ Special Noun Types</h3>
+      <ul>
+        <li><strong>Plural-only nouns</strong> — always plural, take plural verb: <em>trousers, scissors, glasses, clothes, contents, outskirts, stairs</em></li>
+        <li><strong>Singular-only nouns</strong> — look plural but take singular verb: <em>news, mathematics, physics, economics, athletics, the United States</em></li>
+        <li><strong>Pair nouns</strong> — things with two parts: <em>a pair of scissors, a pair of trousers</em></li>
+        <li><strong>Group/collective nouns</strong> — can be singular or plural: <em>The team is / are playing tonight.</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>🔗 Compound Nouns</h3>
+      <ul>
+        <li>noun + noun: <em>notebook, football, sunrise, coffee shop</em></li>
+        <li>adjective + noun: <em>blackboard, greenhouse, quicksand</em></li>
+        <li>verb + noun: <em>swimming pool, driving licence</em></li>
+        <li>noun + verb: <em>sunrise, rainfall, heartbeat</em></li>
+      </ul>
+      <div class="example">The <strong>first noun</strong> usually describes/modifies the second. Stress is usually on the <strong>first</strong> element: <em>'coffee shop, 'car park, 'bedroom</em></div>
+    </div>
+    <div class="tip-box"><strong>💡 Từ uncountable phổ biến hay bị lỗi:</strong> advice, information, furniture, equipment, luggage, homework, knowledge, research, traffic, weather → KHÔNG dùng a/an hoặc thêm -s.</div>
+  </div>
+  <div id="s6-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Noun Types (MCQ &amp; Fill-in)</div>
+      <div id="s6-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s6-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s6-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s6')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s6')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s6')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s6"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 7: ARTICLES ===================== -->
+<div id="s7" class="section-page">
+  <div class="page-header">
+    <h1>🔖 Articles</h1>
+    <p>When to use the, a/an, or no article</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s7-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s7-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s7-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>📌 "THE" — Use when listener knows which one</h3>
+      <ul>
+        <li>with singular, plural or uncountable nouns when the listener can identify: <em>Close <u>the</u> door.</em></li>
+        <li>when a following phrase/clause identifies it: <em><u>the</u> climate in this region</em></li>
+        <li>for unique things: <em><u>the</u> sun, <u>the</u> moon, <u>the</u> environment</em></li>
+        <li>superlatives: <em><u>the</u> most important problem</em></li>
+        <li>ordinals: <em><u>the</u> first time</em></li>
+        <li>musical instruments: <em>play <u>the</u> piano</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>📌 "A / AN" — First mention or unspecified</h3>
+      <ul>
+        <li>first time mentioned: <em>I saw <u>a</u> cat. <u>The</u> cat was black.</em></li>
+        <li>one of many (unspecified): <em>He's <u>a</u> teacher.</em></li>
+        <li>describing/classifying: <em>It's <u>an</u> interesting idea.</em></li>
+        <li>with jobs/titles (not specific): <em>He's <u>a</u> doctor.</em></li>
+        <li>in number/quantity expressions: <em>twice <u>a</u> week, <u>a</u> few, <u>a</u> lot</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>📌 NO ARTICLE — General / Generic</h3>
+      <ul>
+        <li>uncountable/plural nouns used generally: <em><u>Water</u> is essential. <u>Dogs</u> make good pets.</em></li>
+        <li>proper nouns (people, countries, continents): <em><u>France</u>, <u>Asia</u>, <u>Maria</u></em></li>
+        <li>meals: <em>have <u>breakfast</u>, cook <u>dinner</u></em></li>
+        <li>languages, sports: <em>speak <u>English</u>, play <u>football</u></em></li>
+        <li>institutions (general purpose): <em>at <u>school</u>, in <u>hospital</u>, go to <u>church</u></em></li>
+        <li>transport: <em>by <u>car</u>, on <u>foot</u></em></li>
+        <li>names with "Lake, Mount": <em><u>Lake</u> Victoria, <u>Mount</u> Everest</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 "in the future" vs "in future":</strong> <em>In <u>the</u> future</em> (later on) | <em>In <u>future</u></em> (from now on, as a habit)</div>
+  </div>
+  <div id="s7-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Fill in the Correct Article (the / a / an / —)</div>
+      <div id="s7-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s7-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s7-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s7')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s7')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s7')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 8: PRONOUNS ===================== -->
+<div id="s8" class="section-page">
+  <div class="page-header">
+    <h1>👤 Pronouns</h1>
+    <p>Personal, reflexive, and possessive pronouns</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s8-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s8-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s8-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>📋 Personal Pronouns Table</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Person</th><th>Subject</th><th>Object</th><th>Poss. Adj.</th><th>Poss. Pronoun</th><th>Reflexive</th></tr>
+        <tr><td>1st sing.</td><td>I</td><td>me</td><td>my</td><td>mine</td><td>myself</td></tr>
+        <tr><td>2nd sing.</td><td>you</td><td>you</td><td>your</td><td>yours</td><td>yourself</td></tr>
+        <tr><td>3rd sing. ♂</td><td>he</td><td>him</td><td>his</td><td>his</td><td>himself</td></tr>
+        <tr><td>3rd sing. ♀</td><td>she</td><td>her</td><td>her</td><td>hers</td><td>herself</td></tr>
+        <tr><td>3rd sing. ⚙️</td><td>it</td><td>it</td><td>its</td><td>—</td><td>itself</td></tr>
+        <tr><td>1st plural</td><td>we</td><td>us</td><td>our</td><td>ours</td><td>ourselves</td></tr>
+        <tr><td>2nd plural</td><td>you</td><td>you</td><td>your</td><td>yours</td><td>yourselves</td></tr>
+        <tr><td>3rd plural</td><td>they</td><td>them</td><td>their</td><td>theirs</td><td>themselves</td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔄 Reflexive Pronouns</h3>
+      <ul>
+        <li>Subject = Object: <em>She <u>hurt herself</u>.</em> / <em>I taught <u>myself</u> English.</em></li>
+        <li>Emphasis: <em>I cleaned the house <u>myself</u>.</em> (= no one helped)</li>
+        <li><strong>by myself/yourself</strong> = alone: <em>He lives <u>by himself</u>.</em></li>
+        <li>Notice: <em>each other</em> (2 people) vs <em>one another</em> (3+)</li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>⚙️ Special Uses of "it"</h3>
+      <ul>
+        <li>Weather/distance/time: <em>It's raining. It's 5km. It's Monday.</em></li>
+        <li>Empty subject: <em>It seems that he's wrong. It's easy to say.</em></li>
+        <li>Emphasis (cleft): <em>It was Maria who called. It was on Monday that he left.</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>👥 You, We, They (General)</h3>
+      <ul>
+        <li><strong>you/we</strong> — general "people": <em><u>You</u> never know what might happen.</em></li>
+        <li><strong>they</strong> — authorities/people in general: <em><u>They</u> say this restaurant is excellent.</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>📎 its vs it's | my vs mine | a friend of mine</h3>
+      <ul>
+        <li><strong>its</strong> = possessive: <em>The cat licked <u>its</u> paw.</em></li>
+        <li><strong>it's</strong> = it is / it has: <em><u>It's</u> raining.</em></li>
+        <li><strong>my</strong> (+ noun) vs <strong>mine</strong> (standalone): <em><u>My</u> bag is heavy. This bag is <u>mine</u>.</em></li>
+        <li><strong>a friend of mine</strong> = one of my friends (NOT a friend of me)</li>
+      </ul>
+    </div>
+  </div>
+  <div id="s8-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose the Correct Pronoun Form</div>
+      <div id="s8-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s8-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s8-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s8')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s8')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s8')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s8"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9a: PRESENT SIMPLE ===================== -->
+<div id="s9a" class="section-page">
+  <div class="page-header">
+    <h1>🕐 Present Simple</h1>
+    <p>Facts, habits, routines, and general truths</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9a-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9a-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9a-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form</h3>
+      <div class="table-wrap"><table>
+        <tr><th></th><th>Positive</th><th>Negative</th><th>Question</th></tr>
+        <tr><td>I/you/we/they</td><td>work</td><td>don't work</td><td>Do you work?</td></tr>
+        <tr><td>he/she/it</td><td>work<strong>s</strong></td><td>doesn't work</td><td>Does she work?</td></tr>
+      </table></div>
+      <div class="example">Spelling: add <strong>-es</strong> after: ch, sh, ss, x, o → teaches, watches, goes<br>
+      -y → -ies (after consonant): study → <strong>studies</strong>, carry → <strong>carries</strong></div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses</h3>
+      <ul>
+        <li><strong>Habits / routines:</strong> <em>She <u>walks</u> to work every day.</em> (always, usually, often, sometimes, rarely, never)</li>
+        <li><strong>Permanent facts / truths:</strong> <em>The sun <u>rises</u> in the east.</em></li>
+        <li><strong>General / scientific truths:</strong> <em>Water <u>boils</u> at 100°C.</em></li>
+        <li><strong>Timetables (future):</strong> <em>The train <u>leaves</u> at 8am tomorrow.</em></li>
+        <li><strong>Commentaries:</strong> <em>He <u>passes</u> to Smith, who <u>shoots</u>!</em></li>
+        <li><strong>Instructions:</strong> <em>First you <u>add</u> the flour, then you <u>mix</u>.</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> always, usually, often, sometimes, rarely/seldom, never, every day/week/year, on Mondays, once a week, in general, usually</div>
+  </div>
+  <div id="s9a-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Fill in the Correct Present Simple Form</div>
+      <div id="s9a-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9a-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9a-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9a')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9a')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9a')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9a"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9b: PRESENT CONTINUOUS ===================== -->
+<div id="s9b" class="section-page">
+  <div class="page-header">
+    <h1>🔄 Present Continuous</h1>
+    <p>Actions happening now, temporary situations, and future arrangements</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9b-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9b-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9b-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form: am/is/are + verb-ing</h3>
+      <div class="example">I am working. | She is studying. | They are playing. | He isn't coming.</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses</h3>
+      <ul>
+        <li><strong>Now / at this moment:</strong> <em>She <u>is reading</u> a book right now.</em></li>
+        <li><strong>Temporary situation:</strong> <em>I <u>am living</u> in Hanoi for now.</em> (not permanent)</li>
+        <li><strong>Changing/developing situation:</strong> <em>Prices <u>are rising</u>.</em></li>
+        <li><strong>Future arrangements (personal plans):</strong> <em>I <u>am meeting</u> her tomorrow.</em></li>
+        <li><strong>Trends:</strong> <em>More people <u>are cycling</u> to work nowadays.</em></li>
+        <li><strong>Complaints (always):</strong> <em>He <u>is always losing</u> his keys!</em> (annoying habit)</li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>⚠️ Stative Verbs — NOT used in continuous form</h3>
+      <div class="example">like, love, hate, want, need, prefer | know, believe, understand, remember, forget | have (possession), own, belong | seem, appear, look (= seem)</div>
+      <div class="example">✗ I am knowing the answer. | ✓ I know the answer.<br>
+      ✗ She is having a car. | ✓ She has a car.<br>
+      ✓ She is having a good time. (= experiencing — action)</div>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> now, right now, at the moment, currently, these days, at present, this week, nowadays, look! listen!</div>
+  </div>
+  <div id="s9b-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Present Simple or Present Continuous?</div>
+      <div id="s9b-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9b-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9b-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9b')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9b')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9b')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9b"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9c: PAST SIMPLE ===================== -->
+<div id="s9c" class="section-page">
+  <div class="page-header">
+    <h1>⏪ Past Simple</h1>
+    <p>Completed actions, states, and sequences in the past</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9c-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9c-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9c-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form</h3>
+      <div class="table-wrap"><table>
+        <tr><th></th><th>Regular</th><th>Irregular</th></tr>
+        <tr><td>Positive</td><td>work<strong>ed</strong></td><td>went / saw / came</td></tr>
+        <tr><td>Negative</td><td>didn't work</td><td>didn't go</td></tr>
+        <tr><td>Question</td><td>Did you work?</td><td>Did she go?</td></tr>
+      </table></div>
+      <div class="example">Spelling: stop → stop<strong>p</strong>ed | plan → plan<strong>n</strong>ed | travel → travel<strong>l</strong>ed | study → studi<strong>ed</strong></div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses</h3>
+      <ul>
+        <li><strong>Completed action at a specific time:</strong> <em>She <u>arrived</u> at 6pm.</em></li>
+        <li><strong>Series of completed actions:</strong> <em>He <u>opened</u> the door, <u>walked</u> in and <u>sat</u> down.</em></li>
+        <li><strong>Past state:</strong> <em>When I was young, I <u>lived</u> in Hue.</em></li>
+        <li><strong>With specific past time expressions:</strong> <em>yesterday, last week, in 2020, two days ago</em></li>
+        <li><strong>Narrative / storytelling:</strong> the main tense for events in stories</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> yesterday, last night/week/month/year, ago, in 2020, on Monday, when I was a child, once, suddenly, then, at that time, in those days</div>
+  </div>
+  <div id="s9c-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Past Simple Form &amp; Use</div>
+      <div id="s9c-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9c-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9c-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9c')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9c')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9c')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9c"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9d: PAST CONTINUOUS ===================== -->
+<div id="s9d" class="section-page">
+  <div class="page-header">
+    <h1>🌊 Past Continuous</h1>
+    <p>Background actions and interrupted activities in the past</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9d-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9d-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9d-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form: was/were + verb-ing</h3>
+      <div class="example">I was sleeping. | She was studying. | They weren't listening. | Was he working?</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses</h3>
+      <ul>
+        <li><strong>Background action interrupted by Past Simple:</strong> <em>I <u>was watching</u> TV when she <u>called</u>.</em></li>
+        <li><strong>Two simultaneous past actions:</strong> <em>While she <u>was cooking</u>, he <u>was setting</u> the table.</em></li>
+        <li><strong>Describing atmosphere/scene:</strong> <em>The sun <u>was shining</u>. People <u>were laughing</u>.</em></li>
+        <li><strong>Unfinished action at a past moment:</strong> <em>At 9pm, they <u>were still talking</u>.</em></li>
+      </ul>
+      <div class="example"><strong>Past Continuous vs Past Simple:</strong><br>
+      I was reading a book. → in progress, background<br>
+      I read the book. → completed action</div>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> while, when, as, at that moment, at 9 o'clock last night, all day yesterday, throughout the morning</div>
+  </div>
+  <div id="s9d-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Past Simple or Past Continuous?</div>
+      <div id="s9d-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9d-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9d-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9d')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9d')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9d')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9d"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9e: PRESENT PERFECT ===================== -->
+<div id="s9e" class="section-page">
+  <div class="page-header">
+    <h1>✅ Present Perfect</h1>
+    <p>Experiences, recent events, and past actions with present relevance</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9e-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9e-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9e-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form: have/has + past participle</h3>
+      <div class="example">I have worked. | She has arrived. | They haven't seen it. | Has he finished?</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Key Uses</h3>
+      <ul>
+        <li><strong>just / already / yet:</strong>
+          <div class="example">I've <u>just</u> arrived. (very recently, mid position)<br>
+          She's <u>already</u> eaten. (sooner than expected)<br>
+          Have you finished <u>yet</u>? / I haven't done it <u>yet</u>. (end, negative/question)</div>
+        </li>
+        <li><strong>ever / never:</strong>
+          <div class="example">Have you <u>ever</u> been to Japan? (in your life up to now)<br>
+          I've <u>never</u> eaten sushi. (not at any time in life)</div>
+        </li>
+        <li><strong>for / since (duration to present):</strong>
+          <div class="example">I've lived here <u>for</u> 3 years. (length of time)<br>
+          She hasn't called <u>since</u> Monday. (starting point)</div>
+        </li>
+        <li><strong>recently / lately / in the last few days:</strong>
+          <div class="example">I've been very busy <u>lately</u>.<br>
+          <u>Recently</u>, the government has changed its policy.</div>
+        </li>
+        <li><strong>Superlative context:</strong>
+          <div class="example">It's the best film I've <u>ever</u> seen.</div>
+        </li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Present Perfect vs Past Simple:</strong><br>
+    Dùng PP khi thời gian KHÔNG xác định hoặc vẫn liên quan đến hiện tại.<br>
+    Dùng Past Simple khi có thời gian CỤ THỂ đã qua.<br>
+    ✓ <em>I have seen that film.</em> (không biết khi nào)<br>
+    ✓ <em>I saw that film last Tuesday.</em> (thời gian cụ thể)</div>
+  </div>
+  <div id="s9e-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Present Perfect or Past Simple?</div>
+      <div id="s9e-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9e-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9e-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9e')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9e')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9e')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9e"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9f: PRESENT PERFECT CONTINUOUS ===================== -->
+<div id="s9f" class="section-page">
+  <div class="page-header">
+    <h1>🔁 Present Perfect Continuous</h1>
+    <p>Ongoing activities leading up to now, with visible results</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9f-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9f-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9f-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form: have/has + been + verb-ing</h3>
+      <div class="example">I have been working. | She has been studying all day. | Have you been waiting long?</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses &amp; Contrast with Present Perfect</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Present Perfect Continuous</th><th>Present Perfect Simple</th></tr>
+        <tr><td>Activity in progress / recently stopped</td><td>Completed action or result</td></tr>
+        <tr><td>How long / duration focus</td><td>How many / how much (quantity)</td></tr>
+        <tr><td><em>I've been <u>painting</u> the wall.</em> (still wet)</td><td><em>I've <u>painted</u> the wall.</em> (finished)</td></tr>
+        <tr><td><em>She's been <u>reading</u> for 2 hours.</em></td><td><em>She's <u>read</u> 3 books this month.</em></td></tr>
+        <tr><td>Temporary / recent activity</td><td>Change/permanent result</td></tr>
+      </table></div>
+      <div class="example">Clues for continuous: tired, dirty, sweating, flushed — evidence of activity<br>
+      <em>Why are your hands dirty? — I've been gardening.</em></div>
+    </div>
+    <div class="tip-box"><strong>💡 Với "for" và "since":</strong> cả hai đều dùng được với PP Simple và PP Continuous.<br>
+    PP Continuous nhấn mạnh quá trình; PP Simple nhấn mạnh kết quả.</div>
+  </div>
+  <div id="s9f-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Pres. Perfect or Pres. Perfect Continuous?</div>
+      <div id="s9f-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9f-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9f-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9f')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9f')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9f')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9f"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9g: PAST PERFECT ===================== -->
+<div id="s9g" class="section-page">
+  <div class="page-header">
+    <h1>📚 Past Perfect</h1>
+    <p>The "past of the past" — what happened before another past moment</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9g-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9g-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9g-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Form: had + past participle</h3>
+      <div class="example">She had left before I arrived. | They hadn't eaten. | Had you met him before?</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Uses</h3>
+      <ul>
+        <li><strong>Action before another past action:</strong> <em>When I got to the station, the train <u>had already left</u>.</em></li>
+        <li><strong>Reporting past events (backshift):</strong> <em>She said she <u>had seen</u> it before.</em></li>
+        <li><strong>After expressions of time:</strong> <em>After she <u>had finished</u> dinner, she went to bed.</em></li>
+        <li><strong>Past Perfect Continuous:</strong> had + been + -ing<br>
+          <em>She <u>had been working</u> for 8 hours before she collapsed.</em> (duration before past moment)</li>
+      </ul>
+      <div class="example"><strong>Timeline:</strong> Event 1 (past perfect) ←→ Event 2 (past simple) ←→ NOW<br>
+      <em>By the time he arrived, we <u>had already eaten</u>.</em></div>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> by the time, after, before, when, already, just, never, as soon as</div>
+  </div>
+  <div id="s9g-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Past Perfect Usage</div>
+      <div id="s9g-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9g-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9g-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9g')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9g')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9g')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9g"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 9h: FUTURE TENSES ===================== -->
+<div id="s9h" class="section-page">
+  <div class="page-header">
+    <h1>💫 Future Tenses</h1>
+    <p>will, going to, Present Continuous, Future Perfect, and more</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s9h-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s9h-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s9h-learn" class="tab-content active">
+    <div class="rule-box">
+      <h3>🔧 Future Forms Summary</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Form</th><th>Use</th><th>Example</th></tr>
+        <tr><td><strong>will + infinitive</strong></td><td>Prediction (no evidence), spontaneous decision, promise, offer</td><td><em>I think it <u>will rain</u>. / I'll help you!</em></td></tr>
+        <tr><td><strong>going to + infinitive</strong></td><td>Intention/plan, prediction based on evidence</td><td><em>I'm <u>going to study</u> medicine. / Look — it's <u>going to rain</u>!</em></td></tr>
+        <tr><td><strong>Present Continuous</strong></td><td>Fixed personal arrangement</td><td><em>I <u>am meeting</u> Tom at 6pm.</em></td></tr>
+        <tr><td><strong>Present Simple</strong></td><td>Timetable/schedule</td><td><em>The train <u>leaves</u> at 8am.</em></td></tr>
+        <tr><td><strong>will be + -ing</strong></td><td>Future continuous: in progress at a future time</td><td><em>At 9pm, I <u>will be sleeping</u>.</em></td></tr>
+        <tr><td><strong>will have + pp</strong></td><td>Future perfect: completed before a future point</td><td><em>By May, I <u>will have finished</u>.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔍 will vs going to</h3>
+      <ul>
+        <li><strong>will</strong> = spontaneous decision (deciding NOW): <em>The phone's ringing — I'll get it!</em></li>
+        <li><strong>going to</strong> = pre-decided intention: <em>I'm going to buy a new laptop. I've already chosen one.</em></li>
+        <li><strong>going to</strong> = evidence-based prediction: <em>Look at those clouds! It's going to rain.</em></li>
+        <li><strong>will</strong> = no evidence prediction / general prediction: <em>I think the economy will improve.</em></li>
+      </ul>
+    </div>
+    <div class="rule-box">
+      <h3>⏰ shall / Future Perfect Continuous</h3>
+      <ul>
+        <li><strong>shall</strong> (formal/British) in suggestions: <em>Shall we go? / Shall I open the window?</em></li>
+        <li><strong>will have been + -ing</strong>: <em>By 2030, she will have been teaching for 20 years.</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Từ khóa:</strong> tomorrow, next week, soon, in the future, by the time, by next year, at 8pm tonight, this time next week, I think, I expect, probably</div>
+  </div>
+  <div id="s9h-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose the Correct Future Form</div>
+      <div id="s9h-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s9h-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s9h-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s9h')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTranslations('s9h')">👁 Show Model Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s9h')">📝 Show Model Paragraph</button>
+      </div>
+      <div class="section-score" id="score-s9h"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESULTS ===================== -->
+<div id="results" class="section-page">
+  <div class="page-header">
+    <h1>📋 Results &amp; Report</h1>
+    <p id="results-student-info">Complete the exercises first, then generate your report here.</p>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <h3>Overall Score (Part A)</h3>
+      <div class="val" id="res-overall">—</div>
+    </div>
+    <div class="result-card">
+      <h3>Sections Completed</h3>
+      <div class="val" id="res-sections">0 / 16</div>
+    </div>
+    <div class="result-card">
+      <h3>Attempts</h3>
+      <div class="val" id="res-attempts">0</div>
+    </div>
+    <div class="result-card">
+      <h3>Date</h3>
+      <div class="val" style="font-size:18px" id="res-date">—</div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Section Breakdown</div>
+  <table class="section-scores-table">
+    <thead><tr><th>Section</th><th>Score</th><th>%</th><th>Status</th></tr></thead>
+    <tbody id="section-breakdown"></tbody>
+  </table>
+
+  <div class="sub-heading" style="margin-top:24px">❌ Error Log</div>
+  <div id="error-log-container">
+    <div style="color:var(--muted);font-size:14px;padding:16px">Complete and score each section to see your errors here.</div>
+  </div>
+
+  <div class="sub-heading" style="margin-top:24px">📤 Export &amp; Send</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generateReport()">🖨️ Generate PDF Report</button>
+    <button class="btn btn-gold" onclick="sendToTeacher()">📧 Send to Teacher</button>
+    <button class="btn btn-outline" onclick="copyReport()">📋 Copy Report Text</button>
+  </div>
+  <div id="email-status" style="margin-top:12px;font-size:13.5px;display:none"></div>
+  <div style="margin-top:16px;padding:14px 18px;background:#fffbeb;border:1px solid rgba(180,83,9,.2);border-radius:8px;font-size:13px;color:var(--muted)">
+    📧 Results will be sent to: <strong style="color:var(--gold)">huongstella8@gmail.com</strong>
+  </div>
+</div>
+
+</div><!-- end #main -->
+
+<script>
+// ============================================================
+// EXERCISE DATA
+// ============================================================
+const SECTIONS = {
+  s1:{
+    qa:[
+      {q:"What is the SUBJECT in: '<em>The old woman gave her granddaughter a gift.</em>'",opts:["The old woman","her granddaughter","a gift","gave"],ans:0,exp:"The subject is who performs the action. 'The old woman' gave the gift."},
+      {q:"Identify the INDIRECT OBJECT: '<em>He sent his friend a long letter.</em>'",opts:["a long letter","his friend","He","sent"],ans:1,exp:"The indirect object is 'his friend' — the recipient. The direct object is 'a long letter'."},
+      {q:"What is the COMPLEMENT in: '<em>The soup smells wonderful.</em>'",opts:["The soup","smells","wonderful","—"],ans:2,exp:"After a linking verb (smells), the complement describes the subject. 'Wonderful' = complement."},
+      {q:"'<em>She speaks English <u>fluently in class</u>.</em>' — the underlined words form a/an ___.",opts:["Subject","Object","Adverbial","Complement"],ans:2,exp:"'fluently in class' adds context (how/where). It is an adverbial."},
+      {q:"Which sentence has a DIRECT and INDIRECT object?",opts:["She runs quickly.","He is tired.","They gave us some advice.","The sun rises."],ans:2,exp:"'They gave [us = indirect object] [some advice = direct object].' gave + IO + DO."},
+      {q:"What word class is 'beautiful' in: '<em>a <u>beautiful</u> old house</em>'?",opts:["Adverb","Adjective","Noun","Determiner"],ans:1,exp:"'beautiful' modifies/describes the noun 'house', so it is an adjective."},
+    ],
+    qb:[
+      {vn:"Cô ấy đang đọc một cuốn sách thú vị.",hint:"she / reading / interesting book",model:"She is reading an interesting book.",note:"Subject: She | Verb: is reading | Object: an interesting book"},
+      {vn:"Họ đã cho chúng tôi một số lời khuyên hữu ích.",hint:"they / gave / us / useful advice",model:"They gave us some useful advice.",note:"Subject: They | Direct Obj: advice | Indirect Obj: us"},
+      {vn:"Giáo viên trông có vẻ hài lòng với kết quả.",hint:"teacher / seem / pleased / result",model:"The teacher seemed pleased with the result.",note:"Linking verb 'seemed' + complement 'pleased'"},
+    ],
+    wc:{
+      prompt:"Write 4–5 sentences describing your typical morning routine. In each sentence, underline (or mark) the Subject (S), Verb (V), and Object/Complement (O/C).",
+      hints:"Wake up, have breakfast, take a shower, leave for school/work...",
+      criteria:["Each sentence has a clear Subject and Verb","At least 2 sentences have an Object","At least 1 sentence uses a Complement (e.g. I feel energetic)","Sentences are grammatically correct"],
+      model:"Every morning, I wake up at 6 o'clock. [S: I | V: wake up] I take a quick shower [S: I | V: take | O: a quick shower] and then I prepare my breakfast. [S: I | V: prepare | O: breakfast] My coffee always smells wonderful. [S: My coffee | V: smells | C: wonderful] At 7:30, I leave for school. [S: I | V: leave | Adv: for school]",
+      takeaway:"Key takeaway: Notice how linking verbs (smell, seem, look, feel) take a COMPLEMENT (adjective), while action verbs take an OBJECT (noun)."
+    }
+  },
+  s2:{
+    qa:[
+      {q:"Identify the ADVERBIAL in: '<em>She waited patiently at the bus stop for an hour.</em>'",opts:["She","waited","patiently","waited patiently"],ans:2,exp:"'patiently' is a manner adverb modifying the verb 'waited'."},
+      {q:"Which is in FRONT position? '<em>Fortunately, they escaped without injury.</em>'",opts:["they","Fortunately","escaped","without injury"],ans:1,exp:"'Fortunately' is an attitude adverbial in front position, before the subject."},
+      {q:"Which order is CORRECT for multiple adverbials at the end?",opts:["She drove yesterday quickly to work.","She drove quickly to work yesterday.","She drove to work quickly yesterday.","She quickly drove to work yesterday."],ans:1,exp:"Order: Manner (quickly) → Place (to work) → Time (yesterday)."},
+      {q:"What type of adverbial is 'every Sunday' in: '<em>We visit her every Sunday.</em>'?",opts:["Manner","Place","Frequency","Degree"],ans:2,exp:"'every Sunday' tells HOW OFTEN → it is a frequency adverbial."},
+      {q:"Which sentence is INCORRECT?",opts:["He speaks English well.","She quickly finished her homework.","She finished quickly her homework.","They have always loved this place."],ans:2,exp:"Never put an adverb between the verb and its direct object. ✗ 'finished quickly her homework'"},
+    ],
+    qb:[
+      {vn:"Thật may mắn, chúng tôi đã tìm được chỗ ngồi ở phía trước.",hint:"fortunately / we / find / a seat / at the front",model:"Fortunately, we found a seat at the front.",note:"Front-position attitude adverbial: Fortunately"},
+      {vn:"Anh ấy lái xe rất cẩn thận vào buổi tối.",hint:"he / drive / carefully / in the evening",model:"He drives very carefully in the evening.",note:"Manner (carefully) + Time (in the evening) at end position"},
+      {vn:"Họ đôi khi gặp nhau ở công viên vào cuối tuần.",hint:"they / sometimes / meet / park / weekend",model:"They sometimes meet in the park at weekends.",note:"'sometimes' in mid position (before main verb)"},
+    ],
+    wc:{
+      prompt:"Write a short paragraph (4–5 sentences) about a weekend trip or outing. Use at least one adverbial in each position: front, mid, and end.",
+      hints:"Use: Luckily / Fortunately (front) | always / often / never (mid) | quickly / carefully (manner) | in the city / at home (place) | yesterday / last weekend (time)",
+      criteria:["At least 1 front-position adverbial","At least 1 mid-position frequency adverb","At least 1 manner adverbial","Correct order when multiple adverbials appear"],
+      model:"Last weekend, we went on a spontaneous road trip. Fortunately, the weather was perfect for driving. We always enjoy exploring new places together. Along the way, we stopped at a small café and had coffee quietly by the window. We arrived home late, feeling completely refreshed.",
+      takeaway:"Key takeaway: Manner → Place → Time at end position. Attitude adverbials (fortunately, luckily) prefer front position. Frequency adverbs (always, never) go in mid position."
+    }
+  },
+  s3:{
+    qa:[
+      {q:"Choose the correct sentence with 'quite':",opts:["It's a quite good film.","It's quite a good film.","It's good quite a film.","Quite it's a good film."],ans:1,exp:"'quite' comes before the article: quite + a/an + adjective + noun."},
+      {q:"Fill in: 'Have you eaten ___ ?' (negative expectation)",opts:["already","yet","still","just"],ans:1,exp:"'yet' is used in questions and negatives at the end of the sentence."},
+      {q:"Fill in: 'She ___ hasn't decided.' (ongoing situation)",opts:["already","yet","still","just"],ans:2,exp:"'still' in mid position indicates an ongoing situation that was expected to change."},
+      {q:"Fill in: 'I've ___ arrived — I'm still at the airport.' (very recently)",opts:["already","yet","still","just"],ans:3,exp:"'just' = very recently. Mid position: I've just arrived."},
+      {q:"'___ the youngest student won the prize.' — Choose the adverb that shows surprise.",opts:["Still","Yet","Even","Already"],ans:2,exp:"'Even' before the subject highlights a surprising inclusion."},
+      {q:"Which is correct?",opts:["She speaks really English well.","She really speaks English well.","Really she speaks English well.","She speaks English really."],ans:1,exp:"'really' in mid position modifies the verb 'speaks'. It can also go before the adjective it modifies."},
+      {q:"Frequency adverbs go ___.",opts:["before the main verb and after be/auxiliary","after the main verb","before be/auxiliary","at the end of the sentence always"],ans:0,exp:"e.g. She always arrives / She is never late / I have often wondered"},
+    ],
+    qb:[
+      {vn:"Cô ấy vẫn chưa hoàn thành bài tập về nhà.",hint:"she / still / not finish / homework / yet",model:"She still hasn't finished her homework. / She hasn't finished her homework yet.",note:"'still' in mid-negative position OR 'yet' at the end. Both correct."},
+      {vn:"Thậm chí anh ấy cũng không biết câu trả lời đó.",hint:"even / he / not know / the answer",model:"Even he didn't know the answer.",note:"'even' before the subject to show surprise at the inclusion."},
+      {vn:"Tôi vừa mới nghe tin tức đó — thật đáng kinh ngạc!",hint:"I / just / hear / the news / amazing",model:"I've just heard the news — it's amazing!",note:"'just' in mid position with present perfect"},
+    ],
+    wc:{
+      prompt:"Write a short diary entry (4–5 sentences) about something that happened today or recently. Include: already/just/yet, an adverb of frequency, and 'even' or 'still'.",
+      hints:"Use: just, already, yet, still, even, always, sometimes, never, really, quite",
+      criteria:["Use 'just', 'already', or 'yet' correctly","Include a frequency adverb in mid position","Use 'even' or 'still' in the correct position","Natural, flowing style"],
+      model:"I've just come back from an exhausting day at school. I've already finished most of my homework, but I still need to review for tomorrow's test. Even my teacher said the grammar test would be quite challenging. I sometimes feel overwhelmed, but I really enjoy learning. I haven't given up yet!",
+      takeaway:"Key takeaway: already = sooner than expected (mid/end) | yet = not happened (end, neg/q) | still = continuing (mid) | just = very recently (mid) | even = surprising inclusion."
+    }
+  },
+  s4:{
+    qa:[
+      {q:"Which is the correct order?",opts:["a wooden old small box","a small old wooden box","an old small wooden box","a wooden small old box"],ans:1,exp:"Order: Size (small) → Age (old) → Material (wooden). Opinion > Size > Age > Shape > Colour > Origin > Material > Purpose."},
+      {q:"Which adjective is NON-GRADABLE?",opts:["cold","tired","unique","happy"],ans:2,exp:"'unique' is classifying — something is either unique or not. You cannot say 'very unique'."},
+      {q:"Which modifier is correct for a non-gradable adjective?",opts:["very exhausted","quite enormous","fairly brilliant","absolutely terrified"],ans:3,exp:"Non-gradable (extreme) adjectives take 'absolutely', 'completely', 'utterly'. 'terrified' is extreme. ✓ absolutely terrified."},
+      {q:"Choose the correct sentence:",opts:["She looks beautifully in that dress.","She looks beautiful in that dress.","She looks beauty in that dress.","She looks beautifully."],ans:1,exp:"After linking verbs (looks), use an ADJECTIVE, not an adverb. 'beautiful' (adj), not 'beautifully' (adv)."},
+      {q:"'I'm excited ___ start the new project.' — Fill in the gap.",opts:["for","at","to","of"],ans:2,exp:"adjective + to-infinitive: 'excited to start'. Common: happy/glad/ready/afraid/difficult + to + infinitive."},
+      {q:"'The film is worth ___.' — Fill in the gap.",opts:["to watch","watching","watch","watched"],ans:1,exp:"'worth' is followed by -ing form: worth watching/reading/visiting."},
+    ],
+    qb:[
+      {vn:"Đây là một bộ phim hành động Mỹ dài và hấp dẫn.",hint:"long / exciting / American / action film",model:"It's a long, exciting American action film.",note:"Order: Opinion (exciting) → Size/duration (long) → Origin (American) → Purpose (action)"},
+      {vn:"Trời lạnh cóng — tôi hoàn toàn tê cứng.",hint:"absolutely freezing / I / completely / numb",model:"It's absolutely freezing — I'm completely numb.",note:"Non-gradable adjectives: freezing (= very cold), numb. Use 'absolutely/completely', not 'very'."},
+      {vn:"Cô ấy trông khác biệt so với em gái mình.",hint:"she / look / different / sister",model:"She looks different from her sister.",note:"'look' = linking verb → adjective. 'different from' (NOT different than in British English)"},
+    ],
+    wc:{
+      prompt:"Describe your ideal home in a paragraph of 4–5 sentences. Use at least 3 adjectives in correct order before nouns, and at least 1 adjective after a linking verb.",
+      hints:"Use adjectives: comfortable, cozy, beautiful, spacious, modern, bright, peaceful, relaxing | Linking verbs: look, seem, feel, smell, sound",
+      criteria:["Correct order of multiple adjectives before nouns","At least 1 adjective after a linking verb","Use gradable and/or non-gradable adjectives","No adverb-for-adjective errors after linking verbs"],
+      model:"My ideal home would be a comfortable, spacious modern apartment in a quiet neighborhood. The living room should feel warm and inviting, with large windows that let in plenty of light. I'd love a small, cozy reading corner that smells like old books and coffee. The kitchen should be bright and practical, with a beautiful wooden countertop. Overall, the home should simply feel peaceful.",
+      takeaway:"Key takeaway: After linking verbs (feel, smell, look, sound) always use ADJECTIVES (not adverbs). Multiple adjectives follow Opinion → Size → Age → Shape → Colour → Origin → Material order."
+    }
+  },
+  s5:{
+    qa:[
+      {q:"Fill in: 'This road is ___ (dangerous) than the other one.'",opts:["more dangerous","dangerousr","most dangerous","dangerousest"],ans:0,exp:"3+ syllable adjectives always use 'more' for comparative."},
+      {q:"Fill in: 'She is the ___ (good) student in the class.'",opts:["goodest","most good","better","best"],ans:3,exp:"Irregular superlative of 'good' = 'best'."},
+      {q:"Choose the correct comparison: (equal)",opts:["He is taller than her.","He is as tall as her.","He is more tall than her.","He is the tallest."],ans:1,exp:"'as + adjective + as' = equal comparison."},
+      {q:"Fill in: '___ you study, ___ you learn.' (parallel increase)",opts:["More / more","The more / the more","Most / most","As much / as much"],ans:1,exp:"'the more…the more' = as one thing increases, so does the other."},
+      {q:"'This test was ___ difficult ___ I expected.' (less than expected)",opts:["less … than","more … than","as … as","not as … as"],ans:3,exp:"'not as difficult as I expected' = less difficult than expected. Both 'less than' and 'not as...as' are correct."},
+      {q:"Fill in: 'She runs ___ faster than her brother.' (much = big difference)",opts:["very","a bit","much","the"],ans:2,exp:"'much / far / a lot' intensify comparatives. 'much faster', 'far more expensive'."},
+      {q:"'It was the best concert ___ seen.' — Fill in the blank.",opts:["I never","I've ever","I ever","I always"],ans:1,exp:"Superlative + 'ever' in present perfect clause: 'the best I've ever seen'."},
+    ],
+    qb:[
+      {vn:"Bài kiểm tra này khó hơn nhiều so với bài kiểm tra trước.",hint:"this test / much / more difficult / previous",model:"This test is much more difficult than the previous one.",note:"much + comparative (more difficult) for a big difference"},
+      {vn:"Bạn càng luyện tập nhiều, bạn càng giỏi hơn.",hint:"the more / practise / the better",model:"The more you practise, the better you get / become.",note:"The more…the + comparative structure"},
+      {vn:"Hà Nội không đắt đỏ như Tokyo.",hint:"Hanoi / not as expensive / Tokyo",model:"Hanoi is not as expensive as Tokyo.",note:"not as + adjective + as = less than"},
+    ],
+    wc:{
+      prompt:"Compare your city/hometown with another city you know. Write 4–5 sentences using at least 3 different comparison structures.",
+      hints:"Use: more ... than / less ... than / as ... as / not as ... as / the most / much / far / a lot + comparative / the more ... the more",
+      criteria:["At least 3 different comparison structures used","Correct form of comparative/superlative","At least 1 'the more...the' structure","Natural, logical comparisons"],
+      model:"Hanoi is much more crowded than my hometown, but it's far more exciting. The food in Hanoi is not as varied as in Ho Chi Minh City, but it's arguably the best in the north. Life in the countryside is a lot more peaceful than in the capital. The more I travel, the more I appreciate the quieter life back home. However, Hanoi definitely has the most opportunities for young people.",
+      takeaway:"Key takeaway: big difference = much/far/a lot + comparative | small difference = a bit/a little + comparative | equal = as…as | parallel change = the more…the more"
+    }
+  },
+  s6:{
+    qa:[
+      {q:"Which is an UNCOUNTABLE noun?",opts:["book","advice","car","idea"],ans:1,exp:"'advice' is uncountable — no plural, no a/an: ✗ an advice, ✗ advices. Use 'some advice'."},
+      {q:"Choose the correct sentence:",opts:["She gave me a good advice.","She gave me some advices.","She gave me some good advice.","She gave me a good advices."],ans:2,exp:"Uncountable nouns use 'some', not 'a/an' and no plural -s."},
+      {q:"'The news ___ very surprising.' — Choose the verb.",opts:["are","were","is","have been"],ans:2,exp:"'news' looks plural but is singular: 'The news IS good.'"},
+      {q:"Which noun is PLURAL ONLY and takes a plural verb?",opts:["mathematics","physics","trousers","news"],ans:2,exp:"'trousers' is plural-only (always take plural verb): 'My trousers are...' / 'a pair of trousers'"},
+      {q:"'The team ___ playing brilliantly tonight.' — Both forms are possible:",opts:["is only","are only","is / are","are always"],ans:2,exp:"Collective nouns (team, government, committee) can take singular or plural verb."},
+      {q:"Which is a COMPOUND noun?",opts:["carefully","swimming pool","very fast","is running"],ans:1,exp:"'swimming pool' = verb + noun compound. Compound nouns are a single concept."},
+      {q:"'I only had ___ time to get ready.' — Fill in the gap.",opts:["a little","a few","many","several"],ans:0,exp:"'time' is uncountable → use 'a little'. 'a few' is only for countable nouns."},
+    ],
+    qb:[
+      {vn:"Tôi cần một số thông tin về chuyến bay.",hint:"I / need / some / information / flight",model:"I need some information about the flight.",note:"'information' is uncountable: no a/an, no -s"},
+      {vn:"Chiếc kính của tôi bị gãy — tôi cần mua cái mới.",hint:"my glasses / broken / need / buy / new pair",model:"My glasses are broken — I need to buy a new pair.",note:"'glasses' is plural-only. Use 'a pair of glasses'."},
+      {vn:"Chính phủ đang cân nhắc một đạo luật mới.",hint:"the government / consider / a new law",model:"The government is/are considering a new law.",note:"Collective noun 'government' can take singular or plural verb."},
+    ],
+    wc:{
+      prompt:"Write 4–5 sentences about your study environment at home. Use at least 2 uncountable nouns correctly, 1 compound noun, and 1 collective/group noun.",
+      hints:"Uncountable: furniture, equipment, knowledge, homework, information, advice | Compound: bookshelf, desk lamp, notebook, laptop | Collective: family, class, group",
+      criteria:["At least 2 uncountable nouns used correctly (no a/an, no -s)","At least 1 compound noun","At least 1 collective noun","No countable/uncountable confusion"],
+      model:"My study room has very little furniture — just a desk, a bookshelf, and a lamp. All the equipment I need is on my desk, including my laptop and a set of notebooks. My family always encourages me to study hard, and I'm grateful for their support. I've gathered a lot of useful information from online sources, and I always take notes carefully. My class has 25 students, and we often share our homework notes with each other.",
+      takeaway:"Key takeaway: advice, information, furniture, equipment, luggage — NEVER add -s or a/an. Use 'some', 'a lot of', 'a piece of' instead."
+    }
+  },
+  s7:{
+    qa:[
+      {q:"'Close ___ door, please.' — Fill in the article.",opts:["a","an","the","—"],ans:2,exp:"We use 'the' when both speaker and listener know which door (specific, contextual reference)."},
+      {q:"'She plays ___ piano beautifully.' — Fill in the article.",opts:["a","the","—","an"],ans:1,exp:"Musical instruments take 'the': play the piano, the guitar, the violin."},
+      {q:"'He is ___ engineer.' — Fill in the article.",opts:["the","—","an","a"],ans:2,exp:"Use 'a/an' for jobs/professions when describing someone. 'engineer' starts with a vowel → 'an'."},
+      {q:"'___ lions are endangered.' (general/generic) — Fill in the article.",opts:["The","A","An","—"],ans:3,exp:"When talking about a species in general, use no article with plural nouns."},
+      {q:"'She goes to ___ school every day.' (purpose/institution) — Fill in.",opts:["the","a","—","an"],ans:2,exp:"'at/to school' (purpose/institution) = no article. But 'the school' = a specific building."},
+      {q:"'It was ___ most exciting day of my life.' — Fill in.",opts:["a","the","—","an"],ans:1,exp:"Superlatives take 'the': the most exciting, the best, the longest."},
+      {q:"'___ Mount Everest is in Nepal.' — Fill in.",opts:["The","A","—","An"],ans:2,exp:"Mountains named 'Mount + Name' take no article. Compare: the Alps (mountain range = 'the')."},
+      {q:"'I saw ___ interesting film last night.' — Fill in.",opts:["the","an","a","—"],ans:1,exp:"First mention of an unspecified thing = a/an. 'interesting' starts with a vowel → 'an'."},
+    ],
+    qb:[
+      {vn:"Tôi thường đi làm bằng xe buýt, nhưng hôm nay tôi đi bộ.",hint:"I / usually / go to work / bus / today / on foot",model:"I usually go to work by bus, but today I walked / went on foot.",note:"by + transport = no article. on foot = no article."},
+      {vn:"Đó là ngôi nhà đẹp nhất mà tôi từng thấy.",hint:"it / the most beautiful / house / ever / see",model:"It was the most beautiful house I had ever seen.",note:"Superlative always takes 'the'"},
+      {vn:"Anh ấy học tiếng Anh ở trường từ năm 8 tuổi.",hint:"he / learn / English / school / age 8",model:"He has been learning English at school since he was 8 years old.",note:"'English' (language) = no article. 'at school' (institution) = no article."},
+    ],
+    wc:{
+      prompt:"Write a short paragraph (5 sentences) about a trip you took or would like to take. Use 'the', 'a/an', and no article in appropriate places.",
+      hints:"Use: the + (unique places), the + superlative, a + first mention, — + meals/transport/languages/institutions",
+      criteria:["'the' used for specific/unique things","'a/an' for first mention or unspecified","No article for meals, transport, languages, or general plural/uncountable nouns","At least 5 different article choices visible"],
+      model:"Last summer, I visited the ancient city of Hoi An in Vietnam. It was an unforgettable experience — the streets were lined with colourful lanterns. I stayed in a small guesthouse near the river. In the mornings, I had breakfast at a local market and practised Vietnamese with the vendors. It was the most relaxing holiday I've ever had.",
+      takeaway:"Key takeaway: the = specific/known/unique | a/an = first mention/unspecified | no article = general (plural/uncountable), meals, transport, institutions, languages, sports."
+    }
+  },
+  s8:{
+    qa:[
+      {q:"'___ is cold today.' — Fill in the correct pronoun.",opts:["He","She","It","They"],ans:2,exp:"'It' is used for weather, temperature, time, and distance: It's cold / It's 5km / It's Monday."},
+      {q:"'She hurt ___ during the race.' — Fill in.",opts:["her","herself","hers","she"],ans:1,exp:"Reflexive pronoun when subject = object: 'She hurt herself.' ≠ 'She hurt her' (someone else)."},
+      {q:"'The bag is ___.' (belonging to me, standalone) — Fill in.",opts:["my","me","mine","myself"],ans:2,exp:"'mine' = possessive pronoun (standalone). 'my bag' = possessive adjective + noun."},
+      {q:"'___ say the new restaurant is excellent.' (people in general)",opts:["It","One","They","He"],ans:2,exp:"'They' = general/impersonal: people in general or unspecified authorities."},
+      {q:"'Tom and Maria looked at ___.' (each other, 2 people)",opts:["themselves","itself","each other","one another"],ans:2,exp:"'each other' = reciprocal (2 people). 'one another' = 3 or more people."},
+      {q:"'___ is interesting to learn a new language.' — Fill in.",opts:["This","That","There","It"],ans:3,exp:"'It' as empty/dummy subject: 'It is interesting to learn...'"},
+      {q:"'She spoke to the director ___.' (alone, no help)",opts:["herself","itself","by herself","by themselves"],ans:2,exp:"'by + reflexive' = alone/without help: by himself, by yourself, by herself."},
+      {q:"'___ raining heavily outside.' — Fill in.",opts:["There's","It's","Is","That's"],ans:1,exp:"Weather uses 'it': It's raining. It snows in December."},
+    ],
+    qb:[
+      {vn:"Tôi tự nấu bữa tối tối qua — không cần ai giúp cả.",hint:"I / cook / dinner / last night / by myself",model:"I cooked dinner myself last night. / I cooked dinner by myself last night.",note:"'myself' for emphasis OR 'by myself' = alone/without help"},
+      {vn:"Chiếc xe đó là của họ, không phải của chúng tôi.",hint:"that car / theirs / not / ours",model:"That car is theirs, not ours.",note:"'theirs' and 'ours' = possessive pronouns (standalone, no noun after)"},
+      {vn:"Người ta nói rằng học tiếng Anh rất có lợi cho sự nghiệp.",hint:"they / say / learning English / beneficial / career",model:"They say that learning English is very beneficial for your career.",note:"'They say' = people in general say / it is said"},
+    ],
+    wc:{
+      prompt:"Write a paragraph about something you did independently (by yourself) recently. Use at least: one reflexive pronoun, one possessive pronoun, and the impersonal 'it' (for weather or feelings).",
+      hints:"Use: myself/yourself/herself/himself | mine/yours/ours/theirs | It's... (weather/feelings/time) | They say...",
+      criteria:["Reflexive pronoun used correctly","Possessive pronoun (not adjective) used correctly","'it' as empty or weather subject","Natural, coherent paragraph"],
+      model:"Last weekend, I decided to redecorate my room by myself. I chose the colours myself and even painted the walls without any help. It was quite hard work, but it felt incredibly rewarding when I finished. My new room looks so much better — the design is entirely mine. It was a warm, sunny day, which made everything feel even more enjoyable. They say a tidy room leads to a tidy mind, and I think they're right!",
+      takeaway:"Key takeaway: myself/yourself = reflexive (same S+O) OR emphasis. mine/yours/theirs = possessive PRONOUN (no noun follows). It = weather, time, distance, empty subject."
+    }
+  },
+  s9a:{
+    qa:[
+      {q:"Fill in: 'She ___ (study) English every evening.'",opts:["study","studies","is studying","studied"],ans:1,exp:"3rd person singular (she) + habit = Present Simple + -s: 'studies'"},
+      {q:"Fill in: 'Water ___ (boil) at 100 degrees Celsius.'",opts:["boiled","is boiling","boils","boil"],ans:2,exp:"Scientific/permanent fact = Present Simple: 'boils'"},
+      {q:"'He ___ (not / usually / eat) meat.' — Choose the correct form.",opts:["doesn't usually eat","don't usually eat","isn't usually eating","hasn't usually eaten"],ans:0,exp:"Negative Present Simple: doesn't + base verb. Frequency adverb 'usually' goes between 'doesn't' and main verb."},
+      {q:"Which sentence uses Present Simple for FUTURE?",opts:["I am leaving tomorrow.","I will leave tomorrow.","The train leaves at 9am tomorrow.","I left tomorrow."],ans:2,exp:"Timetable/scheduled events use Present Simple for future: 'The train leaves at 9am.'"},
+      {q:"Fill in: 'The sun ___ (rise) in the east.' (general truth)",opts:["is rising","rose","rises","has risen"],ans:2,exp:"General truth/permanent fact = Present Simple: 'rises'"},
+      {q:"'She ___ (teach) — she's a teacher.' → Fill in the correct form.",opts:["teach","teachings","is teaching","teaches"],ans:3,exp:"Permanent fact/state about a person: 3rd person singular → 'teaches'"},
+    ],
+    qb:[
+      {vn:"Tôi thường thức dậy lúc 6 giờ sáng và ăn sáng trước khi đi học.",hint:"usually / wake up / 6am / have breakfast / before / go to school",model:"I usually wake up at 6am and have breakfast before I go to school.",note:"Habits use Present Simple. 'usually' in mid position."},
+      {vn:"Trái đất quay quanh mặt trời mất khoảng 365 ngày.",hint:"the Earth / take / 365 days / orbit / the sun",model:"The Earth takes approximately 365 days to orbit the sun.",note:"Scientific fact = Present Simple"},
+      {vn:"Chuyến tàu khởi hành lúc 8 giờ tối thứ Sáu.",hint:"the train / depart / 8pm / Friday",model:"The train departs at 8pm on Friday.",note:"Timetable = Present Simple for future"},
+    ],
+    wc:{
+      prompt:"Write a paragraph (4–5 sentences) about your weekly routine OR a general fact/habit of someone you know. Use Present Simple throughout.",
+      hints:"Use: usually, always, often, sometimes, never | every day/week | in the morning/afternoon | on Mondays",
+      criteria:["Correct Present Simple forms (especially 3rd person -s/es)","Frequency adverbs in mid position","Mix of habits and perhaps a general truth","No use of continuous or past tense"],
+      model:"My brother is a software engineer who works from home most days. He usually starts work at 9am and rarely takes a lunch break. He drinks about five cups of coffee every day, which worries our mother. In the evenings, he often plays chess online or reads technology articles. On weekends, he always visits our grandmother, who lives in the countryside. Water boils faster at higher altitudes — he told me that!",
+      takeaway:"Key takeaway: Present Simple = habits (frequency adverbs), permanent states, scientific facts, timetables. 3rd person singular always adds -s/-es to the verb."
+    }
+  },
+  s9b:{
+    qa:[
+      {q:"'She ___ (read) a novel right now.' — Fill in.",opts:["reads","is reading","read","has read"],ans:1,exp:"Action in progress AT THIS MOMENT = Present Continuous: 'is reading'"},
+      {q:"'I ___ (live) in a flat at the moment — just temporarily.' — Fill in.",opts:["live","lived","am living","have lived"],ans:2,exp:"Temporary situation = Present Continuous: 'am living'"},
+      {q:"'He ___ (always / lose) his keys!' (annoying habit) — Fill in.",opts:["always loses","is always losing","has always lost","always lost"],ans:1,exp:"Present Continuous + always = annoying repeated habit: 'is always losing'"},
+      {q:"Which verb CANNOT normally be used in continuous form?",opts:["run","eat","know","study"],ans:2,exp:"'know' is a stative verb (mental state). Stative verbs don't take continuous form."},
+      {q:"'We ___ (meet) the clients at 3pm tomorrow.' — Fill in.",opts:["will meet","meet","are meeting","have met"],ans:2,exp:"Fixed personal arrangement = Present Continuous: 'are meeting'"},
+      {q:"'Prices ___ (rise) rapidly these days.' — Fill in.",opts:["rise","rose","are rising","have risen"],ans:2,exp:"Changing/developing situation = Present Continuous: 'are rising'"},
+    ],
+    qb:[
+      {vn:"Anh ấy đang nghe nhạc trong phòng của mình lúc này.",hint:"he / listen to music / his room / right now",model:"He is listening to music in his room right now.",note:"Action at this moment = Present Continuous"},
+      {vn:"Tôi hiện đang sống ở Hà Nội, nhưng sẽ sớm chuyển đến Đà Nẵng.",hint:"I / live / Hanoi / at the moment / move / Da Nang / soon",model:"I am living in Hanoi at the moment, but I'll move to Da Nang soon.",note:"Temporary situation = Present Continuous"},
+      {vn:"Thời tiết ngày càng trở nên khắc nghiệt hơn do biến đổi khí hậu.",hint:"the weather / become / more extreme / climate change",model:"The weather is becoming more extreme due to climate change.",note:"Changing/developing trend = Present Continuous"},
+    ],
+    wc:{
+      prompt:"Write a message to a friend describing what you are doing right now, what temporary situation you are in, and what arrangements you have for the near future. Use Present Continuous throughout.",
+      hints:"Use: right now, at the moment, currently, these days, this week | am/is/are + verb-ing | tomorrow, next week",
+      criteria:["Correct Present Continuous form throughout","At least 1 action in progress NOW","At least 1 temporary situation","At least 1 future arrangement"],
+      model:"Hi! I'm writing this from the library — I'm studying for my grammar exam. I'm staying with my cousin this month while my apartment is being renovated. It's a bit chaotic, but I'm managing. These days, I'm spending a lot more time reading, which I'm really enjoying. Oh, and I'm meeting my study group tomorrow afternoon at 4pm. Wish me luck!",
+      takeaway:"Key takeaway: Present Continuous = action NOW | temporary situation | changing trends | future arrangement | always + continuous for annoying habits. NOT for stative verbs (know, want, believe, own)."
+    }
+  },
+  s9c:{
+    qa:[
+      {q:"Fill in: 'She ___ (visit) Paris last summer.'",opts:["visits","is visiting","visited","has visited"],ans:2,exp:"Specific past time (last summer) = Past Simple: 'visited'"},
+      {q:"'I ___ (not/see) that film yet.' — Fill in. (no specific time given)",opts:["haven't seen","didn't see","don't see","wasn't seeing"],ans:0,exp:"No specific time → Present Perfect. 'yet' confirms present relevance. 'Haven't seen'"},
+      {q:"'___ you ___ (meet) him at the conference last year?' — Fill in.",opts:["Did / met","Did / meet","Have / met","Were / meeting"],ans:1,exp:"Past Simple question: Did + subject + base verb? 'Did you meet'"},
+      {q:"'As a child, she ___ (love) swimming.' — Fill in.",opts:["loved","was loving","has loved","loves"],ans:0,exp:"Past state that is now finished = Past Simple: 'loved'"},
+      {q:"Which sentence uses the correct irregular verb?",opts:["She goed to the market.","She wented home.","She went home.","She has went home."],ans:2,exp:"Irregular past simple of 'go' = 'went'. Note: 'has went' is wrong; it should be 'has gone'."},
+      {q:"'When I was young, I ___ (cycle) to school every day.' — Fill in.",opts:["cycled","was cycling","have cycled","cycle"],ans:0,exp:"Repeated past habit (when I was young) = Past Simple: 'cycled'"},
+    ],
+    qb:[
+      {vn:"Tôi đã gặp giáo viên cũ của mình ở chợ vào sáng thứ Hai.",hint:"I / meet / old teacher / market / Monday morning",model:"I met my old teacher at the market on Monday morning.",note:"Specific past time (Monday morning) = Past Simple"},
+      {vn:"Hồi nhỏ, anh ấy rất hay đọc sách vào buổi tối.",hint:"when he was young / often / read / books / evening",model:"When he was young, he often read books in the evening.",note:"Past habit = Past Simple. 'often' in mid position."},
+      {vn:"Họ đã đặt phòng khách sạn từ tháng trước.",hint:"they / book / hotel room / last month",model:"They booked the hotel room last month.",note:"Completed action in the past = Past Simple"},
+    ],
+    wc:{
+      prompt:"Write about a memorable past event (a trip, a celebration, a challenge you overcame). Use Past Simple to describe the sequence of events.",
+      hints:"Use: ago, last (week/month/year), in (year), when, then, after that, suddenly, finally, at that time",
+      criteria:["Correct Past Simple forms (regular -ed and irregular)","Events narrated in logical sequence","At least 2 irregular past forms","Correct negative and/or question form"],
+      model:"Two years ago, I travelled to Japan for the first time. I flew from Hanoi to Tokyo on a Monday morning. When I arrived, I was amazed by how clean and organized everything was. On the first day, I visited several temples and ate delicious ramen at a tiny restaurant. I got a bit lost, but a kind local helped me find my way. It was one of the best experiences of my life, and I took hundreds of photos to remember it.",
+      takeaway:"Key takeaway: Past Simple = specific completed actions in the past. Always use with specific time expressions (yesterday, last night, in 2020, ago, when I was a child)."
+    }
+  },
+  s9d:{
+    qa:[
+      {q:"Fill in: 'When I arrived, she ___ (cook) dinner.'",opts:["cooked","was cooking","is cooking","has cooked"],ans:1,exp:"Background action in progress when another (shorter) action happened = Past Continuous: 'was cooking'"},
+      {q:"Fill in: 'While she ___ (read), he ___ (fall) asleep.'",opts:["was reading / fell","read / was falling","was reading / was falling","read / fell"],ans:0,exp:"Background continuous (was reading) + sudden event (fell) in Past Simple. OR both continuous if simultaneous."},
+      {q:"'At 9pm last night, they ___ (still / argue).' — Fill in.",opts:["still argued","were still arguing","have still argued","still argue"],ans:1,exp:"Action in progress at a specific past moment = Past Continuous: 'were still arguing'"},
+      {q:"'The sun ___ and birds ___ when I woke up.' — Fill in. (scene-setting)",opts:["shone / sang","was shining / were singing","shines / are singing","has shone / had sung"],ans:1,exp:"Describing scene/atmosphere = Past Continuous: 'was shining / were singing'"},
+      {q:"Which sentence shows an INTERRUPTION?",opts:["She cooked and ate dinner.","She was cooking when the power went out.","She often cooked dinner.","She had cooked dinner."],ans:1,exp:"Past Continuous (was cooking) interrupted by Past Simple (went out) = classic interruption pattern."},
+    ],
+    qb:[
+      {vn:"Khi tôi đang đi bộ về nhà, trời bắt đầu mưa to.",hint:"when / I / walk home / it / start / rain heavily",model:"When I was walking home, it started to rain heavily.",note:"Background action (was walking) interrupted by sudden event (started)"},
+      {vn:"Trong khi anh ấy đang làm bài tập, em gái anh ấy đang xem TV.",hint:"while / he / do homework / sister / watch TV",model:"While he was doing his homework, his sister was watching TV.",note:"Two simultaneous actions = both Past Continuous with 'while'"},
+      {vn:"Lúc 10 giờ tối hôm qua, tôi vẫn đang ôn thi.",hint:"at 10pm / last night / I / still / study for the exam",model:"At 10pm last night, I was still studying for the exam.",note:"Action in progress at a specific past moment = Past Continuous"},
+    ],
+    wc:{
+      prompt:"Write a paragraph describing what was happening at home when you received some surprising news. Use Past Continuous for background actions and Past Simple for the main events.",
+      hints:"Use: was/were + -ing | when, while, as | suddenly, at that moment | interrupted by...",
+      criteria:["At least 2 Past Continuous verbs for background/scene","At least 2 Past Simple verbs for events","Correct use of 'when' or 'while' to connect tenses","Vivid scene-setting"],
+      model:"Last Saturday, everything was going peacefully at home. My mum was cooking in the kitchen, my brother was playing guitar in his room, and I was sitting at my desk reading a book. Suddenly, my phone rang. When I answered it, my friend told me that I had won a writing competition. I jumped up from my chair and ran downstairs to tell my mum. She was so happy that she burnt the soup!",
+      takeaway:"Key takeaway: Past Continuous = background, in-progress, or simultaneous. Past Simple = completed event, interruption. 'when' + Past Simple; 'while' + Past Continuous."
+    }
+  },
+  s9e:{
+    qa:[
+      {q:"'She ___ (just/finish) her project.' — Fill in.",opts:["has just finished","just finished","just finishes","is just finishing"],ans:0,exp:"'just' with Present Perfect (mid position): has/have + just + past participle."},
+      {q:"'Have you ___ (ever/visit) Japan?' — Fill in.",opts:["ever visited","visited ever","ever visit","ever visiting"],ans:0,exp:"Ever goes between have/has and the past participle: 'Have you ever visited?'"},
+      {q:"'I ___ (live) here for 10 years.' — Fill in. (started in past, still living here)",opts:["lived","have lived","was living","had lived"],ans:1,exp:"Duration from past to present (still true now) = Present Perfect + 'for'."},
+      {q:"'She started working here ___ Monday.' — Choose the right preposition.",opts:["for","since","ago","in"],ans:1,exp:"'since' = starting point in time. 'for' = length/duration. 'since Monday' = starting from Monday."},
+      {q:"'I ___ (not/see) him in ages. Has he changed?' — Fill in.",opts:["didn't see","haven't seen","don't see","hadn't seen"],ans:1,exp:"Unspecified time with present relevance = Present Perfect: 'haven't seen'"},
+      {q:"'She ___ three cups of coffee already this morning.' — Fill in.",opts:["drank","has drunk","had drunk","drinks"],ans:1,exp:"This morning is still current = Present Perfect: 'has drunk'. If 'this morning' had passed, use Past Simple."},
+      {q:"'That's the most interesting book I ___ read.' — Fill in.",opts:["ever","have ever","had ever","ever have"],ans:1,exp:"Superlative + 'have ever' + past participle: 'the most interesting book I have ever read'."},
+    ],
+    qb:[
+      {vn:"Tôi chưa bao giờ ăn thử đồ ăn Ấn Độ.",hint:"I / never / try / Indian food",model:"I have never tried Indian food.",note:"Experience (never) = Present Perfect. Never in mid position."},
+      {vn:"Anh ấy mới vừa gọi điện cho tôi — chúng tôi đã lên kế hoạch gặp nhau vào tối nay.",hint:"he / just / call / we / plan / meet / this evening",model:"He has just called me — we have planned to meet this evening.",note:"'just' = very recently (mid position in Present Perfect)"},
+      {vn:"Tôi chưa hoàn thành bài tập về nhà vì tôi bị ốm từ hôm thứ Hai.",hint:"I / not finish / homework / ill / since Monday",model:"I haven't finished my homework because I have been ill since Monday.",note:"'since' = starting point | present relevance (still not done, still ill)"},
+    ],
+    wc:{
+      prompt:"Write about your personal experiences — things you have or haven't done in your life so far. Use Present Perfect with ever, never, just, already, yet, for, and since.",
+      hints:"Use: I have (never)..., I have already..., I haven't...yet, I have lived/worked/studied...for/since, Have you ever...?",
+      criteria:["At least 2 different Present Perfect markers (just/already/yet/ever/never/for/since)","Correct past participle forms","Contrast with Past Simple where specific time is mentioned","Personal and authentic content"],
+      model:"I've always been interested in languages. I've been studying English for about eight years, and I've already passed two major exams. However, I haven't taken the IELTS yet — I'm planning to do it next year. I've never been to an English-speaking country, but I've watched hundreds of English films. Just last week, I finished reading my first full novel in English. It's the most challenging thing I've ever done, but also the most rewarding.",
+      takeaway:"Key takeaway: Present Perfect = link between past and present. Use for/since for duration. Use just/already/yet for recent events. Use ever/never for life experiences. Switch to Past Simple only when a specific past time is mentioned."
+    }
+  },
+  s9f:{
+    qa:[
+      {q:"'She ___ (study) for 3 hours and she looks exhausted.' — Fill in. (emphasis on duration/ongoing)",opts:["studied","has studied","has been studying","was studying"],ans:2,exp:"Duration of ongoing activity causing visible result = Present Perfect Continuous: 'has been studying'."},
+      {q:"'How long ___ you ___ (wait)?' — Fill in.",opts:["have / waited","have / been waiting","did / wait","are / waiting"],ans:1,exp:"Asking about duration of an ongoing activity = Present Perfect Continuous: 'have you been waiting?'"},
+      {q:"'She ___ (write) three reports this month.' — Fill in. (completed quantity)",opts:["has been writing","has written","was writing","wrote"],ans:1,exp:"Completed quantity = Present Perfect Simple: 'has written'. Continuous = focus on activity, not number."},
+      {q:"'I ___ (look) for my keys for ages!' — Fill in. (frustrating ongoing activity)",opts:["was looking","have been looking","have looked","am looking"],ans:1,exp:"Frustrating activity still in progress = Present Perfect Continuous: 'have been looking'."},
+      {q:"'Your eyes are red. ___ you ___ (cry)?' — Fill in. (recent activity, visible evidence)",opts:["Did / cry","Have / cried","Have / been crying","Were / crying"],ans:2,exp:"Evidence of recent activity = Present Perfect Continuous: 'Have you been crying?'"},
+    ],
+    qb:[
+      {vn:"Tôi đã đọc cuốn sách này được 2 tiếng rồi — mắt tôi mỏi quá.",hint:"I / read / this book / 2 hours / eyes / tired",model:"I've been reading this book for 2 hours — my eyes are so tired.",note:"Duration of ongoing activity = Present Perfect Continuous. Visible result (tired eyes)."},
+      {vn:"Họ đang xây dựng tòa nhà này từ tháng Ba.",hint:"they / build / this building / since March",model:"They have been building this building since March.",note:"'since' + starting point, ongoing activity = Present Perfect Continuous"},
+      {vn:"Cô ấy đã hoàn thành 5 bài luận trong học kỳ này.",hint:"she / complete / 5 essays / this semester",model:"She has completed 5 essays this semester.",note:"Completed quantity (5 essays) = Present Perfect Simple, not Continuous"},
+    ],
+    wc:{
+      prompt:"Write a short message explaining what you have been doing lately (ongoing activities) and what you have already accomplished (completed results). Contrast both tenses.",
+      hints:"Present Perfect Continuous: I've been studying/working/practising | Present Perfect Simple: I've finished/completed/written",
+      criteria:["At least 2 Present Perfect Continuous verbs","At least 1 Present Perfect Simple for a completed result","Visible evidence or duration mentioned","Correct 'have/has been + -ing' form"],
+      model:"I've been preparing for my final exams for the past two weeks, and I'm exhausted! I've been revising grammar rules every evening, and I've been practising writing for hours each day. So far, I've completed all the practice exercises in my workbook, and I've already written three sample essays. I still haven't reviewed all the verb tenses yet, but I'm getting there. My eyes are sore because I've been staring at my notes all day!",
+      takeaway:"Key takeaway: Pres. Perf. Continuous = ongoing activity (focus on process, duration, visible result). Pres. Perf. Simple = completed action or result (focus on finish, quantity). How long → continuous; How much/many → simple."
+    }
+  },
+  s9g:{
+    qa:[
+      {q:"Fill in: 'By the time we arrived, the film ___.' (already started)",opts:["started","has started","had already started","was starting"],ans:2,exp:"Action completed before another past action = Past Perfect: 'had already started'"},
+      {q:"'She told me she ___ (never/visit) Vietnam before.' — Fill in.",opts:["had never visited","has never visited","never visited","was never visiting"],ans:0,exp:"Reporting past experience before that moment = Past Perfect: 'had never visited'"},
+      {q:"'After he ___ (finish) his homework, he went to bed.' — Fill in.",opts:["finished","had finished","was finishing","has finished"],ans:1,exp:"Past Perfect for the earlier of two past actions: 'had finished' (earlier) → went to bed (later)"},
+      {q:"'She ___ (work) for the company for 5 years before she resigned.' — Fill in.",opts:["worked","was working","had been working","has worked"],ans:2,exp:"Duration of activity before a past event = Past Perfect Continuous: 'had been working'"},
+      {q:"'I realized I ___ (leave) my phone at the restaurant.' — Fill in.",opts:["left","have left","had left","was leaving"],ans:2,exp:"Discovery of an action that happened before the realization (past) = Past Perfect: 'had left'"},
+    ],
+    qb:[
+      {vn:"Khi tôi đến ga, chuyến tàu đã chạy rồi.",hint:"when / I / arrive / station / train / already / leave",model:"When I arrived at the station, the train had already left.",note:"Past Perfect for the earlier event (train left) before the later event (I arrived)"},
+      {vn:"Cô ấy chưa bao giờ thử món sushi trước khi đến Nhật Bản.",hint:"she / never / try / sushi / before / go to Japan",model:"She had never tried sushi before she went to Japan.",note:"Experience before a past moment = Past Perfect: 'had never tried'"},
+      {vn:"Anh ấy đã làm việc suốt 12 tiếng trước khi ngã bệnh.",hint:"he / work / 12 hours / before / fall ill",model:"He had been working for 12 hours before he fell ill.",note:"Duration before a past event = Past Perfect Continuous: 'had been working'"},
+    ],
+    wc:{
+      prompt:"Tell the story of a time when you arrived late to something important, or a time when something had already happened by the time you got there. Use Past Perfect to sequence events.",
+      hints:"Use: by the time, when, after, before, already, just, had + past participle, had been + -ing",
+      criteria:["At least 2 Past Perfect verbs to show earlier actions","Clear contrast with Past Simple for the later actions","Use of 'by the time' or 'when' to connect the timeline","Logical sequence of events"],
+      model:"Last year, I missed an important exam because I had forgotten to set my alarm. When I finally woke up, the sun had already risen and it was 10am. I jumped out of bed, got dressed, and ran to school, but by the time I arrived, the exam had been going on for an hour. The teacher said I could retake it, but I felt terrible. I had never been so careless before, and I promised myself it would never happen again.",
+      takeaway:"Key takeaway: Past Perfect = the 'past of the past'. Use it for the EARLIER of two past events. Timeline: had done (earlier) ← did (later) ← NOW. Common connectors: by the time, after, before, when, already."
+    }
+  },
+  s9h:{
+    qa:[
+      {q:"'The phone is ringing — I ___ answer it.' (spontaneous decision)",opts:["am going to","will","am answering","have answered"],ans:1,exp:"Spontaneous/instant decision made NOW = 'will': 'I'll answer it!'"},
+      {q:"'Look at those dark clouds! It ___ rain.' (evidence-based prediction)",opts:["will","is going to","is raining","rains"],ans:1,exp:"Prediction based on present evidence (dark clouds) = 'going to'"},
+      {q:"'I ___ visit my parents this Sunday — I've already told them.' (arranged)",opts:["will","am visiting","visit","visited"],ans:1,exp:"Personal arrangement already made = Present Continuous for future: 'am visiting'"},
+      {q:"'The match ___ at 8pm according to the schedule.' (timetable)",opts:["will start","starts","is starting","is going to start"],ans:1,exp:"Timetable = Present Simple for future: 'starts'"},
+      {q:"'By next year, she ___ the course.' (completed before a future point)",opts:["will finish","finishes","will have finished","is finishing"],ans:2,exp:"Completed before a future point = Future Perfect: 'will have finished'"},
+      {q:"'At 9am tomorrow I ___ (present) to the board.' (in progress at that time)",opts:["will present","present","will be presenting","am presenting"],ans:2,exp:"Action in progress at a specific future time = Future Continuous: 'will be presenting'"},
+      {q:"'___ I open the window for you?' (offer — formal/British)",opts:["Will","Shall","Am I going to","Do"],ans:1,exp:"'Shall I' = polite offer to do something for someone (British English)."},
+    ],
+    qb:[
+      {vn:"Tôi nghĩ thời tiết sẽ ấm hơn vào cuối tuần này.",hint:"I / think / weather / warm / this weekend",model:"I think the weather will be warmer this weekend.",note:"Prediction without evidence = 'will'. 'I think' signals this."},
+      {vn:"Anh ấy sắp sửa trượt ngã — hãy nhìn kìa!",hint:"he / going to / slip and fall / look",model:"He's going to slip and fall — look!",note:"Evidence-based prediction (you can see it about to happen) = 'going to'"},
+      {vn:"Đến năm 2030, tôi sẽ học y khoa được 6 năm rồi.",hint:"by 2030 / I / study medicine / 6 years",model:"By 2030, I will have been studying medicine for 6 years.",note:"Duration continuing to a future point = Future Perfect Continuous"},
+    ],
+    wc:{
+      prompt:"Write a paragraph about your plans for next year. Use at least 3 different future forms: will (decision/prediction), going to (intention), Present Continuous (arrangement), and if possible Future Perfect.",
+      hints:"Use: will (I think, I believe, probably) | going to (I'm planning to, I intend to) | Present Continuous (I'm meeting... next week) | By the end of next year, I will have...",
+      criteria:["At least 3 different future forms","Correct use of 'will' for spontaneous or uncertain prediction","'going to' for pre-planned intention","At least 1 future arrangement (Present Continuous)"],
+      model:"Next year is going to be very exciting for me. I'm planning to enrol in an intensive English course, and I've already booked an assessment test for next month. I think I'll also try to find a part-time job to gain some experience. On the 15th of January, I'm meeting my career advisor to discuss my options. By the end of next year, I will hopefully have passed all my language exams. If everything goes according to plan, I'll be ready to apply for university abroad.",
+      takeaway:"Key takeaway: will = spontaneous decision, prediction without evidence, promises | going to = pre-decided intention, evidence-based prediction | Present Continuous = personal arrangement | Future Perfect = completed before future point."
+    }
+  }
+};
+
+// ============================================================
+// UI LOGIC
+// ============================================================
+let studentData = {};
+let sectionResults = {};
+let totalAttempts = 0;
+
+function startStudy(){
+  const name = document.getElementById('student-name').value.trim();
+  const date = document.getElementById('student-date').value;
+  const cls  = document.getElementById('student-class').value.trim();
+  if(!name){ alert('Please enter your name.'); return; }
+  studentData = {name, date: date || new Date().toISOString().slice(0,10), cls};
+  document.getElementById('info-overlay').style.display='none';
+  document.getElementById('results-student-info').textContent =
+    `Student: ${name} | Class: ${cls||'—'} | Date: ${studentData.date}`;
+  // Set date input to today if empty
+  if(!date) document.getElementById('student-date').value = new Date().toISOString().slice(0,10);
+  buildAllExercises();
+}
+
+function showSection(id){
+  document.querySelectorAll('.section-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  if(id==='results') updateResults();
+}
+
+function switchTab(btn, tabId){
+  const page = btn.closest('.section-page');
+  page.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  page.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function buildAllExercises(){
+  Object.keys(SECTIONS).forEach(sid => {
+    const data = SECTIONS[sid];
+    buildMCQ(sid, data.qa);
+    buildTranslation(sid, data.qb);
+    buildWriting(sid, data.wc);
+  });
+}
+
+function buildMCQ(sid, questions){
+  const container = document.getElementById(sid+'-qa');
+  if(!container) return;
+  container.innerHTML = '';
+  questions.forEach((q,i)=>{
+    const div = document.createElement('div');
+    div.className='q-block';
+    div.id=`${sid}-q${i}`;
+    div.innerHTML=`<div class="q-num">Question ${i+1} of ${questions.length}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="opt-group">${q.opts.map((o,oi)=>`<button class="opt" onclick="selectOpt(this,'${sid}',${i},${oi})">${o}</button>`).join('')}</div>
+    <div class="feedback" id="${sid}-fb${i}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function buildTranslation(sid, questions){
+  const container = document.getElementById(sid+'-qb');
+  if(!container) return;
+  container.innerHTML='';
+  questions.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='trans-block';
+    div.innerHTML=`<div class="q-num">Translation ${i+1}</div>
+    <div class="vn-sent">🇻🇳 ${q.vn}</div>
+    <div class="hint-box"><strong>💡 Hints:</strong> ${q.hint}</div>
+    <textarea class="trans-input" id="${sid}-trans${i}" placeholder="Write your English translation here..."></textarea>
+    <div class="model-answer" id="${sid}-model${i}">
+      <div class="label">Model Answer:</div>
+      <div class="answer">🇬🇧 ${q.model}</div>
+      <div style="margin-top:6px;font-size:12.5px;color:var(--muted)">📝 ${q.note}</div>
+    </div>`;
+    container.appendChild(div);
+  });
+}
+
+function buildWriting(sid, wc){
+  const container=document.getElementById(sid+'-qc');
+  if(!container||!wc) return;
+  const criteria=wc.criteria.map(c=>`<li>${c}</li>`).join('');
+  container.innerHTML=`<div class="writing-block">
+    <div class="q-num">Paragraph Writing Task</div>
+    <div class="writing-prompt">${wc.prompt}</div>
+    <div class="hint-box" style="margin-bottom:10px"><strong>💡 Word bank / Hints:</strong> ${wc.hints}</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600">✅ Checklist:</div>
+    <ul class="writing-criteria">${criteria}</ul>
+    <textarea class="writing-area" id="${sid}-writing" placeholder="Write your paragraph here..."></textarea>
+    <div style="margin-top:8px;font-size:12.5px;color:var(--muted)">Self-score your paragraph:</div>
+    <div class="self-score">
+      ${[0,1,2,3,4,5].map(n=>`<button class="ss-btn" onclick="selfScore('${sid}',${n})">${n}/5</button>`).join('')}
+    </div>
+    <div class="model-para" id="${sid}-model-para">
+      <div class="label">Model Paragraph:</div>
+      <div class="answer">${wc.model}</div>
+      <div class="takeaway">🎯 ${wc.takeaway}</div>
+    </div>
+  </div>`;
+}
+
+function selectOpt(btn, sid, qi, oi){
+  const block=document.getElementById(`${sid}-q${qi}`);
+  if(block.dataset.scored==='true') return;
+  block.querySelectorAll('.opt').forEach(b=>{b.classList.remove('selected');});
+  btn.classList.add('selected');
+  btn.dataset.chosen=oi;
+  block.dataset.chosen=oi;
+}
+
+function selfScore(sid, score){
+  const btns=document.querySelectorAll(`#${sid}-qc .ss-btn`);
+  btns.forEach(b=>b.classList.remove('sel'));
+  btns[score].classList.add('sel');
+  if(!sectionResults[sid]) sectionResults[sid]={};
+  sectionResults[sid].writing_score=score;
+  updateProgressBar();
+}
+
+function scoreSection(sid){
+  const questions=SECTIONS[sid].qa;
+  let correct=0;
+  const errors=[];
+  questions.forEach((q,i)=>{
+    const block=document.getElementById(`${sid}-q${i}`);
+    if(!block) return;
+    block.dataset.scored='true';
+    const chosen=parseInt(block.dataset.chosen??'-1');
+    const opts=block.querySelectorAll('.opt');
+    opts.forEach((o,oi)=>{
+      o.classList.remove('selected','correct-opt','wrong-opt');
+      if(oi===q.ans) o.classList.add('correct-opt');
+      else if(oi===chosen) o.classList.add('wrong-opt');
+    });
+    const fb=document.getElementById(`${sid}-fb${i}`);
+    if(chosen===q.ans){
+      correct++;
+      fb.className='feedback show ok';
+      fb.innerHTML='✓ Correct! '+q.exp;
+    } else {
+      fb.className='feedback show err';
+      fb.innerHTML=`✗ Incorrect. Correct answer: <strong>${q.opts[q.ans]}</strong>. ${q.exp}`;
+      errors.push({q:q.q, your: chosen>=0?q.opts[chosen]:'(no answer)', correct:q.opts[q.ans], exp:q.exp, section:sid});
+    }
+  });
+  totalAttempts++;
+  if(!sectionResults[sid]) sectionResults[sid]={};
+  sectionResults[sid].mcq_score=correct;
+  sectionResults[sid].mcq_total=questions.length;
+  sectionResults[sid].errors=errors;
+
+  const pct=Math.round(correct/questions.length*100);
+  const scoreEl=document.getElementById(`score-${sid}`);
+  scoreEl.className='section-score show';
+  scoreEl.innerHTML=`Part A Score: ${correct}/${questions.length} (${pct}%) ${pct>=80?'🎉 Excellent!':pct>=60?'👍 Good work!':'💪 Keep practising!'}`;
+
+  // Update badge
+  const badge=document.getElementById(`badge-${sid}`);
+  if(badge){ badge.textContent=`${pct}%`; badge.closest('.nav-item').classList.add('scored'); }
+  updateProgressBar();
+}
+
+function revealTranslations(sid){
+  const models=document.querySelectorAll(`[id^="${sid}-model"]`);
+  models.forEach(m=>{ if(!m.classList.contains('model-para')) m.classList.add('show'); });
+}
+
+function revealWriting(sid){
+  const mp=document.getElementById(`${sid}-model-para`);
+  if(mp) mp.classList.add('show');
+}
+
+function updateProgressBar(){
+  const all=Object.keys(SECTIONS).length;
+  const done=Object.keys(sectionResults).filter(k=>sectionResults[k].mcq_score!==undefined).length;
+  const pct=Math.round(done/all*100);
+  document.getElementById('overall-bar').style.width=pct+'%';
+  document.getElementById('overall-pct').textContent=`${pct}% complete (${done}/${all} sections scored)`;
+}
+
+function updateResults(){
+  document.getElementById('res-date').textContent=studentData.date||'—';
+  document.getElementById('res-attempts').textContent=totalAttempts;
+
+  const scored=Object.keys(sectionResults).filter(k=>sectionResults[k].mcq_score!==undefined);
+  document.getElementById('res-sections').textContent=`${scored.length} / ${Object.keys(SECTIONS).length}`;
+
+  const totalCorrect=scored.reduce((s,k)=>s+sectionResults[k].mcq_score,0);
+  const totalQ=scored.reduce((s,k)=>s+sectionResults[k].mcq_total,0);
+  const overallPct=totalQ>0?Math.round(totalCorrect/totalQ*100):0;
+  const oval=document.getElementById('res-overall');
+  oval.textContent=totalQ>0?`${totalCorrect}/${totalQ} (${overallPct}%)`:'—';
+  oval.className='val '+(overallPct>=80?'good':overallPct>=60?'ok':'poor');
+
+  const sectionNames={
+    s1:'Sentence Components',s2:'Adverbials',s3:'Adverbs',s4:'Adjectives',s5:'Comparison',
+    s6:'Nouns',s7:'Articles',s8:'Pronouns',s9a:'Present Simple',s9b:'Present Continuous',
+    s9c:'Past Simple',s9d:'Past Continuous',s9e:'Present Perfect',s9f:'Pres. Perf. Continuous',
+    s9g:'Past Perfect',s9h:'Future Tenses'
+  };
+
+  // Section table
+  const tbody=document.getElementById('section-breakdown');
+  tbody.innerHTML='';
+  Object.keys(SECTIONS).forEach(sid=>{
+    const r=sectionResults[sid];
+    const name=sectionNames[sid]||sid;
+    if(r&&r.mcq_score!==undefined){
+      const p=Math.round(r.mcq_score/r.mcq_total*100);
+      tbody.innerHTML+=`<tr>
+        <td>${name}</td><td>${r.mcq_score}/${r.mcq_total}</td>
+        <td style="color:${p>=80?'var(--green)':p>=60?'var(--gold)':'var(--red)'}">${p}%</td>
+        <td>${p>=80?'✅ Excellent':p>=60?'👍 Good':'❌ Needs work'}</td>
+      </tr>`;
+    } else {
+      tbody.innerHTML+=`<tr><td>${name}</td><td colspan="3" style="color:var(--muted)">Not yet scored</td></tr>`;
+    }
+  });
+
+  // Error log
+  const allErrors=scored.flatMap(k=>(sectionResults[k].errors||[]).map(e=>({...e,section:sectionNames[k]||k})));
+  const errContainer=document.getElementById('error-log-container');
+  if(allErrors.length===0){
+    errContainer.innerHTML='<div style="color:var(--green);font-size:14px;padding:16px">🎉 No errors recorded in completed sections!</div>';
+  } else {
+    errContainer.innerHTML=`<div class="error-log">
+      <div class="error-log-header">❌ ${allErrors.length} Error(s) Found</div>
+      ${allErrors.map((e,i)=>`
+        <div class="error-entry">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:4px">[${e.section}] Q${i+1}</div>
+          <div style="margin-bottom:4px">${e.q.replace(/<[^>]*>/g,'')}</div>
+          <div>Your answer: <span class="your-ans">${e.your}</span> &nbsp;|&nbsp; Correct: <span class="correct-ans">${e.correct}</span></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">💡 ${e.exp}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+}
+
+function buildReportText(){
+  const names={
+    s1:'Sentence Components',s2:'Adverbials',s3:'Adverbs',s4:'Adjectives',s5:'Comparison',
+    s6:'Nouns',s7:'Articles',s8:'Pronouns',s9a:'Present Simple',s9b:'Present Continuous',
+    s9c:'Past Simple',s9d:'Past Continuous',s9e:'Present Perfect',s9f:'Pres. Perf. Continuous',
+    s9g:'Past Perfect',s9h:'Future Tenses'
+  };
+  const scored=Object.keys(sectionResults).filter(k=>sectionResults[k].mcq_score!==undefined);
+  const totalCorrect=scored.reduce((s,k)=>s+sectionResults[k].mcq_score,0);
+  const totalQ=scored.reduce((s,k)=>s+sectionResults[k].mcq_total,0);
+  const allErrors=scored.flatMap(k=>(sectionResults[k].errors||[]).map(e=>({...e,section:names[k]||k})));
+
+  let text=`HUONG STELLA PARADIGM — GRAMMAR SERIES REPORT\n${'='.repeat(50)}\n`;
+  text+=`Student: ${studentData.name||'—'}\n`;
+  text+=`Class: ${studentData.cls||'—'}\n`;
+  text+=`Date: ${studentData.date||'—'}\n`;
+  text+=`Total Attempts: ${totalAttempts}\n\n`;
+  text+=`OVERALL SCORE: ${totalCorrect}/${totalQ} (${totalQ>0?Math.round(totalCorrect/totalQ*100):0}%)\n\n`;
+  text+=`SECTION BREAKDOWN:\n${'-'.repeat(40)}\n`;
+  Object.keys(SECTIONS).forEach(sid=>{
+    const r=sectionResults[sid];
+    const name=names[sid]||sid;
+    if(r&&r.mcq_score!==undefined){
+      const p=Math.round(r.mcq_score/r.mcq_total*100);
+      text+=`${name}: ${r.mcq_score}/${r.mcq_total} (${p}%)\n`;
+    } else {
+      text+=`${name}: Not completed\n`;
+    }
+  });
+  text+=`\nERROR LOG (${allErrors.length} errors):\n${'-'.repeat(40)}\n`;
+  allErrors.forEach((e,i)=>{
+    text+=`\n[${e.section}] Error ${i+1}:\n`;
+    text+=`Q: ${e.q.replace(/<[^>]*>/g,'')}\n`;
+    text+=`Your answer: ${e.your}\n`;
+    text+=`Correct answer: ${e.correct}\n`;
+    text+=`Explanation: ${e.exp}\n`;
+  });
+  return text;
+}
+
+function generateReport(){
+  updateResults();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const text=buildReportText();
+  const names={
+    s1:'Sentence Components',s2:'Adverbials',s3:'Adverbs',s4:'Adjectives',s5:'Comparison',
+    s6:'Nouns',s7:'Articles',s8:'Pronouns',s9a:'Present Simple',s9b:'Present Continuous',
+    s9c:'Past Simple',s9d:'Past Continuous',s9e:'Present Perfect',s9f:'Pres. Perf. Continuous',
+    s9g:'Past Perfect',s9h:'Future Tenses'
+  };
+
+  let y=20;
+  doc.setFontSize(18);doc.setTextColor(100,50,200);
+  doc.text('HUONG STELLA PARADIGM — GRAMMAR SERIES REPORT',105,y,{align:'center'});
+  y+=12;doc.setFontSize(10);doc.setTextColor(100,100,100);
+  doc.text(`Student: ${studentData.name||'—'}  |  Class: ${studentData.cls||'—'}  |  Date: ${studentData.date||'—'}  |  Attempts: ${totalAttempts}`,105,y,{align:'center'});
+  y+=10;doc.setDrawColor(150,100,220);doc.line(15,y,195,y);y+=8;
+
+  const scored=Object.keys(sectionResults).filter(k=>sectionResults[k].mcq_score!==undefined);
+  const totalCorrect=scored.reduce((s,k)=>s+sectionResults[k].mcq_score,0);
+  const totalQ=scored.reduce((s,k)=>s+sectionResults[k].mcq_total,0);
+  const overallPct=totalQ>0?Math.round(totalCorrect/totalQ*100):0;
+
+  doc.setFontSize(13);doc.setTextColor(0,0,0);
+  doc.text(`Overall Score: ${totalCorrect}/${totalQ} (${overallPct}%)`,15,y);y+=10;
+
+  doc.setFontSize(11);doc.setTextColor(50,50,150);doc.text('Section Breakdown:',15,y);y+=6;
+  doc.setFontSize(9);
+  Object.keys(SECTIONS).forEach(sid=>{
+    const r=sectionResults[sid];const name=names[sid]||sid;
+    if(y>270){doc.addPage();y=20;}
+    if(r&&r.mcq_score!==undefined){
+      const p=Math.round(r.mcq_score/r.mcq_total*100);
+      doc.setTextColor(p>=80?0:p>=60?150:200,p>=80?150:p>=60?100:0,0);
+      doc.text(`  ${name}: ${r.mcq_score}/${r.mcq_total} (${p}%) ${p>=80?'✓ Excellent':p>=60?'Good':'Needs work'}`,15,y);
+    } else {
+      doc.setTextColor(150,150,150);doc.text(`  ${name}: Not completed`,15,y);
+    }
+    y+=6;
+  });
+
+  const allErrors=scored.flatMap(k=>(sectionResults[k].errors||[]).map(e=>({...e,section:names[k]||k})));
+  y+=6;if(y>260){doc.addPage();y=20;}
+  doc.setFontSize(11);doc.setTextColor(50,50,150);doc.text(`Error Log (${allErrors.length} errors):`,15,y);y+=6;
+  if(allErrors.length===0){
+    doc.setFontSize(9);doc.setTextColor(0,150,0);doc.text('No errors! Perfect score on all completed sections.',15,y);y+=6;
+  } else {
+    allErrors.forEach((e,i)=>{
+      if(y>260){doc.addPage();y=20;}
+      doc.setFontSize(9);doc.setTextColor(0,0,0);
+      const qShort=e.q.replace(/<[^>]*>/g,'').substring(0,80);
+      doc.text(`[${e.section}] ${qShort}`,15,y);y+=5;
+      doc.setTextColor(200,0,0);doc.text(`  Your answer: ${e.your}`,15,y);y+=4;
+      doc.setTextColor(0,130,0);doc.text(`  Correct answer: ${e.correct}`,15,y);y+=4;
+      doc.setTextColor(100,100,100);
+      const expLines=doc.splitTextToSize(`  Explanation: ${e.exp}`,170);
+      doc.text(expLines,15,y);y+=expLines.length*4+4;
+    });
+  }
+
+  doc.save(`Grammar_Report_${(studentData.name||'student').replace(/\s+/g,'_')}_${studentData.date||'today'}.pdf`);
+}
+
+function sendToTeacher(){
+  updateResults();
+  const reportText=buildReportText();
+  const subject=encodeURIComponent(`Grammar Results – ${studentData.name||'Student'} – ${studentData.date||''}`);
+  const body=encodeURIComponent(reportText);
+  const mailtoUrl=`mailto:huongstella8@gmail.com?subject=${subject}&body=${body}`;
+  window.open(mailtoUrl,'_blank');
+
+  const statusEl=document.getElementById('email-status');
+  statusEl.style.display='block';
+  statusEl.style.color='var(--gold)';
+  statusEl.innerHTML='📧 Your email client should open. Please send the email to complete submission. If it did not open, use "Copy Report Text" and paste into an email manually.';
+
+  // Also try formsubmit
+  try {
+    const formData=new FormData();
+    formData.append('name',studentData.name||'Student');
+    formData.append('_subject',`Grammar Results – ${studentData.name||'Student'}`);
+    formData.append('report',reportText.substring(0,5000));
+    formData.append('_captcha','false');
+    fetch('https://formsubmit.co/ajax/huongstella8@gmail.com',{method:'POST',body:formData,headers:{Accept:'application/json'}})
+      .then(r=>r.json())
+      .then(d=>{
+        if(d.success){
+          statusEl.style.color='var(--green)';
+          statusEl.innerHTML='✅ Results successfully sent to huongstella8@gmail.com!';
+        }
+      }).catch(()=>{});
+  } catch(e){}
+}
+
+function copyReport(){
+  updateResults();
+  const text=buildReportText();
+  navigator.clipboard.writeText(text).then(()=>{
+    const statusEl=document.getElementById('email-status');
+    statusEl.style.display='block';
+    statusEl.style.color='var(--teal)';
+    statusEl.innerHTML='📋 Report copied to clipboard! You can paste it into an email or document.';
+  }).catch(()=>alert('Copy failed. Please select the text manually.'));
+}
+
+// Set today's date by default
+document.getElementById('student-date').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
