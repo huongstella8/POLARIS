@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS U1 — Me & My Family</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f5f2;min-height:100vh;color:#1a2e22}
+:root{--g:#1a7a4a;--g2:#25a068;--g3:#e8f5ee;--red:#c83040;--blue:#1860a0;--gray:#6b7c74;--shadow:0 2px 12px rgba(0,0,0,.1)}
+
+/* HEADER */
+#hdr{background:var(--g);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px}
+.logo{font-size:20px;font-weight:800;letter-spacing:2px}
+.unit-sub{font-size:13px;opacity:.8}
+
+/* MODULE TABS */
+#modTabs{display:flex;background:#145e38;overflow-x:auto;scrollbar-width:none}
+#modTabs::-webkit-scrollbar{display:none}
+.mtab{padding:10px 14px;color:rgba(255,255,255,.65);cursor:pointer;font-weight:700;font-size:12px;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s;text-align:center;min-width:60px}
+.mtab:hover{color:#fff;background:rgba(255,255,255,.1)}
+.mtab.active{color:#fff;border-bottom-color:#7de8a8;background:rgba(255,255,255,.15)}
+.mtab-key{font-size:18px;display:block}
+.mtab-name{font-size:9px;opacity:.85}
+
+/* CONTENT */
+#app{max-width:860px;margin:0 auto;padding:20px 14px}
+
+/* MODULE HEADER */
+.mod-hdr{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:16px;border-left:5px solid var(--g);box-shadow:var(--shadow)}
+.mod-hdr h2{font-size:18px;color:var(--g);margin-bottom:2px}
+.mod-hdr p{color:var(--gray);font-size:13px}
+
+/* TOPIC & MODE TABS */
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.chip{padding:5px 13px;border-radius:16px;border:1.5px solid #c0dcd0;color:var(--g);cursor:pointer;font-size:12px;font-weight:600;background:#fff;transition:.2s}
+.chip.active,.chip:hover{background:var(--g3);border-color:var(--g)}
+.mode-chip{padding:7px 18px;border-radius:20px;border:2px solid var(--g);color:var(--g);cursor:pointer;font-weight:700;font-size:13px;background:#fff;transition:.2s}
+.mode-chip.active{background:var(--g);color:#fff}
+
+/* FLASHCARD */
+.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.fc-counter{color:var(--gray);font-size:13px;font-weight:600}
+.prog{width:100%;max-width:460px;background:#ddd;border-radius:4px;height:5px}
+.prog-fill{background:var(--g);height:100%;border-radius:4px;transition:width .3s}
+.scene{width:100%;max-width:460px;height:240px;perspective:1000px;cursor:pointer;user-select:none}
+.card3d{width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s;position:relative}
+.card3d.flipped{transform:rotateY(180deg)}
+.face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+.front{background:#fff;border:2px solid #cce8d8}
+.back{background:var(--g);color:#fff;transform:rotateY(180deg)}
+.fc-word{font-size:26px;font-weight:800;text-align:center;margin-bottom:6px;line-height:1.2}
+.fc-syl{font-size:13px;letter-spacing:.5px;margin-bottom:4px}
+.fc-hint{font-size:11px;color:#bbb;margin-top:8px}
+.back .fc-hint{color:rgba(255,255,255,.5)}
+.fc-vi{font-size:17px;font-weight:700;text-align:center;margin-bottom:10px}
+.fc-ex{font-size:12px;font-style:italic;text-align:center;opacity:.85;line-height:1.5}
+.stress{color:var(--red);font-weight:800}
+.back .stress{color:#7de8a8}
+.syl-dot{color:#bbb;font-size:10px;margin:0 1px}
+.back .syl-dot{color:rgba(255,255,255,.4)}
+.chunk-sep{color:#7de8a8;margin:0 5px;font-weight:800}
+.front .chunk-sep{color:var(--blue)}
+
+/* CONTROLS */
+.fc-ctrl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+.btn{padding:9px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:13px;transition:.2s}
+.btn-g{background:var(--g);color:#fff}.btn-g:hover{background:var(--g2)}
+.btn-out{background:#fff;color:var(--g);border:2px solid var(--g)}.btn-out:hover{background:var(--g3)}
+.btn-aud{background:#e8f0fe;color:var(--blue);border:1.5px solid #b0caf0;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+.btn-aud:hover{background:#d0e0fd}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* LIST VIEW */
+.wlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.wcard{background:#fff;border-radius:9px;padding:12px 14px;box-shadow:0 1px 5px rgba(0,0,0,.07);border-left:4px solid var(--g)}
+.wcard-en{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.wcard-syl{font-size:11px;color:var(--gray);margin-bottom:3px}
+.wcard-vi{font-size:13px;color:var(--blue);font-weight:600;margin-bottom:3px}
+.wcard-ex{font-size:11px;color:var(--gray);font-style:italic}
+.aud-sm{background:none;border:none;cursor:pointer;font-size:15px;padding:2px;line-height:1}
+
+/* QUIZ */
+.quiz-wrap{max-width:580px;margin:0 auto}
+.qcard{background:#fff;border-radius:12px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow)}
+.q-label{font-size:11px;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.q-word{font-size:24px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.q-syl{font-size:13px;color:var(--gray);margin-bottom:6px}
+.q-type-toggle{display:flex;gap:8px;margin-bottom:14px}
+.qt-btn{padding:4px 12px;border-radius:12px;border:1.5px solid #c0dcd0;background:#fff;color:var(--g);font-size:11px;font-weight:700;cursor:pointer}
+.qt-btn.active{background:var(--g3);border-color:var(--g)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.opt{padding:11px 14px;border-radius:8px;border:2px solid #d0e8da;background:#fff;cursor:pointer;font-size:13px;font-weight:500;text-align:left;transition:.15s;line-height:1.4}
+.opt:hover:not(.done){border-color:var(--g);background:var(--g3)}
+.opt.ok{background:#e8f7ef;border-color:var(--g);color:var(--g);font-weight:700}
+.opt.bad{background:#fde8ea;border-color:var(--red);color:var(--red)}
+.opt.done{cursor:default}
+.result-box{background:#fff;border-radius:12px;padding:30px;text-align:center;box-shadow:var(--shadow)}
+.score-big{font-size:52px;font-weight:800;color:var(--g)}
+.score-msg{font-size:15px;color:var(--gray);margin-bottom:20px}
+
+/* START SCREEN */
+.start-box{background:#fff;border-radius:12px;padding:30px;text-align:center;box-shadow:var(--shadow);max-width:480px;margin:0 auto}
+
+/* RESPONSIVE */
+@media(max-width:560px){
+  .opts{grid-template-columns:1fr}
+  .wlist{grid-template-columns:1fr}
+  .scene{height:210px}
+  .fc-word{font-size:21px}
+}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <div>
+    <div class="logo">⭐ POLARIS</div>
+    <div class="unit-sub">Unit 1 — Me &amp; My Family</div>
+  </div>
+</div>
+<div id="modTabs"></div>
+<div id="app"></div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+// Format per entry: [english, syllable-stress, vietnamese, example]
+// Syllables separated by · | Stressed syllable = ALL CAPS
+
+const MODS = {
+A:{name:'Basic Info',sub:'Countries, Nationalities & Jobs',topics:{
+'Countries':[
+['Afghanistan','Af·GHAN·i·stan','Afghan / Afghani','an Afghan citizen, the Afghan government'],
+['Argentina','Ar·gen·TI·na','Argentine / Argentinian','Argentine cuisine, an Argentinian passport'],
+['Australia','Aus·TRA·li·a','Australian','an Australian accent, Australian rules football'],
+['Brazil','Bra·ZIL','Brazilian','Brazilian Portuguese, a Brazilian visa'],
+['Cambodia','Cam·BO·di·a','Cambodian','Cambodian temples, a Cambodian student'],
+['Canada','CAN·a·da','Canadian','Canadian French, a Canadian citizen'],
+['China','CHI·na','Chinese','Chinese Mandarin, Chinese cuisine'],
+['Egypt','E·GYPT','Egyptian','Egyptian Arabic, an Egyptian passport'],
+['France','FRANCE','French','French culture, a French speaker'],
+['Germany','GER·ma·ny','German','German engineering, a German visa'],
+['India','IN·di·a','Indian','Indian English, an Indian passport'],
+['Indonesia','In·do·NE·sia','Indonesian','Indonesian Bahasa, an Indonesian island'],
+['Italy','I·ta·ly','Italian','Italian cuisine, an Italian speaker'],
+['Japan','Ja·PAN','Japanese','Japanese culture, a Japanese visa'],
+['Malaysia','Ma·LAY·sia','Malaysian','Malaysian Ringgit, a Malaysian passport'],
+['Mexico','MEX·i·co','Mexican','Mexican Spanish, Mexican cuisine'],
+['Netherlands','NETH·er·lands','Dutch','Dutch tulips, a Dutch passport'],
+['Philippines','PHI·lip·pines','Filipino / Filipina','a Filipino worker, Filipina actress'],
+['Russia','RUS·sia','Russian','Russian culture, a Russian visa'],
+['Singapore','SIN·ga·pore','Singaporean','a Singaporean accent, Singapore dollar'],
+['South Korea','South Ko·RE·a','Korean / South Korean','Korean culture, a Korean passport'],
+['Spain','SPAIN','Spanish','Spanish cuisine, a Spanish speaker'],
+['Sweden','SWE·den','Swedish','Swedish design, a Swedish passport'],
+['Thailand','THAI·land','Thai','Thai cuisine, a Thai visa'],
+['United Kingdom','U·ni·ted KING·dom','British','a British accent, British culture'],
+['United States','U·ni·ted STATES','American','an American accent, a US passport'],
+['Vietnam','Vi·et·NAM','Vietnamese','a Vietnamese passport, Vietnamese cuisine'],
+],
+'Jobs':[
+['surgeon','SUR·geon','bác sĩ phẫu thuật','a cardiac surgeon, perform surgery'],
+['pharmacist','PHAR·ma·cist','dược sĩ','a licensed pharmacist, fill a prescription'],
+['paramedic','par·a·MED·ic','nhân viên y tế cấp cứu','a trained paramedic, respond to emergencies'],
+['midwife','MID·wife','hộ sinh','a certified midwife, deliver a baby'],
+['therapist','THER·a·pist','nhà trị liệu','a speech therapist, a physical therapist'],
+['tutor','TU·tor','gia sư','a private tutor, hire a tutor'],
+['lecturer','LEC·tur·er','giảng viên đại học','a university lecturer, deliver a lecture'],
+['principal','PRIN·ci·pal','hiệu trưởng','the school principal, report to the principal'],
+['counsellor','COUN·sel·lor','chuyên viên tư vấn','a school counsellor, career counsellor'],
+['accountant','ac·COUNT·ant','kế toán viên','a certified accountant, file taxes'],
+['consultant','con·SUL·tant','chuyên gia tư vấn','a management consultant, hire a consultant'],
+['entrepreneur','en·tre·pre·NEUR','doanh nhân khởi nghiệp','a successful entrepreneur, start a venture'],
+['analyst','AN·a·lyst','nhà phân tích','a data analyst, a financial analyst'],
+['auditor','AU·di·tor','kiểm toán viên','an internal auditor, conduct an audit'],
+['software developer','SOFT·ware de·VEL·op·er','lập trình viên phần mềm','a full-stack developer, write code'],
+['UX designer','UX de·SIGN·er','nhà thiết kế UX','a UX designer, improve user experience'],
+['data scientist','DA·ta SCI·en·tist','nhà khoa học dữ liệu','a data scientist, analyse big data'],
+['cybersecurity expert','cy·ber·se·CU·ri·ty EX·pert','chuyên gia an ninh mạng','a cybersecurity expert, prevent data breaches'],
+['copywriter','COP·y·wri·ter','người viết nội dung quảng cáo','a copywriter, craft compelling ads'],
+['illustrator','IL·lus·tra·tor','họa sĩ minh họa','a children\'s illustrator, draw illustrations'],
+['cinematographer','cin·e·ma·TOG·ra·pher','quay phim điện ảnh','a cinematographer, shoot a film'],
+['curator','cu·RA·tor','người quản lý triển lãm','a museum curator, curate an exhibition'],
+['plumber','PLUM·ber','thợ sửa ống nước','a licensed plumber, fix a pipe'],
+['electrician','e·lec·TRI·cian','thợ điện','a certified electrician, wire a building'],
+['carpenter','CAR·pen·ter','thợ mộc','a skilled carpenter, build furniture'],
+['chef','CHEF','đầu bếp','a head chef, a sous chef'],
+['flight attendant','FLIGHT at·TEN·dant','tiếp viên hàng không','a flight attendant, board the plane'],
+['real estate agent','real es·TATE A·gent','môi giới bất động sản','a real estate agent, list a property'],
+]}},
+
+B:{name:'Family',sub:'Family Tree & Social Relationships',topics:{
+'Family':[
+['maternal grandmother','ma·TER·nal GRAND·moth·er','bà ngoại','my maternal grandmother, on my mother\'s side'],
+['paternal grandfather','pa·TER·nal GRAND·fa·ther','ông nội','my paternal grandfather, on my father\'s side'],
+['great-grandparents','great-GRAND·par·ents','cụ (4 đời)','my great-grandparents, four generations'],
+['mother-in-law','MOTH·er-in-law','mẹ chồng / mẹ vợ','get along with my mother-in-law'],
+['father-in-law','FA·ther-in-law','bố chồng / bố vợ','visit my father-in-law'],
+['sister-in-law','SIS·ter-in-law','chị/em dâu hoặc chị/em vợ','my sister-in-law is a doctor'],
+['brother-in-law','BROTH·er-in-law','anh/em rể hoặc anh/em vợ','meet my brother-in-law'],
+['stepbrother / stepsister','STEP·broth·er / STEP·sis·ter','anh/em kế / chị/em kế','my stepbrother from my dad\'s second marriage'],
+['half-brother / half-sister','HALF·broth·er / HALF·sis·ter','anh/em cùng cha khác mẹ','we\'re half-sisters — same father'],
+['adopted child','a·DOPT·ed child','con nuôi','an adopted child, adopt a baby'],
+['godmother / godfather','GOD·moth·er / GOD·fa·ther','mẹ đỡ đầu / cha đỡ đầu','my godmother at the christening'],
+['godchild','GOD·child','con đỡ đầu','be a godparent to a godchild'],
+['first cousin','first COU·sin','anh/chị/em họ (một đời)','my first cousin on my mum\'s side'],
+['second cousin','sec·ond COU·sin','họ hàng xa hơn (hai đời)','a second cousin I barely know'],
+['nephew','NEPH·ew','cháu trai','my nephew is 5 years old'],
+['niece','NIECE','cháu gái','my niece just started school'],
+['widow / widower','WID·ow / WID·ow·er','góa phụ / góa phụ nam','a widow since her husband passed away'],
+['guardian','GUARD·i·an','người giám hộ','a legal guardian, guardianship'],
+['surrogate mother','SUR·ro·gate MOTH·er','người mang thai hộ','a surrogate mother, surrogacy'],
+['only child','ON·ly child','con một','I\'m an only child — no siblings'],
+['eldest child','EL·dest child','con cả, anh/chị cả','as the eldest child, I set an example'],
+['middle child','MID·dle child','con giữa','the middle child often feels overlooked'],
+['youngest child','YOUNG·est child','con út','the youngest child, spoilt sometimes'],
+['immediate family','im·ME·di·ate FAM·i·ly','gia đình thân cận (bố mẹ + con)','my immediate family — just five people'],
+],
+'Social':[
+['flatmate / roommate','FLAT·mate / ROOM·mate','bạn cùng phòng/nhà','my flatmate at uni, split the rent'],
+['colleague','COL·league','đồng nghiệp','a trusted colleague, work colleague'],
+['mentor','MEN·tor','người cố vấn, người hướng dẫn','find a mentor, mentorship programme'],
+['mentee','men·TEE','người được cố vấn','a mentee who learns quickly'],
+['rival','RI·val','đối thủ','a friendly rival, a business rival'],
+['confidant','CON·fi·dant','người tâm sự, người tin tưởng','my closest confidant'],
+['acquaintance','ac·QUAIN·tance','người quen (không thân)','a work acquaintance, not a close friend'],
+['childhood friend','CHILD·hood friend','bạn thời thơ ấu','my childhood friend from primary school'],
+['former classmate','FOR·mer CLASS·mate','bạn học cũ','a former classmate at a reunion'],
+['networking contact','NET·work·ing CON·tact','mối quan hệ mạng lưới','a useful networking contact'],
+['role model','ROLE mod·el','hình mẫu lý tưởng','a role model for young people'],
+['soulmate','SOUL·mate','người bạn tâm giao','find your soulmate'],
+['sponsor','SPON·sor','người bảo trợ','a visa sponsor, a financial sponsor'],
+['neighbour','NEIGH·bour','hàng xóm','my next-door neighbour, a friendly neighbour'],
+]}},
+
+C:{name:'Personality',sub:'Positive, Negative & Compound Traits',topics:{
+'Positive':[
+['analytical','an·a·LYT·i·cal','có tư duy phân tích','an analytical mind, think analytically'],
+['creative','cre·A·tive','sáng tạo','a creative approach, creative thinking'],
+['curious','CU·ri·ous','tò mò, ham học hỏi','naturally curious, curious about the world'],
+['open-minded','O·pen-MIND·ed','cởi mở, chấp nhận cái mới','be open-minded about change'],
+['perceptive','per·CEP·tive','tinh tế, nhạy bén','a perceptive observer'],
+['resourceful','re·SOURCE·ful','biết xoay sở, đa năng','a resourceful problem-solver'],
+['logical','LOG·i·cal','có lý luận, logic','a logical argument, logical thinking'],
+['intellectual','in·tel·LEC·tu·al','ham tri thức','an intellectual conversation'],
+['charismatic','char·is·MAT·ic','có sức hút, lôi cuốn','a charismatic leader, charismatic speaker'],
+['diplomatic','dip·lo·MAT·ic','khéo léo, ngoại giao','a diplomatic response, be diplomatic'],
+['empathetic','em·pa·THET·ic','đồng cảm','an empathetic listener'],
+['generous','GEN·er·ous','rộng rãi, hào phóng','generous with time, a generous donation'],
+['sociable','SO·cia·ble','hòa đồng, thích giao tiếp','a sociable person, sociable by nature'],
+['tactful','TACT·ful','tế nhị, khéo nói','a tactful reply, handle it tactfully'],
+['assertive','as·SER·tive','quyết đoán, dám nói lên ý kiến','assertive communication, speak assertively'],
+['compassionate','com·PAS·sion·ate','giàu lòng trắc ẩn','a compassionate nurse, show compassion'],
+['patient','PA·tient','kiên nhẫn','be patient with beginners, a patient teacher'],
+['resilient','re·SIL·ient','kiên cường, bền bỉ','a resilient attitude, bounce back resiliently'],
+['self-aware','self·a·WARE','có ý thức về bản thân','emotionally self-aware, self-awareness'],
+['sincere','sin·CERE','chân thành, thật lòng','a sincere apology, sincere compliment'],
+['diligent','DIL·i·gent','chăm chỉ, cần cù','a diligent student, diligent in her work'],
+['disciplined','DIS·ci·plined','có kỷ luật','a disciplined approach, self-disciplined'],
+['meticulous','me·TIC·u·lous','tỉ mỉ, cẩn thận từng chi tiết','meticulous attention to detail'],
+['motivated','MO·ti·vat·ed','có động lực','highly motivated, self-motivated'],
+['punctual','PUNC·tu·al','đúng giờ','punctual for meetings, always punctual'],
+['proactive','pro·AC·tive','chủ động, tiên phong','a proactive attitude, proactive approach'],
+['versatile','VER·sa·tile','đa năng, linh hoạt','a versatile skill set, versatile worker'],
+],
+'Negative':[
+['arrogant','AR·ro·gant','kiêu ngạo, tự phụ','an arrogant attitude, come across as arrogant'],
+['impulsive','im·PUL·sive','bốc đồng, không suy nghĩ kỹ','an impulsive decision, act impulsively'],
+['indecisive','in·de·CI·sive','thiếu quyết đoán','indecisive about choices, be indecisive'],
+['manipulative','ma·NIP·u·la·tive','hay thao túng người khác','a manipulative person, manipulative behaviour'],
+['narcissistic','nar·cis·SIS·tic','tự yêu bản thân thái quá','narcissistic tendencies, narcissistic behaviour'],
+['passive-aggressive','PAS·sive-ag·GRES·sive','thụ động công kích','passive-aggressive comments, silent treatment'],
+['pessimistic','pes·si·MIS·tic','bi quan','a pessimistic outlook, pessimistic by nature'],
+['reckless','RECK·less','liều lĩnh, bất cẩn','a reckless decision, act recklessly'],
+['self-centred','SELF-CEN·tred','ích kỷ, chỉ nghĩ đến bản thân','a self-centred attitude'],
+['cynical','CYN·i·cal','hoài nghi, không tin tưởng','a cynical view, become cynical'],
+['temperamental','tem·per·a·MEN·tal','hay thay đổi tâm trạng, nóng nảy','a temperamental artist'],
+['insecure','in·se·CURE','thiếu tự tin, bất an','feel insecure, insecure about appearance'],
+['vindictive','vin·DIC·tive','thù dai, hay trả thù','a vindictive ex, vindictive behaviour'],
+['hypocritical','hyp·o·CRIT·i·cal','đạo đức giả, giả tạo','a hypocritical statement, act hypocritically'],
+['confrontational','con·fron·TA·tion·al','hay gây xung đột','a confrontational style, be confrontational'],
+],
+'Compound':[
+['absent-minded','AB·sent-MIND·ed','hay quên, đãng trí','an absent-minded professor'],
+['big-hearted','BIG-HEART·ed','rộng lượng, tốt bụng','a big-hearted volunteer'],
+['cold-hearted','COLD-HEART·ed','lạnh lùng, thiếu cảm xúc','a cold-hearted response'],
+['fair-minded','FAIR-MIND·ed','công bằng, không thiên vị','a fair-minded judge'],
+['faint-hearted','FAINT-HEART·ed','nhút nhát, thiếu can đảm','not for the faint-hearted'],
+['free-spirited','FREE-SPIR·it·ed','tự do, phóng khoáng','a free-spirited traveller'],
+['good-natured','GOOD-NA·tured','hiền lành, dễ chịu','a good-natured colleague'],
+['hard-headed','HARD-HEAD·ed','thực tế, cứng đầu','a hard-headed businesswoman'],
+['high-spirited','HIGH-SPIR·it·ed','sôi nổi, nhiều năng lượng','a high-spirited child'],
+['iron-willed','I·ron-WILLED','ý chí sắt đá','an iron-willed leader'],
+['laid-back','LAID-BACK','thư thái, thoải mái','a laid-back attitude'],
+['mean-spirited','MEAN-SPIR·it·ed','hẹp hòi, ích kỷ tâm hồn','a mean-spirited remark'],
+['narrow-minded','NAR·row-MIND·ed','hẹp hòi, bảo thủ','a narrow-minded view'],
+['quick-witted','QUICK-WIT·ted','nhanh trí','a quick-witted comedian'],
+['single-minded','SIN·gle-MIND·ed','tập trung vào một mục tiêu','a single-minded pursuit'],
+['soft-spoken','SOFT-SPO·ken','nhẹ nhàng, nói khẽ','a soft-spoken teacher'],
+['strong-willed','STRONG-WILLED','ý chí mạnh mẽ','a strong-willed child'],
+['well-balanced','WELL-BAL·anced','cân bằng, điều độ','a well-balanced personality'],
+]}},
+
+D:{name:'Appearance',sub:'Face Features, Body & Style',topics:{
+'Face':[
+['angular face','AN·gu·lar face','khuôn mặt góc cạnh','a sharply angular face'],
+['chiselled features','CHIS·elled FEA·tures','đường nét thanh tú, rắn rỏi','chiselled cheekbones'],
+['prominent cheekbones','PROM·i·nent CHEEK·bones','gò má cao nổi bật','prominent Slavic cheekbones'],
+['square jaw','SQUARE jaw','hàm vuông','a strong square jaw'],
+['oval face','O·val face','khuôn mặt hình oval','a classic oval face shape'],
+['heart-shaped face','HEART-shaped face','khuôn mặt hình trái tim','a delicate heart-shaped face'],
+['almond-shaped eyes','AL·mond-shaped eyes','mắt hình hạt hạnh nhân','almond-shaped brown eyes'],
+['deep-set eyes','DEEP-set eyes','mắt sâu','deep-set dark eyes'],
+['wide-set eyes','WIDE-set eyes','mắt cách xa nhau','wide-set blue eyes'],
+['hooded eyelids','HOOD·ed EYE·lids','mí mắt sụp','hooded eyelids give a sleepy look'],
+['bushy eyebrows','BUSH·y EYE·brows','lông mày rậm','thick bushy eyebrows'],
+['arched eyebrows','ARCHED EYE·brows','lông mày cong','perfectly arched eyebrows'],
+['button nose','BUT·ton nose','mũi nhỏ, tròn','a cute button nose'],
+['aquiline nose','AQ·ui·line nose','mũi khoằm, mũi thẳng đẹp','an aquiline Roman nose'],
+['full lips','FULL lips','môi đầy, môi dày','full bow-shaped lips'],
+['thin lips','THIN lips','môi mỏng','thin pale lips'],
+['defined jawline','de·FINED JAW·line','đường hàm rõ nét','a well-defined jawline'],
+['freckles','FRECK·les','tàn nhang','light freckles across the nose'],
+['dimples','DIM·ples','lúm đồng tiền','dimples when she smiles'],
+["crow's feet","CROW's feet",'nếp nhăn đuôi mắt',"fine crow's feet at the corners"],
+['wrinkles','WRIN·kles','nếp nhăn','laugh lines and wrinkles'],
+['high forehead','HIGH FORE·head','trán cao','a high intellectual forehead'],
+['receding hairline','re·CED·ing HAIR·line','tóc rụng, chân tóc lùi','a receding hairline at the temples'],
+]}},
+
+E:{name:'Emotions',sub:'Intensity Levels & Emotion Idioms',topics:{
+'Intensity':[
+['sad','SAD','buồn (nhẹ)','feel a bit sad'],
+['melancholy','MEL·an·chol·y','u sầu (trung bình)','a melancholy mood'],
+['devastated','DEV·as·tat·ed','tan nát (mạnh)','absolutely devastated'],
+['pleased','PLEASED','hài lòng (nhẹ)','pleased with the result'],
+['delighted','de·LIGHT·ed','vui mừng (trung bình)','delighted to hear the news'],
+['elated','e·LAT·ed','phấn khích (mạnh)','elated after winning'],
+['annoyed','an·NOYED','bực mình (nhẹ)','slightly annoyed'],
+['furious','FU·ri·ous','tức giận (mạnh)','absolutely furious'],
+['livid','LIV·id','nổi giận (cực mạnh)','livid with rage'],
+['uneasy','un·EA·sy','lo ngại (nhẹ)','feel uneasy about it'],
+['anxious','ANX·ious','lo lắng (trung bình)','anxious before the interview'],
+['terrified','TER·ri·fied','sợ hãi (mạnh)','terrified of flying'],
+['surprised','sur·PRISED','ngạc nhiên (nhẹ)','pleasantly surprised'],
+['astonished','as·TON·ished','kinh ngạc (mạnh)','absolutely astonished'],
+['flabbergasted','FLAB·ber·gast·ed','sốc, không tin được (cực mạnh)','utterly flabbergasted'],
+],
+'Idioms':[
+['burst into tears','BURST in·to TEARS','bùng nổ thành tiếng khóc','She burst into tears when she heard the news.'],
+['be over the moon','be O·ver the MOON','vui sướng tột độ','He was over the moon when he got the promotion.'],
+['hit rock bottom','HIT rock BOT·tom','chạm đáy, tuyệt vọng nhất','After losing his job, he hit rock bottom.'],
+['on cloud nine','on CLOUD NINE','hạnh phúc tột đỉnh',"She's been on cloud nine since the proposal."],
+['have butterflies in one\'s stomach','have BUT·ter·flies in one\'s STOM·ach','bồn chồn, hồi hộp','I always have butterflies before a performance.'],
+['be at a loss','be at a LOSS','bàng hoàng, không biết phải làm gì','She was at a loss for words.'],
+["wear one's heart on one's sleeve","WEAR one's HEART on one's sleeve",'không che giấu cảm xúc','He wears his heart on his sleeve.'],
+['bottling up emotions','BOT·tling up e·MO·tions','kìm nén cảm xúc','Stop bottling up your emotions — talk to someone.'],
+['feel on top of the world','feel on TOP of the WORLD','cảm thấy tuyệt vời','After graduating, she felt on top of the world.'],
+['blow off steam','BLOW off STEAM','xả hơi, giải tỏa căng thẳng','He goes to the gym to blow off steam.'],
+['have a heavy heart','have a HEAV·y HEART','lòng nặng trĩu','She left home with a heavy heart.'],
+['be in high spirits','be in HIGH SPIR·its','tinh thần phấn chấn','The team was in high spirits after the win.'],
+["keep one's cool","KEEP one's COOL",'giữ bình tĩnh','She managed to keep her cool under pressure.'],
+["lose one's temper","LOSE one's TEM·per",'nổi nóng, mất bình tĩnh','He lost his temper and shouted.'],
+['feel blue','feel BLUE','cảm thấy buồn, xuống tinh thần',"I've been feeling blue since she left."],
+['be torn','be TORN','bị giằng xé, không biết quyết định gì','I\'m torn between staying and leaving.'],
+['be wound up','be WOUND UP','căng thẳng, bị cuốn vào',"Don't get so wound up about small things."],
+]}},
+
+F:{name:'Idioms',sub:'Personality & Behaviour Idioms',topics:{
+'Personality Idioms':[
+['a creature of habit','a CREA·ture of HAB·it','người sống theo thói quen',"He's a creature of habit — same coffee every morning."],
+['a dark horse','a DARK HORSE','người bí ẩn, bất ngờ nổi lên','She was the dark horse of the competition.'],
+['a force to be reckoned with','a FORCE to be RECK·oned with','người đáng gờm, không thể xem nhẹ',"She's a force to be reckoned with in the industry."],
+['a late bloomer','a LATE BLOOM·er','người phát triển muộn','Einstein was a late bloomer in school.'],
+['a lone wolf','a LONE WOLF','người thích một mình, không thích bầy đàn',"He's a lone wolf — works best independently."],
+['an old soul','an OLD SOUL','người già trước tuổi về tâm hồn',"At 20, she's an old soul — wise and calm."],
+["set in one's ways","SET in one's WAYS",'cứng đầu, không muốn thay đổi',"He's too set in his ways to try new things."],
+['full of hot air','FULL of HOT AIR','nói nhiều mà chẳng làm','His promises are full of hot air.'],
+['straight as an arrow','STRAIGHT as an AR·row','ngay thẳng, trung thực','You can trust him — he\'s straight as an arrow.'],
+['a big fish in a small pond','a BIG FISH in a small POND','người giỏi nhưng trong môi trường nhỏ',"She's a big fish in a small pond here."],
+['wear many hats','WEAR MA·ny HATS','đóng nhiều vai trò','As CEO, she wears many hats.'],
+['have a short fuse','HAVE a SHORT FUSE','nóng tính, dễ bùng nổ','He has a short fuse — avoid arguments.'],
+["keep oneself to oneself","KEEP one·self to ONE·self",'sống khép kín, ít giao tiếp','My neighbour keeps herself to herself.'],
+['never miss a beat','NEV·er MISS a BEAT','luôn nhanh nhạy, không bao giờ bỏ lỡ','She never misses a beat in meetings.'],
+['take the bull by the horns','TAKE the BULL by the HORNS','đối mặt trực tiếp, không né tránh',"It's time to take the bull by the horns."],
+["burn one's bridges","BURN one's BRIDG·es",'phá hỏng cơ hội/mối quan hệ vĩnh viễn',"Don't burn your bridges by quitting angrily."],
+['go the extra mile','GO the EX·tra MILE','nỗ lực hơn mức cần thiết','She always goes the extra mile for her team.'],
+["stick to one's guns","STICK to one's GUNS",'giữ vững lập trường','He stuck to his guns despite criticism.'],
+['turn over a new leaf','TURN o·ver a NEW LEAF','bắt đầu lại, thay đổi tốt hơn','After rehab, she turned over a new leaf.'],
+['under the weather','UN·der the WEATH·er','không khỏe, hơi ốm',"I'm feeling a bit under the weather today."],
+]}},
+
+G:{name:'Memories',sub:'Time Expressions & Life Event Phrasal Verbs',topics:{
+'Time Expressions':[
+['in those days','in THOSE DAYS','hồi đó, ngày xưa','In those days, people wrote letters.'],
+['back then','BACK THEN','hồi đó','Back then, life was simpler.'],
+['once upon a time','ONCE u·pon a TIME','ngày xưa (kể chuyện)','Once upon a time, they lived in Hanoi.'],
+['in the good old days','in the GOOD OLD DAYS','những ngày xưa tốt đẹp','In the good old days, we had more time.'],
+['ages ago','AG·es a·GO','rất lâu rồi','I learnt that ages ago.'],
+['at the time','at the TIME','vào thời điểm đó','At the time, I didn\'t understand.'],
+['at the height of','at the HEIGHT of','vào đỉnh điểm của','at the height of his career'],
+['in the aftermath of','in the AF·ter·math of','sau hậu quả của','in the aftermath of the accident'],
+['prior to','PRI·or to','trước khi, trước đó','prior to the meeting, prior to leaving'],
+['subsequently','SUB·se·quent·ly','sau đó, tiếp theo','She subsequently moved abroad.'],
+['all of a sudden','all of a SUD·den','đột nhiên, bỗng dưng','All of a sudden, it started raining.'],
+['in due course','in DUE COURSE','đúng thời hạn, vào thời điểm thích hợp','You\'ll hear back in due course.'],
+['the turning point','the TURN·ing POINT','bước ngoặt','The turning point in my career.'],
+['a watershed moment','a WA·ter·shed MO·ment','khoảnh khắc lịch sử, bước ngoặt lớn','a watershed moment for the country'],
+['in the long run','in the LONG RUN','về lâu về dài','It\'s better in the long run.'],
+['in retrospect','in RET·ro·spect','nhìn lại, hồi tưởng','In retrospect, I should have stayed.'],
+['sooner or later','SOON·er or LA·ter','sớm hay muộn','Sooner or later, things change.'],
+['eventually','e·VEN·tu·al·ly','cuối cùng, rốt cuộc','Eventually, she found her path.'],
+['from that day forward','from THAT DAY FOR·ward','từ ngày đó trở đi','From that day forward, everything changed.'],
+],
+'Phrasal Verbs':[
+['grow up','GROW UP','lớn lên (thành người trưởng thành)','grow up in Hanoi, grow up quickly'],
+['bring up / raise','BRING UP / RAISE','nuôi dưỡng, giáo dục','be brought up by grandparents'],
+['settle down','SET·tle DOWN','ổn định cuộc sống, kết hôn','settle down in their 30s'],
+['move on','MOVE ON','tiến về phía trước (sau thất bại/chia tay)','move on from a bad relationship'],
+['go through','GO THROUGH','trải qua (giai đoạn khó)','go through a divorce, go through changes'],
+['look up to','LOOK UP TO','ngưỡng mộ, coi ai là hình mẫu','look up to an older sibling'],
+['take after','TAKE AF·ter','giống (cha/mẹ về tính cách/ngoại hình)','She takes after her mother.'],
+['fall out with','FALL OUT WITH','cãi nhau, mất quan hệ','fall out with a best friend'],
+['make up with','MAKE UP WITH','làm lành với ai','make up with her after the argument'],
+['drift apart','DRIFT a·PART','dần xa cách nhau','drift apart after university'],
+['come of age','COME of AGE','trưởng thành về mặt xã hội','come of age in the digital era'],
+['pass away','PASS a·WAY','qua đời (lịch sự)','Her grandfather passed away last year.'],
+['hand down / pass down','HAND DOWN / PASS DOWN','truyền lại (từ thế hệ trước)','pass down family traditions'],
+['bring out the best in','BRING OUT the BEST in','khơi dậy điều tốt nhất ở ai','She brings out the best in her students.'],
+['face up to','FACE UP TO','đối mặt với, thừa nhận','face up to responsibilities'],
+]}},
+
+H:{name:'Life Stages',sub:'Life Milestones & Generation Gap',topics:{
+'Life Stages':[
+['infancy','IN·fan·cy','tuổi sơ sinh (0–2)','from infancy to toddlerhood'],
+['toddler stage','TOD·dler STAGE','giai đoạn chập chững (2–4)','in the toddler stage, very curious'],
+['childhood','CHILD·hood','tuổi thơ (5–12)','a happy childhood'],
+['adolescence','ad·o·LES·cence','tuổi vị thành niên (13–17)','navigate adolescence'],
+['early adulthood','EAR·ly a·DULT·hood','đầu tuổi trưởng thành (18–25)',"finding one's identity in early adulthood"],
+['mid-life','MID-LIFE','trung niên (40–55)','mid-life career change'],
+['mid-life crisis','MID-LIFE CRI·sis','khủng hoảng tuổi trung niên','experience a mid-life crisis'],
+['retirement','re·TIRE·ment','về hưu','plan for retirement, enter retirement'],
+['old age / senior years','OLD AGE / SE·nior YEARS','tuổi già','enjoy old age, senior living'],
+['life expectancy','LIFE ex·PEC·tan·cy','tuổi thọ','rising life expectancy'],
+['milestone','MILE·stone','cột mốc quan trọng','a career milestone, life milestone'],
+['rite of passage','RITE of PAS·sage','nghi lễ trưởng thành','graduation as a rite of passage'],
+['formative years','FOR·ma·tive YEARS','những năm định hình tính cách','formative years shaping character'],
+["prime of one's life","PRIME of one's LIFE",'thời kỳ đỉnh cao, sung mãn nhất','in the prime of his life'],
+['quarter-life crisis','QUAR·ter-LIFE CRI·sis','khủng hoảng tuổi 25','many young adults face a quarter-life crisis'],
+['empty nest syndrome','EMP·ty NEST SYN·drome','hội chứng tổ trống (con rời khỏi nhà)','suffer from empty nest syndrome'],
+]}},
+
+I:{name:'Relationships',sub:'Marriage, Commitment & Conflict',topics:{
+'Commitment':[
+['commitment','com·MIT·ment','sự cam kết lâu dài','make a commitment, long-term commitment'],
+['compatibility','com·pat·i·BIL·i·ty','sự tương thích, hợp nhau','test compatibility, relationship compatibility'],
+['mutual trust','MU·tu·al TRUST','tin tưởng lẫn nhau','build mutual trust'],
+['open communication','O·pen com·mu·ni·CA·tion','giao tiếp cởi mở','maintain open communication'],
+['emotional intimacy','e·MO·tion·al IN·ti·ma·cy','sự gần gũi về cảm xúc','emotional intimacy in a relationship'],
+['compromise','COM·pro·mise','sự thỏa hiệp, nhượng bộ','learn to compromise, reach a compromise'],
+['boundaries','BOUND·a·ries','ranh giới (trong quan hệ)','set healthy boundaries'],
+['codependency','co·de·PEN·den·cy','phụ thuộc lẫn nhau quá mức','avoid codependency'],
+['unconditional love','un·con·DI·tion·al LOVE','tình yêu vô điều kiện','unconditional love for a child'],
+['infatuation','in·fat·u·A·tion','si mê, say đắm (ngắn hạn)','infatuation vs true love'],
+['propose','pro·POSE','cầu hôn','propose on their anniversary'],
+['engagement','en·GAGE·ment','đính hôn','an engagement ring, be engaged'],
+['honeymoon','HON·ey·moon','tuần trăng mật','go on a honeymoon'],
+['divorce','di·VORCE','ly hôn','file for divorce, a bitter divorce'],
+['custody','CUS·to·dy','quyền nuôi con','child custody, fight for custody'],
+['reconcile','REC·on·cile','hòa giải','reconcile with a partner'],
+['separation','sep·a·RA·tion','ly thân','a temporary separation'],
+['annulment','an·NUL·ment','tuyên bố hôn nhân vô hiệu','seek an annulment'],
+],
+'Wedding':[
+['venue','VE·nue','địa điểm tổ chức','choose a wedding venue'],
+['officiant','of·FI·ci·ant','người chủ trì lễ cưới','the wedding officiant'],
+['best man','BEST MAN','phù rể chính','the groom\'s best man'],
+['maid of honour','MAID of HON·our','phù dâu chính','ask your best friend to be maid of honour'],
+['bridesmaid','BRIDES·maid','phù dâu','four bridesmaids in pink dresses'],
+['groomsman','GROOMS·man','phù rể','three groomsmen at the altar'],
+['bridal party','BRI·dal PAR·ty','đoàn cưới','photos of the entire bridal party'],
+['reception','re·CEP·tion','tiệc cưới (sau lễ)','hold a reception at a hotel'],
+['vows','VOWS','lời thề hôn nhân','write personalised vows'],
+['exchange rings','ex·CHANGE RINGS','trao nhẫn cưới','exchange rings at the altar'],
+['aisle','AISLE','lối đi giữa nhà thờ','walk down the aisle'],
+['altar','AL·tar','bàn thờ, nơi làm lễ','stand at the altar'],
+['rehearsal dinner','re·HEAR·sal DIN·ner','bữa tối diễn tập trước đám cưới','attend the rehearsal dinner'],
+['bridal shower','BRI·dal SHOW·er','tiệc mừng cô dâu (trước đám cưới)','throw a bridal shower'],
+['anniversary','an·ni·VER·sa·ry','ngày kỷ niệm hôn nhân','celebrate their 10th anniversary'],
+['prenuptial agreement','pre·NUP·tial a·GREE·ment','hợp đồng tiền hôn nhân','sign a prenuptial agreement'],
+['dowry','DOW·ry','của hồi môn, hồi môn','traditional dowry customs'],
+],
+'Conflict':[
+['fall out with','FALL OUT WITH','cãi nhau, bất hòa với ai','They fell out with each other over money.'],
+['patch things up','PATCH things UP','làm lành, giải quyết mâu thuẫn','It took a week to patch things up.'],
+['clear the air','CLEAR the AIR','giải tỏa hiểu lầm, nói thẳng','We need to clear the air between us.'],
+['give sb the silent treatment','give sb the SI·lent TREAT·ment','im lặng trừng phạt ai','She gave him the silent treatment all day.'],
+['bury the hatchet','BUR·y the HATCH·et','bỏ qua hiềm khích, làm hòa','It\'s time to bury the hatchet.'],
+['come to blows','come to BLOWS','đánh nhau / xung đột gay gắt','They nearly came to blows.'],
+['hold a grudge','HOLD a GRUDGE','ôm lòng oán giận','She holds a grudge for years.'],
+['make amends','MAKE a·MENDS','bù đắp lỗi lầm, xin lỗi bằng hành động','He tried to make amends for his mistake.'],
+['talk it out','TALK it OUT','nói chuyện để giải quyết','Let\'s talk it out instead of fighting.'],
+['meet halfway','MEET HALF·way','nhượng bộ, gặp nhau ở điểm chung','We need to meet halfway on this.'],
+['misunderstanding','mis·un·der·STAND·ing','sự hiểu lầm','It was just a misunderstanding.'],
+['forgive and forget','for·GIVE and for·GET','tha thứ và quên đi','Try to forgive and forget.'],
+['seek common ground','SEEK COM·mon GROUND','tìm điểm chung','Let\'s seek common ground together.'],
+]}}
+};
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let mod = 'A', topic = null, mode = 'study';
+let ci = 0, flipped = false, listView = false;
+let quizReverse = false;
+let Q = { qs:[], cur:0, score:0, answered:false, chosen:null };
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function renderSyl(s) {
+  // Highlight stressed syllables (all-caps sequences ≥2 or single cap between dots)
+  let r = s.replace(/[A-Z]{2,}/g, m => `<span class="stress">${m}</span>`);
+  r = r.replace(/·([A-Z])(?=·|$)/g, (_,c) => `·<span class="stress">${c}</span>`);
+  r = r.replace(/^([A-Z])(?=·)/g, (_,c) => `<span class="stress">${c}</span>`);
+  r = r.replace(/·/g, '<span class="syl-dot">·</span>');
+  return r;
+}
+
+function getWords() {
+  const tops = MODS[mod].topics;
+  if (!topic || topic === '__ALL__') return Object.values(tops).flat();
+  return tops[topic] || Object.values(tops)[0];
+}
+
+function allWords() { return Object.values(MODS[mod].topics).flat(); }
+
+function speak(txt) {
+  speechSynthesis.cancel();
+  const clean = txt.replace(/·/g,'');
+  const u = new SpeechSynthesisUtterance(clean);
+  u.rate = 0.82; u.lang = 'en-GB';
+  speechSynthesis.speak(u);
+}
+
+function sp(e, txt) { e.stopPropagation(); speak(txt); }
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function render() {
+  const m = MODS[mod];
+  const tnames = Object.keys(m.topics);
+  if (!topic) topic = tnames[0];
+
+  const topicChips = tnames.map(t =>
+    `<button class="chip${topic===t?' active':''}" onclick="setTopic('${t}')">${t}</button>`
+  ).join('');
+  const allChip = tnames.length > 1
+    ? `<button class="chip${topic==='__ALL__'?' active':''}" onclick="setTopic('__ALL__')">All Topics</button>`
+    : '';
+
+  document.getElementById('app').innerHTML = `
+    <div class="mod-hdr">
+      <h2>${mod}. ${m.name}</h2>
+      <p>${m.sub}</p>
+    </div>
+    <div class="row">${topicChips}${allChip}</div>
+    <div class="row">
+      <button class="mode-chip${mode==='study'?' active':''}" onclick="setMode('study')">📚 Study</button>
+      <button class="mode-chip${mode==='quiz'?' active':''}" onclick="setMode('quiz')">🎯 Quiz</button>
+    </div>
+    <div id="mc">${mode==='study'?renderStudy():renderQuiz()}</div>
+  `;
+}
+
+// ── STUDY ────────────────────────────────────────────────────────────────────
+function renderStudy() {
+  const words = getWords();
+  const w = words[ci] || words[0];
+  return `
+    <div class="row">
+      <button class="chip${!listView?' active':''}" onclick="setListView(false)">🃏 Flashcard</button>
+      <button class="chip${listView?' active':''}" onclick="setListView(true)">📋 List</button>
+      <button class="chip" onclick="shuffle()">🔀 Shuffle</button>
+    </div>
+    ${listView ? renderList(words) : renderCard(w, words.length)}
+  `;
+}
+
+function renderCard(w, total) {
+  const [en, syl, vi, ex] = w;
+  const exParts = ex.split(', ');
+  const exHtml = exParts.map((p,i) =>
+    i<exParts.length-1 ? p+'<span class="chunk-sep">/</span>' : p
+  ).join('');
+
+  return `
+    <div class="fc-wrap">
+      <div class="fc-counter">${ci+1} / ${total}</div>
+      <div class="prog"><div class="prog-fill" style="width:${((ci+1)/total*100).toFixed(1)}%"></div></div>
+      <div class="scene" onclick="flip()">
+        <div class="card3d${flipped?' flipped':''}">
+          <div class="face front">
+            <div class="fc-word">${en}</div>
+            <div class="fc-syl">${renderSyl(syl)}</div>
+            <div class="fc-hint">tap to reveal ↓</div>
+          </div>
+          <div class="face back">
+            <div class="fc-vi">${vi}</div>
+            <div style="width:70%;height:1px;background:rgba(255,255,255,.25);margin:8px 0"></div>
+            <div class="fc-ex">${exHtml}</div>
+            ${flipped?`<div class="fc-hint" style="margin-top:10px">
+              <button class="btn-aud" onclick="sp(event,'${ex.replace(/'/g,"\\'")}')">🔊 example</button>
+            </div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="fc-ctrl">
+        <button class="btn btn-out" onclick="prevCard()" ${ci===0?'disabled':''}>← Prev</button>
+        <button class="btn-aud" onclick="sp(event,'${en.replace(/'/g,"\\'")}')">🔊 Listen</button>
+        <button class="btn btn-g" onclick="nextCard()" ${ci>=total-1?'disabled':''}>Next →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderList(words) {
+  return `<div class="wlist">${words.map(([en,syl,vi,ex]) => `
+    <div class="wcard">
+      <div class="wcard-en">${en}
+        <button class="aud-sm" onclick="sp(event,'${en.replace(/'/g,"\\'")}')">🔊</button>
+      </div>
+      <div class="wcard-syl">${renderSyl(syl)}</div>
+      <div class="wcard-vi">${vi}</div>
+      <div class="wcard-ex">${ex}</div>
+    </div>
+  `).join('')}</div>`;
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  if (!Q.qs.length) return renderQuizStart();
+  if (Q.cur >= Q.qs.length) return renderQuizResult();
+  return renderQuizQ();
+}
+
+function renderQuizStart() {
+  const n = allWords().length;
+  return `
+    <div class="start-box">
+      <div style="font-size:46px;margin-bottom:14px">🎯</div>
+      <h3 style="font-size:19px;margin-bottom:6px">Quiz — ${MODS[mod].name}</h3>
+      <p style="color:#6b7c74;font-size:14px;margin-bottom:18px">${n} words available · 10 questions</p>
+      <div class="q-type-toggle" style="justify-content:center;margin-bottom:20px">
+        <button class="qt-btn${!quizReverse?' active':''}" onclick="setQType(false)">EN → 🇻🇳</button>
+        <button class="qt-btn${quizReverse?' active':''}" onclick="setQType(true)">🇻🇳 → EN</button>
+      </div>
+      <button class="btn btn-g" style="padding:12px 32px;font-size:15px" onclick="startQuiz()">Start Quiz</button>
+    </div>
+  `;
+}
+
+function renderQuizQ() {
+  const q = Q.qs[Q.cur];
+  const [en, syl, vi] = q.word;
+  const qWord = quizReverse ? vi : en;
+  const qSyl  = quizReverse ? '' : renderSyl(syl);
+
+  return `
+    <div class="quiz-wrap">
+      <div class="prog" style="margin-bottom:14px">
+        <div class="prog-fill" style="width:${(Q.cur/Q.qs.length*100).toFixed(1)}%"></div>
+      </div>
+      <div style="font-size:12px;color:#6b7c74;margin-bottom:10px;font-weight:700">
+        Q ${Q.cur+1} / ${Q.qs.length} &nbsp;·&nbsp; Score: ${Q.score}
+      </div>
+      <div class="qcard">
+        <div class="q-label">${quizReverse?'What is the English word?':'What does this mean in Vietnamese?'}</div>
+        <div class="q-word">
+          ${qWord}
+          ${!quizReverse?`<button class="btn-aud" onclick="sp(event,'${en.replace(/'/g,"\\'")}')">🔊</button>`:''}
+        </div>
+        ${qSyl?`<div class="q-syl">${qSyl}</div>`:''}
+        <div class="opts">
+          ${q.options.map((opt,i)=>`
+            <button class="opt${Q.answered?(opt===q.correct?' ok':(opt===Q.chosen?' bad':''))+' done':''}"
+              onclick="answer(${i})">${opt}</button>
+          `).join('')}
+        </div>
+      </div>
+      ${Q.answered?`
+        <div style="text-align:center;padding:10px 0">
+          ${Q.chosen===q.correct
+            ?'<div style="color:var(--g);font-weight:800;font-size:16px">✅ Correct!</div>'
+            :`<div style="color:var(--red);font-weight:800;font-size:16px">❌ Answer: ${q.correct}</div>`}
+          <div style="color:#6b7c74;font-size:12px;font-style:italic;margin:6px 0">"${q.word[3]}"</div>
+          <button class="btn btn-g" onclick="nextQ()" style="margin-top:10px">
+            ${Q.cur+1<Q.qs.length?'Next →':'See Results'}
+          </button>
+        </div>
+      `:''}
+    </div>
+  `;
+}
+
+function renderQuizResult() {
+  const pct = Math.round(Q.score/Q.qs.length*100);
+  const em = pct>=90?'🏆':pct>=70?'🎉':pct>=50?'👍':'💪';
+  const msg = pct>=90?'Outstanding!':pct>=70?'Great work!':pct>=50?'Good effort — keep going!':'Review and try again!';
+  return `
+    <div class="quiz-wrap">
+      <div class="result-box">
+        <div style="font-size:48px">${em}</div>
+        <div class="score-big">${Q.score}/${Q.qs.length}</div>
+        <div class="score-msg">${pct}% — ${msg}</div>
+        <button class="btn btn-g" onclick="startQuiz()" style="margin-right:10px">Try Again</button>
+        <button class="btn btn-out" onclick="setMode('study')">Back to Study</button>
+      </div>
+    </div>
+  `;
+}
+
+// ─── INTERACTIONS ─────────────────────────────────────────────────────────────
+function setMod(m) {
+  mod=m; topic=null; ci=0; flipped=false; listView=false;
+  Q={qs:[],cur:0,score:0,answered:false,chosen:null};
+  renderTabs(); render();
+}
+function setTopic(t) { topic=t; ci=0; flipped=false; render(); }
+function setMode(m) { mode=m; Q={qs:[],cur:0,score:0,answered:false,chosen:null}; render(); }
+function setListView(v) { listView=v; render(); }
+function flip() { flipped=!flipped; render(); }
+function nextCard() { const w=getWords(); if(ci<w.length-1){ci++;flipped=false;render();} }
+function prevCard() { if(ci>0){ci--;flipped=false;render();} }
+function shuffle() { const w=getWords(); ci=Math.floor(Math.random()*w.length); flipped=false; render(); }
+function setQType(r) { quizReverse=r; render(); }
+
+function startQuiz() {
+  const pool = allWords();
+  if (pool.length < 4) { alert('Need ≥4 words.'); return; }
+  const shuffled = [...pool].sort(()=>Math.random()-.5);
+  const qs = shuffled.slice(0, Math.min(10, shuffled.length)).map(word => {
+    const correct = quizReverse ? word[0] : word[2];
+    const wrongs = pool
+      .filter(w => (quizReverse?w[0]:w[2]) !== correct)
+      .sort(()=>Math.random()-.5).slice(0,3)
+      .map(w => quizReverse?w[0]:w[2]);
+    const options = [...wrongs, correct].sort(()=>Math.random()-.5);
+    return { word, correct, options };
+  });
+  Q = { qs, cur:0, score:0, answered:false, chosen:null };
+  render();
+}
+
+function answer(idx) {
+  if (Q.answered) return;
+  const q = Q.qs[Q.cur];
+  const chosen = q.options[idx];
+  Q.chosen = chosen;
+  Q.answered = true;
+  if (chosen === q.correct) Q.score++;
+  render();
+}
+
+function nextQ() {
+  Q.cur++; Q.answered=false; Q.chosen=null; render();
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────────
+function renderTabs() {
+  document.getElementById('modTabs').innerHTML = Object.entries(MODS).map(([k,m])=>`
+    <div class="mtab${mod===k?' active':''}" onclick="setMod('${k}')">
+      <span class="mtab-key">${k}</span>
+      <span class="mtab-name">${m.name}</span>
+    </div>
+  `).join('');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderTabs();
+render();
+</script>
+</body>
+</html>
