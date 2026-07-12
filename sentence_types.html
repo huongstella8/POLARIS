@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huong Stella Paradigm – Sentence Types</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4ff;--bg2:#e8eeff;--side:#1e1b4b;
+  --purple:#6d28d9;--teal:#0891b2;--gold:#b45309;
+  --green:#059669;--red:#dc2626;--orange:#ea580c;
+  --text:#1e293b;--muted:#475569;--border:#cbd5e1;
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;display:flex;min-height:100vh}
+#sidebar{width:260px;min-height:100vh;background:var(--side);border-right:1px solid #312e81;position:fixed;top:0;left:0;overflow-y:auto;z-index:100;padding-bottom:40px}
+#sidebar .logo{padding:16px 16px 12px;border-bottom:1px solid #312e81}
+#sidebar .logo span{font-size:14px;font-weight:700;color:#c4b5fd;line-height:1.4;display:block}
+#sidebar .logo small{font-size:11px;color:#7c3aed}
+.nav-group{padding:8px 0}
+.nav-group-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#6d28d9;padding:6px 16px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;font-size:13px;color:#94a3b8}
+.nav-item:hover{background:rgba(109,40,217,.2);color:#e0d9ff;border-left-color:#a78bfa}
+.nav-item.active{background:rgba(109,40,217,.25);color:#c4b5fd;border-left-color:#c4b5fd;font-weight:600}
+.nav-item .icon{width:20px;text-align:center;font-size:14px;flex-shrink:0}
+.nav-item .score-badge{margin-left:auto;background:#059669;color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px;display:none}
+.nav-item.scored .score-badge{display:inline}
+#main{margin-left:260px;flex:1;padding:32px 36px;max-width:960px}
+.section-page{display:none}.section-page.active{display:block}
+.page-header{background:linear-gradient(135deg,rgba(109,40,217,.1),rgba(8,145,178,.08));border:1px solid rgba(109,40,217,.2);border-radius:16px;padding:24px 28px;margin-bottom:28px}
+.page-header h1{font-size:26px;font-weight:700;margin-bottom:6px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-header p{color:var(--muted);font-size:14px}
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab-btn{padding:9px 20px;cursor:pointer;border:none;background:none;color:#475569;font-size:14px;font-weight:500;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple)}
+.tab-content{display:none}.tab-content.active{display:block}
+.rule-box{background:#fff;border:1px solid rgba(109,40,217,.2);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 4px rgba(109,40,217,.06)}
+.rule-box h3{color:var(--purple);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rule-box ul{padding-left:18px;font-size:14px;line-height:1.8;color:var(--text)}
+.rule-box li{margin-bottom:4px}
+.example{background:#eff6ff;border-left:3px solid var(--teal);padding:8px 14px;margin:8px 0;border-radius:0 6px 6px 0;font-size:13.5px;color:#1e40af}
+.start-point{background:#e0f9ff;border:1px solid rgba(8,145,178,.25);border-radius:10px;padding:16px 18px;margin:14px 0}
+.start-point h3{color:var(--teal);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.tip-box{background:#fffbeb;border:1px solid rgba(180,83,9,.2);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.tip-box strong{color:var(--gold)}
+.table-wrap{overflow-x:auto;margin:14px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(109,40,217,.1);color:var(--purple);padding:9px 12px;text-align:left;font-weight:600}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:hover td{background:rgba(109,40,217,.03)}
+.sub-heading{font-size:17px;font-weight:700;color:#1e293b;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid rgba(109,40,217,.2)}
+p.lead{font-size:14.5px;line-height:1.7;color:#334155;margin-bottom:10px}
+.tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;margin:2px}
+.tag.purple{background:rgba(109,40,217,.12);color:#5b21b6}
+.tag.teal{background:rgba(8,145,178,.12);color:#155e75}
+.tag.green{background:rgba(5,150,105,.12);color:#065f46}
+.tag.gold{background:rgba(180,83,9,.12);color:#92400e}
+.tag.red{background:rgba(220,38,38,.12);color:#991b1b}
+.tag.orange{background:rgba(234,88,12,.12);color:#9a3412}
+.conj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin:10px 0}
+.conj-card{background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.conj-card .word{font-weight:700;color:var(--purple);font-size:13px}
+.conj-card .meaning{font-size:12px;color:var(--muted);margin-top:2px}
+.conj-card .ex{font-size:12px;color:#1e40af;font-style:italic;margin-top:4px}
+.ex-section{margin:18px 0 28px}
+.ex-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ex-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.q-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:border-color .2s}
+.q-block.correct-block{border-color:var(--green);background:#f0fdf4}
+.q-block.wrong-block{border-color:var(--red);background:#fef2f2}
+.q-num{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.q-text{font-size:14.5px;color:var(--text);margin-bottom:10px;line-height:1.6}
+.opt-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.opt{padding:7px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13.5px;background:#f8faff;color:var(--text);transition:all .2s}
+.opt:hover{border-color:var(--purple);background:rgba(109,40,217,.08)}
+.opt.selected{border-color:var(--purple);background:rgba(109,40,217,.12);color:#5b21b6}
+.opt.correct-opt{border-color:var(--green)!important;background:#f0fdf4!important;color:#065f46!important;font-weight:600}
+.opt.wrong-opt{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important}
+.feedback{display:none;margin-top:8px;font-size:13px;padding:8px 12px;border-radius:6px}
+.feedback.show{display:block}
+.feedback.ok{background:#f0fdf4;color:#065f46;border:1px solid #bbf7d0}
+.feedback.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.trans-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.vn-sent{font-size:15px;font-weight:600;color:#92400e;margin-bottom:8px}
+.hint-box{font-size:12px;color:#475569;margin-top:4px;padding:6px 10px;background:#fffbeb;border:1px solid rgba(180,83,9,.12);border-radius:4px}
+.hint-box strong{color:var(--gold)}
+.trans-input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:6px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;resize:vertical;min-height:50px;transition:border-color .2s}
+.trans-input:focus{border-color:var(--teal)}
+.model-answer{display:none;margin-top:10px;padding:10px 14px;background:#e0f9ff;border-radius:6px;border-left:3px solid var(--teal)}
+.model-answer .label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.model-answer .answer{font-size:14px;color:#1e40af;font-style:italic}
+.model-answer.show{display:block}
+.writing-block{background:#fff;border:1px solid rgba(109,40,217,.2);border-radius:10px;padding:18px 20px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.writing-prompt{font-size:14.5px;color:var(--text);margin-bottom:8px;line-height:1.7}
+.writing-criteria{list-style:none;padding:0;margin:8px 0 12px;font-size:13px;color:var(--muted)}
+.writing-criteria li{padding:3px 0;display:flex;gap:8px}
+.writing-criteria li::before{content:'☐';color:var(--purple)}
+.writing-area{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;color:var(--text);font-size:14px;outline:none;resize:vertical;min-height:120px;transition:border-color .2s}
+.writing-area:focus{border-color:var(--purple)}
+.model-para{display:none;margin-top:14px;padding:14px 18px;background:#f5f3ff;border-radius:8px;border-left:3px solid var(--purple)}
+.model-para .label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.model-para .answer{font-size:14px;color:#1e293b;line-height:1.8}
+.model-para .takeaway{margin-top:10px;font-size:13px;color:#7c3aed;font-weight:600}
+.model-para.show{display:block}
+.self-score{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ss-btn{padding:6px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;background:#f8faff;color:#475569;transition:all .2s}
+.ss-btn:hover{border-color:var(--gold);color:#92400e;background:#fffbeb}
+.ss-btn.sel{border-color:var(--gold);background:#fef3c7;color:#92400e;font-weight:700}
+.btn{padding:10px 22px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.btn-outline{background:#fff;border:1px solid var(--purple);color:var(--purple)}
+.btn-outline:hover{background:rgba(109,40,217,.08)}
+.btn-gold{background:var(--gold);color:#fff;font-weight:700}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.section-score{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 18px;margin-top:20px;display:none;font-size:14px;color:#065f46;font-weight:600}
+.section-score.show{display:block}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.result-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.result-card h3{font-size:13px;color:var(--muted);margin-bottom:4px}
+.result-card .val{font-size:28px;font-weight:700}
+.val.good{color:var(--green)}.val.ok{color:var(--gold)}.val.poor{color:var(--red)}
+.error-log{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0}
+.error-log-header{background:#fef2f2;border-bottom:1px solid var(--border);padding:10px 16px;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--red)}
+.error-entry{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13.5px}
+.error-entry:last-child{border-bottom:none}
+.section-scores-table{width:100%;border-collapse:collapse;font-size:14px}
+.section-scores-table th,.section-scores-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.section-scores-table th{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase}
+#info-overlay{position:fixed;inset:0;background:rgba(30,27,75,.6);backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center}
+.info-card{background:#fff;border:1px solid rgba(109,40,217,.25);border-radius:20px;padding:36px 42px;max-width:460px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(109,40,217,.15)}
+.info-card h2{font-size:22px;font-weight:700;margin-bottom:4px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.info-card .subtitle{font-size:12px;color:var(--purple);font-weight:600;margin-bottom:18px;letter-spacing:.5px}
+.info-card p{color:#475569;font-size:14px;margin-bottom:22px}
+.info-field{margin:12px 0;text-align:left}
+.info-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase}
+.info-field input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:#1e293b;font-size:14px;outline:none;transition:border-color .2s}
+.info-field input:focus{border-color:var(--purple)}
+@media(max-width:768px){#sidebar{width:220px}#main{margin-left:220px;padding:20px}}
+</style>
+</head>
+<body>
+
+<div id="info-overlay">
+  <div class="info-card">
+    <h2>Huong Stella Paradigm</h2>
+    <div class="subtitle">GRAMMAR SERIES</div>
+    <p>Sentence Types – Interactive Study &amp; Practice</p>
+    <div class="info-field"><label>Your Name</label><input id="student-name" type="text" placeholder="Enter your full name"/></div>
+    <div class="info-field"><label>Date</label><input id="student-date" type="date"/></div>
+    <div class="info-field"><label>Class / Level</label><input id="student-class" type="text" placeholder="e.g. PO-1"/></div>
+    <div style="margin-top:22px"><button class="btn btn-primary" style="width:100%;padding:12px" onclick="startStudy()">Start Studying 🚀</button></div>
+  </div>
+</div>
+
+<div id="sidebar">
+  <div class="logo">
+    <span>Huong Stella Paradigm</span>
+    <small>Sentence Types</small>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Overview</div>
+    <div class="nav-item active" onclick="showSection('s0')" id="nav-s0"><span class="icon">🗺️</span>4 Sentence Types<span class="score-badge" id="badge-s0"></span></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Sentence Types</div>
+    <div class="nav-item" onclick="showSection('s1')" id="nav-s1"><span class="icon">1️⃣</span>Simple Sentence<span class="score-badge" id="badge-s1"></span></div>
+    <div class="nav-item" onclick="showSection('s2a')" id="nav-s2a"><span class="icon">🔗</span>Compound – FANBOYS<span class="score-badge" id="badge-s2a"></span></div>
+    <div class="nav-item" onclick="showSection('s2b')" id="nav-s2b"><span class="icon">⚙️</span>Compound – Conj. Adverbs<span class="score-badge" id="badge-s2b"></span></div>
+    <div class="nav-item" onclick="showSection('s2c')" id="nav-s2c"><span class="icon">；</span>Compound – Semicolon<span class="score-badge" id="badge-s2c"></span></div>
+    <div class="nav-item" onclick="showSection('s3a')" id="nav-s3a"><span class="icon">⏰</span>Complex – Adverb Clauses<span class="score-badge" id="badge-s3a"></span></div>
+    <div class="nav-item" onclick="showSection('s3b')" id="nav-s3b"><span class="icon">🎯</span>Complex – Adjective Clauses<span class="score-badge" id="badge-s3b"></span></div>
+    <div class="nav-item" onclick="showSection('s3c')" id="nav-s3c"><span class="icon">💬</span>Complex – Noun Clauses<span class="score-badge" id="badge-s3c"></span></div>
+    <div class="nav-item" onclick="showSection('s4')" id="nav-s4"><span class="icon">🔀</span>Compound-Complex<span class="score-badge" id="badge-s4"></span></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Report</div>
+    <div class="nav-item" onclick="showSection('results')" id="nav-results"><span class="icon">📋</span>Results &amp; Report</div>
+  </div>
+  <div style="padding:16px;margin-top:10px">
+    <div style="font-size:12px;color:#94a3b8;margin-bottom:6px">Overall Progress</div>
+    <div style="background:#312e81;border-radius:99px;height:6px;overflow:hidden">
+      <div id="overall-bar" style="height:100%;background:linear-gradient(90deg,#7c3aed,#0891b2);width:0%;transition:width .5s"></div>
+    </div>
+    <div id="overall-pct" style="font-size:12px;color:#94a3b8;margin-top:4px">0% complete</div>
+  </div>
+</div>
+
+<div id="main">
+
+<!-- ===== SECTION 0: OVERVIEW ===== -->
+<div id="s0" class="section-page active">
+  <div class="page-header">
+    <h1>🗺️ Types of Sentences</h1>
+    <p>Four structures every writer needs to master</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s0-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s0-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s0-learn" class="tab-content active">
+    <p class="lead">Every English sentence belongs to one of four structural types. Understanding them helps you write more varied, sophisticated, and clear prose.</p>
+    <div class="rule-box">
+      <h3>📊 The Four Sentence Types</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Structure</th><th>Example</th></tr>
+        <tr><td><strong>Simple</strong></td><td>1 independent clause</td><td><em>Grammar is easy.</em></td></tr>
+        <tr><td><strong>Compound</strong></td><td>2+ independent clauses (coordinator / conjunctive adverb / semicolon)</td><td><em>Grammar is easy, <strong>so</strong> I learned it quickly.</em></td></tr>
+        <tr><td><strong>Complex</strong></td><td>1 independent + 1+ dependent clause (subordinator)</td><td><em><strong>Because</strong> grammar is easy, I learned it quickly.</em></td></tr>
+        <tr><td><strong>Compound-Complex</strong></td><td>2+ independent + 1+ dependent clause</td><td><em>Because grammar is easy, I learned it quickly, <strong>but</strong> it took years to master writing.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔑 Key Terms</h3>
+      <ul>
+        <li><strong>Independent clause</strong> — has a subject + verb and can stand alone as a sentence: <em>The sun rises.</em></li>
+        <li><strong>Dependent clause</strong> — has a subject + verb but CANNOT stand alone; needs an independent clause: <em>Because the sun rises…</em></li>
+        <li><strong>Coordinator (FANBOYS)</strong> — joins two independent clauses: <em>for, and, nor, but, or, yet, so</em></li>
+        <li><strong>Subordinator</strong> — begins a dependent clause: <em>because, although, when, if, that, who…</em></li>
+        <li><strong>Conjunctive adverb</strong> — connects two independent clauses with a semicolon: <em>; therefore, ; however, ; moreover,</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Câu đơn (Simple)</strong> có thể có nhiều chủ ngữ và/hoặc nhiều động từ nhưng chỉ có <strong>MỘT mệnh đề độc lập</strong>.<br>
+    <em>Freshwater boils and freezes at different temperatures.</em> → vẫn là câu đơn (1 S, 2 V).</div>
+  </div>
+  <div id="s0-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Identify the Sentence Type</div>
+      <div id="s0-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s0-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s0-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s0')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s0')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s0')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s0"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: SIMPLE SENTENCE ===== -->
+<div id="s1" class="section-page">
+  <div class="page-header">
+    <h1>1️⃣ Simple Sentence</h1>
+    <p>One independent clause — the foundation of all writing</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s1-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s1-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s1-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Definition</h3>
+      <p style="font-size:14px">A <strong>simple sentence</strong> is <strong>one independent clause</strong>. It has a subject and a verb and expresses a complete thought.</p>
+    </div>
+    <div class="rule-box">
+      <h3>📐 Structure Variations</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Pattern</th><th>Example</th></tr>
+        <tr><td>1 Subject + 1 Verb</td><td><em>Freshwater <u>boils</u> at 100°C at sea level.</em></td></tr>
+        <tr><td>1 Subject + 2 Verbs</td><td><em>Freshwater <u>boils</u> at 100°C and <u>freezes</u> at 0°C.</em></td></tr>
+        <tr><td>2 Subjects + 2 Verbs</td><td><em>Freshwater and salt water <u>do not boil</u> and <u>do not freeze</u> at the same temperatures.</em></td></tr>
+      </table></div>
+      <div class="example">Still ONE independent clause — no dependent clause, no second main clause.</div>
+    </div>
+    <div class="rule-box">
+      <h3>✍️ Writing with Variety</h3>
+      <ul>
+        <li>Too many short simple sentences make writing <em>choppy</em>: <em>The hotel is nice. It has good views. The food is good.</em></li>
+        <li>Vary by using precise, descriptive vocabulary instead of repeated words:<br>
+          <em>nice → secluded, stylish, spacious | good → breathtaking, delicious, relaxing</em></li>
+        <li>Simple sentences work best for <strong>emphasis</strong> or <strong>clarity</strong> — especially after a longer sentence.</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Lưu ý:</strong> Câu đơn có thể rất dài với nhiều cụm từ bổ nghĩa, nhưng vẫn chỉ có <strong>một mệnh đề chính</strong>.<br>
+    <em>The tall young Vietnamese woman with black hair and a bright smile walked slowly down the narrow street.</em> → Simple sentence (1 S + 1 V)</div>
+  </div>
+  <div id="s1-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Simple Sentence Recognition &amp; Variation</div>
+      <div id="s1-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s1-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s1-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s1')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s1')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s1')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2a: COMPOUND – FANBOYS ===== -->
+<div id="s2a" class="section-page">
+  <div class="page-header">
+    <h1>🔗 Compound Sentence – FANBOYS</h1>
+    <p>Joining two independent clauses with coordinating conjunctions</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s2a-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s2a-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s2a-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Method 1: Coordinating Conjunctions</h3>
+      <p style="font-size:14px">Independent Clause <strong>, coordinator</strong> Independent Clause</p>
+    </div>
+    <div class="rule-box">
+      <h3>🎯 FANBOYS — The 7 Coordinators</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Word</th><th>Function</th><th>Example</th></tr>
+        <tr><td><strong>F</strong>or</td><td>To add a reason (= because)</td><td><em>Japanese people live longer, <strong>for</strong> they eat healthful diets.</em></td></tr>
+        <tr><td><strong>A</strong>nd</td><td>To add a similar, equal idea</td><td><em>They eat a lot of fish, <strong>and</strong> they eat lightly.</em></td></tr>
+        <tr><td><strong>N</strong>or</td><td>To add a negative equal idea</td><td><em>They do not eat red meat, <strong>nor</strong> do they eat dairy products.</em></td></tr>
+        <tr><td><strong>B</strong>ut</td><td>To add an opposite idea</td><td><em>Diet is one factor, <strong>but</strong> it is not the only one.</em></td></tr>
+        <tr><td><strong>O</strong>r</td><td>To add an alternative possibility</td><td><em>Limit animal fat, <strong>or</strong> you risk heart disease.</em></td></tr>
+        <tr><td><strong>Y</strong>et</td><td>To add an unexpected continuation</td><td><em>Smoking is a risk factor, <strong>yet</strong> many Asians have high tobacco use.</em></td></tr>
+        <tr><td><strong>S</strong>o</td><td>To add an expected result</td><td><em>Stress shortens life, <strong>so</strong> try to avoid it.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Punctuation Rule</h3>
+      <ul>
+        <li>Always use a <strong>comma before</strong> a coordinating conjunction joining two independent clauses.</li>
+        <li><em>Salt water boils at a higher temperature<strong>,</strong> <u>so</u> food cooks faster.</em></li>
+        <li><strong>but vs yet:</strong> Both show contrast/surprise. <em>Yet</em> implies more surprise than <em>but</em>.</li>
+        <li><strong>nor:</strong> After <em>nor</em>, use <strong>inverted word order</strong>: <em>…nor <u>do</u> they eat dairy.</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Mẹo nhớ:</strong> <strong>FANBOYS</strong> = For, And, Nor, But, Or, Yet, So<br>
+    Luôn đặt dấu phẩy TRƯỚC coordinator khi nối hai mệnh đề độc lập.<br>
+    ✗ <em>She studied hard but she failed.</em> → ✓ <em>She studied hard<strong>,</strong> but she failed.</em></div>
+  </div>
+  <div id="s2a-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose / Use FANBOYS</div>
+      <div id="s2a-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s2a-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s2a-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s2a')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s2a')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s2a')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s2a"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2b: COMPOUND – CONJUNCTIVE ADVERBS ===== -->
+<div id="s2b" class="section-page">
+  <div class="page-header">
+    <h1>⚙️ Compound – Conjunctive Adverbs</h1>
+    <p>Connecting independent clauses with a semicolon + conjunctive adverb</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s2b-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s2b-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s2b-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Method 2: Conjunctive Adverbs</h3>
+      <p style="font-size:14px">Independent Clause <strong>; conjunctive adverb,</strong> Independent Clause</p>
+      <div class="example">Community colleges offer job preparation<strong>; also,</strong> they prepare students for four-year colleges.</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Complete Reference Table</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Function</th><th>Conjunctive Adverbs</th></tr>
+        <tr><td>To add information</td><td>also, besides, furthermore, in addition, moreover</td></tr>
+        <tr><td>To add a result</td><td>as a result, consequently, therefore, thus</td></tr>
+        <tr><td>To show contrast / concession</td><td>however, nevertheless, nonetheless, on the other hand</td></tr>
+        <tr><td>To show "first is false, second is true"</td><td>instead, on the contrary, rather</td></tr>
+        <tr><td>To show "as a substitute"</td><td>instead (of doing A, do B)</td></tr>
+        <tr><td>To give another possibility</td><td>alternatively, on the other hand, otherwise</td></tr>
+        <tr><td>To add explanation</td><td>in other words, that is</td></tr>
+        <tr><td>To make a stronger statement</td><td>indeed, in fact</td></tr>
+        <tr><td>To list in time order</td><td>meanwhile, afterward, then, subsequently</td></tr>
+        <tr><td>To give an example</td><td>for example, for instance</td></tr>
+        <tr><td>To show similarity</td><td>similarly, likewise</td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Punctuation Rule</h3>
+      <ul>
+        <li>Use a <strong>semicolon (;) before</strong> and a <strong>comma (,) after</strong> the conjunctive adverb.</li>
+        <li><em>Native English speakers have different needs<strong>; as a result,</strong> schools provide separate classes.</em></li>
+        <li><strong>however</strong> = most common; shows unexpected contrast.</li>
+        <li><strong>otherwise</strong> = "if not" (condition/consequence).</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Phân biệt:</strong><br>
+    <strong>however</strong> (tuy nhiên) = unexpected contrast after a positive statement.<br>
+    <strong>on the other hand</strong> = giving an alternative option or perspective.<br>
+    <strong>on the contrary</strong> / <strong>instead</strong> = the first statement is wrong; here is the correct one.<br>
+    <strong>otherwise</strong> = if not (implies condition): <em>Study hard; otherwise, you will fail.</em></div>
+  </div>
+  <div id="s2b-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose the Correct Conjunctive Adverb</div>
+      <div id="s2b-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s2b-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s2b-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s2b')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s2b')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s2b')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s2b"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2c: COMPOUND – SEMICOLON ===== -->
+<div id="s2c" class="section-page">
+  <div class="page-header">
+    <h1>； Compound – Semicolon</h1>
+    <p>Joining closely related independent clauses with a semicolon alone</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s2c-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s2c-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s2c-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Method 3: Semicolon Alone</h3>
+      <p style="font-size:14px">Independent Clause <strong>;</strong> Independent Clause</p>
+      <div class="example">Poland was the first Eastern European country to turn away from communism<strong>;</strong> others soon followed.</div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 When to Use</h3>
+      <ul>
+        <li>Use a semicolon alone when the two clauses are <strong>closely related</strong> and the relationship is <strong>obvious</strong> without a connector.</li>
+        <li>This is the most <em>formal</em> of the three compound methods.</li>
+        <li>The clauses should be roughly <strong>equal in importance</strong>.</li>
+        <li>A capital letter does NOT follow a semicolon (unless it is a proper noun).</li>
+      </ul>
+      <div class="example">Grammar is easy<strong>;</strong> I learned it quickly. (the connection is clear — result)</div>
+      <div class="example">Grammar is easy<strong>; therefore,</strong> I learned it quickly. (conjunctive adverb makes it explicit)</div>
+      <div class="example">Grammar is easy<strong>, so</strong> I learned it quickly. (coordinator)</div>
+    </div>
+    <div class="tip-box"><strong>💡 Ba cách nối câu ghép — Tổng hợp:</strong><br>
+    ① , + coordinator: <em>…easy, <strong>so</strong> I learned…</em><br>
+    ② ; + conjunctive adverb + ,: <em>…easy<strong>; therefore,</strong> I learned…</em><br>
+    ③ ; alone: <em>…easy<strong>;</strong> I learned…</em></div>
+  </div>
+  <div id="s2c-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Compound Sentence Structures (All 3 Methods)</div>
+      <div id="s2c-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s2c-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s2c-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s2c')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s2c')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s2c')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s2c"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3a: COMPLEX – ADVERB CLAUSES ===== -->
+<div id="s3a" class="section-page">
+  <div class="page-header">
+    <h1>⏰ Complex – Adverb Clauses</h1>
+    <p>Subordinating conjunctions for time, place, reason, purpose, result, condition, and contrast</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s3a-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s3a-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s3a-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Complex Sentence with Adverb Clause</h3>
+      <p style="font-size:14px">A <strong>dependent adverb clause</strong> modifies the main verb (tells when, where, why, how, under what condition, etc.)</p>
+      <div class="example"><u>Although women could own property</u>, they could not vote until 1920. → [dependent clause first → comma]</div>
+      <div class="example">A citizen can vote <u>when he or she is 18</u>. → [dependent clause last → no comma usually]</div>
+    </div>
+    <div class="rule-box">
+      <h3>⏱️ Time (When?)</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Subordinator</th><th>Example</th></tr>
+        <tr><td>after</td><td><em><strong>After</strong> we ate lunch, we decided to go shopping.</em></td></tr>
+        <tr><td>as / just as</td><td><em><strong>Just as</strong> we left the house, it started to rain.</em></td></tr>
+        <tr><td>as long as</td><td><em>We waited <strong>as long as</strong> we could.</em></td></tr>
+        <tr><td>as soon as</td><td><em><strong>As soon as</strong> the front door closed, I looked for my key.</em></td></tr>
+        <tr><td>before</td><td><em>I thought I had put it in my pocket <strong>before</strong> we left.</em></td></tr>
+        <tr><td>since</td><td><em>I have not locked myself out <strong>since</strong> I was 10 years old.</em></td></tr>
+        <tr><td>until</td><td><em><strong>Until</strong> I was 12, my mother pinned the key to my coat.</em></td></tr>
+        <tr><td>when</td><td><em><strong>When</strong> I turned 12, my mother let me keep the key.</em></td></tr>
+        <tr><td>whenever</td><td><em>I put the key in the same place <strong>whenever</strong> I come home.</em></td></tr>
+        <tr><td>while</td><td><em><strong>While</strong> I searched for the key, it rained harder.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>📍 Place | 🎭 Manner | 📏 Distance | 🔄 Frequency</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Category</th><th>Subordinators</th><th>Example</th></tr>
+        <tr><td>Place</td><td>where, wherever, anywhere, everywhere</td><td><em>I like to shop <strong>where</strong> prices are low.</em></td></tr>
+        <tr><td>Manner</td><td>as / just as, as if, as though</td><td><em>You look <strong>as if</strong> you didn't sleep.</em></td></tr>
+        <tr><td>Distance</td><td>as + adverb + as</td><td><em>We will hike <strong>as far as</strong> we can.</em></td></tr>
+        <tr><td>Frequency</td><td>as often as</td><td><em>I call my parents <strong>as often as</strong> I can.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>❓ Reason | 🎯 Purpose | ⚡ Result</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Category</th><th>Subordinators</th><th>Example</th></tr>
+        <tr><td>Reason (Why?)</td><td>because, since, as</td><td><em>I can't attend <strong>because</strong> I work at night.</em></td></tr>
+        <tr><td>Purpose</td><td>so that, in order that</td><td><em>People emigrate <strong>so that</strong> their children can have a better life.</em></td></tr>
+        <tr><td>Result</td><td>so + adj/adv + that; such a(n) + noun + that</td><td><em>I was <strong>so tired that</strong> I fell asleep at dinner.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>🔀 Condition | ↔️ Contrast &amp; Concession</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Category</th><th>Subordinators</th><th>Example</th></tr>
+        <tr><td>Condition</td><td>if, unless</td><td><em>We will not go hiking <strong>unless</strong> the weather is perfect.</em></td></tr>
+        <tr><td>Partial contrast (concession)</td><td>although, even though, though</td><td><em>I love my brother <strong>although</strong> we disagree about almost everything.</em></td></tr>
+        <tr><td>Direct contrast</td><td>while, whereas</td><td><em>My brother likes classical music, <strong>while</strong> I prefer hard rock.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="tip-box"><strong>💡 Quy tắc dấu câu:</strong><br>
+    ✓ Dependent clause TRƯỚC → dùng dấu phẩy: <em><strong>Because</strong> it rained, we stayed home.</em><br>
+    ✓ Dependent clause SAU → thường không dấu phẩy: <em>We stayed home <strong>because</strong> it rained.</em><br>
+    ✗ Ngoại lệ: <em>although / even though / whereas / while</em> ở cuối → VẪN dùng dấu phẩy khi đảo vị trí.</div>
+  </div>
+  <div id="s3a-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose the Correct Subordinator</div>
+      <div id="s3a-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s3a-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s3a-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s3a')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s3a')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s3a')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s3a"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3b: COMPLEX – ADJECTIVE CLAUSES ===== -->
+<div id="s3b" class="section-page">
+  <div class="page-header">
+    <h1>🎯 Complex – Adjective Clauses</h1>
+    <p>Relative clauses that describe nouns: who, whom, whose, which, that, when, where</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s3b-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s3b-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s3b-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Adjective Clause = Relative Clause</h3>
+      <p style="font-size:14px">A dependent adjective clause follows and modifies a noun. It answers: <em>Which one? What kind?</em></p>
+      <div class="example">Men <strong>who are not married</strong> are called bachelors. → [clause identifies which men]</div>
+      <div class="example">Last year we vacationed in Cozumel, <strong>which features excellent scuba diving</strong>. → [clause adds info about Cozumel]</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Relative Pronouns</h3>
+      <div class="table-wrap"><table>
+        <tr><th>To refer to</th><th>Pronoun</th><th>Example</th></tr>
+        <tr><td>People (subject)</td><td><strong>who</strong>, that (informal)</td><td><em>People <strong>who</strong> live in glass houses…</em></td></tr>
+        <tr><td>People (object)</td><td><strong>whom</strong>, that (informal)</td><td><em>The man <strong>whom</strong> my sister married…</em></td></tr>
+        <tr><td>People (possessive)</td><td><strong>whose</strong></td><td><em>A child <strong>whose</strong> parents are dead is called an orphan.</em></td></tr>
+        <tr><td>Animals &amp; things</td><td><strong>which</strong>, that</td><td><em>My computer, <strong>which</strong> I bought yesterday, stopped working.</em></td></tr>
+        <tr><td>Time</td><td><strong>when</strong></td><td><em>Thanksgiving is a time <strong>when</strong> families travel far.</em></td></tr>
+        <tr><td>Place</td><td><strong>where</strong></td><td><em>An orphanage is a place <strong>where</strong> orphans live.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Defining vs Non-defining</h3>
+      <ul>
+        <li><strong>Defining (restrictive)</strong> — identifies which one; NO commas:<br>
+          <em>The book <strong>that I borrowed</strong> was excellent.</em> (specifies which book)</li>
+        <li><strong>Non-defining (non-restrictive)</strong> — adds extra info; USE commas; use <em>which</em> (NOT that):<br>
+          <em>This book, <strong>which I borrowed from the library</strong>, was excellent.</em></li>
+        <li><strong>that</strong> can only be used in defining clauses (not after commas).</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Khi nào bỏ được đại từ quan hệ?</strong><br>
+    Có thể bỏ <em>who, whom, that, which</em> khi đó là tân ngữ của mệnh đề quan hệ:<br>
+    ✓ <em>The book [<s>that</s>] I read was great.</em> (I read the book → "that" là tân ngữ → có thể bỏ)<br>
+    ✗ Không được bỏ khi là chủ ngữ: <em>The book <strong>that</strong> was on the table…</em></div>
+  </div>
+  <div id="s3b-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Choose the Correct Relative Pronoun</div>
+      <div id="s3b-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s3b-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s3b-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s3b')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s3b')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s3b')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s3b"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3c: COMPLEX – NOUN CLAUSES ===== -->
+<div id="s3c" class="section-page">
+  <div class="page-header">
+    <h1>💬 Complex – Noun Clauses</h1>
+    <p>Dependent clauses that function as nouns: that, whether/if, wh-words</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s3c-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s3c-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s3c-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Noun Clause = Subject or Object</h3>
+      <div class="example"><strong>[That there is a hole in the ozone layer]</strong> is well known. → noun clause as subject</div>
+      <div class="example">Scientists know <strong>[what caused it]</strong>. → noun clause as object</div>
+    </div>
+    <div class="rule-box">
+      <h3>📋 Noun Clause Connectors</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Type</th><th>Words</th><th>Example</th></tr>
+        <tr><td>Statement content</td><td><strong>that</strong></td><td><em>She knows <strong>that</strong> grammar is important.</em></td></tr>
+        <tr><td>Yes/No question content</td><td><strong>whether, if, whether or not</strong></td><td><em>I don't know <strong>whether</strong> I locked the door.</em><br><em>Do you know <strong>if</strong> the bus has arrived?</em></td></tr>
+        <tr><td>Wh-question content</td><td><strong>who, what, where, when, why, how, which</strong></td><td><em>We should ask <strong>when</strong> the bus arrives.</em><br><em>Do you know <strong>where</strong> the station is?</em></td></tr>
+        <tr><td>Degree/quantity</td><td><strong>how much, how many, how long, how far</strong></td><td><em>He didn't care <strong>how long</strong> he had to wait.</em></td></tr>
+      </table></div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Word Order in Noun Clauses</h3>
+      <ul>
+        <li>Noun clauses always use <strong>statement word order</strong> (Subject + Verb), NOT question word order.</li>
+        <li>✗ <em>Do you know where <u>is the station</u>?</em></li>
+        <li>✓ <em>Do you know where <u>the station is</u>?</em></li>
+        <li>✗ <em>I wonder what <u>does he want</u>.</em></li>
+        <li>✓ <em>I wonder what <u>he wants</u>.</em></li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Phân biệt "if" và "whether":</strong><br>
+    <em>if</em> = thường dùng sau động từ; không dùng làm chủ ngữ.<br>
+    <em>whether</em> = dùng được ở cả đầu câu và cuối câu; chính thức hơn.<br>
+    ✓ <em><strong>Whether</strong> he comes or not doesn't matter.</em> (subject → phải dùng whether)<br>
+    ✓ <em>I don't know <strong>if/whether</strong> he is coming.</em></div>
+  </div>
+  <div id="s3c-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Noun Clause Connectors &amp; Word Order</div>
+      <div id="s3c-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s3c-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s3c-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s3c')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s3c')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s3c')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s3c"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: COMPOUND-COMPLEX ===== -->
+<div id="s4" class="section-page">
+  <div class="page-header">
+    <h1>🔀 Compound-Complex Sentence</h1>
+    <p>Two or more independent clauses + one or more dependent clauses</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'s4-learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab(this,'s4-ex')">✏️ Exercises</button>
+  </div>
+  <div id="s4-learn" class="tab-content active">
+    <div class="start-point">
+      <h3>✦ Definition</h3>
+      <p style="font-size:14px">A <strong>compound-complex sentence</strong> has <strong>two or more independent clauses</strong> AND <strong>one or more dependent clauses</strong>. It combines both compound and complex structures.</p>
+    </div>
+    <div class="rule-box">
+      <h3>🔧 Formation Examples</h3>
+      <div class="example">
+        ① <u>I wanted to travel</u> <em>after I graduated from college</em><strong>;</strong> <u>however, I had to go to work immediately</u>.<br>
+        [Indep. + dep. clause] ; [conjunctive adverb + indep.]
+      </div>
+      <div class="example">
+        ② <em>After I graduated from college,</em> <u>I wanted to travel</u><strong>,</strong> <u>but I had to go to work immediately</u>.<br>
+        [dep. clause,] [indep.] , but [indep.]
+      </div>
+      <div class="example">
+        ③ <u>I wanted to travel</u> <em>after I graduated from college</em><strong>,</strong> <u>but I had to go to work immediately</u> <em>because I had to support my family</em>.<br>
+        [indep. + dep.], but [indep. + dep.]
+      </div>
+      <div class="example">
+        ④ <u>I could not decide</u> <em>where I should work</em> or <em>what I should do</em><strong>,</strong> <u>so at first I did nothing</u>.<br>
+        [indep. + 2 noun clauses], so [indep.]
+      </div>
+    </div>
+    <div class="rule-box">
+      <h3>📌 Key Rules</h3>
+      <ul>
+        <li>Must have <strong>at least 2 independent clauses</strong> (compound) AND <strong>at least 1 dependent clause</strong> (complex).</li>
+        <li>The two independent clauses are joined by a coordinator, conjunctive adverb, or semicolon.</li>
+        <li>The dependent clause can be adverb, adjective, or noun clause.</li>
+        <li>All the punctuation rules from compound AND complex sentences apply.</li>
+      </ul>
+    </div>
+    <div class="tip-box"><strong>💡 Cách nhận biết:</strong><br>
+    Tìm: ① ít nhất 2 mệnh đề độc lập (có thể đứng một mình) + ② ít nhất 1 mệnh đề phụ (bắt đầu bằng subordinating conjunction, relative pronoun hoặc that/whether/wh-word).<br>
+    Câu compound-complex thường dài và phức tạp hơn — lý tưởng cho văn viết học thuật.</div>
+  </div>
+  <div id="s4-ex" class="tab-content">
+    <div class="ex-section">
+      <div class="ex-label">Part A – Identify &amp; Build Compound-Complex Sentences</div>
+      <div id="s4-qa"></div>
+      <div class="ex-label" style="margin-top:22px">Part B – Vietnamese → English Translation</div>
+      <div id="s4-qb"></div>
+      <div class="ex-label" style="margin-top:22px">Part C – Paragraph Writing</div>
+      <div id="s4-qc"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="scoreSection('s4')">✅ Score Part A</button>
+        <button class="btn btn-outline" onclick="revealTrans('s4')">👁 Show Translations</button>
+        <button class="btn btn-outline" onclick="revealWriting('s4')">📝 Show Model</button>
+      </div>
+      <div class="section-score" id="score-s4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RESULTS ===== -->
+<div id="results" class="section-page">
+  <div class="page-header">
+    <h1>📋 Results &amp; Report</h1>
+    <p id="results-info">Complete the exercises first, then generate your report here.</p>
+  </div>
+  <div class="results-grid">
+    <div class="result-card"><h3>Overall Score (Part A)</h3><div class="val" id="res-overall">—</div></div>
+    <div class="result-card"><h3>Sections Completed</h3><div class="val" id="res-sections">0 / 8</div></div>
+    <div class="result-card"><h3>Attempts</h3><div class="val" id="res-attempts">0</div></div>
+    <div class="result-card"><h3>Date</h3><div class="val" style="font-size:18px" id="res-date">—</div></div>
+  </div>
+  <div class="sub-heading">Section Breakdown</div>
+  <table class="section-scores-table">
+    <thead><tr><th>Section</th><th>Score</th><th>%</th><th>Status</th></tr></thead>
+    <tbody id="section-breakdown"></tbody>
+  </table>
+  <div class="sub-heading" style="margin-top:24px">❌ Error Log</div>
+  <div id="error-log-container"><div style="color:var(--muted);font-size:14px;padding:16px">Complete and score each section to see your errors here.</div></div>
+  <div class="sub-heading" style="margin-top:24px">📤 Export &amp; Send</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generateReport()">🖨️ Generate PDF Report</button>
+    <button class="btn btn-gold" onclick="sendToTeacher()">📧 Send to Teacher</button>
+    <button class="btn btn-outline" onclick="copyReport()">📋 Copy Report Text</button>
+  </div>
+  <div id="email-status" style="margin-top:12px;font-size:13.5px;display:none"></div>
+  <div style="margin-top:16px;padding:14px 18px;background:#fffbeb;border:1px solid rgba(180,83,9,.2);border-radius:8px;font-size:13px;color:var(--muted)">
+    📧 Results will be sent to: <strong style="color:var(--gold)">huongstella8@gmail.com</strong>
+  </div>
+</div>
+
+</div>
+<script>
+// ============================================================
+// EXERCISE DATA
+// ============================================================
+const SECTIONS = {
+  s0: {
+    qa: [
+      {q:"Identify the type: 'Grammar is easy.'",opts:["Simple","Compound","Complex","Compound-Complex"],ans:0,exp:"One independent clause with one subject (Grammar) and one verb (is). → Simple."},
+      {q:"Identify the type: 'I wanted to travel after I graduated, but I had to work immediately.'",opts:["Simple","Compound","Complex","Compound-Complex"],ans:3,exp:"Two independent clauses (I wanted…, I had to…) joined by 'but' + one dependent clause (after I graduated). → Compound-Complex."},
+      {q:"Identify the type: 'She studied hard, so she passed the exam.'",opts:["Simple","Compound","Complex","Compound-Complex"],ans:1,exp:"Two independent clauses joined by the coordinator 'so'. → Compound."},
+      {q:"Identify the type: 'Because it was raining, we stayed inside.'",opts:["Simple","Compound","Complex","Compound-Complex"],ans:2,exp:"One dependent clause (Because it was raining) + one independent clause (we stayed inside). → Complex."},
+      {q:"Which sentence uses a SUBORDINATING conjunction?",opts:["I was tired, but I finished.","I was tired; however, I finished.","Although I was tired, I finished.","I was tired. I finished."],ans:2,exp:"'Although' is a subordinating conjunction → creates a dependent clause → Complex sentence."},
+      {q:"Which sentence is COMPOUND using a conjunctive adverb?",opts:["Tom sings and dances.","Tom sings; moreover, he dances beautifully.","Tom sings, and he dances.","Tom, who sings well, also dances."],ans:1,exp:"Semicolon + conjunctive adverb (moreover) + comma joins two independent clauses. → Compound method 2."},
+    ],
+    qb: [
+      {vn:"Tiếng Anh có bốn loại câu chính.",hint:"four main sentence types",model:"English has four main sentence types.",note:"Simple sentence with one S + one V."},
+      {vn:"Anh ấy muốn du học, nhưng anh ấy không đủ tiền.",hint:"but / however",model:"He wanted to study abroad, but he didn't have enough money.",note:"Compound with FANBOYS 'but'. Comma before 'but'."},
+      {vn:"Mặc dù trời mưa, chúng tôi vẫn đi picnic.",hint:"although / even though",model:"Although it was raining, we still went on a picnic.",note:"Complex: dependent clause first → comma after."},
+      {vn:"Cô ấy đọc cuốn sách mà thầy giới thiệu.",hint:"which / that",model:"She read the book that the teacher recommended.",note:"Complex: adjective clause (defining → no comma)."},
+    ],
+    wc: {
+      prompt:"Write a short paragraph (5–7 sentences) about your daily routine. Use ALL FOUR sentence types: at least one simple, one compound, one complex, and one compound-complex sentence. Underline or label each type.",
+      hints:"wake up | because | although | however | therefore | after | so | but | when",
+      criteria:["Contains at least 1 simple sentence","Contains at least 1 compound sentence (FANBOYS or conjunctive adverb)","Contains at least 1 complex sentence (subordinator)","Contains at least 1 compound-complex sentence","Correct punctuation throughout"],
+      model:"I wake up at 6 a.m. every day. (Simple) I make coffee first, and then I take a shower. (Compound) Although I am not a morning person, I enjoy the quiet early hours. (Complex) I usually exercise in the morning because it energizes me; however, on weekends, I prefer to sleep in. (Compound-Complex) Getting a good start to the day helps me stay productive.",
+      takeaway:"Key takeaway: Using all four sentence types creates variety and sophistication in writing — the hallmark of an advanced writer."
+    }
+  },
+  s1: {
+    qa: [
+      {q:"Which is a simple sentence?",opts:["She sings and dances beautifully.","She sings, and she dances beautifully.","Although she sings, she also dances.","She sings; moreover, she dances."],ans:0,exp:"One subject (She) + two verbs (sings, dances) = still one clause → Simple. Option B has two clauses (she sings / she dances)."},
+      {q:"Which is NOT a simple sentence?",opts:["My brother and I play tennis every weekend.","Salt water and fresh water do not freeze at the same temperature.","Freshwater boils at 100°C, but salt water boils at a higher temperature.","The tired old cat slept on the warm sunny windowsill all afternoon."],ans:2,exp:"Option C has two independent clauses joined by 'but' → Compound. The others are simple (even if long)."},
+      {q:"How many verbs does a simple sentence have?",opts:["Always exactly one","Always exactly two","At least one, but possibly more","Only auxiliary verbs"],ans:2,exp:"A simple sentence can have multiple verbs: 'She sings AND dances' — still simple because there is only ONE independent clause."},
+      {q:"'The coach and the players celebrated and cheered after the game.' This sentence has:",opts:["1 subject, 1 verb","2 subjects, 2 verbs, but still simple","2 independent clauses → Compound","An adverb clause → Complex"],ans:1,exp:"2 subjects (coach, players) + 2 verbs (celebrated, cheered) — but only ONE independent clause → still Simple. 'after the game' is a prepositional phrase, not a clause."},
+      {q:"Choose the best replacement for the UNDERLINED word to make the sentence more precise: 'The hotel has a <u>nice</u> pool.'",opts:["good","large heated","big and nice","wonderful"],ans:1,exp:"'Large heated' is specific and descriptive — good writers replace vague words like 'nice' or 'good' with precise vocabulary."},
+      {q:"Which simple sentence is MOST varied and sophisticated?",opts:["The food is good.","The food is delicious and nutritious.","I ate the food.","The food was nice."],ans:1,exp:"'Delicious and nutritious' uses compound adjectives. Simple sentences benefit from precise, layered description."},
+    ],
+    qb: [
+      {vn:"Nước ngọt sôi ở 100°C.",hint:"boil / fresh water / at sea level",model:"Freshwater boils at 100°C at sea level.",note:"Classic simple sentence: 1 S + 1 V. Add detail with prepositional phrases."},
+      {vn:"Cô gái Việt Nam trẻ, cao và có nụ cười tươi bước chậm xuống con phố hẹp.",hint:"young Vietnamese woman / bright smile / slowly / narrow street",model:"The young Vietnamese woman with a bright smile walked slowly down the narrow street.",note:"Simple sentence can be long with many modifying phrases."},
+      {vn:"Anh ấy và em trai anh ấy học và làm việc rất chăm chỉ.",hint:"brother / study / work hard",model:"He and his brother study and work very hard.",note:"2 subjects + 2 verbs = still Simple sentence."},
+      {vn:"Những đứa trẻ vui vẻ chơi đùa và cười đùa trong sân trường.",hint:"happy children / play / laugh / school yard",model:"The happy children played and laughed in the school yard.",note:"Compound verb (played and laughed) in a simple sentence."},
+    ],
+    wc: {
+      prompt:"Describe your hometown or a place you love in 5–6 simple sentences. Avoid making any compound or complex sentences. Focus on using precise, varied vocabulary instead of repeating 'nice' or 'good'.",
+      hints:"bustling | serene | charming | historic | vibrant | overlooking | nestled | sprawling | lively | picturesque",
+      criteria:["All sentences are simple (no connectors like 'and' joining two full clauses, no subordinators)","Uses at least 4 descriptive/precise adjectives","No repetition of basic words like 'nice', 'good', 'big'","Each sentence describes a different aspect of the place","Correct grammar throughout"],
+      model:"My hometown is a charming coastal city in central Vietnam. Colourful fishing boats dot the serene harbour every morning. The ancient citadel, built centuries ago, overlooks a lush, green valley. Bustling street markets fill every corner with delicious aromas and cheerful noise. Locals and tourists alike stroll along the picturesque riverbank at sunset.",
+      takeaway:"Key takeaway: Simple sentences are powerful when they use precise vocabulary. A short, vivid simple sentence at the end of a paragraph creates a strong impact."
+    }
+  },
+  s2a: {
+    qa: [
+      {q:"Choose the correct coordinator: 'He was exhausted, ___ he kept walking.'",opts:["for","so","yet","or"],ans:2,exp:"'Yet' = unexpected continuation/contrast. He was exhausted (expected to stop), yet he kept walking (surprising continuation)."},
+      {q:"'She didn't call, ___ did she send a message.' — Which coordinator fits?",opts:["and","but","nor","or"],ans:2,exp:"'Nor' adds a negative equal idea. Note the inverted word order after 'nor': 'nor did she...'"},
+      {q:"'Study daily, ___ you will forget everything by exam time.' — Choose the correct coordinator.",opts:["and","but","or","so"],ans:2,exp:"'Or' presents a negative alternative/consequence: study OR (else) forget everything."},
+      {q:"'Diet is important, ___ exercise is equally vital.' — Best coordinator?",opts:["for","and","so","yet"],ans:1,exp:"'And' adds a similar, equal idea — both diet and exercise are important."},
+      {q:"Which sentence is punctuated CORRECTLY?",opts:["She was tired but she didn't stop.","She was tired, but she didn't stop.","She was tired, but, she didn't stop.","She was tired but, she didn't stop."],ans:1,exp:"Comma goes BEFORE the coordinator (but) when joining two independent clauses. Never after."},
+      {q:"'I skipped breakfast ___ I was not hungry.' (reason) — Correct coordinator:",opts:["for","so","yet","and"],ans:0,exp:"'For' = because / gives a reason. Note: 'for' as a coordinator is formal; 'because' is more common in speech."},
+    ],
+    qb: [
+      {vn:"Cô ấy học rất chăm chỉ, vì vậy cô ấy đạt điểm cao.",hint:"study hard / so / high score",model:"She studied very hard, so she got high scores.",note:"'so' = expected result. Comma before 'so'."},
+      {vn:"Anh ta không ăn thịt đỏ, anh ta cũng không uống rượu.",hint:"nor / red meat / alcohol",model:"He does not eat red meat, nor does he drink alcohol.",note:"'nor' = add negative equal idea. Inverted word order: 'nor DOES he drink'."},
+      {vn:"Giá cả ở đây cao, nhưng chất lượng thật sự rất tốt.",hint:"prices / high / but / quality",model:"The prices here are high, but the quality is truly excellent.",note:"'but' = add opposite idea. Comma before 'but'."},
+      {vn:"Tiết kiệm tiền ngay bây giờ, nếu không bạn sẽ hối hận sau.",hint:"save money / or / regret later",model:"Save money now, or you will regret it later.",note:"'or' = alternative/consequence. Common in advice/warnings."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (5–6 sentences) about the advantages and disadvantages of social media. Use at least 3 different FANBOYS coordinators. Make sure each coordinator joins two complete independent clauses with correct punctuation.",
+      hints:"for / and / nor / but / or / yet / so | benefits | drawbacks | connection | addiction | distraction | productivity | mental health",
+      criteria:["Uses at least 3 different FANBOYS coordinators","Each coordinator joins two full independent clauses","Correct comma placement before each coordinator","The paragraph flows logically (advantages then disadvantages or compare side by side)","At least one use of 'yet' or 'nor'"],
+      model:"Social media connects people across the world, and it enables instant communication at no cost. Many people use it to share ideas, for it provides a global platform. It can be a powerful tool for learning, yet it often becomes a source of distraction. Students should set time limits, or their productivity will suffer. Social media does not always reflect reality, nor does it always promote mental well-being. Overall, we must use it mindfully, so it remains a benefit rather than a burden.",
+      takeaway:"Key takeaway: FANBOYS coordinators each signal a specific logical relationship — choose the right one to show your exact meaning. 'And' ≠ 'but' ≠ 'so'."
+    }
+  },
+  s2b: {
+    qa: [
+      {q:"'Pollution is increasing; ___, the government must act.' — Best conjunctive adverb?",opts:["however","therefore","moreover","nevertheless"],ans:1,exp:"'Therefore' = result/conclusion. Pollution increasing → therefore action is needed. Semicolon before, comma after."},
+      {q:"'She is very intelligent; ___, she failed the test.' — Choose correctly.",opts:["therefore","furthermore","however","likewise"],ans:2,exp:"'However' = unexpected contrast. Being intelligent is positive → failing is unexpected/opposite."},
+      {q:"'He was late to class; ___, he forgot his homework.' — Best fit?",opts:["moreover","however","therefore","instead"],ans:0,exp:"'Moreover' / 'furthermore' / 'in addition' = adding more of the same (additional problem). Two problems piling up."},
+      {q:"'Don't use your phone while driving; ___, you could cause an accident.' — Choose:",opts:["however","otherwise","therefore","furthermore"],ans:1,exp:"'Otherwise' = if not (conditional consequence). Don't use phone WHILE DRIVING; otherwise (if you do) → accident."},
+      {q:"Which sentence is punctuated CORRECTLY?",opts:["I was tired however, I kept working.","I was tired; however I kept working.","I was tired; however, I kept working.","I was tired, however; I kept working."],ans:2,exp:"Pattern: [independent clause]; [conjunctive adverb], [independent clause]. Semicolon BEFORE, comma AFTER."},
+      {q:"'Community colleges are affordable; ___, many students choose them over universities.' — Best fit?",opts:["however","on the contrary","as a result","instead"],ans:2,exp:"'As a result' = expected result/consequence. Being affordable → results in students choosing them."},
+    ],
+    qb: [
+      {vn:"Giá nhà đang tăng cao; hơn nữa, lãi suất ngân hàng cũng tăng.",hint:"house prices / moreover / interest rates",model:"House prices are rising; moreover, bank interest rates are also increasing.",note:"'moreover' = in addition (same direction). Pattern: ; moreover, "},
+      {vn:"Cô ấy không hề lười biếng; ngược lại, cô ấy là học sinh chăm chỉ nhất lớp.",hint:"on the contrary / hard-working / student",model:"She is not lazy at all; on the contrary, she is the hardest-working student in the class.",note:"'on the contrary' = first statement is false, second is the truth."},
+      {vn:"Hãy luyện tập mỗi ngày; nếu không, bạn sẽ không thể cải thiện được.",hint:"practice / otherwise / improve",model:"Practice every day; otherwise, you will not be able to improve.",note:"'otherwise' = if not → consequence."},
+      {vn:"Chúng tôi đặt chỗ từ trước; vì vậy, chúng tôi không phải chờ đợi.",hint:"book in advance / therefore / wait",model:"We made a reservation in advance; therefore, we did not have to wait.",note:"'therefore' = expected result."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (5–6 sentences) comparing city life and village life using conjunctive adverbs. Try to include conjunctive adverbs from at least 3 different categories (e.g., addition, contrast, result).",
+      hints:"furthermore / however / as a result / on the other hand / consequently / moreover / nevertheless / in addition | amenities | convenience | pace of life | community | stress | nature | pollution",
+      criteria:["Uses at least 3 different conjunctive adverbs from different categories","Correct punctuation: semicolon before, comma after","Logical flow and coherence","Covers both city and village perspectives","At least one 'contrast' conjunctive adverb"],
+      model:"City life offers convenience and countless opportunities; moreover, access to healthcare and education is far superior. However, the pace of life is extremely fast; consequently, many urban residents suffer from stress and burnout. Village life, on the other hand, provides clean air and a strong sense of community. The cost of living is lower; furthermore, people tend to know their neighbours well. Nevertheless, limited job opportunities push many young people toward the cities.",
+      takeaway:"Key takeaway: Conjunctive adverbs are more formal and precise than FANBOYS. They explicitly signal the logical relationship between ideas — essential for academic and professional writing."
+    }
+  },
+  s2c: {
+    qa: [
+      {q:"Which sentence uses a semicolon CORRECTLY to join two independent clauses?",opts:["I was hungry; so I ate.","I was hungry; I ate.","I was hungry, I ate.","I was hungry; eating quickly."],ans:1,exp:"A semicolon alone (method 3) joins two closely related independent clauses without any connector. Option A uses 'so' incorrectly — 'so' is a coordinator (method 1), needs a comma not a semicolon."},
+      {q:"Which sentence is punctuated INCORRECTLY?",opts:["She loves jazz; he prefers classical.","Grammar is easy; I learned it quickly.","Because she was tired; she went to bed.","The rain stopped; the sun appeared."],ans:2,exp:"'Because she was tired' is a dependent clause — you cannot use a semicolon with a subordinating conjunction. Use a comma instead: 'Because she was tired, she went to bed.'"},
+      {q:"'Poland changed first; others followed.' — What type of sentence is this?",opts:["Simple","Compound (semicolon alone)","Complex","Compound-Complex"],ans:1,exp:"Two independent clauses joined by a semicolon alone (method 3 compound). The relationship (result/sequence) is clear without a connector."},
+      {q:"When is a semicolon alone most appropriate?",opts:["When two clauses contrast sharply","When two clauses are closely and obviously related","When a clause starts with 'because'","When joining three or more clauses"],ans:1,exp:"The semicolon alone works best when the relationship between the two clauses is clear and obvious without an explicit connector."},
+      {q:"Choose the EQUIVALENT compound sentence using Method 1 (FANBOYS) for: 'The alarm rang; she got up immediately.'",opts:["The alarm rang, so she got up immediately.","The alarm rang, but she got up immediately.","Although the alarm rang, she got up immediately.","The alarm rang; therefore, she got up immediately."],ans:0,exp:"'So' shows result — she got up BECAUSE the alarm rang. Option D is Method 2. Options B and C change the meaning."},
+      {q:"Which pair could BEST be joined by a semicolon alone (because the connection is obvious)?",opts:["She likes ice cream. The sky is blue.","It rained all day. We stayed indoors.","He is tall. Grammar is complex.","She cooks well. He plays football."],ans:1,exp:"It rained → we stayed indoors (obvious cause-result). The other pairs have no obvious relationship."},
+    ],
+    qb: [
+      {vn:"Trời mưa cả ngày; chúng tôi ở trong nhà.",hint:"it rained / stayed indoors",model:"It rained all day; we stayed indoors.",note:"Semicolon alone: obvious relationship (cause-result). No connector needed."},
+      {vn:"Chị ấy thích jazz; anh ấy thích nhạc cổ điển.",hint:"prefer / jazz / classical music",model:"She loves jazz; he prefers classical music.",note:"Semicolon alone: direct contrast — no connector, but the opposition is clear."},
+      {vn:"Thành phố đã thay đổi; những thứ khác thì vẫn còn đó.",hint:"city / changed / rest / remained",model:"The city had changed; the rest had remained the same.",note:"Historical narrative — semicolon shows close sequence/contrast."},
+      {vn:"Anh ấy luyện tập mỗi ngày; sự tiến bộ của anh ấy thật ấn tượng.",hint:"practice / progress / impressive",model:"He practices every day; his progress is remarkable.",note:"Obvious result-relationship: daily practice → impressive progress."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (5–7 sentences) about a memorable trip or journey. Use all three methods to write compound sentences: (①) a FANBOYS coordinator, (②) a conjunctive adverb with proper punctuation, and (③) a semicolon alone. Label each method in brackets.",
+      hints:"moreover / however / as a result / therefore / but / so / and / yet / or",
+      criteria:["Uses Method 1 (FANBOYS + comma) at least once","Uses Method 2 (semicolon + conjunctive adverb + comma) at least once","Uses Method 3 (semicolon alone) at least once","Punctuation is correct for all compound structures","The paragraph reads naturally and tells a coherent story"],
+      model:"Last summer, I visited Da Nang for the first time, and the experience exceeded all my expectations. [Method 1] The beaches were breathtaking; moreover, the food was the best I had ever tasted. [Method 2] I had planned to visit the Marble Mountains on the first day; my travel partner convinced me to go to Hoi An instead. [Method 3] We nearly ran out of time at Hoi An, so we took a taxi back rather than the bus. [Method 1] I was exhausted by the last day; nevertheless, I refused to waste a single hour. [Method 2]",
+      takeaway:"Key takeaway: The three compound methods are interchangeable in meaning but differ in formality and emphasis. Semicolon alone = most formal and subtle; FANBOYS = most common; Conjunctive adverbs = most explicit about the relationship."
+    }
+  },
+  s3a: {
+    qa: [
+      {q:"'___ it was raining, we decided to go hiking anyway.' — Best subordinator?",opts:["Because","Although","Since","When"],ans:1,exp:"'Although' = partial contrast / concession. We went hiking IN SPITE OF the rain (unexpected). 'Because' would show reason, not contrast."},
+      {q:"'We study grammar ___ we can write better.' — Purpose subordinator?",opts:["because","so that","although","while"],ans:1,exp:"'So that' = purpose (why we do something). 'Because' would show past/present reason. 'So that' implies intention."},
+      {q:"'She practices every day ___ she has spare time.' — Correct subordinator for frequency/time?",opts:["whenever","while","so that","since"],ans:0,exp:"'Whenever' = every time that / at all times when. Perfect for a routine/repeated action."},
+      {q:"'He was ___ tired ___ he fell asleep during the meeting.' — Choose the correct result structure:",opts:["so / that","such / that","too / to","very / that"],ans:0,exp:"'so + adjective/adverb + that' = result clause. 'He was so tired that…' → tired to the degree that he fell asleep."},
+      {q:"Which sentence has a CONDITION adverb clause?",opts:["She sings as if she were a professional.","We cannot go anywhere because of the storm.","Unless you study daily, you will not improve.","While he reads, she writes."],ans:2,exp:"'Unless' = if not (condition). 'Unless you study daily' = If you do NOT study daily → the result follows."},
+      {q:"Punctuation: Where does a comma go when the adverb clause comes FIRST?",opts:["Before the subordinator","After the subordinator","After the dependent clause (before the main clause)","No comma is needed"],ans:2,exp:"When the dependent clause begins the sentence, put a comma AFTER the entire dependent clause, before the main clause. E.g., 'Although I was tired<strong>,</strong> I kept working.'"},
+    ],
+    qb: [
+      {vn:"Sau khi anh ấy tốt nghiệp, anh ấy quyết định đi du lịch.",hint:"after / graduate / decided / travel",model:"After he graduated, he decided to travel.",note:"'After' time clause. Clause first → comma after."},
+      {vn:"Tôi không thể đến buổi tiệc vì tôi phải làm việc.",hint:"because / attend / party / work",model:"I cannot attend the party because I have to work.",note:"'Because' reason clause. Clause at end → no comma before 'because'."},
+      {vn:"Mặc dù anh trai tôi thích nhạc cổ điển, tôi lại thích nhạc rock.",hint:"although / brother / classical / rock",model:"Although my brother likes classical music, I prefer rock.",note:"'Although' concession/contrast. Clause first → comma."},
+      {vn:"Học sinh học chăm đến nỗi giáo viên rất ấn tượng.",hint:"so hard that / students / impressed the teacher",model:"The students studied so hard that the teacher was very impressed.",note:"'so + adverb + that' = result clause."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (6–7 sentences) about why you are learning English or why English is important. Use at least 4 different subordinating conjunctions from different categories (time, reason, purpose, result, or condition/contrast).",
+      hints:"because / so that / in order that / although / even though / when / after / unless / while / until / since | opportunities | communicate | globally | challenge | essential | academic | career",
+      criteria:["Uses at least 4 different subordinating conjunctions","Covers at least 3 different clause categories (e.g., reason, purpose, contrast)","Correct comma placement (comma after front-position clause)","Logical and coherent paragraph","At least one 'so…that' or 'such…that' result clause"],
+      model:"I began studying English seriously when I entered university, because most academic resources are written in English. Although learning a new language is challenging, I found that it opened many doors for me. I practice speaking every day so that I can communicate fluently with international colleagues. Since English is the global language of business and science, mastering it has become essential. Unless you have strong English skills, many career opportunities will remain out of reach. I plan to take an IELTS exam after I finish this course. I have improved so much that my teacher has recommended me for the advanced class.",
+      takeaway:"Key takeaway: Adverb clauses add richness and precision to sentences. The same idea can be expressed with different subordinators — each one adds a different nuance (reason vs. purpose vs. condition vs. contrast)."
+    }
+  },
+  s3b: {
+    qa: [
+      {q:"'The person ___ called you is still waiting.' — Correct relative pronoun (subject)?",opts:["whom","whose","who","which"],ans:2,exp:"'Who' is used for people as the SUBJECT of the relative clause. 'Whom' is used when the person is the object."},
+      {q:"'The book ___ the teacher recommended was excellent.' — Correct relative pronoun (object)?",opts:["who","which / that","whose","whom"],ans:1,exp:"'Which' or 'that' for things as the object of the clause. You could also omit it: 'The book the teacher recommended…'"},
+      {q:"'A widow is a woman ___ husband has died.' — Which relative pronoun shows possession?",opts:["who","whom","which","whose"],ans:3,exp:"'Whose' shows possession (her husband). Works for people, animals, and sometimes things."},
+      {q:"'Thanksgiving is a time ___ families gather together.' — Best relative pronoun?",opts:["which","who","when","where"],ans:2,exp:"'When' refers to a TIME noun (time, day, year, moment, etc.)."},
+      {q:"'An orphanage is a place ___ children without parents live.' — Correct relative pronoun?",opts:["when","that","where","who"],ans:2,exp:"'Where' refers to a PLACE noun."},
+      {q:"Which sentence is punctuated CORRECTLY (non-defining clause needs commas)?",opts:["My sister who lives in Hanoi is a doctor.","My sister, who lives in Hanoi, is a doctor.","My sister who lives in Hanoi, is a doctor.","My sister, who lives in Hanoi is a doctor."],ans:1,exp:"If I have only one sister, the clause 'who lives in Hanoi' is non-defining (extra info) → needs commas around it."},
+    ],
+    qb: [
+      {vn:"Những người sống trong những ngôi nhà kính không nên ném đá.",hint:"people who / live / glass houses / throw stones",model:"People who live in glass houses should not throw stones.",note:"'who' = subject relative pronoun for people. Defining clause → no commas."},
+      {vn:"Đây là cuốn sách mà tôi đã mua ở hội sách.",hint:"the book / that / I bought / book fair",model:"This is the book that I bought at the book fair.",note:"'that' for things in defining clause. Can also be omitted: 'the book I bought'."},
+      {vn:"Cô ấy kết hôn với người đàn ông mà tôi đã giới thiệu cho cô ấy.",hint:"marry / the man / whom / introduce to her",model:"She married the man whom I introduced to her.",note:"'whom' = object relative pronoun (formal). Informal: 'the man that / the man Ø I introduced...'"},
+      {vn:"Hà Nội, thành phố nơi tôi sinh ra, có hàng nghìn năm lịch sử.",hint:"Hanoi / where / born / thousands of years of history",model:"Hanoi, where I was born, has thousands of years of history.",note:"'where' for place in non-defining clause → commas around the clause."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (5–6 sentences) defining or describing different types of people using adjective clauses. For example: 'A teacher is a person who…', 'A leader is someone who…', etc. Use at least 3 different relative pronouns (who, whose, whom or where/when).",
+      hints:"who / whose / whom / where / when / which / that | inspire / dedicate / volunteer / sacrifice / innovate / empower | community / society / profession / impact",
+      criteria:["Uses at least 3 different relative pronouns","At least one defining clause (no commas)","At least one non-defining clause (with commas)","Meaningful definitions or descriptions","Correct grammar and punctuation"],
+      model:"A teacher is a person who dedicates their life to inspiring others. A mentor is someone whose guidance shapes the future of the people around them. The library is a place where curious minds find answers to all their questions. A true leader is one whom people respect not because of authority but because of character. Graduation is a moment when students reflect on years of hard work and sacrifice.",
+      takeaway:"Key takeaway: Adjective clauses make definitions more precise and descriptions richer. 'Who' = subject for people; 'whom' = object for people; 'which/that' = animals/things; 'when/where' = time/place nouns."
+    }
+  },
+  s3c: {
+    qa: [
+      {q:"'I don't know ___ the bus has arrived.' — Yes/No question content?",opts:["that","what","whether","who"],ans:2,exp:"'Whether' or 'if' introduces noun clauses from yes/no questions. 'Is the bus here?' → I don't know whether/if the bus has arrived."},
+      {q:"'Do you know ___ the next class starts?' — Correct word order?",opts:["when does the next class start","when the next class starts","that the next class starts","when starts the next class"],ans:1,exp:"Noun clauses use STATEMENT word order: subject + verb. NOT question word order. 'when the next class starts' (not 'when does…')"},
+      {q:"'___ she passed the exam surprised everyone.' — Subject noun clause?",opts:["Whether","If","When","How"],ans:0,exp:"'Whether' can be used at the start of a sentence as subject. 'If' cannot be used as a subject noun clause. 'That she passed…' would also work."},
+      {q:"'Scientists proved ___ the Earth orbits the Sun.' — Correct connector?",opts:["whether","what","that","how"],ans:2,exp:"'That' introduces noun clauses from statements (factual content). 'Scientists proved [that the Earth orbits the Sun].'"},
+      {q:"'I wonder ___ much time we have left.' — Choose correctly:",opts:["how","what","that","whether"],ans:0,exp:"'How much / how many / how long / how far' = degree/quantity wh-words in noun clauses. 'I wonder how much time...'"},
+      {q:"Which sentence has INCORRECT word order in the noun clause?",opts:["Tell me what you want.","I wonder where he lives.","Do you know where does she work?","She asked when the meeting would start."],ans:2,exp:"'where does she work' → question word order (WRONG in noun clause). Correct: 'where she works' (statement order)."},
+    ],
+    qb: [
+      {vn:"Tôi không biết liệu anh ấy có đến hay không.",hint:"whether / whether or not / know",model:"I don't know whether he will come or not.",note:"'whether…or not' for yes/no content embedded in a statement."},
+      {vn:"Điều mọi người muốn biết là tại sao cô ấy từ chức.",hint:"what people want to know / why / resign",model:"What everyone wants to know is why she resigned.",note:"Noun clause as subject: 'What everyone wants to know...' — statement word order."},
+      {vn:"Cô giáo hỏi tôi rằng tôi đã học bài chưa.",hint:"teacher asked / whether / had studied",model:"The teacher asked me whether I had studied the lesson.",note:"Reported question (yes/no) → whether/if + statement order. Past tense backshift."},
+      {vn:"Anh ấy không quan tâm mình phải chờ bao lâu.",hint:"didn't care / how long / wait",model:"He didn't care how long he had to wait.",note:"'how long' = degree/quantity noun clause connector."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (5–6 sentences) about an important decision you made or are considering (career, study, travel, etc.). Use at least 3 noun clauses with different connectors (that, whether/if, wh-words).",
+      hints:"whether / that / what / why / how / where / when / if | realize / consider / decide / wonder / know / believe / discover | opportunity / challenge / future / choice",
+      criteria:["Uses at least 3 noun clauses with different connectors","Includes at least one 'that' clause","Includes at least one 'whether/if' clause","Includes at least one wh-word clause","Statement word order inside all noun clauses (no question inversion)"],
+      model:"I have been thinking about whether I should pursue a master's degree abroad or stay in Vietnam. My family believes that studying overseas will open many doors for me. What worries me most is how I will manage the cost of living in a foreign country. However, I know that opportunity rarely comes twice, and I must be brave. I have not yet decided where I will apply or when I will start the application process. In the end, what matters is that I make a decision I will not regret.",
+      takeaway:"Key takeaway: Noun clauses let you embed whole ideas (questions and statements) inside another clause. Remember: ALWAYS use statement word order inside a noun clause, never question word order."
+    }
+  },
+  s4: {
+    qa: [
+      {q:"'I wanted to travel after I graduated, but I had to work.' — What type is this?",opts:["Simple","Compound","Complex","Compound-Complex"],ans:3,exp:"Two independent clauses (I wanted to travel / I had to work) joined by 'but' + one dependent clause (after I graduated). → Compound-Complex."},
+      {q:"How many independent AND dependent clauses does a compound-complex sentence need?",opts:["1 independent + 1 dependent","2+ independent + 1+ dependent","1 independent + 2+ dependent","3+ clauses of any type"],ans:1,exp:"Compound-complex = compound (2+ independent clauses) + complex (1+ dependent clause). Minimum: 2 independent + 1 dependent."},
+      {q:"'Because she studied hard, she passed; moreover, she won a scholarship.' — Is this compound-complex?",opts:["Yes — 2 independent clauses + 1 dependent clause","No — only 1 independent clause","No — only compound","Yes — but punctuation is wrong"],ans:0,exp:"Dependent: 'Because she studied hard' + Independent: 'she passed' + Independent: 'she won a scholarship' (joined by moreover). → Compound-Complex, correctly punctuated."},
+      {q:"'Although he works long hours, he exercises daily, and he sleeps well.' — Identify the structure:",opts:["Complex only","Compound only","Compound-Complex","Simple with modifiers"],ans:2,exp:"Dependent: 'Although he works long hours' + Independent: 'he exercises daily' + Independent: 'he sleeps well' (joined by 'and'). → Compound-Complex."},
+      {q:"Which sentence is compound-complex?",opts:["She is tired but happy.","After she graduated, she found a great job.","She graduated, and she is now working at a company that she loves.","She worked hard; as a result, she succeeded."],ans:2,exp:"Option C: Independent (She graduated) + Independent (she is now working) + Dependent adjective clause (that she loves). → Compound-Complex. Option D is Compound only."},
+      {q:"'I could not decide where I should work or what I should do, so at first I did nothing.' — How many noun clauses are embedded?",opts:["One","Two","Three","None"],ans:1,exp:"Two noun clauses: 'where I should work' and 'what I should do' — both are objects of 'decide'. Plus one independent clause after 'so'."},
+    ],
+    qb: [
+      {vn:"Mặc dù anh ấy mệt, anh ấy vẫn tiếp tục làm việc, và anh ấy đã hoàn thành dự án đúng hạn.",hint:"although / tired / keep working / finish / project / on time",model:"Although he was tired, he kept working, and he finished the project on time.",note:"Compound-Complex: [dep. clause], [indep.], and [indep.]"},
+      {vn:"Tôi không thể quyết định mình muốn học gì, vì vậy lúc đầu tôi không đăng ký khóa học nào.",hint:"decide / what to study / so / at first / enroll / any course",model:"I could not decide what I wanted to study, so at first I did not enroll in any course.",note:"Noun clause ('what I wanted to study') + compound structure ('so')."},
+      {vn:"Khi chúng tôi đến, bữa tiệc đã bắt đầu rồi, nhưng chủ nhà vẫn chào đón chúng tôi nồng nhiệt.",hint:"when / arrived / party / started / but / host / warmly",model:"When we arrived, the party had already started, but the host still welcomed us warmly.",note:"[dep. clause], [indep.], but [indep.] → Compound-Complex."},
+      {vn:"Cô ấy đặt vé sớm vì sợ hết chỗ; hơn nữa, cô ấy còn book khách sạn ngay sau đó.",hint:"book tickets early / because / run out / moreover / reserve hotel",model:"She booked tickets early because she was afraid they would sell out; moreover, she reserved a hotel right after that.",note:"[indep. + dep. clause]; moreover, [indep.] → Compound-Complex with conjunctive adverb."},
+    ],
+    wc: {
+      prompt:"Write a paragraph (6–8 sentences) about a goal you are working toward. Mix all sentence types to show variety: use at least 1 simple, 1 compound, 1 complex, and 2 compound-complex sentences. Your paragraph should have a clear introduction, body, and conclusion.",
+      hints:"although / because / so that / when / however / therefore / as a result / but / and / so / yet / who / which / where",
+      criteria:["Contains at least 1 simple sentence","Contains at least 1 compound sentence","Contains at least 1 complex sentence","Contains at least 2 compound-complex sentences","All four sentence types are used with correct punctuation","The paragraph is cohesive and organized"],
+      model:"I have a clear goal: to become a skilled English teacher. (Simple) Teaching requires patience, and it demands strong communication skills. (Compound) Although the training process is long, I am fully committed to this path. (Complex) I study grammar every day because I know that a strong foundation is essential, and I also practice teaching small groups on weekends. (Compound-Complex) When I feel discouraged, I remind myself why I chose this profession; moreover, I think about the students I will one day inspire. (Compound-Complex) I am making steady progress. (Simple) My mentor believes that I have potential, so I trust the process and keep going. (Compound-Complex)",
+      takeaway:"Key takeaway: Skilled writers use all four sentence types strategically. Short simple sentences create impact. Compound sentences show equal relationships. Complex sentences add nuance. Compound-complex sentences demonstrate advanced control of grammar."
+    }
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let studentName = '', studentDate = '', studentClass = '';
+let totalAttempts = 0;
+const sectionData = {};
+const allSectionIds = ['s0','s1','s2a','s2b','s2c','s3a','s3b','s3c','s4'];
+const sectionNames = {s0:'Overview',s1:'Simple Sentence',s2a:'Compound – FANBOYS',s2b:'Compound – Conj. Adverbs',s2c:'Compound – Semicolon',s3a:'Complex – Adverb Clauses',s3b:'Complex – Adjective Clauses',s3c:'Complex – Noun Clauses',s4:'Compound-Complex'};
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  document.getElementById('student-date').value = today.toISOString().split('T')[0];
+  allSectionIds.forEach(id => {
+    sectionData[id] = {score:null,total:0,errors:[],transAnswers:{},writingScore:null,writingText:'',attempts:0};
+    if(SECTIONS[id]) buildExercises(id);
+  });
+});
+
+function startStudy() {
+  const n = document.getElementById('student-name').value.trim();
+  const d = document.getElementById('student-date').value;
+  const c = document.getElementById('student-class').value.trim();
+  if(!n){alert('Please enter your name.');return;}
+  studentName = n; studentDate = d; studentClass = c || 'N/A';
+  document.getElementById('info-overlay').style.display = 'none';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(id) {
+  document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById(id);
+  const nav = document.getElementById('nav-'+id);
+  if(page) page.classList.add('active');
+  if(nav) nav.classList.add('active');
+  if(id === 'results') updateResults();
+}
+
+function switchTab(btn, contentId) {
+  const section = btn.closest('.section-page');
+  section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+
+// ============================================================
+// BUILD EXERCISES
+// ============================================================
+function buildExercises(sid) {
+  const data = SECTIONS[sid];
+  if(!data) return;
+
+  // Part A MCQ
+  const qaEl = document.getElementById(sid+'-qa');
+  if(qaEl && data.qa) {
+    qaEl.innerHTML = data.qa.map((q,i) => `
+      <div class="q-block" id="${sid}-qblock-${i}">
+        <div class="q-num">Question ${i+1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="opt-group">
+          ${q.opts.map((o,j) => `<div class="opt" onclick="selectOpt('${sid}',${i},${j},this)">${o}</div>`).join('')}
+        </div>
+        <div class="feedback" id="${sid}-fb-${i}"></div>
+      </div>`).join('');
+  }
+
+  // Part B Translation
+  const qbEl = document.getElementById(sid+'-qb');
+  if(qbEl && data.qb) {
+    qbEl.innerHTML = data.qb.map((q,i) => `
+      <div class="trans-block" id="${sid}-tb-${i}">
+        <div class="vn-sent">🇻🇳 ${q.vn}</div>
+        ${q.hint ? `<div class="hint-box"><strong>💡 Hint:</strong> ${q.hint}</div>` : ''}
+        <textarea class="trans-input" placeholder="Write your English translation here…" oninput="saveTransAnswer('${sid}',${i},this.value)" rows="2"></textarea>
+        <div class="model-answer" id="${sid}-ma-${i}">
+          <div class="label">Model Answer</div>
+          <div class="answer">✅ ${q.model}</div>
+          ${q.note ? `<div style="font-size:12px;color:#475569;margin-top:6px">📌 ${q.note}</div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  // Part C Writing
+  const qcEl = document.getElementById(sid+'-qc');
+  if(qcEl && data.wc) {
+    const w = data.wc;
+    qcEl.innerHTML = `
+      <div class="writing-block">
+        <div class="writing-prompt">✍️ <strong>Task:</strong> ${w.prompt}</div>
+        ${w.hints ? `<div class="hint-box" style="margin:8px 0"><strong>💡 Word bank / hints:</strong> ${w.hints}</div>` : ''}
+        <div style="margin:10px 0"><strong style="font-size:13px;color:var(--muted)">Success criteria:</strong>
+        <ul class="writing-criteria">${w.criteria.map(c=>`<li>${c}</li>`).join('')}</ul></div>
+        <textarea class="writing-area" id="${sid}-writing" placeholder="Write your paragraph here…" oninput="sectionData['${sid}'].writingText=this.value" rows="6"></textarea>
+        <div class="model-para" id="${sid}-model-para">
+          <div class="label">Model Answer</div>
+          <div class="answer">${w.model}</div>
+          <div class="takeaway">🌟 ${w.takeaway}</div>
+        </div>
+      </div>`;
+  }
+
+  sectionData[sid].total = data.qa ? data.qa.length : 0;
+}
+
+// ============================================================
+// SCORING
+// ============================================================
+const selectedOpts = {};
+function selectOpt(sid, qIdx, optIdx, el) {
+  const key = sid+'-'+qIdx;
+  if(selectedOpts[key] !== undefined) return;
+  selectedOpts[key] = optIdx;
+  const block = document.getElementById(sid+'-qblock-'+qIdx);
+  const opts = block.querySelectorAll('.opt');
+  const correct = SECTIONS[sid].qa[qIdx].ans;
+  const exp = SECTIONS[sid].qa[qIdx].exp;
+  opts[correct].classList.add('correct-opt');
+  if(optIdx !== correct){
+    el.classList.add('wrong-opt');
+    block.classList.add('wrong-block');
+  } else {
+    block.classList.add('correct-block');
+  }
+  opts.forEach(o => o.style.cursor='default');
+  const fb = document.getElementById(sid+'-fb-'+qIdx);
+  fb.innerHTML = (optIdx===correct ? '✅ Correct! ' : '❌ Incorrect. ') + exp;
+  fb.className = 'feedback show ' + (optIdx===correct?'ok':'err');
+}
+
+function scoreSection(sid) {
+  totalAttempts++;
+  sectionData[sid].attempts++;
+  const qa = SECTIONS[sid].qa;
+  let correct = 0;
+  const errors = [];
+  qa.forEach((q,i) => {
+    const key = sid+'-'+i;
+    const chosen = selectedOpts[key];
+    if(chosen === undefined) {
+      errors.push({q:q.q, chosen:'(not answered)', correct:q.opts[q.ans], exp:q.exp});
+    } else if(chosen !== q.ans) {
+      errors.push({q:q.q, chosen:q.opts[chosen], correct:q.opts[q.ans], exp:q.exp});
+    } else {
+      correct++;
+    }
+  });
+  sectionData[sid].score = correct;
+  sectionData[sid].errors = errors;
+  const pct = Math.round(correct/qa.length*100);
+  const scoreEl = document.getElementById('score-'+sid);
+  if(scoreEl){
+    scoreEl.innerHTML = `Part A Score: ${correct}/${qa.length} (${pct}%) — ${pct>=80?'🌟 Excellent!':pct>=60?'👍 Good progress!':'📚 Keep practicing!'}`;
+    scoreEl.className = 'section-score show';
+  }
+  const badge = document.getElementById('badge-'+sid);
+  if(badge){badge.textContent=`${pct}%`;badge.parentElement.classList.add('scored');}
+  updateProgress();
+}
+
+function saveTransAnswer(sid, i, val) {
+  if(!sectionData[sid].transAnswers) sectionData[sid].transAnswers = {};
+  sectionData[sid].transAnswers[i] = val;
+}
+
+function revealTrans(sid) {
+  const data = SECTIONS[sid];
+  if(!data||!data.qb) return;
+  data.qb.forEach((_,i) => {
+    const el = document.getElementById(sid+'-ma-'+i);
+    if(el) el.classList.add('show');
+  });
+}
+
+function revealWriting(sid) {
+  const el = document.getElementById(sid+'-model-para');
+  if(el) el.classList.add('show');
+}
+
+function selfScore(sid, val) {
+  sectionData[sid].writingScore = val;
+  document.querySelectorAll(`#${sid}-writing-self .ss-btn`).forEach(b=>b.classList.remove('sel'));
+  event.target.classList.add('sel');
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function updateProgress() {
+  const scored = allSectionIds.filter(id=>sectionData[id]&&sectionData[id].score!==null).length;
+  const pct = Math.round(scored/allSectionIds.length*100);
+  document.getElementById('overall-bar').style.width = pct+'%';
+  document.getElementById('overall-pct').textContent = pct+'% complete';
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function updateResults() {
+  let totalScore = 0, totalQ = 0, completed = 0;
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    if(d && d.score !== null){
+      totalScore += d.score;
+      totalQ += d.total;
+      completed++;
+    }
+  });
+  const overallEl = document.getElementById('res-overall');
+  if(totalQ > 0){
+    const pct = Math.round(totalScore/totalQ*100);
+    overallEl.textContent = pct+'%';
+    overallEl.className = 'val '+(pct>=80?'good':pct>=60?'ok':'poor');
+  } else {
+    overallEl.textContent = '—';
+  }
+  document.getElementById('res-sections').textContent = completed+' / '+allSectionIds.length;
+  document.getElementById('res-attempts').textContent = totalAttempts;
+  document.getElementById('res-date').textContent = studentDate || '—';
+  document.getElementById('results-info').textContent = studentName ? `Student: ${studentName} | Class: ${studentClass} | Date: ${studentDate}` : 'Complete the exercises first, then generate your report here.';
+
+  // Section breakdown table
+  const tbody = document.getElementById('section-breakdown');
+  tbody.innerHTML = allSectionIds.map(id => {
+    const d = sectionData[id];
+    const scored = d && d.score !== null;
+    const pct = scored ? Math.round(d.score/d.total*100) : null;
+    return `<tr>
+      <td>${sectionNames[id]}</td>
+      <td>${scored ? d.score+'/'+d.total : '—'}</td>
+      <td>${pct!==null?pct+'%':'—'}</td>
+      <td>${scored?(pct>=80?'🌟 Excellent':pct>=60?'👍 Good':'📚 Needs work'):'⬜ Not scored'}</td>
+    </tr>`;
+  }).join('');
+
+  // Error log
+  const logEl = document.getElementById('error-log-container');
+  const allErrors = [];
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    if(d && d.errors && d.errors.length > 0){
+      d.errors.forEach(e => allErrors.push({section:sectionNames[id], ...e}));
+    }
+  });
+  if(allErrors.length === 0){
+    logEl.innerHTML = '<div style="color:var(--green);font-size:14px;padding:16px">✅ No errors logged yet. Score a section to see your errors here.</div>';
+  } else {
+    logEl.innerHTML = '<div class="error-log"><div class="error-log-header">❌ Error Log ('+allErrors.length+' error'+(allErrors.length!==1?'s':'')+')</div>'+
+      allErrors.map(e=>`<div class="error-entry">
+        <div style="font-size:12px;color:var(--purple);font-weight:600;margin-bottom:4px">[${e.section}]</div>
+        <div style="margin-bottom:4px"><strong>Q:</strong> ${e.q}</div>
+        <div style="color:var(--red)"><strong>Your answer:</strong> ${e.chosen}</div>
+        <div style="color:var(--green)"><strong>Correct:</strong> ${e.correct}</div>
+        ${e.exp?`<div style="color:#475569;font-size:13px;margin-top:4px">📌 ${e.exp}</div>`:''}
+      </div>`).join('')+'</div>';
+  }
+}
+
+// ============================================================
+// REPORT TEXT
+// ============================================================
+function buildReportText() {
+  let totalScore = 0, totalQ = 0;
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    if(d && d.score !== null){ totalScore += d.score; totalQ += d.total; }
+  });
+  const overall = totalQ > 0 ? Math.round(totalScore/totalQ*100)+'%' : 'N/A';
+  let txt = `HUONG STELLA PARADIGM – GRAMMAR SERIES\nSentence Types – Study Report\n`;
+  txt += '='.repeat(50)+'\n';
+  txt += `Student: ${studentName}\nDate: ${studentDate}\nClass: ${studentClass}\nTotal Attempts: ${totalAttempts}\nOverall Score (Part A): ${overall}\n\n`;
+  txt += 'SECTION SCORES\n'+'-'.repeat(40)+'\n';
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    const scored = d && d.score !== null;
+    const pct = scored ? Math.round(d.score/d.total*100)+'%' : 'N/A';
+    txt += `${sectionNames[id]}: ${scored?d.score+'/'+d.total:'—'} (${pct})\n`;
+  });
+  txt += '\nERROR LOG\n'+'-'.repeat(40)+'\n';
+  let errCount = 0;
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    if(d && d.errors && d.errors.length > 0){
+      txt += `\n[${sectionNames[id]}]\n`;
+      d.errors.forEach((e,i) => {
+        errCount++;
+        txt += `  ${i+1}. ${e.q}\n     Your answer: ${e.chosen}\n     Correct: ${e.correct}\n     Note: ${e.exp}\n`;
+      });
+    }
+  });
+  if(errCount === 0) txt += 'No errors logged.\n';
+  txt += '\nTAKEAWAYS\n'+'-'.repeat(40)+'\n';
+  allSectionIds.forEach(id => {
+    const data = SECTIONS[id];
+    if(data && data.wc) txt += `★ ${data.wc.takeaway}\n`;
+  });
+  txt += '\n'+'-'.repeat(50)+'\nHuong Stella Paradigm – Grammar Series\ngenerated: '+new Date().toLocaleString()+'\n';
+  return txt;
+}
+
+function copyReport() {
+  const txt = buildReportText();
+  navigator.clipboard.writeText(txt).then(() => {
+    const el = document.getElementById('email-status');
+    el.innerHTML = '✅ Report text copied to clipboard!';
+    el.style.display = 'block';
+    setTimeout(()=>el.style.display='none', 3000);
+  });
+}
+
+// ============================================================
+// PDF GENERATION
+// ============================================================
+function generateReport() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:'pt',format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const margin = 48;
+  let y = margin;
+  const lineH = 16;
+
+  function addLine(text, opts={}) {
+    const {size=11, bold=false, color=[30,41,59], indent=0} = opts;
+    doc.setFontSize(size);
+    doc.setFont('helvetica', bold?'bold':'normal');
+    doc.setTextColor(...color);
+    const lines = doc.splitTextToSize(text, W - margin*2 - indent);
+    lines.forEach(l => {
+      if(y > 800){ doc.addPage(); y = margin; }
+      doc.text(l, margin+indent, y);
+      y += lineH;
+    });
+  }
+  function addGap(n=8){ y += n; }
+  function addRule(){ doc.setDrawColor(203,213,225); doc.line(margin, y, W-margin, y); y += 10; }
+
+  // Header
+  doc.setFillColor(30,27,75);
+  doc.rect(0,0,W,80,'F');
+  doc.setFontSize(18); doc.setFont('helvetica','bold'); doc.setTextColor(196,181,253);
+  doc.text('Huong Stella Paradigm – Grammar Series', margin, 35);
+  doc.setFontSize(12); doc.setFont('helvetica','normal'); doc.setTextColor(167,139,250);
+  doc.text('Sentence Types – Study Report', margin, 55);
+  y = 100;
+
+  addLine('Student: '+studentName, {bold:true, size:12});
+  addLine('Date: '+studentDate+'   |   Class: '+studentClass, {size:11});
+  addGap();
+  addRule();
+
+  // Overall
+  let totalScore=0, totalQ=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;}});
+  const overall = totalQ>0 ? Math.round(totalScore/totalQ*100)+'%' : 'N/A';
+  addLine('Overall Score (Part A): '+overall+'   |   Attempts: '+totalAttempts, {bold:true, size:12, color:[109,40,217]});
+  addGap(12);
+
+  addLine('SECTION SCORES', {bold:true, size:12, color:[30,41,59]});
+  addRule();
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    const scored = d && d.score !== null;
+    const pct = scored ? Math.round(d.score/d.total*100)+'%' : 'N/A';
+    const mark = !scored?'⬜':(parseInt(pct)>=80?'✓ Excellent':parseInt(pct)>=60?'Good':'Needs work');
+    addLine(sectionNames[id]+':  '+( scored?d.score+'/'+d.total:'—')+'  ('+pct+')  '+mark, {size:11});
+  });
+  addGap(12);
+
+  addLine('ERROR LOG', {bold:true, size:12, color:[220,38,38]});
+  addRule();
+  let errCount = 0;
+  allSectionIds.forEach(id => {
+    const d = sectionData[id];
+    if(d && d.errors && d.errors.length > 0){
+      addLine('['+sectionNames[id]+']', {bold:true, size:11, color:[109,40,217]});
+      d.errors.forEach((e,i) => {
+        errCount++;
+        addLine((i+1)+'. '+e.q, {indent:10, size:11});
+        addLine('Your answer: '+e.chosen, {indent:20, size:10, color:[220,38,38]});
+        addLine('Correct: '+e.correct, {indent:20, size:10, color:[5,150,105]});
+        addLine('Note: '+e.exp, {indent:20, size:10, color:[71,85,105]});
+        addGap(4);
+      });
+    }
+  });
+  if(errCount === 0) addLine('No errors logged yet.', {color:[100,116,139]});
+  addGap(12);
+
+  addLine('KEY TAKEAWAYS', {bold:true, size:12, color:[180,83,9]});
+  addRule();
+  allSectionIds.forEach(id => {
+    const data = SECTIONS[id];
+    if(data && data.wc) addLine('★ '+data.wc.takeaway, {size:10, indent:4, color:[92,33,160]});
+  });
+
+  // Footer
+  const pages = doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i);
+    doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
+    doc.text('Huong Stella Paradigm – Grammar Series | Page '+i+'/'+pages, margin, 825);
+    doc.text(new Date().toLocaleString(), W-margin, 825, {align:'right'});
+  }
+  doc.save('SentenceTypes_Report_'+studentName.replace(/\s+/g,'_')+'.pdf');
+}
+
+// ============================================================
+// EMAIL
+// ============================================================
+function sendToTeacher() {
+  const teacherEmail = 'huongstella8@gmail.com';
+  let totalScore=0,totalQ=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;}});
+  const overall = totalQ>0 ? Math.round(totalScore/totalQ*100)+'%' : 'N/A';
+  const subject = `[Grammar Report] Sentence Types – ${studentName} – ${studentDate}`;
+  const bodyLines = [
+    'Huong Stella Paradigm – Grammar Series',
+    'Sentence Types – Study Report',
+    '',
+    `Student: ${studentName}`,
+    `Date: ${studentDate}`,
+    `Class: ${studentClass}`,
+    `Overall Score: ${overall}`,
+    `Total Attempts: ${totalAttempts}`,
+    '',
+    'SECTION SCORES',
+    ...allSectionIds.map(id=>{
+      const d=sectionData[id];
+      const sc=d&&d.score!==null?d.score+'/'+d.total:'—';
+      const pct=d&&d.score!==null?Math.round(d.score/d.total*100)+'%':'N/A';
+      return `${sectionNames[id]}: ${sc} (${pct})`;
+    }),
+    '',
+    'ERROR LOG',
+    ...allSectionIds.flatMap(id=>{
+      const d=sectionData[id];
+      if(!d||!d.errors||!d.errors.length) return [];
+      return [`[${sectionNames[id]}]`,...d.errors.map((e,i)=>`${i+1}. ${e.q}\n   Your: ${e.chosen} | Correct: ${e.correct}`)];
+    }),
+    '',
+    'TAKEAWAYS',
+    ...allSectionIds.map(id=>SECTIONS[id]&&SECTIONS[id].wc?'★ '+SECTIONS[id].wc.takeaway:'').filter(Boolean)
+  ];
+  const body = bodyLines.join('\n');
+
+  // Try formsubmit.co AJAX
+  const statusEl = document.getElementById('email-status');
+  statusEl.style.display='block';
+  statusEl.innerHTML='📤 Sending to teacher…';
+  fetch(`https://formsubmit.co/ajax/${teacherEmail}`, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      _subject: subject,
+      name: studentName,
+      email: 'no-reply@grammarstudy.local',
+      message: body,
+      _captcha: 'false'
+    })
+  }).then(r=>r.json()).then(data=>{
+    if(data.success){
+      statusEl.innerHTML='✅ Report sent to '+teacherEmail+' successfully!';
+    } else {
+      fallbackMailto(teacherEmail, subject, body, statusEl);
+    }
+  }).catch(()=>{
+    fallbackMailto(teacherEmail, subject, body, statusEl);
+  });
+}
+
+function fallbackMailto(email, subject, body, statusEl) {
+  const mailto = 'mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  window.open(mailto);
+  statusEl.innerHTML='📧 Your email client has been opened with the report. Please send to '+email;
+}
+</script>
+</body>
+</html>
