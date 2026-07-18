@@ -117,6 +117,15 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
 .timer-running{background:rgba(134,239,172,.25);color:#bbf7d0}
 .sbar{font-size:.7rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;background:rgba(255,255,255,.1);border-radius:4px;padding:2px 7px;margin-left:auto}
 @media print{.bgrp,.brand-bar,.navbar,.timer-badge,.sbar{display:none!important}.screen.active{display:block!important}.card{break-inside:avoid}}
+
+/* Exam Trainer tabs */
+.et-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #ede9fe;}
+.et-tab-btn{padding:7px 16px;border-radius:20px;border:1.5px solid #7c3aed;background:#fff;color:#7c3aed;cursor:pointer;font-size:.82rem;font-weight:700;transition:all .2s;}
+.et-tab-btn:hover{background:#ede9fe;}
+.et-tab-btn.et-tab-active{background:#7c3aed;color:#fff;box-shadow:0 2px 6px #7c3aed55;}
+.et-panel{animation:fadein .2s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
 </style>
 </head>
 <body>
@@ -758,7 +767,7 @@ And all of this will come true unless we reverse it.</p>
     <div class="card"><div class="unit-tag">Unit 9 · SB p.110–121</div></div>
     <!-- Image 6: 3.24-3.26 (9C Travel Solutions) -->
     <div class="card" style="background:#f0fdf4;border:1px solid #bbf7d0">
-      <h3 style="margin:0 0 8px;color:#166534;font-size:.9rem">&#x1F4CB; Travel Collocations &ndash; Answer Key</h3>
+      <h3 style="margin:0 0 8px;color:#166534;font-size:.9rem">&#x1F4CB; Travel Collocations</h3>
       <div style="font-size:.8rem;line-height:1.8;color:#15803d">
         <strong>board</strong>: a plane/flight &nbsp;&middot; a ship &nbsp;&middot; a train<br>
         <strong>book</strong>: a car &nbsp;&middot; a holiday &nbsp;&middot; a hotel &nbsp;&middot; a room<br>
@@ -807,7 +816,9 @@ And all of this will come true unless we reverse it.</p>
         </ol>
       </div>
       <div class="vbox" style="font-size:.82rem"><strong>Word list:</strong> ahead of schedule &nbsp;· appreciate · approaching · approximately · complimentary · in due course · inform · refreshments · regret · remain · request</div>
-      <div id="p11-ex6f"></div>
+      <div id="p11-ex6f">
+      <div class="qrow"><span class="qnum">→</span><div class="qtxt">After checking with Audio 3.26: how many formal replacements did you get correct?<div class="sa" style="margin-top:6px"><label><input type="radio" name="p11fmlr" value="3"><span>✅ 6–7 correct</span></label><label><input type="radio" name="p11fmlr" value="2"><span>🟡 3–5 correct</span></label><label><input type="radio" name="p11fmlr" value="1"><span>❌ 0–2 correct</span></label></div></div></div>
+    </div>
     </div>
     <div class="card">
       <h2><span class="badge">Ex 7</span> Audio 3.26 – Listen to formal extracts from Ex 3 again: check answers to Ex 6</h2>
@@ -830,6 +841,14 @@ And all of this will come true unless we reverse it.</p>
   <div class="brand-bar">Huong Stella Paradigm</div>
   <div class="navbar"><h1>Practice 12 – Exam Trainers 1–5 (Exam Skills)</h1><div><div class="pbwrap"><div class="pb" style="width:9%"></div></div></div></div>
   <div class="content">
+    <div class="et-tabs">
+      <button class="et-tab-btn et-tab-active" onclick="_switchEtTab(1)">Trainer 1</button>
+      <button class="et-tab-btn" onclick="_switchEtTab(2)">Trainer 2</button>
+      <button class="et-tab-btn" onclick="_switchEtTab(3)">Trainer 3</button>
+      <button class="et-tab-btn" onclick="_switchEtTab(4)">Trainer 4</button>
+      <button class="et-tab-btn" onclick="_switchEtTab(5)">Trainer 5</button>
+    </div>
+    <div class="et-panel" id="ep-1">
     <div class="card"><div class="unit-tag">Exam Skills Trainer 1</div>
       <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>Incorrect options often contain language that is <strong>similar</strong> to words in the text, so it is important to listen carefully to the <strong>whole text</strong>, and not just match words or phrases that the speaker uses to the options.</div>
     </div>
@@ -846,7 +865,9 @@ And all of this will come true unless we reverse it.</p>
       <div class="aplayer"><span class="alabel">🔊 Audio 1.17</span><audio controls src="L3_track_1.17.mp3"></audio></div>
       <div id="et1-ex4"></div>
     </div>
-        <div class="card"><div class="unit-tag">Exam Skills Trainer 2</div>
+        </div>
+    <div class="et-panel" id="ep-2" style="display:none">
+    <div class="card"><div class="unit-tag">Exam Skills Trainer 2</div>
       <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>In some listening tasks, you must <strong>match different extracts to sentences</strong> about them. The questions require you to identify the main idea or context of the extract, or the intention of the speaker. Listening for different <strong>styles of speech, tones of voice and choices of language</strong> will help you to identify these.</div>
     </div>
     <div class="card">
@@ -874,7 +895,9 @@ And all of this will come true unless we reverse it.</p>
       </div>
       <div id="et2-ex4"></div>
     </div>
-        <div class="card"><div class="unit-tag">Exam Skills Trainer 3</div>
+        </div>
+    <div class="et-panel" id="ep-3" style="display:none">
+    <div class="card"><div class="unit-tag">Exam Skills Trainer 3</div>
       <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>You may be asked if statements about a listening extract are <strong>true or false</strong>. Remember that statements appear in the <strong>same order</strong> as information about them in the extract. Speakers often use <strong>different words</strong> to express the same ideas, so listen for ideas, not exact words.</div>
     </div>
     <div class="card">
@@ -891,7 +914,9 @@ And all of this will come true unless we reverse it.</p>
       <div class="aplayer"><span class="alabel">🔊 Audio 2.23</span><audio controls src="L3_track_2.23.mp3"></audio></div>
       <div id="et3-ex4"></div>
     </div>
-        <div class="card"><div class="unit-tag">Exam Skills Trainer 4</div>
+        </div>
+    <div class="et-panel" id="ep-4" style="display:none">
+    <div class="card"><div class="unit-tag">Exam Skills Trainer 4</div>
       <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>In a multiple-choice listening task, it is important to note the <strong>key words</strong> in each question and each option before you listen. In particular, note key nouns and the verb (indicating the action). This will help you to know what to listen for.</div>
     </div>
     <div class="card">
@@ -907,7 +932,9 @@ And all of this will come true unless we reverse it.</p>
       <div class="aplayer"><span class="alabel">🔊 Audio 3.10</span><audio controls src="L3_track_3.10.mp3"></audio></div>
       <div id="et4-ex4"></div>
     </div>
-        <div class="card"><div class="unit-tag">Exam Skills Trainer 5</div>
+        </div>
+    <div class="et-panel" id="ep-5" style="display:none">
+    <div class="card"><div class="unit-tag">Exam Skills Trainer 5</div>
       <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>When completing a <strong>summary</strong> of a listening, first read through the summary to get an idea of what the listening text will be about. Think of possible answers to fill the gaps.</div>
     </div>
     <div class="card">
@@ -934,7 +961,8 @@ And all of this will come true unless we reverse it.</p>
       </div>
       <div class="sa" style="margin-top:8px"><label><input type="radio" name="et5-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et5-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et5-ex4r" value="1"><span>❌ Several wrong</span></label></div>
     </div>
-        <div id="p12-score-area"></div>
+            </div>
+<div id="p12-score-area"></div>
     <div class="bgrp">
       <button class="btn btnp" onclick="submitPractice(12)">&#x2705; Submit</button>
       <button class="btn btnd" onclick="redoPractice(12)">&#x1F504; Redo</button>
@@ -1005,6 +1033,15 @@ function _updateAllSbars(){
 }
 let attempts={}; // always start fresh each session
 
+
+function _switchEtTab(n){
+  for(let i=1;i<=5;i++){
+    const p=document.getElementById('ep-'+i);
+    const btns=document.querySelectorAll('.et-tab-btn');
+    if(p) p.style.display=i===n?'':'none';
+    if(btns[i-1]) btns[i-1].className='et-tab-btn'+(i===n?' et-tab-active':'');
+  }
+}
 const PRACTICES=[
   {id:1, title:'Introduction – Feelings', unit:'Unit Introduction'},
   {id:2, title:'Identity & Family Tensions',          unit:'Unit 1'},
@@ -1323,6 +1360,29 @@ function buildP9(){
     ];
     document.getElementById('p13-ex7').innerHTML=op7.map((s,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="sa" style="margin-top:5px"><label><input type="radio" name="p13-ex7r-${i}" value="3"><span>✅ Caught it</span></label><label><input type="radio" name="p13-ex7r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
   }
+
+  // Ex3: vocab matching – 8 underlined words from poem
+  if(document.getElementById('p10-ex3voc')){
+    const defs=[
+      {lbl:'a',def:'a long and distinct period of time in history'},
+      {lbl:'b',def:'showing no interest, enthusiasm, or concern'},
+      {lbl:'c',def:'in a direct and honest way, without hesitation'},
+      {lbl:'d',def:'people who are the same age or social status as you'},
+      {lbl:'e',def:'a fast solution that may not fully solve the underlying problem'},
+      {lbl:'f',def:'lacking good sense or judgement; unwise'},
+      {lbl:'g',def:'something that is usual, typical, or expected in a society'},
+      {lbl:'h',def:'lacking energy or enthusiasm; feeling slow and tired'}
+    ];
+    const wordBank=['apathetic','era','foolish','lethargic','peers','quick fix','straight','the norm'];
+    document.getElementById('p10-ex3voc').innerHTML=defs.map((d,i)=>`
+      <div class="qrow" id="p10v-row-${i}"><span class="qnum">${d.lbl})</span><div class="qtxt">${d.def}<br>
+      <select class="qs" id="p10v-${i}" style="margin-top:4px;width:auto">
+        <option value="">-- choose word --</option>
+        ${wordBank.map(w=>`<option value="${w}">${w}</option>`).join('')}
+      </select>
+      <div class="fbrow" id="p10v-fb-${i}"></div></div></div>`).join('');
+  }
+
 }
 
 function buildP10(){
