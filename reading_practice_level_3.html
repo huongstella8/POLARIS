@@ -123,6 +123,32 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#222}
 .report-user{font-size:.95rem;font-weight:700;color:#1a1a2e}
 .report-meta{font-size:.78rem;color:#888;margin-top:2px}
 .report-stamp{font-size:.75rem;color:#aaa;text-align:right}
+.split.results-active .textpanel{display:none!important}
+.split.results-active .qpanel{width:100%!important;flex:unset;max-width:100%}
+.res-wrap{max-width:960px;margin:0 auto;padding:10px 0 30px}
+.res-hdr-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:3px solid #5e3ea1}
+.res-icon{font-size:1.8rem;line-height:1}
+.res-title{font-size:1.15rem;font-weight:800;color:#1a1a2e}
+.res-info{font-size:.82rem;color:#444;margin-bottom:14px;padding-bottom:10px;border-bottom:1.5px solid #e0e6ed}
+.res-overall{border:1.5px solid #d0d0d0;border-radius:8px;padding:11px 16px;margin-bottom:14px;background:#fff;font-size:.88rem}
+.res-ov-score{font-size:1.05rem;color:#1a1a2e}
+.res-export-btn{padding:8px 20px;background:#5e3ea1;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:.88rem;font-weight:700;margin-bottom:14px}
+.res-export-btn:hover{background:#4a2f88}
+.res-tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:18px}
+.res-tbl th{background:#5e3ea1;color:#fff;padding:9px 11px;font-weight:700;text-align:left}
+.res-tbl th.c,.res-tbl td.c{text-align:center}
+.res-tbl td{padding:8px 11px;border-bottom:1px solid #e8ecf0}
+.res-tbl tr:nth-child(even) td{background:#f8f9fc}
+.res-tbl .total-row td{background:#f0f0f0!important;font-weight:700;border-top:2px solid #5e3ea1}
+.pass-txt{color:#27ae60;font-weight:700}
+.fail-txt{color:#e67e22;font-weight:700}
+.dim{color:#aaa}
+.res-footer{font-size:.75rem;color:#aaa;text-align:center;padding-top:10px;border-top:1px solid #eee}
+.print-results{display:none}
+@media print{
+  body.results-print .brandbar,body.results-print .topbar,body.results-print .split{display:none!important}
+  body.results-print .print-results{display:block!important;padding:24px;font-family:'Segoe UI',Arial,sans-serif}
+}
 
 </style>
 </head>
@@ -142,7 +168,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#222}
   <button class="mail-btn" onclick="sendToTeacher()">&#9993; Send</button>
   <button class="rpt-btn" onclick="resetAll()">&#8635; Reset All</button>
 </div>
-<div class="split">
+<div class="split" id="split">
   <div class="textpanel" id="textPanel"></div>
   <div class="qpanel" id="qPanel"></div>
 </div>
@@ -167,6 +193,7 @@ document.getElementById('timerChip').addEventListener('click',function(){
   if(timerRunning)pauseTimer();else startTimer();
 });
 
+var RESULTS_IDX=999;
 function buildTabs(){
   var row=document.getElementById('tabRow');row.innerHTML='';
   PRACTICES.forEach(function(p,i){
@@ -178,6 +205,13 @@ function buildTabs(){
     d.onclick=(function(idx){return function(){switchTo(idx);};})(i);
     row.appendChild(d);
   });
+  var rd=document.createElement('div');
+  rd.className='tab results-tab'+(cur===RESULTS_IDX?' active':'');
+  var anyAtt=PRACTICES.some(function(p){return attempts[p.id]&&attempts[p.id].length>0;});
+  if(anyAtt)rd.classList.add('done');
+  rd.textContent='📊 Results';
+  rd.onclick=function(){switchTo(RESULTS_IDX);};
+  row.appendChild(rd);
 }
 function getBest(pid){
   var arr=attempts[pid];
@@ -187,7 +221,10 @@ function getBest(pid){
 function switchTo(idx){
   pauseTimer();timer=0;
   document.getElementById('timerChip').textContent='00:00';
-  cur=idx;buildTabs();renderPractice();startTimer();
+  cur=idx;buildTabs();
+  document.getElementById('split').classList.remove('results-active');
+  if(cur===RESULTS_IDX){renderResultsView();}
+  else{renderPractice();startTimer();}
 }
 
 function renderSkillBox(p){
@@ -390,7 +427,7 @@ function checkAnswers(){
   var dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
   var userName=document.getElementById('userName').value.trim()||'(not entered)';
   var userEmail=document.getElementById('userEmail').value.trim()||'(not entered)';
-  attempts[p.id].push({score:score,total:total,pct:pct,ts:ts,results:results,name:userName,email:userEmail});
+  attempts[p.id].push({score:score,total:total,pct:pct,ts:ts,timeVal:timer,results:results,name:userName,email:userEmail});
   buildTabs();
   var h='<div class="report-card">'+
     '<div class="report-header">'+
@@ -424,6 +461,165 @@ function resetPractice(){
 }
 function resetAll(){
   attempts={};PRACTICES.forEach(function(p){attempts[p.id]=[];});switchTo(0);
+}
+
+function fmtTime(s){
+  var m=Math.floor((s||0)/60),sec=(s||0)%60;
+  return(m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+}
+
+function buildResultsData(){
+  var totalScore=0,totalMax=0,totalTime=0,attempted=0;
+  PRACTICES.forEach(function(p){
+    var arr=attempts[p.id]||[];
+    if(arr.length>0){
+      attempted++;
+      var best=arr.reduce(function(a,b){return a.score>=b.score?a:b;});
+      totalScore+=best.score;totalMax+=best.total;totalTime+=(best.timeVal||0);
+    }
+  });
+  var overallPct=totalMax>0?Math.round(totalScore/totalMax*100):0;
+  return{totalScore:totalScore,totalMax:totalMax,totalTime:totalTime,attempted:attempted,overallPct:overallPct};
+}
+
+function renderResultsView(){
+  document.getElementById('split').classList.add('results-active');
+  var userName=document.getElementById('userName').value.trim()||'(Unknown)';
+  var userEmail=document.getElementById('userEmail').value.trim()||'—';
+  var now=new Date();
+  var dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var d=buildResultsData();
+  var h='<div class="res-wrap">';
+  /* Header */
+  h+='<div class="res-hdr-row"><span class="res-icon">&#128202;</span>';
+  h+='<div><div class="res-title">Reading Practice – Level 3 · Results Report</div></div></div>';
+  /* Info bar */
+  h+='<div class="res-info"><strong>Student:</strong> '+esc(userName)+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Email:</strong> '+esc(userEmail)+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Date:</strong> '+dateStr+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Institution:</strong> Huong Stella Paradigm</div>';
+  /* Overall box */
+  h+='<div class="res-overall">';
+  h+='<span><strong>Overall Score:</strong> <strong class="res-ov-score">'+d.totalScore+' / '+d.totalMax+'</strong>';
+  if(d.totalMax>0){var oc=d.overallPct>=60?'#27ae60':'#e67e22';h+=' <strong style="color:'+oc+'">( '+d.overallPct+'% )</strong>';}
+  h+='</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span><strong>Total Time:</strong> <strong class="res-ov-score">'+fmtTime(d.totalTime)+'</strong></span>';
+  h+='</div>';
+  /* Export button */
+  h+='<button class="res-export-btn" onclick="printResultsPDF()">&#128196; Export PDF</button>';
+  /* Table */
+  h+='<table class="res-tbl"><thead><tr>';
+  ['#','Practice','Unit','Score','Best%','Attempts','Time','Status'].forEach(function(col,ci){
+    h+='<th'+(ci>=3?' class="c"':'')+'>'+col+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  PRACTICES.forEach(function(p){
+    var arr=attempts[p.id]||[];
+    var unit=p.source.replace('Solutions Intermediate - ','');
+    h+='<tr><td class="c">'+p.id+'</td><td>'+esc(p.title)+'</td><td>'+esc(unit)+'</td>';
+    if(arr.length===0){
+      h+='<td class="c dim">—</td><td class="c dim">—</td><td class="c">0</td><td class="c dim">—</td><td class="c dim">Not attempted</td>';
+    }else{
+      var best=arr.reduce(function(a,b){return a.score>=b.score?a:b;});
+      var sc=best.pct>=60?'pass-txt':'fail-txt';
+      var stxt=best.pct>=60?'✓ '+best.pct+'%':best.pct+'%';
+      h+='<td class="c">'+best.score+' / '+best.total+'</td>';
+      h+='<td class="c '+sc+'">'+best.pct+'%</td>';
+      h+='<td class="c">'+arr.length+'</td>';
+      h+='<td class="c">'+fmtTime(best.timeVal)+'</td>';
+      h+='<td class="c '+sc+'">'+stxt+'</td>';
+    }
+    h+='</tr>';
+  });
+  /* Total row */
+  h+='<tr class="total-row"><td colspan="3"><strong>TOTAL</strong></td>';
+  if(d.totalMax>0){
+    var tc=d.overallPct>=60?'pass-txt':'fail-txt';
+    var ttxt=d.overallPct>=60?'✓ Pass':'✗ Needs work';
+    h+='<td class="c"><strong>'+d.totalScore+' / '+d.totalMax+'</strong></td>';
+    h+='<td class="c '+tc+'"><strong>'+d.overallPct+'%</strong></td>';
+    h+='<td class="c"></td>';
+    h+='<td class="c"><strong>'+fmtTime(d.totalTime)+'</strong></td>';
+    h+='<td class="c '+tc+'"><strong>'+ttxt+'</strong></td>';
+  }else{
+    h+='<td colspan="5" class="c dim">No attempts yet</td>';
+  }
+  h+='</tr></tbody></table>';
+  h+='<div class="res-footer">Generated by Huong Stella Paradigm &middot; Teacher: huongstella8@gmail.com</div>';
+  h+='</div>';
+  document.getElementById('qPanel').innerHTML=h;
+}
+
+function printResultsPDF(){
+  var userName=document.getElementById('userName').value.trim()||'(Unknown)';
+  var userEmail=document.getElementById('userEmail').value.trim()||'—';
+  var now=new Date();
+  var dateStr=now.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var d=buildResultsData();
+  var S='font-family:Segoe UI,Arial,sans-serif;color:#1a1a2e;';
+  var h='<div class="print-results" id="printResultsDiv" style="'+S+'">';
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
+  h+='<span style="font-size:1.5rem">&#128202;</span>';
+  h+='<div style="font-size:1.15rem;font-weight:800">Reading Practice – Level 3 · Results Report</div>';
+  h+='</div>';
+  h+='<div style="font-size:.82rem;color:#444;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #5e3ea1">';
+  h+='<strong>Student:</strong> '+esc(userName)+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Email:</strong> '+esc(userEmail)+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Date:</strong> '+dateStr+'&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Institution:</strong> Huong Stella Paradigm';
+  h+='</div>';
+  h+='<div style="border:1.5px solid #ccc;border-radius:7px;padding:9px 15px;margin-bottom:14px;font-size:.87rem">';
+  h+='<strong>Overall Score:</strong> <strong>'+d.totalScore+' / '+d.totalMax+'</strong>';
+  if(d.totalMax>0){var oc2=d.overallPct>=60?'#27ae60':'#e67e22';h+=' <strong style="color:'+oc2+'">( '+d.overallPct+'% )</strong>';}
+  h+='&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Total Time:</strong> <strong>'+fmtTime(d.totalTime)+'</strong>';
+  h+='</div>';
+  h+='<table style="width:100%;border-collapse:collapse;font-size:.84rem;margin-bottom:14px">';
+  h+='<thead><tr style="background:#5e3ea1;color:#fff">';
+  ['#','Practice','Unit','Score','Best%','Attempts','Time','Status'].forEach(function(col,ci){
+    h+='<th style="padding:8px 10px;font-weight:700;text-align:'+(ci>=3?'center':'left')+'">'+col+'</th>';
+  });
+  h+='</tr></thead><tbody>';
+  PRACTICES.forEach(function(p,i){
+    var arr=attempts[p.id]||[];
+    var unit=p.source.replace('Solutions Intermediate - ','');
+    var bg=i%2===0?'#fff':'#f8f9fc';
+    h+='<tr style="background:'+bg+';border-bottom:1px solid #e0e6ed">';
+    h+='<td style="padding:7px 10px;text-align:center">'+p.id+'</td>';
+    h+='<td style="padding:7px 10px">'+esc(p.title)+'</td>';
+    h+='<td style="padding:7px 10px">'+esc(unit)+'</td>';
+    if(arr.length===0){
+      h+='<td colspan="5" style="padding:7px 10px;text-align:center;color:#aaa">Not attempted</td>';
+    }else{
+      var best=arr.reduce(function(a,b){return a.score>=b.score?a:b;});
+      var pc=best.pct>=60?'#27ae60':'#e67e22';
+      var stxt=best.pct>=60?'✓ '+best.pct+'%':best.pct+'%';
+      h+='<td style="padding:7px 10px;text-align:center">'+best.score+' / '+best.total+'</td>';
+      h+='<td style="padding:7px 10px;text-align:center;color:'+pc+';font-weight:700">'+best.pct+'%</td>';
+      h+='<td style="padding:7px 10px;text-align:center">'+arr.length+'</td>';
+      h+='<td style="padding:7px 10px;text-align:center">'+fmtTime(best.timeVal)+'</td>';
+      h+='<td style="padding:7px 10px;text-align:center;color:'+pc+';font-weight:700">'+stxt+'</td>';
+    }
+    h+='</tr>';
+  });
+  h+='<tr style="background:#f0f0f0;border-top:2px solid #5e3ea1">';
+  h+='<td colspan="3" style="padding:8px 10px;font-weight:700">TOTAL</td>';
+  if(d.totalMax>0){
+    var tc2=d.overallPct>=60?'#27ae60':'#e67e22';
+    var ttxt2=d.overallPct>=60?'✓ Pass':'✗ Needs work';
+    h+='<td style="padding:8px 10px;text-align:center;font-weight:700">'+d.totalScore+' / '+d.totalMax+'</td>';
+    h+='<td style="padding:8px 10px;text-align:center;color:'+tc2+';font-weight:700">'+d.overallPct+'%</td>';
+    h+='<td style="padding:8px 10px;text-align:center"></td>';
+    h+='<td style="padding:8px 10px;text-align:center;font-weight:700">'+fmtTime(d.totalTime)+'</td>';
+    h+='<td style="padding:8px 10px;text-align:center;color:'+tc2+';font-weight:700">'+ttxt2+'</td>';
+  }else{
+    h+='<td colspan="5" style="padding:8px 10px;text-align:center;color:#aaa">No attempts yet</td>';
+  }
+  h+='</tr></tbody></table>';
+  h+='<div style="font-size:.74rem;color:#aaa;text-align:center;margin-top:10px">Generated by Huong Stella Paradigm · Teacher: huongstella8@gmail.com</div>';
+  h+='</div>';
+  var old=document.getElementById('printResultsDiv');
+  if(old)old.remove();
+  var wrap=document.createElement('div');wrap.innerHTML=h;
+  document.body.appendChild(wrap.firstChild);
+  document.body.classList.add('results-print');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('results-print');
+    var el=document.getElementById('printResultsDiv');if(el)el.remove();
+  },600);
 }
 
 function exportPDF(){
