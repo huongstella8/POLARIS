@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Practice – Level 3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a202c;min-height:100vh}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+.brand-bar{background:#3b0764;color:#ddd6fe;font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-align:center;padding:5px 12px}
+.navbar{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.navbar h1{font-size:1.1rem;font-weight:700}
+.pbwrap{height:6px;background:#ddd6fe;border-radius:3px;margin-top:4px;width:160px}
+.pb{height:6px;background:#f59e0b;border-radius:3px;transition:width .4s}
+.content{max-width:880px;margin:0 auto;padding:28px 20px 60px;width:100%}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:22px 26px;margin-bottom:20px}
+.card h2{font-size:1.05rem;color:#5b21b6;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sech2{font-size:.95rem;color:#1e40af;font-weight:700;margin:14px 0 8px;padding:7px 12px;background:#eff6ff;border-left:3px solid #3b82f6;border-radius:4px}
+.badge{background:#ede9fe;color:#5b21b6;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.unit-tag{display:inline-block;background:#fef3c7;color:#92400e;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:10px}
+.strat{background:#f5f3ff;border-left:4px solid #7c3aed;border-radius:6px;padding:11px 15px;margin-bottom:14px;font-size:.88rem;line-height:1.6;color:#3730a3}
+.strat strong{display:block;margin-bottom:3px;color:#5b21b6}
+.anote{background:#fef3c7;border-left:4px solid #f59e0b;border-radius:6px;padding:9px 13px;margin-bottom:12px;font-size:.84rem;color:#92400e}
+.anote strong{color:#b45309}
+.awarn{background:#fff7ed;border-left:4px solid #f97316;border-radius:6px;padding:9px 13px;margin-bottom:12px;font-size:.83rem;color:#9a3412}
+.aplayer{background:#f5f3ff;border-left:4px solid #7c3aed;border-radius:8px;padding:11px 15px;margin-bottom:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.aplayer .alabel{font-size:.8rem;font-weight:700;color:#5b21b6;white-space:nowrap}
+.aplayer audio{flex:1;min-width:200px;height:34px}
+.qrow{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:7px;background:#f9fafb;border:1px solid #e5e7eb;transition:background .15s}
+.qrow:hover{background:#f5f3ff}
+.qnum{font-weight:700;color:#6b7280;min-width:20px;padding-top:2px;font-size:.84rem}
+.qtxt{flex:1;font-size:.87rem;color:#374151;line-height:1.6}
+.rg{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px}
+.rg label{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:.84rem;padding:4px 10px;border-radius:20px;border:1px solid #d1d5db;background:#fff;transition:all .12s}
+.rg label:hover{border-color:#7c3aed;background:#f5f3ff}
+.rg input[type=radio]{accent-color:#7c3aed}
+select.qs{border:1px solid #d1d5db;border-radius:6px;padding:5px 8px;font-size:.84rem;background:#fff;color:#374151;cursor:pointer;max-width:240px}
+select.qs:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+input.qi{border:1px solid #d1d5db;border-radius:6px;padding:6px 10px;font-size:.84rem;width:100%;max-width:280px;color:#374151}
+input.qi:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+textarea.qt{border:1px solid #d1d5db;border-radius:6px;padding:7px 10px;font-size:.84rem;width:100%;min-height:60px;resize:vertical;color:#374151}
+textarea.qt:focus{outline:none;border-color:#7c3aed}
+.sa{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}
+.sa label{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:.82rem;padding:4px 10px;border-radius:20px;border:1px solid #d1d5db;background:#fff}
+.sa label:hover{border-color:#10b981;background:#ecfdf5}
+.sa input{accent-color:#10b981}
+.fbrow{display:flex;align-items:center;gap:7px;margin-top:4px;font-size:.81rem}
+.fc{color:#059669;font-weight:600}
+.fw{color:#dc2626;font-weight:600}
+.fl{color:#6b7280}
+.qrow.ca{background:#ecfdf5!important;border-color:#6ee7b7}
+.qrow.wa{background:#fef2f2!important;border-color:#fca5a5}
+.scorebox{background:linear-gradient(135deg,#ede9fe,#dbeafe);border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.scmain{font-size:1.9rem;font-weight:800;color:#5b21b6}
+.sclabel{font-size:.83rem;color:#4b5563;margin-top:2px}
+.scpct{font-size:.95rem;font-weight:700;padding:4px 13px;border-radius:20px}
+.green{background:#d1fae5;color:#065f46}
+.yellow{background:#fef3c7;color:#92400e}
+.red{background:#fee2e2;color:#991b1b}
+.ath{margin-top:12px}
+.ath h4{font-size:.8rem;font-weight:700;color:#6b7280;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+.atl{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:20px;padding:4px 11px;font-size:.77rem;color:#4b5563}
+.chip .cs{font-weight:700;color:#5b21b6}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 20px;border-radius:8px;font-size:.86rem;font-weight:600;cursor:pointer;border:none;transition:all .13s}
+.btnp{background:#7c3aed;color:#fff}
+.btnp:hover{background:#5b21b6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.btns{background:#10b981;color:#fff}
+.btns:hover{background:#059669}
+.btnd{background:#e5e7eb;color:#374151}
+.btnd:hover{background:#d1d5db}
+.bgrp{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.hhero{text-align:center;padding:30px 20px 20px}
+.hhero h1{font-size:1.8rem;font-weight:800;color:#5b21b6;margin-bottom:8px}
+.hhero p{font-size:.92rem;color:#4b5563;max-width:540px;margin:0 auto 20px;line-height:1.6}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.pcard{background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);padding:15px 17px;cursor:pointer;border:2px solid transparent;transition:all .18s}
+.pcard:hover{border-color:#7c3aed;transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.15)}
+.pcard .pn{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7c3aed;margin-bottom:3px}
+.pcard .pt{font-size:.9rem;font-weight:700;color:#1e1b4b;margin-bottom:3px}
+.pcard .pu{font-size:.73rem;color:#6b7280;margin-bottom:3px}
+.pcard .ps{font-size:.73rem;color:#6b7280}
+.pcard.done{border-color:#10b981}
+.pcard.done .ps{color:#059669;font-weight:600}
+.rh{text-align:center;padding:24px 20px 6px}
+.rh h1{font-size:1.5rem;font-weight:800;color:#5b21b6;margin-bottom:6px}
+.ts{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:16px 0}
+.bs{font-size:3rem;font-weight:900;color:#7c3aed;line-height:1}
+.rt{width:100%;border-collapse:collapse;font-size:.85rem}
+.rt th{background:#f5f3ff;color:#5b21b6;padding:9px 13px;text-align:left;font-weight:700;border-bottom:2px solid #ddd6fe}
+.rt td{padding:8px 13px;border-bottom:1px solid #e5e7eb}
+.rt tr:hover td{background:#faf5ff}
+.ml{list-style:none}
+.ml li{padding:6px 0;border-bottom:1px solid #e5e7eb;font-size:.85rem;display:flex;gap:7px;align-items:flex-start}
+.ml li::before{content:"✗";color:#ef4444;font-weight:700;flex-shrink:0}
+.rl{list-style:none}
+.rl li{padding:7px 0 7px 24px;border-bottom:1px solid #e5e7eb;font-size:.85rem;position:relative;line-height:1.5}
+.rl li::before{content:"→";position:absolute;left:0;color:#7c3aed;font-weight:700}
+.ebox{background:#ecfdf5;border:1px solid #6ee7b7;border-radius:10px;padding:18px;text-align:center}
+.ebox h3{color:#065f46;font-size:.97rem;margin-bottom:7px}
+.ebox p{font-size:.84rem;color:#374151;margin-bottom:12px}
+.vbox{background:#fafafa;border:1px solid #e5e7eb;border-radius:7px;padding:11px 14px;margin-bottom:10px;font-size:.85rem;line-height:1.8}
+.vbox strong{color:#5b21b6}
+@media print{
+  .bgrp,.np,.pgrid,.hhero,.pcard{display:none!important}
+  .screen{display:none!important}
+  .screen.active{display:flex!important}
+  .card{box-shadow:none;border:1px solid #e5e7eb;break-inside:avoid}
+  body{background:#fff}
+  .content{max-width:100%;padding:10px}
+  .brand-bar{font-size:.65rem;padding:4px 10px}
+}
+
+.timer-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:.82rem;font-weight:700;font-variant-numeric:tabular-nums;min-width:82px;letter-spacing:.5px}
+.timer-running{background:rgba(134,239,172,.25);color:#bbf7d0}
+.sbar{font-size:.7rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;background:rgba(255,255,255,.1);border-radius:4px;padding:2px 7px;margin-left:auto}
+@media print{.bgrp,.brand-bar,.navbar,.timer-badge,.sbar{display:none!important}.screen.active{display:block!important}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="screen-home" class="screen active">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>🎧 Listening Practice – Level 3</h1><span style="font-size:.78rem;opacity:.85">Solutions Intermediate · 12 Practices</span></div>
+  <div class="content">
+<div class="card" style="margin-bottom:22px">
+      <h2 style="margin-bottom:13px">👤 Student Information</h2>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <label style="font-size:.82rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Full Name *</label>
+          <input type="text" id="student-name" class="qi" placeholder="Enter your full name…" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
+        </div>
+        <div style="flex:1;min-width:180px">
+          <label style="font-size:.82rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Email *</label>
+          <input type="email" id="student-email" class="qi" placeholder="your@email.com" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
+        </div>
+      </div>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <div class="bgrp" style="justify-content:center;margin-top:22px">
+      <button class="btn btns" onclick="goToResults()">📊 View Total Results</button>
+      <button class="btn btnd" onclick="resetAllData()" style="background:#fee2e2;color:#991b1b" title="Clear all saved attempts and student info">🗑️ Reset All Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- P1: Unit Introduction -->
+<div id="screen-1" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 1 – Unit Introduction: Feelings</h1><div><div class="pbwrap"><div class="pb" style="width:9%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit Introduction · SB p.6–7</div>
+      <div class="strat"><strong>📘 Strategy</strong>Use context – words and sentences around an unknown word – to work out its meaning. Adjectives for feelings describe emotional states and attitudes.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> Audio 1.04 – Read and listen</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.04</span><audio controls src="L3_track_1.04.mp3"></audio></div>
+      <p style="font-size:.86rem;color:#374151;margin-bottom:10px">Why does Mason change from feeling <em>anxious</em> to feeling <em>terrified</em>?</p>
+      <div id="p1-ex2"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Which feelings appear in the dialogue?</h2>
+      <div class="vbox"><strong>Box:</strong> anxious · embarrassed · excited · frightened · terrified · thrilled · upset</div>
+      <div id="p1-ex3"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 1.05 – Match speakers to feelings</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.05</span><audio controls src="L3_track_1.05.mp3"></audio></div>
+      <div class="vbox"><strong>Feelings:</strong> a. confused · b. envious · c. excited · d. proud · e. relieved · f. suspicious</div>
+      <div id="p1-ex5"></div>
+    </div>
+    <div id="p1-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(1)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(1)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(2)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P2: Unit 1 – Identity & Family -->
+<div id="screen-2" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 2 – Unit 1: Identity &amp; Family</h1><div><div class="pbwrap"><div class="pb" style="width:18%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 1 · SB p.10–11</div>
+      <div class="strat"><strong>📘 Strategy</strong>When listening to multiple speakers, focus on key details (names, places, actions) to distinguish them. Identify attitudes from tone and word choices.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 1.08 – Backgrounds &amp; Families</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.08</span><audio controls src="L3_track_1.08.mp3"></audio></div>
+      <p style="font-size:.85rem;color:#4b5563;margin-bottom:9px">Listen to four people talking about their backgrounds. Circle the correct answer.</p>
+      <div id="p2-ex5"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 1.11 – Family Tensions: Speaker Attitudes</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.11</span><audio controls src="L3_track_1.11.mp3"></audio></div>
+      <p style="font-size:.85rem;color:#4b5563;margin-bottom:9px">Listen and match each speaker (1–4) to an attitude (a–d). One attitude is not used.</p>
+      <div class="vbox">a. Thinks arguments are unavoidable&nbsp;&nbsp;b. Is promoting something related to the topic<br>c. Believes arguments can be reduced with effort&nbsp;&nbsp;d. Says stress causes arguments</div>
+      <div id="p2-ex6"></div>
+    </div>
+    <div id="p2-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(2)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(2)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(1)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(3)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P3: Unit 2 – Leisure (combines 2A + 2C + 2E/2G) -->
+<div id="screen-3" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 3 – Unit 2: Leisure</h1><div><div class="pbwrap"><div class="pb" style="width:27%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 2 · SB p.18–29</div>
+      <div class="strat"><strong>📘 Strategy</strong>Unit 2 covers three listening skills: (A) frequency adverbs – listen for adverb + verb combos; (C) context clues – identify setting from vocabulary alone; (E/G) compound noun stress – the FIRST word carries the main stress.</div>
+    </div>
+
+    <!-- 2C: Context Listening -->
+    <div class="card">
+      <div class="sech2">📍 Unit 2C – Context Listening (SB p.23)</div>
+      <h2><span class="badge">Ex 4</span> Audio 1.19 – Where does each conversation take place?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.19</span><audio controls src="L3_track_1.19.mp3"></audio></div>
+      <div class="vbox"><strong>Situations:</strong> A – a restaurant/café &nbsp; B – an office &nbsp; C – a cooking class &nbsp; D – a school classroom</div>
+      <div id="p3-ex4c"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 1.20 – Matthew (M), Scarlett (S) or Both (B)?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.20</span><audio controls src="L3_track_1.20.mp3"></audio></div>
+      <div id="p3-ex5c"></div>
+    </div>
+
+    <!-- 2E/2G: Word Skills & Speaking -->
+    <div class="card">
+      <div class="sech2">📍 Unit 2E/2G – Word Skills &amp; Speaking (SB p.25 &amp; 28)</div>
+      <h2><span class="badge">Ex 3a</span> Audio 1.22 – Compound noun stress</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.22</span><audio controls src="L3_track_1.22.mp3"></audio></div>
+      <div class="vbox"><strong>Compound nouns:</strong> seashore · tennis court · tennis player · main road · swimming pool · tower block · football pitch · mountain range · floodlights</div>
+      <div id="p5-ex3a"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3b</span> Audio 1.25 – Planning an adventure activity</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.25</span><audio controls src="L3_track_1.25.mp3"></audio></div>
+      <div id="p5-ex3b"></div>
+    </div>
+
+    <div id="p3-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(3)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(3)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(2)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(4)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P4: Unit 3 – The Body -->
+<div id="screen-4" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 4 – Unit 3: The Body</h1><div><div class="pbwrap"><div class="pb" style="width:36%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 3 · SB p.32–33</div>
+      <div class="strat"><strong>📘 Listening Strategy</strong>Some listening tasks may involve listening out for numbers, dates and measurements. Make sure you know how to pronounce these so that you can identify the information when you hear it.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> Audio 1.28 – Numbers &amp; measurements: listen and check</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.28</span><audio controls src="L3_track_1.28.mp3"></audio></div>
+      <div class="vbox">
+        <strong>Large numbers:</strong> 4,500 &nbsp; 100,000 &nbsp; 250,000 &nbsp; 2.5 million<br>
+        <strong>Small numbers:</strong> 0 &nbsp; 0.6 &nbsp; 0.04 &nbsp; 2.08<br>
+        <strong>Years:</strong> 1500 &nbsp; 1535 &nbsp; 2000 &nbsp; 2015 &nbsp; 2150 &nbsp; the 1980s<br>
+        <strong>Fractions:</strong> ½ &nbsp; ⅓ &nbsp; ¼ &nbsp; ⅕ &nbsp; 1/10 &nbsp; ⅜ &nbsp; 1⅔<br>
+        <strong>Percentages:</strong> 50% &nbsp; 57%<br>
+        <strong>Ratios and ranges:</strong> 2:1 &nbsp; 10:1 &nbsp; aged 18–25 &nbsp; from 0–100 in 3.1 seconds<br>
+        <strong>Temperature:</strong> −40°C &nbsp; 0°C &nbsp; 5°C &nbsp; 15°C
+      </div>
+      <div id="p4-ex2"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 1.29 – Listen and complete the article with numbers from Ex 2</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.29</span><audio controls src="L3_track_1.29.mp3"></audio></div>
+      <div class="vbox" style="line-height:2">There are many amazing stories of human survival, but actually our bodies are very fragile and do not cope well with extremes. Polar explorers can cope with temperatures of <sup>1</sup><input type="text" class="qi" id="p4-ex3-0" placeholder="___" style="width:70px;display:inline-block;margin:0 4px">, but only if they keep warm. Most people will collapse if their body temperature drops by only <sup>2</sup><input type="text" class="qi" id="p4-ex3-1" placeholder="___" style="width:70px;display:inline-block;margin:0 4px">, and if it drops by <sup>3</sup><input type="text" class="qi" id="p4-ex3-2" placeholder="___" style="width:70px;display:inline-block;margin:0 4px">, they'll die. Heat can be just as dangerous. Temperatures of 35°C are safe, provided humidity is not above <sup>4</sup><input type="text" class="qi" id="p4-ex3-3" placeholder="___" style="width:70px;display:inline-block;margin:0 4px">. High altitudes are dangerous too. We pass out when the pressure falls below <sup>5</sup><input type="text" class="qi" id="p4-ex3-4" placeholder="___" style="width:70px;display:inline-block;margin:0 4px"> of normal atmospheric pressure. This happens at about <sup>6</sup><input type="text" class="qi" id="p4-ex3-5" placeholder="___" style="width:70px;display:inline-block;margin:0 4px"> metres. Climbers can go higher because their bodies gradually get used to it, but no one survives for long at 8,000 metres. At high altitudes, lack of oxygen is another problem. At ground level, about <sup>7</sup><input type="text" class="qi" id="p4-ex3-6" placeholder="___" style="width:70px;display:inline-block;margin:0 4px"> of the air is oxygen. If that falls below <sup>8</sup><input type="text" class="qi" id="p4-ex3-7" placeholder="___" style="width:70px;display:inline-block;margin:0 4px">, we die.</div>
+      <div class="sa" style="margin-top:8px"><label><input type="radio" name="p4-ex3r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="p4-ex3r" value="2"><span>🟡 Mostly correct</span></label><label><input type="radio" name="p4-ex3r" value="1"><span>❌ Several wrong</span></label></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 1.30 – Each sentence contains a mistake with a number. Listen and correct.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.30</span><audio controls src="L3_track_1.30.mp3"></audio></div>
+      <div id="p4-ex4"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 1.31 – Listen to an interview with a scientist. Which of the people he talks about tested the body's limits deliberately?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.31</span><audio controls src="L3_track_1.31.mp3"></audio></div>
+      <div id="p4-ex5"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 1.31 – Listen again: are the sentences True or False?</h2>
+      <p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Read the sentences, then listen again and decide T or F. Correct the false ones.</p>
+      <div id="p4-ex6"></div>
+    </div>
+    <div id="p4-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(4)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(4)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(3)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(5)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P5: Unit 4 – Home -->
+<div id="screen-5" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 5 – Unit 4: Home</h1><div><div class="pbwrap"><div class="pb" style="width:45%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 4 · SB p.42–47</div>
+      <div class="strat"><strong>📘 Strategy</strong>Comparative structures (more…than, the most…, less…than) are common in descriptive listening. Listen for superlatives and comparisons to track differences between options.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> Audio 2.03 – Vocabulary: Parts of a home</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.03</span><audio controls src="L3_track_2.03.mp3"></audio></div>
+      <div id="p7-ex2"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.06 – Comparing three flats: True or False?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.06</span><audio controls src="L3_track_2.06.mp3"></audio></div>
+      <div style="overflow-x:auto;margin-bottom:12px">
+        <table style="border-collapse:collapse;width:100%;font-size:.84rem">
+          <thead>
+            <tr>
+              <th style="background:#f97316;color:#fff;padding:8px 12px;text-align:left;border:1px solid #fb923c"></th>
+              <th style="background:#f97316;color:#fff;padding:8px 12px;text-align:center;border:1px solid #fb923c">Flat 1</th>
+              <th style="background:#f97316;color:#fff;padding:8px 12px;text-align:center;border:1px solid #fb923c">Flat 2</th>
+              <th style="background:#f97316;color:#fff;padding:8px 12px;text-align:center;border:1px solid #fb923c">Flat 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">Rent per month</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">£200</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">£250</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">£300</td></tr>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">From centre</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">1.5 km</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">2 km</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">500 m</td></tr>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">From station</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">3 km</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">2 km</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">1 km</td></tr>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">Size</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">1,002 m²</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">1,102 m²</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">1,302 m²</td></tr>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">Rooms</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">3</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">5</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">4</td></tr>
+            <tr><td style="background:#fed7aa;font-weight:700;padding:7px 12px;border:1px solid #fb923c">Comfort</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">★★★★</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">★★★</td><td style="padding:7px 12px;border:1px solid #e5e7eb;text-align:center">★★★★★</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="p7-ex4"></div>
+    </div>
+    <div class="card">
+      <div class="strat"><strong>📘 Listening Strategy 1</strong>When you listen to a recording, remember that many ideas will be expressed differently in the task. For example, a simple verb in the task may be expressed by a phrase in the recording: <em>sleep well → get a good night's sleep</em></div>
+      <h2>Complete the definitions with the words below.</h2>
+      <div class="vbox"><strong>contact &nbsp; enjoy &nbsp; help &nbsp; ignore &nbsp; talk &nbsp; try</strong></div>
+      <div id="p5-vocab"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 2.07 – Listen to three short recordings. Answer the questions.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.07</span><audio controls src="L3_track_2.07.mp3"></audio></div>
+      <div id="p5-ex4b"></div>
+    </div>
+    <div class="card">
+      <div class="strat"><strong>📘 Listening Strategy 2</strong>Pay attention to whether the language you hear is formal or informal. This can be an important clue to the context.</div>
+      <h2><span class="badge">Ex 5</span> Audio 2.08 – Which excerpts contain formal language?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.08</span><audio controls src="L3_track_2.08.mp3"></audio></div>
+      <div style="overflow-x:auto;margin-bottom:12px">
+        <table style="border-collapse:collapse;width:100%;font-size:.84rem">
+          <thead><tr>
+            <th style="background:#7c3aed;color:#fff;padding:8px 12px;border:1px solid #a78bfa">Formal</th>
+            <th style="background:#7c3aed;color:#fff;padding:8px 12px;border:1px solid #a78bfa">Informal</th>
+          </tr></thead>
+          <tbody>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">increase sharply</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">go up a lot</td></tr>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">offer / require assistance</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">need help</td></tr>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">a high priority</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">very important</td></tr>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">make a proposal</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">suggest something</td></tr>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">currently</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">at the moment</td></tr>
+            <tr><td style="padding:7px 12px;border:1px solid #e5e7eb">gain employment</td><td style="padding:7px 12px;border:1px solid #e5e7eb;color:#6b7280">find a job</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="p5-ex5b"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.08 – Listen again. Choose the correct answers (a–c).</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.08</span><audio controls src="L3_track_2.08.mp3"></audio></div>
+      <div id="p5-ex6"></div>
+    </div>
+    <div id="p5-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(5)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(5)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(4)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(6)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P6: Unit 5 – Technology -->
+<div id="screen-6" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 6 – Unit 5: Technology &amp; Computing</h1><div><div class="pbwrap"><div class="pb" style="width:55%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 5 · SB p.54–59</div>
+      <div class="strat"><strong>📘 Strategy</strong>In technology-related listening, action verbs (click, scroll, download, upload, delete) are key. Listen for sequential language: first, then, next, after that, finally.</div>
+    </div>
+    <div class="card">
+      <div class="sech2">📍 Unit 5B – Fact vs Opinion: The Media (SB p.57)</div>
+      <h2><span class="badge">Ex 2</span> Audio 2.16 – Listen: Which news headline are they discussing?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.16</span><audio controls src="L3_track_2.16.mp3"></audio></div>
+      <div class="strat"><strong>📘 Listening Strategy</strong>You may have to distinguish <em>fact</em> from <em>opinion</em>. An opinion often begins with a verb connected with thinking (e.g. <em>think, believe, expect, reckon</em>) or a phrase like <em>in my view, as I see it</em>.</div>
+      <div id="p8-ex2new"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 2.16 – Listen again: Fact or Opinion?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.16</span><audio controls src="L3_track_2.16.mp3"></audio></div>
+      <div class="vbox">
+        <strong>Decide: is each sentence a fact (F) or an opinion (O)?</strong><br>
+        1. Sabine Moreau began her journey in Belgium.<br>
+        2. She travelled through six different countries before arriving in Croatia.<br>
+        3. She wanted to spend a couple of days on her own.<br>
+        4. Her son contacted the police.<br>
+        5. Ms Moreau invented the story about following her satnav by mistake.<br>
+        6. Hundreds of people follow their satnavs without thinking and end up at the wrong destination.
+      </div>
+      <div id="p8-ex3new"></div>
+    </div>
+    <div class="card">
+      <div class="sech2">📍 Unit 5C – Gadgets &amp; Opinions (SB p.58–59)</div>
+      <h2><span class="badge">Ex 5</span> Audio 2.17 – Five dialogues: which gadgets are mentioned?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.17</span><audio controls src="L3_track_2.17.mp3"></audio></div>
+      <div class="vbox"><strong>Gadgets:</strong> Bluetooth headset · Bluetooth speaker · camcorder · digital radio · games console · memory stick · MP3 player · satnav · smartphone · smartwatch · tablet</div>
+      <div id="p8-ex5new"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.17 – Listen again: Choose the correct answer (a–c)</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.17</span><audio controls src="L3_track_2.17.mp3"></audio></div>
+      <div id="p8-ex6new"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.14 – Vocabulary: Computing collocations. Match a–e with 1–5 and f–j with 6–10.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.14</span><audio controls src="L3_track_2.14.mp3"></audio></div>
+      <div style="overflow-x:auto;margin-bottom:12px">
+        <table style="border-collapse:collapse;width:100%;font-size:.84rem">
+          <thead><tr>
+            <th style="background:#7c3aed;color:#fff;padding:8px 12px;border:1px solid #a78bfa" colspan="2">Computing: useful collocations</th>
+          </tr></thead>
+          <tbody>
+            <tr style="background:#f5f3ff">
+              <td style="padding:8px 12px;border:1px solid #e5e7eb;vertical-align:top;width:45%">
+                <strong>1</strong> open / close<br>
+                <strong>2</strong> save<br>
+                <strong>3</strong> enter<br>
+                <strong>4</strong> scroll up / down<br>
+                <strong>5</strong> empty
+              </td>
+              <td style="padding:8px 12px;border:1px solid #e5e7eb;vertical-align:top">
+                <strong>a</strong> the trash, the recycle bin<br>
+                <strong>b</strong> a page, a menu, a document<br>
+                <strong>c</strong> your password, your username, your name, your address<br>
+                <strong>d</strong> a document, a file, a photo, your work<br>
+                <strong>e</strong> an app, a new window, a folder, a file, a document
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;border:1px solid #e5e7eb;vertical-align:top">
+                <strong>6</strong> check / uncheck<br>
+                <strong>7</strong> follow<br>
+                <strong>8</strong> copy and paste<br>
+                <strong>9</strong> create<br>
+                <strong>10</strong> click / double click on
+              </td>
+              <td style="padding:8px 12px;border:1px solid #e5e7eb;vertical-align:top">
+                <strong>f</strong> a link<br>
+                <strong>g</strong> a box<br>
+                <strong>h</strong> a button, an icon, a link<br>
+                <strong>i</strong> text, a photo, a file, a document, a link, a folder<br>
+                <strong>j</strong> an account, a document, a file, a link, a folder
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="p6-ex5c"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.15 – Listen to three helpline dialogues. Circle the correct answers (a–c).</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.15</span><audio controls src="L3_track_2.15.mp3"></audio></div>
+      <div id="p6-ex6c"></div>
+    </div>
+    <div id="p6-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(6)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(6)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(5)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(7)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P7: Unit 6 – Ambitions -->
+<div id="screen-7" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 7 – Unit 6: Ambitions &amp; Career Plans</h1><div><div class="pbwrap"><div class="pb" style="width:64%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 6 · SB p.66–67</div>
+      <div class="strat"><strong>📘 Strategy</strong>Listen for comparative and superlative adjective forms. Double comparatives (<em>more and more…</em>) show change; <em>the … the …</em> structures show that two things change together.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.25 – Listen: which jobs are discussed? Choose from the list (3 are extra).</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.25</span><audio controls src="L3_track_2.25.mp3"></audio></div>
+      <div class="vbox"><strong>Jobs:</strong> hotel receptionist &nbsp;·&nbsp; nurse &nbsp;·&nbsp; police officer &nbsp;·&nbsp; sales assistant &nbsp;·&nbsp; sports coach &nbsp;·&nbsp; teacher</div>
+      <div id="p7-ex5c"></div>
+    </div>
+    <div class="card">
+      <div class="strat" style="border-left-color:#9333ea">
+        <strong>📗 RECYCLE! Comparison</strong><br>
+        <strong>a</strong> Key forms: <em>kinder – the kindest &nbsp;·&nbsp; more practical – the most practical &nbsp;·&nbsp; less sociable – the least sociable &nbsp;·&nbsp; (not) as intelligent as</em><br>
+        <strong>b</strong> Double comparatives (showing change): <em>You're getting more and more impatient!</em><br>
+        <strong>c</strong> The … the … structure (two things change together): <em>The more arrogant you are, the less popular you'll be.</em>
+      </div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.25 – Complete the sentences with the correct form of the adjectives. Listen again and check.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.25</span><audio controls src="L3_track_2.25.mp3"></audio></div>
+      <div id="p7-ex6c"></div>
+    </div>
+    <div id="p7-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(7)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(7)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(6)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(8)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P8: Unit 7 – Journalism -->
+<div id="screen-8" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 8 – Unit 6: Journalism</h1><div><div class="pbwrap"><div class="pb" style="width:73%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 6 · SB p.74–85</div>
+      <div class="strat"><strong>📘 Strategy</strong>When listening to a more formal text, pay attention to <strong>linking words and phrases</strong>. These tell you how pieces of information are connected: a contrast, a result, an example, or an emphasis. Words like <em>although, because, so, however, therefore</em> signal how ideas relate.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> USE OF ENGLISH – Complete the article with suitable words.</h2>
+      <div class="vbox" style="line-height:2.1;font-size:.85rem">
+        At the age of sixteen, Nellie Bly read an article in her local newspaper which argued that women were not able to do the same jobs <sup>1</sup><input type="text" class="qi" id="p8-ex2-0" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> men. Furious, she wrote an anonymous article in reply and sent it to the paper. The paper's editor was so impressed <sup>2</sup><input type="text" class="qi" id="p8-ex2-1" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> he offered her a job: Nellie was now a journalist! At that time, female journalists mostly wrote about fashion and gardening, but Nellie had other ideas. She was determined to be an investigative journalist. <sup>3</sup><input type="text" class="qi" id="p8-ex2-2" placeholder="___" style="width:100px;display:inline-block;margin:0 4px"> wrote about serious issues, like women's rights and the problems of factory workers. But when Nellie accused companies <sup>4</sup><input type="text" class="qi" id="p8-ex2-3" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> treating workers badly, they refused to buy advertisements in the paper, so the editor stopped Nellie's investigations. <sup>5</sup><input type="text" class="qi" id="p8-ex2-4" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> 1887, Nellie moved to the <em>New York World</em> newspaper, where the owner, Joseph Pulitzer, helped her to do undercover work. For example, Nellie pretended to be insane so that she could become a patient at a psychiatric hospital in New York and find out <sup>6</sup><input type="text" class="qi" id="p8-ex2-5" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> the conditions there. As a result of Nellie's shocking discoveries, the authorities changed the way they cared <sup>7</sup><input type="text" class="qi" id="p8-ex2-6" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> mentally ill patients. This was probably her greatest success <sup>8</sup><input type="text" class="qi" id="p8-ex2-7" placeholder="___" style="width:55px;display:inline-block;margin:0 4px"> an investigative journalist.
+      </div>
+      <div class="sa" style="margin-top:8px"><label><input type="radio" name="p8-ex2r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="p8-ex2r" value="2"><span>🟡 Mostly correct</span></label><label><input type="radio" name="p8-ex2r" value="1"><span>❌ Several wrong</span></label></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Linking phrases – Add one phrase from the box to each group (a–d).</h2>
+      <div class="vbox"><strong>for instance &nbsp;·&nbsp; for that reason &nbsp;·&nbsp; however &nbsp;·&nbsp; indeed</strong></div>
+      <div id="p8-ex4"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 2.27 – Circle the endings (a or b) that make sense</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.27</span><audio controls src="L3_track_2.27.mp3"></audio></div>
+      <p style="font-size:.84rem;color:#4b5563;margin-bottom:9px">Listen to six sentences and the linking words which follow. Circle the ending (a or b) that makes sense.</p>
+      <div id="p11-ex5"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 2.28 – Listen and check your answers to Ex 5</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.28</span><audio controls src="L3_track_2.28.mp3"></audio></div>
+      <div id="p11-ex6"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 2.29 – Radio interview: Nellie Bly's trip around the world</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.29</span><audio controls src="L3_track_2.29.mp3"></audio></div>
+      <p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Listen to a radio interview about Nellie Bly's most famous adventure. What are the missing places on the map (A–C)? (Route: New York City → A → Brindisi → Port Said → Singapore → Amiens → B)</p>
+      <div id="p11-ex7"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 8</span> Audio 2.29 – Listen again: True or False?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.29</span><audio controls src="L3_track_2.29.mp3"></audio></div>
+      <div id="p11-ex8"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 9</span> Audio 2.30 – Listen again (extra comprehension)</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.30</span><audio controls src="L3_track_2.30.mp3"></audio></div>
+      <div id="p11-ex9"></div>
+    </div>
+    <div id="p8-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(8)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(8)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(7)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(9)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- P9: Unit 8 – Health -->
+<div id="screen-9" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 9 – Unit 7: Poetry &amp; Society</h1><div><div class="pbwrap"><div class="pb" style="width:82%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 9 · SB p.98–109</div>
+      <div class="strat"><strong>📘 Strategy</strong>Sometimes the information you need is <em>implied</em> rather than stated directly. If somebody says "I wish I was back home", it implies they are not happy where they are. Listen for what speakers suggest, not just what they state.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> Audio 3.03 – Read and listen to the poem "The Lost Generation"</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.03</span><audio controls src="L3_track_3.03.mp3"></audio></div>
+      <div class="vbox" style="font-size:.82rem;line-height:1.9">
+        <p style="margin:0 0 4px"><strong>The Lost Generation</strong> &nbsp;<em>by Jonathan Reed</em></p>
+        <p style="margin:0;white-space:pre-line">I am part of a lost generation.
+And I refuse to believe that
+I can change the world.
+I realize this may be a shock, but
+&#x2018;Happiness comes from within&#x2019;
+Is a lie, and
+&#x2018;Money will make me happy&#x2019;
+So in 30 years, I will tell my children
+They are not the most important thing in my life.
+My employer will know that
+I have my priorities <u>straight</u> because
+Work
+Is more important than
+Family
+I tell you this:
+Once upon a time
+Families stayed together
+But this will not be true in my <u>era</u>.
+This is a <u>quick fix</u> society
+Experts tell me
+Thirty years from now, I will be celebrating the tenth anniversary of my divorce.
+I do not concede that
+I will live in a country of my own making.
+In the future,
+Environmental destruction will be <u>the norm</u>.
+No longer can it be said that
+My <u>peers</u> and I care about this Earth.
+It will be evident that
+My generation is <u>apathetic</u> and <u>lethargic</u>.
+It is <u>foolish</u> to presume that
+There is hope.
+And all of this will come true unless we reverse it.</p>
+        <p style="margin:4px 0 0;font-size:.75rem;color:#6b7280;font-style:italic">&#x1F4A1; Read from the last line to the first for the reversed, optimistic meaning.</p>
+      </div>
+      <div id="p13-ex2"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Vocabulary – Match the underlined words in the poem with definitions a–h.</h2>
+      <div class="vbox" style="font-size:.82rem">
+        <strong>Underlined words in the poem:</strong> <em>straight &nbsp;· era · quick fix · the norm · peers · apathetic · lethargic · foolish</em>
+      </div>
+      <div id="p10-ex3voc"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 3.04 – Listen again: poem read from the last line</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.04</span><audio controls src="L3_track_3.04.mp3"></audio></div>
+      <p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">How does starting with the last line change the meaning? Which version do you agree with more?</p>
+      <div id="p13-ex4"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 3.05 – Five short extracts: circle the correct implication (a or b)</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.05</span><audio controls src="L3_track_3.05.mp3"></audio></div>
+      <div class="strat"><strong>📘 Listening Strategy</strong>Read Listening Strategy. Then listen to five short extracts and circle the correct implication: <strong>a</strong> or <strong>b</strong>.</div>
+      <div id="p13-ex5"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Audio 3.06 – Five speakers: Match to statements A–F</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.06</span><audio controls src="L3_track_3.06.mp3"></audio></div>
+      <div class="vbox">
+        <strong>This speaker believes that:</strong><br>
+        A sad topics make better poetry. &nbsp; B poetry was better in previous eras.<br>
+        C men are not as good as women at writing poems. &nbsp; D poetry is still popular with young people.<br>
+        E young people like poetry more than adults do. &nbsp; F good poems tell us about the poet's feelings.
+      </div>
+      <div id="p13-ex6"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 3.06 – Listen again: Circle the words that sum up speakers' opinions</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.06</span><audio controls src="L3_track_3.06.mp3"></audio></div>
+      <div class="vbox" style="font-size:.82rem">
+        1. These days, rap artists <strong>are / aren't</strong> the best poets.<br>
+        2. Writing poems for greetings cards <strong>would / wouldn't</strong> be a good job.<br>
+        3. A good poem <strong>has / doesn't have</strong> to rhyme and make sense.<br>
+        4. Learning poems by heart <strong>is / isn't</strong> a waste of time.<br>
+        5. Poems <strong>are / aren't</strong> always a true reflection of the poet's feelings.
+      </div>
+      <div id="p13-ex7"></div>
+    </div>
+    <div id="p9-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(9)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(9)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(8)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(10)">→ Next</button>
+      <button class="btn btns" onclick="goToResults()">📊 See Results</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-10" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 10 – Unit 8: Communication</h1><div><div class="pbwrap"><div class="pb" style="width:91%"></div></div></div></div>
+  <div class="content">
+    <div class="card">
+      <h2><span class="badge">Ex 2</span> Audio 3.13 – Radio programme part 1: Undersea cables</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.13</span><audio controls src="L3_track_3.13.mp3"></audio></div>
+      <p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Listen to part 1. Check your ideas from exercise 1.</p>
+      <div id="p9-ex2"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Audio 3.13 – Listen again: What is the significance of these numbers?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.13</span><audio controls src="L3_track_3.13.mp3"></audio></div>
+      <div class="vbox"><strong>Numbers:</strong> &nbsp; 95% &nbsp; · &nbsp; 8 cm &nbsp; · &nbsp; 21,000 km &nbsp; · &nbsp; 60%</div>
+      <div id="p9-ex3"></div>
+    </div>
+    <div class="card">
+      <div class="strat"><strong>📘 Listening Strategy 1</strong>Sometimes you need to listen for the <strong>main idea (gist)</strong> rather than a specific piece of information. Do not worry about a few unknown words – you can often understand the gist without understanding every word.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 3.14 – Four voicemail messages: circle the correct words</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.14</span><audio controls src="L3_track_3.14.mp3"></audio></div>
+      <div id="p9-ex4"></div>
+    </div>
+    <div class="card">
+      <div class="strat"><strong>📘 Listening Strategy 2</strong>When doing a multiple-choice task, do not choose the correct answer based only on one or two words. Remember that the incorrect options also have some connection with what you hear.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 3.15 – Radio programme part 2: Multiple choice (a–d)</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.15</span><audio controls src="L3_track_3.15.mp3"></audio></div>
+      <div id="p9-ex5"></div>
+    </div>
+
+    <div id="p10-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(10)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(10)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(9)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(11)">→ Next</button>
+      <button class="btn btns" onclick="goToResults()">📊 See Results</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-11" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 11 – Unit 9: Travel Solutions</h1><div><div class="pbwrap"><div class="pb" style="width:100%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Unit 9 · SB p.110–121</div></div>
+    <!-- Image 6: 3.24-3.26 (9C Travel Solutions) -->
+    <div class="card" style="background:#f0fdf4;border:1px solid #bbf7d0">
+      <h3 style="margin:0 0 8px;color:#166534;font-size:.9rem">&#x1F4CB; Travel Collocations &ndash; Answer Key</h3>
+      <div style="font-size:.8rem;line-height:1.8;color:#15803d">
+        <strong>board</strong>: a plane/flight &nbsp;&middot; a ship &nbsp;&middot; a train<br>
+        <strong>book</strong>: a car &nbsp;&middot; a holiday &nbsp;&middot; a hotel &nbsp;&middot; a room<br>
+        <strong>check in</strong>: luggage/bags<br>
+        <strong>check into</strong>: a hotel<br>
+        <strong>hail</strong>: a cab/taxi<br>
+        <strong>hire</strong>: a car<br>
+        <strong>miss</strong>: a plane/flight &nbsp;&middot; a ship &nbsp;&middot; a train<br>
+        <strong>reach</strong>: a destination<br>
+        <strong>stay at</strong>: a hotel
+      </div>
+    </div>
+    <div class="card">
+      <div class="strat"><strong>📘 Listening Strategy 1</strong>It is sometimes difficult to catch <strong>names and proper nouns</strong> when you listen. However, you can use the words around them (including collocations) to work out what they are (a person, a place, a thing). For example, if you hear "We stayed four nights at the Grand Plaza", the underlined words tell you that the Grand Plaza is a hotel.</div>
+      <div class="strat" style="margin-top:8px"><strong>📘 Listening Strategy 2 (Register)</strong>Being aware of <strong>formal register</strong> can help you identify the context. Formal terms: <em>adjacent to (next to) · due to (because of) · prior to (before) · beverages (drinks) · to commence (to begin) · to depart (to leave) · to proceed to (to go to) · to purchase (to buy) · refreshments (food and drink) · to terminate (to end)</em>.</div>
+      <h2><span class="badge">Ex 3</span> Audio 3.24 – Listen to six short extracts: Who or what is it?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.24</span><audio controls src="L3_track_3.24.mp3"></audio></div>
+      <div class="vbox">
+        <strong>Who or what is …</strong><br>
+        1 the Princess Ariadne? &nbsp;&nbsp; 2 a tuk tuk? &nbsp;&nbsp; 3 Ely? &nbsp;&nbsp; 4 Martins &amp; Cole? &nbsp;&nbsp; 5 Damian Fairchild? &nbsp;&nbsp; 6 Bellagio?
+      </div>
+      <div id="p9-ex6"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 3.24 – Which extracts (1–6) are formal? Which words gave you the clue?</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.24</span><audio controls src="L3_track_3.24.mp3"></audio></div>
+      <div id="p9-ex4b"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 5</span> Audio 3.25 – Four extracts: circle the correct answer (a–c)</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.25</span><audio controls src="L3_track_3.25.mp3"></audio></div>
+      <div id="p9-ex5b"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 6</span> Make the phrases more formal by replacing the underlined words with words from the list below.</h2>
+      <div class="vbox" style="font-size:.82rem;margin-bottom:8px">
+        <strong>Sentences to rewrite (underlined words → formal equivalents):</strong>
+        <ol style="margin:6px 0 0 1.2rem;line-height:2">
+          <li>I am <u>sorry</u> to tell you that your flight has been delayed.</li>
+          <li>I would <u>ask</u> that passengers <u>stay</u> seated at all times.</li>
+          <li>We will give you an update <u>later</u>.</li>
+          <li>We will pass through the cabin with <u>free food and drink</u>.</li>
+          <li>We are <u>getting near</u> our destination.</li>
+          <li>We should be there <u>about</u> ten minutes <u>early</u>.</li>
+          <li>We <u>understand</u> that this is inconvenient.</li>
+        </ol>
+      </div>
+      <div class="vbox" style="font-size:.82rem"><strong>Word list:</strong> ahead of schedule &nbsp;· appreciate · approaching · approximately · complimentary · in due course · inform · refreshments · regret · remain · request</div>
+      <div id="p11-ex6f"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 7</span> Audio 3.26 – Listen to formal extracts from Ex 3 again: check answers to Ex 6</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.26</span><audio controls src="L3_track_3.26.mp3"></audio></div>
+      <div id="p9-ex7"></div>
+    </div>
+    <div id="p11-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(11)">✅ Submit</button>
+      <button class="btn btnd" onclick="redoPractice(11)">🔄 Redo</button>
+      <button class="btn btnd" onclick="goTo(10)">← Prev</button>
+      <button class="btn btnd" onclick="goHome()">🏠 Home</button>
+      <button class="btn btnd" onclick="goTo(12)">→ Next</button>
+      <button class="btn btns" onclick="goToResults()">📊 See Results</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-12" class="screen">
+  <div class="brand-bar">Huong Stella Paradigm</div>
+  <div class="navbar"><h1>Practice 12 – Exam Trainers 1–5 (Exam Skills)</h1><div><div class="pbwrap"><div class="pb" style="width:9%"></div></div></div></div>
+  <div class="content">
+    <div class="card"><div class="unit-tag">Exam Skills Trainer 1</div>
+      <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>Incorrect options often contain language that is <strong>similar</strong> to words in the text, so it is important to listen carefully to the <strong>whole text</strong>, and not just match words or phrases that the speaker uses to the options.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Read the strategy. Then read the short extract and the question below it. Choose the correct answer (A–C). What makes the other options incorrect?</h2>
+      <div class="vbox" style="font-size:.82rem;font-style:italic;border-left:3px solid #7c3aed;padding-left:10px">
+        "I used to think my childhood was great because both my parents were in the army and we were travelling around all the time. It was fantastic to see so many cool places, but now I realise that I missed out on getting to know my family back home in America."
+      </div>
+      <p style="font-size:.84rem;margin-top:10px"><strong>The speaker says that the way she grew up …</strong></p>
+      <div id="et1-ex3"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 1.17 – You will hear six short extracts. There is one question for each extract. Choose the best answer (A–C).</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.17</span><audio controls src="L3_track_1.17.mp3"></audio></div>
+      <div id="et1-ex4"></div>
+    </div>
+        <div class="card"><div class="unit-tag">Exam Skills Trainer 2</div>
+      <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>In some listening tasks, you must <strong>match different extracts to sentences</strong> about them. The questions require you to identify the main idea or context of the extract, or the intention of the speaker. Listening for different <strong>styles of speech, tones of voice and choices of language</strong> will help you to identify these.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Read the strategy. Then read extracts 1 and 2 and match them with descriptions a–f. Match each extract with TWO descriptions. What do you think is the situation in each case?</h2>
+      <div class="vbox" style="font-size:.82rem">
+        <strong>🎧 Extract 1:</strong> <em>"I couldn't believe it when I woke up and saw that my leg was broken, my skis were gone and I was all alone. I was terrified, but fortunately someone found me!"</em><br><br>
+        <strong>🎧 Extract 2:</strong> <em>"OK, now bend and touch your toes. Good … that's right! Now stand up straight, relax your arms and jump up and down ten times – that's one, two, three …"</em>
+      </div>
+      <p style="font-size:.84rem;margin-top:10px"><strong>This person …</strong></p>
+      <div class="vbox" style="font-size:.82rem;columns:2;column-gap:20px">
+        a uses the first person (I).<br>b is enthusiastic.<br>c is patient.<br>d describes personal feelings.<br>e is impatient.<br>f uses the imperative.
+      </div>
+      <div id="et2-ex3"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 1.36 – You will hear four people talking about body-related subjects. You will hear the audio twice. Match sentences A–E with speakers 1–4. There is one extra sentence.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 1.36</span><audio controls src="L3_track_1.36.mp3"></audio></div>
+      <div class="vbox" style="font-size:.82rem">
+        <strong>This speaker …</strong><br>
+        A talks about the result of a past situation.<br>
+        B wants to advertise a solution to a problem.<br>
+        C asks for advice about a problem.<br>
+        D gives instructions to a group.<br>
+        E predicts the future results of a problem.
+      </div>
+      <div id="et2-ex4"></div>
+    </div>
+        <div class="card"><div class="unit-tag">Exam Skills Trainer 3</div>
+      <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>You may be asked if statements about a listening extract are <strong>true or false</strong>. Remember that statements appear in the <strong>same order</strong> as information about them in the extract. Speakers often use <strong>different words</strong> to express the same ideas, so listen for ideas, not exact words.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Read the strategy. Then look at the statement below. Choose the extract, A or B, which matches the statement.</h2>
+      <p style="font-size:.84rem;font-weight:600;margin-bottom:10px">The woman missed several previous yoga classes.</p>
+      <div class="vbox" style="font-size:.82rem">
+        <strong>🎧 A:</strong> <em>"I've only just come back to yoga after taking some time off – I found I really missed it."</em><br><br>
+        <strong>🎧 B:</strong> <em>"There was an emergency at home, so I couldn't come to the last class, but I don't like missing lessons."</em>
+      </div>
+      <div id="et3-ex3"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 2.23 – You will hear a conversation between two friends about smartphones. Are the sentences true or false? Write T or F. You will hear the recording twice.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 2.23</span><audio controls src="L3_track_2.23.mp3"></audio></div>
+      <div id="et3-ex4"></div>
+    </div>
+        <div class="card"><div class="unit-tag">Exam Skills Trainer 4</div>
+      <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>In a multiple-choice listening task, it is important to note the <strong>key words</strong> in each question and each option before you listen. In particular, note key nouns and the verb (indicating the action). This will help you to know what to listen for.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Read the strategy above and underline the key words in the question below. Then underline the information in the listening extract that helps you choose the correct answer (A–C).</h2>
+      <div class="vbox" style="font-size:.82rem;font-style:italic;border-left:3px solid #7c3aed;padding-left:10px">
+        "A lot of employers think it is important to have very loyal workers. But personally, I don't find loyalty to be a very valuable quality in an employee. I like to work with people who show intelligence, thoughtfulness and creativity. People who are extremely loyal often just go along with what their boss says. They avoid asking too many questions, and I think that in the end they lose their self-confidence."
+      </div>
+      <p style="font-size:.84rem;margin-top:10px"><strong>What quality does the speaker value least in an employee?</strong></p>
+      <div id="et4-ex3"></div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 3.10 – You will hear a talk. Look at the questions below and choose the best answer (A–C).</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.10</span><audio controls src="L3_track_3.10.mp3"></audio></div>
+      <div id="et4-ex4"></div>
+    </div>
+        <div class="card"><div class="unit-tag">Exam Skills Trainer 5</div>
+      <div class="strat" style="border-color:#e76f51"><strong>📋 Exam Strategy</strong>When completing a <strong>summary</strong> of a listening, first read through the summary to get an idea of what the listening text will be about. Think of possible answers to fill the gaps.</div>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 3</span> Read the strategy above. Then read the summary in exercise 4 and try to think of possible answers.</h2>
+      <p style="font-size:.83rem;color:#4b5563">Read the summary below before listening. Try to predict what type of word goes in each gap (noun, adjective, verb phrase, etc.).</p>
+    </div>
+    <div class="card">
+      <h2><span class="badge">Ex 4</span> Audio 3.29 – You will hear a dialogue between two friends about teenagers and mobile phones. Complete the information in the summary. Use no more than three words in each gap.</h2>
+      <div class="aplayer"><span class="alabel">🔊 Audio 3.29</span><audio controls src="L3_track_3.29.mp3"></audio></div>
+      <div class="vbox" style="font-size:.84rem;line-height:2.2">
+        Erin was reading a magazine article about <strong>mobile phones</strong>. The article reported that some
+        <sup>1</sup><input type="text" class="qi" id="et5-gap-0" placeholder="___" style="width:130px;display:inline-block;margin:0 4px">
+        had to sign a contract with their parents about how much they could use their mobiles. Erin agreed that the contract was
+        <sup>2</sup><input type="text" class="qi" id="et5-gap-1" placeholder="___" style="width:120px;display:inline-block;margin:0 4px">.
+        However, Carl said that he
+        <sup>3</sup><input type="text" class="qi" id="et5-gap-2" placeholder="___" style="width:130px;display:inline-block;margin:0 4px">
+        if he was asked to sign a document. He insisted that his parents
+        <sup>4</sup><input type="text" class="qi" id="et5-gap-3" placeholder="___" style="width:120px;display:inline-block;margin:0 4px">
+        him to keep his promises. He also said that he was not
+        <sup>5</sup><input type="text" class="qi" id="et5-gap-4" placeholder="___" style="width:120px;display:inline-block;margin:0 4px">
+        phones and he complained that it was
+        <sup>6</sup><input type="text" class="qi" id="et5-gap-5" placeholder="___" style="width:110px;display:inline-block;margin:0 4px">
+        that Erin spent so much time on her phone.
+      </div>
+      <div class="sa" style="margin-top:8px"><label><input type="radio" name="et5-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et5-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et5-ex4r" value="1"><span>❌ Several wrong</span></label></div>
+    </div>
+        <div id="p12-score-area"></div>
+    <div class="bgrp">
+      <button class="btn btnp" onclick="submitPractice(12)">&#x2705; Submit</button>
+      <button class="btn btnd" onclick="redoPractice(12)">&#x1F504; Redo</button>
+      <button class="btn btnd" onclick="goTo(11)">&#x2190; Prev</button>
+      <button class="btn btnd" onclick="goHome()">&#x1F3E0; Home</button>
+      <button class="btn btns" onclick="goToResults()">&#x1F4CA; See Results</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-results" class="screen">
+  <div class="brand-bar np">Huong Stella Paradigm</div>
+  <div class="navbar np"><h1>&#x1F4CA; Total Results &#8211; Level 3</h1></div>
+  <div class="content">
+    <div id="results-content"></div>
+    <div class="bgrp np">
+      <button class="btn btnp" onclick="exportPDF()">&#x1F4C4; Export PDF Report</button>
+      <button class="btn btns" onclick="sendEmail()">&#x1F4E7; Send to Teacher</button>
+      <button class="btn btnd" onclick="goHome()">&#x1F3E0; Home</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TEACHER_EMAIL='huongstella8@gmail.com';
+let _timerInterval=null,_timerSecs=0,_curPractice=0;
+const _practiceTime={};
+
+function _fmtTime(s){const m=String(Math.floor(s/60)).padStart(2,'0');return m+':'+String(s%60).padStart(2,'0');}
+
+function _startTimer(n){
+  _stopTimer();
+  _timerSecs=0;_curPractice=n;
+  const el=document.getElementById('timer-'+n);
+  if(el){el.textContent='⏱ 00:00';el.className='timer-badge timer-running';}
+  _timerInterval=setInterval(()=>{
+    _timerSecs++;
+    if(el)el.textContent='⏱ '+_fmtTime(_timerSecs);
+  },1000);
+}
+function _stopTimer(){
+  if(_timerInterval){clearInterval(_timerInterval);_timerInterval=null;}
+  const el=_curPractice?document.getElementById('timer-'+_curPractice):null;
+  if(el)el.className='timer-badge';
+}
+function _injectExtras(){
+  // Inject timer + student bar into practice screen navbars
+  for(let n=1;n<=12;n++){
+    const sc=document.getElementById('screen-'+n);
+    if(!sc)continue;
+    const nav=sc.querySelector('.navbar');
+    if(!nav)continue;
+    if(!nav.querySelector('.timer-badge')){
+      const t=document.createElement('span');t.id='timer-'+n;t.className='timer-badge';t.textContent='⏱ 00:00';
+      nav.appendChild(t);
+    }
+    if(!nav.querySelector('.sbar')){
+      const sb=document.createElement('span');sb.id='sbar-'+n;sb.className='sbar';
+      nav.appendChild(sb);
+    }
+  }
+  _updateAllSbars();
+}
+function _updateAllSbars(){
+  const nm=getStudentName(),em=getStudentEmail();
+  const txt=(nm&&nm!=='(Unknown)'?'👤 '+nm:'')+(em?' · '+em:'');
+  for(let n=1;n<=12;n++){const el=document.getElementById('sbar-'+n);if(el)el.textContent=txt;}
+}
+let attempts={}; // always start fresh each session
+
+const PRACTICES=[
+  {id:1, title:'Introduction – Feelings', unit:'Unit Introduction'},
+  {id:2, title:'Identity & Family Tensions',          unit:'Unit 1'},
+  {id:3, title:'Leisure',                             unit:'Unit 2'},
+  {id:4, title:'The Body',                            unit:'Unit 3'},
+  {id:5, title:'Home',                                unit:'Unit 4'},
+  {id:6, title:'Technology & Computing',              unit:'Unit 5'},
+  {id:7, title:'Ambitions & Career Plans',            unit:'Unit 6'},
+  {id:8, title:'Journalism',              unit:'Unit 6'},
+  {id:9, title:'Poetry & Society',                    unit:'Unit 7'},
+  {id:10,title:'Communication',                       unit:'Unit 8'},
+  {id:11,title:'Travel Solutions',                    unit:'Unit 9'},
+  {id:12,title:'Exam Trainers 1–5',unit:'Exam Skills'}
+];
+
+// Answer keys – internal IDs kept from original exercise builders
+const AK={
+  p1:{
+    ex2_kw:['sing','song','own','himself','herself','solo','alone'],
+    ex3:['anxious','excited','frightened','terrified','upset'],
+    ex5:['b','a','e','d','f','c']
+  },
+  p2:{
+    ex5:[null,null,null,null],
+    ex6:['b',null,null,null]
+  },
+  // Unit 2C (context)
+  p4ex4:['A','B','C','D'],
+  p4ex5:['M','M','B','S','S'],
+  // Unit 2E/G (word skills) handled inline in submit
+  p6:{
+    ex5:['angry','hopeful','surprised','anxious','thankful','ashamed'],
+  },
+  p7:{ex4:['T','T','T','F','F','F']},
+  p8:{ex5:['c','b','d','e','a','i','g','f','h']},
+  p9:{
+    ex1:['a','b','a','a','c','b','a','b'],
+    ex4:['D','B','E','A','F'],
+    ex5:['T','T','F','F','T']
+  }
+};
+
+const LBL={
+  p1:{ex5:['b) envious','a) confused','e) relieved','d) proud','f) suspicious','c) excited']},
+  p2:{ex6:['b (promoting something)',null,null,null]},
+  p4ex4:['A – restaurant/café','B – office','C – cooking class','D – classroom'],
+  p4ex5:['M – Matthew','M – Matthew','B – Both','S – Scarlett','S – Scarlett'],
+  p6:{
+    ex5:['angry','hopeful','surprised','anxious','thankful','ashamed'],
+  },
+  p7:{ex4:['True','True','True','False','False','False']},
+  p8:{ex5:['c) mix','b) press lightly','d) add newer version','e) write a reply','a) remove','i) publish','g) save from internet','f) subscribe to','h) put online']},
+  p9:{
+    ex1:['a) performing','b) visual','a) performing','a) performing','c) screen','b) visual','a) performing','b) visual'],
+    ex4:['D','B','E','A','F'],
+    ex5:['True','True','False','False','True']
+  }
+};
+
+// ── UTILITIES ─────────────────────────────────────────────────────────
+function norm(s){return(s||'').toString().toLowerCase().replace(/[\s,.;:-]+/g,' ').trim();}
+function matchStr(u,c){const un=norm(u),cn=norm(c);return un===cn||cn.split('/').map(x=>norm(x)).some(v=>un===v)||un.includes(norm(c.split('/')[0]));}
+function markRow(rid,fid,ok,lbl){
+  const r=document.getElementById(rid),f=document.getElementById(fid);
+  if(r)r.className='qrow '+(ok?'ca':'wa');
+  if(f)f.innerHTML=ok?'<span class="fc">✓ Correct</span>':`<span class="fw">✗ Incorrect</span> <span class="fl">Correct: <strong>${lbl||''}</strong></span>`;
+  return ok?1:0;
+}
+
+// ── BUILDERS ─────────────────────────────────────────────────────────
+function buildP1(){
+  document.getElementById('p1-ex2').innerHTML=`<div class="qrow" id="p1-ex2-row-0"><span class="qnum">→</span><div class="qtxt">Your answer:<br><textarea class="qt" id="p1-ex2-0" placeholder="Write your answer here…" style="margin-top:6px"></textarea><div class="fbrow" id="p1-ex2-fb-0"></div></div></div>`;
+  const f3=['anxious','embarrassed','excited','frightened','terrified','thrilled','upset'];
+  let h='<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:4px">';
+  f3.forEach((f,i)=>{h+=`<label style="display:flex;align-items:center;gap:4px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:5px 11px;cursor:pointer;font-size:.84rem"><input type="checkbox" id="p1-ex3-${i}" value="${f}" style="accent-color:#7c3aed"> ${f}</label>`;});
+  h+='</div><div class="fbrow" id="p1-ex3-fb" style="margin-top:8px"></div>';
+  document.getElementById('p1-ex3').innerHTML=h;
+  const opts=['a. confused','b. envious','c. excited','d. proud','e. relieved','f. suspicious'];
+  let h5='';
+  for(let i=0;i<6;i++){h5+=`<div class="qrow" id="p1-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">Speaker ${i+1}<br><select class="qs" id="p1-ex5-${i}" style="margin-top:5px"><option value="">-- select --</option>${['a','b','c','d','e','f'].map((v,j)=>`<option value="${v}">${opts[j]}</option>`).join('')}</select><div class="fbrow" id="p1-ex5-fb-${i}"></div></div></div>`;}
+  document.getElementById('p1-ex5').innerHTML=h5;
+}
+
+function buildP2(){
+  const q5=[
+    {q:"Bia's dad…",opts:["a) was born in the UK","b) is going to have a career change","c) wants to study law"]},
+    {q:"Sandra's family…",opts:["a) have always owned several farms","b) sold the first farm and bought a bigger one","c) have never owned land"]},
+    {q:"Callum's grandparents…",opts:["a) moved to Australia","b) started a successful business","c) went to university"]},
+    {q:"The fourth speaker…",opts:["a) has a large extended family","b) grew up in a different country","c) has parents with very different backgrounds"]}
+  ];
+  let h='';
+  q5.forEach((q,i)=>{h+=`<div class="qrow" id="p2-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px">${q.opts.map(o=>`<label><input type="radio" name="p2-ex5-${i}" value="${o[0]}"><span>${o}</span></label>`).join('')}</div><div class="fbrow" id="p2-ex5-fb-${i}"></div></div></div>`;});
+  document.getElementById('p2-ex5').innerHTML=h;
+  let h6='';
+  for(let i=0;i<4;i++){h6+=`<div class="qrow" id="p2-ex6-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">Speaker ${i+1}<div class="rg" style="margin-top:5px">${['a','b','c','d'].map(l=>`<label><input type="radio" name="p2-ex6-${i}" value="${l}"><span>${l})</span></label>`).join('')}</div><div class="fbrow" id="p2-ex6-fb-${i}"></div></div></div>`;}
+  document.getElementById('p2-ex6').innerHTML=h6;
+}
+
+function buildP3(){
+  // Unit 2C – Context Listening
+  document.getElementById('p3-ex4c').innerHTML=[1,2,3,4].map((n,i)=>`<div class="qrow" id="p3-ex4c-row-${i}"><span class="qnum">${n}.</span><div class="qtxt">Extract ${n}<div class="rg" style="margin-top:5px">${['A','B','C','D'].map(l=>`<label><input type="radio" name="p3-ex4c-${i}" value="${l}"><span>${l}</span></label>`).join('')}</div><div class="fbrow" id="p3-ex4c-fb-${i}"></div></div></div>`).join('');
+  const s5=['Is on a bus near the park.','Is talking about the weekend.','Will arrive at the same time.','Is not at home right now.',"Suggests meeting at 3 o'clock."];
+  document.getElementById('p3-ex5c').innerHTML=s5.map((s,i)=>`<div class="qrow" id="p3-ex5c-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p3-ex5c-${i}" value="M"><span>M – Matthew</span></label><label><input type="radio" name="p3-ex5c-${i}" value="S"><span>S – Scarlett</span></label><label><input type="radio" name="p3-ex5c-${i}" value="B"><span>B – Both</span></label></div><div class="fbrow" id="p3-ex5c-fb-${i}"></div></div></div>`).join('');
+  // Unit 2E/G – Word Skills
+  document.getElementById('p5-ex3a').innerHTML=`<div class="qrow" id="p5-ex3a-row-0"><span class="qnum">→</span><div class="qtxt">In compound nouns, which word carries the main stress?<div class="rg" style="margin-top:5px"><label><input type="radio" name="p5-ex3a" value="first"><span>The first word</span></label><label><input type="radio" name="p5-ex3a" value="second"><span>The second word</span></label><label><input type="radio" name="p5-ex3a" value="both"><span>Both equally</span></label></div><div class="fbrow" id="p5-ex3a-fb-0"></div></div></div>`;
+  const acts=['kayaking','surfing','parkour','karting','hiking','climbing','cycling'];
+  document.getElementById('p5-ex3b').innerHTML=`<div class="qrow" id="p5-ex3b-row-0"><span class="qnum">1.</span><div class="qtxt">Which five activities do they <strong>consider</strong>? (tick all that apply)<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px">${acts.map(a=>`<label style="display:flex;align-items:center;gap:4px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:5px 11px;cursor:pointer;font-size:.84rem"><input type="checkbox" id="p5-act-${a}" value="${a}" style="accent-color:#7c3aed"> ${a}</label>`).join('')}</div><div class="fbrow" id="p5-ex3b-fb-0"></div></div></div><div class="qrow" id="p5-ex3b-row-1"><span class="qnum">2.</span><div class="qtxt">Which activity do they <strong>agree on</strong>?<br><input type="text" class="qi" id="p5-ex3b-agree" placeholder="Type the activity…" style="margin-top:5px"><div class="fbrow" id="p5-ex3b-fb-1"></div></div></div>`;
+}
+
+function buildP4(){
+  // Ex2: self-assess pronunciation check
+  document.getElementById('p4-ex2').innerHTML='<div class="sa"><label><input type="radio" name="p4-ex2r" value="3"><span>✅ All pronounced correctly</span></label><label><input type="radio" name="p4-ex2r" value="2"><span>🟡 A few errors</span></label><label><input type="radio" name="p4-ex2r" value="1"><span>❌ Many errors</span></label></div>';
+  // Ex4: 6 sentences with wrong numbers – type the corrected number
+  const ex4s=[
+    'Normal body temperature for humans is 36.5–37.5°C.',
+    'An increase of just 5°C above normal body temperature can make you feel unwell.',
+    'About a quarter of people who go to Accident and Emergency have a fever.',
+    'You can get frostbite if the temperature of your skin falls to 10°C or below.',
+    'In 2000, a Norwegian woman survived after her body temperature had fallen to 30.7°C.',
+    'Less than 30% of adults whose temperature drops below 28°C survive.'
+  ];
+  document.getElementById('p4-ex4').innerHTML=ex4s.map((s,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<br><span style="font-size:.8rem;color:#6b7280">Corrected number:</span> <input type="text" class="qi" id="p4-ex4-${i}" placeholder="type correction…" style="width:130px;display:inline-block;margin:4px 0 4px 4px"><div class="sa" style="margin-top:5px"><label><input type="radio" name="p4-ex4r-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p4-ex4r-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+  // Ex5: open answer – who tested body limits deliberately?
+  document.getElementById('p4-ex5').innerHTML='<textarea class="qt" id="p4-ex5-0" placeholder="Write the names / descriptions you heard…" style="min-height:60px"></textarea><div class="sa" style="margin-top:6px"><label><input type="radio" name="p4-ex5r" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p4-ex5r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p4-ex5r" value="1"><span>❌ Missed</span></label></div>';
+  // Ex6: 5 T/F sentences (Audio 1.31 listen again)
+  const ex6s=[
+    'When a Russian space capsule had a major problem in 1971, the cosmonauts died in less than 30 seconds.',
+    'In 1966, a scientist passed out after 15 seconds in a vacuum.',
+    'The scientist passed out for 27 seconds.',
+    'In the 1960s, Randy Gardner stayed awake for more than 250 hours.',
+    'After staying awake for so long, Randy Gardner then slept for almost 50 hours.'
+  ];
+  document.getElementById('p4-ex6').innerHTML=ex6s.map((s,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p4-ex6-${i}" value="T"><span>True</span></label><label><input type="radio" name="p4-ex6-${i}" value="F"><span>False</span></label></div><div class="sa" style="margin-top:4px"><label><input type="radio" name="p4-ex6r-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p4-ex6r-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+}
+
+function buildP5(){
+  const feats=['hall','landing','porch','shutters','sliding doors','stairs','cellar','utility room','bay window','terrace'];
+  document.getElementById('p7-ex2').innerHTML=`<p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Tick all features mentioned:</p><div style="display:flex;flex-wrap:wrap;gap:7px">${feats.map((f,i)=>`<label style="display:flex;align-items:center;gap:4px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:5px 11px;cursor:pointer;font-size:.83rem"><input type="checkbox" id="p7-ex2-${i}" style="accent-color:#7c3aed"> ${f}</label>`).join('')}</div><div class="fbrow" id="p7-ex2-fb" style="margin-top:8px"></div>`;
+  const s4=['Flat 2 has got the most rooms.','Flat 1 has got the fewest rooms.','Flat 3 is the most comfortable of the three.','Flat 1 is more spacious than Flat 2.','Flat 2 is the closest to the town centre.','Flat 1 is located nearest to the city centre.'];
+  document.getElementById('p7-ex4').innerHTML=s4.map((s,i)=>`<div class="qrow" id="p7-ex4-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt"><div class="rg"><label><input type="radio" name="p7-ex4-${i}" value="T"><span>True</span></label><label><input type="radio" name="p7-ex4-${i}" value="F"><span>False</span></label></div><div class="fbrow" id="p7-ex4-fb-${i}"></div></div></div>`).join('');
+  // Vocabulary: complete definitions (answer key: help/ignore/try/enjoy/talk/contact)
+  const vocabDefs=[
+    'to give somebody a hand = to _____ somebody',
+    'to turn a blind eye to something = to _____ something',
+    'to make a big effort = to _____ hard',
+    'to have the time of your life = to _____ yourself a lot',
+    'to have a word with somebody = to _____ to somebody',
+    'to get in touch with somebody = to _____ somebody'
+  ];
+  const vocabAK=['help','ignore','try','enjoy','talk','contact'];
+  document.getElementById('p5-vocab').innerHTML=vocabDefs.map((d,i)=>{
+    const parts=d.split('_____');
+    return `<div class="qrow" id="p5-vocab-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${parts[0]}<input type="text" class="qi" id="p5-vocab-${i}" placeholder="___" style="width:90px;display:inline-block;margin:0 4px">${parts[1]}<div class="fbrow" id="p5-vocab-fb-${i}" style="margin-top:4px"></div></div></div>`;
+  }).join('');
+  // Ex4b: Audio 2.07 – 6 yes/no questions for 3 speakers
+  const sp207=[
+    {spk:'Speaker 1', q:'Did she enjoy her Big Sleep Out?'},
+    {spk:'Speaker 1', q:'Did she talk to the organisers?'},
+    {spk:'Speaker 2', q:'Does he think the organisers tried hard to publicise the event this year?'},
+    {spk:'Speaker 2', q:'Did they contact the local newspaper last year?'},
+    {spk:'Speaker 3', q:'Does she think politicians ignore the problem of homelessness?'},
+    {spk:'Speaker 3', q:'Did she help at the office of a charity?'}
+  ];
+  document.getElementById('p5-ex4b').innerHTML=sp207.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt"><span style="font-size:.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.5px">${item.spk}</span><br>${item.q}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p5-ex4b-${i}" value="Y"><span>Yes</span></label><label><input type="radio" name="p5-ex4b-${i}" value="N"><span>No</span></label></div><div class="sa" style="margin-top:4px"><label><input type="radio" name="p5-ex4br-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p5-ex4br-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+  // Ex5b: Audio 2.08 – which 5 excerpts are formal?
+  document.getElementById('p5-ex5b').innerHTML=[1,2,3,4,5].map(n=>`<div class="qrow"><span class="qnum">${n}.</span><div class="qtxt">Extract ${n}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p5-ex5b-${n}" value="F"><span>Formal</span></label><label><input type="radio" name="p5-ex5b-${n}" value="I"><span>Informal</span></label></div><div class="sa" style="margin-top:4px"><label><input type="radio" name="p5-ex5br-${n}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p5-ex5br-${n}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+  // Ex6: Audio 2.08 – 5 MCQ a-c
+  const mc208=[
+    {q:'Who is Speaker 1 speaking to?',opts:["a) An audience at a conference.","b) A friend who works for a charity.","c) A young homeless person."]},
+    {q:'Speaker 2 thinks that older people…',opts:["a) care more about homelessness.","b) are more likely to take part in the Big Sleep Out.","c) often don't have time to think about homelessness."]},
+    {q:'Who does Speaker 3 work for?',opts:["a) a youth hostel","b) a local business","c) a city council"]},
+    {q:'What does Speaker 4 dislike most about being homeless?',opts:["a) Receiving unkind comments.","b) Seeing people fight.","c) Spending too much time on his own."]},
+    {q:'Why does Speaker 5 avoid the High Street at night?',opts:["a) She thinks it is dangerous.","b) The homeless people make her anxious.","c) She does not know what to say to the homeless people."]}
+  ];
+  document.getElementById('p5-ex6').innerHTML=mc208.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${item.q}<div style="display:flex;flex-direction:column;gap:4px;margin-top:6px">${item.opts.map(o=>`<label style="font-size:.84rem"><input type="radio" name="p5-ex6-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p5-ex6r-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p5-ex6r-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+}
+
+function buildP6(){
+  // Ex2 new: 2.16 fact/opinion self-assess
+  if(document.getElementById('p8-ex2new')){
+    document.getElementById('p8-ex2new').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">Which news headline are they discussing? Write it below:<br><textarea class="qt" id="p8-ex2new-0" placeholder="Your answer…" style="margin-top:5px;min-height:40px"></textarea><div class="sa" style="margin-top:5px"><label><input type="radio" name="p8-ex2new-r" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p8-ex2new-r" value="1"><span>❌ Missed</span></label></div></div></div>`;
+  }
+  // Ex3 new: 2.16 fact/opinion F/O
+  if(document.getElementById('p8-ex3new')){
+    document.getElementById('p8-ex3new').innerHTML=[1,2,3,4,5,6].map((n,i)=>`<div class="qrow"><span class="qnum">${n}.</span><div class="qtxt">Sentence ${n}: &nbsp;<label><input type="radio" name="p8-ex3new-${i}" value="F"> Fact</label> &nbsp;&nbsp; <label><input type="radio" name="p8-ex3new-${i}" value="O"> Opinion</label><div class="sa" style="margin-top:4px"><label><input type="radio" name="p8-ex3new-r${i}" value="3"><span>✅</span></label><label><input type="radio" name="p8-ex3new-r${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex5 new: 2.17 gadgets – 5 dialogues
+  if(document.getElementById('p8-ex5new')){
+    const gadgets=['Bluetooth headset','Bluetooth speaker','camcorder','digital radio','games console','memory stick','MP3 player','satnav','smartphone','smartwatch','tablet'];
+    document.getElementById('p8-ex5new').innerHTML=[1,2,3,4,5].map((n,i)=>`<div class="qrow"><span class="qnum">Dialogue ${n}.</span><div class="qtxt"><input type="text" class="qi" id="p8-ex5new-${i}" placeholder="Gadget(s) mentioned…" style="margin-top:4px"><div class="sa" style="margin-top:4px"><label><input type="radio" name="p8-ex5new-r${i}" value="3"><span>✅</span></label><label><input type="radio" name="p8-ex5new-r${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex6 new: 2.17 comprehension MCQ
+  if(document.getElementById('p8-ex6new')){
+    const qs6=[
+      {q:'1. It is a fact, not an opinion, that the problem…',opts:['a) was caused by a child','b) cannot be solved in the shop','c) will take several days to solve']},
+      {q:'2. Where does the dialogue take place?',opts:["a) Outside the man's house","b) Outside the Victoria Hotel","c) Outside the Empire Hotel"]},
+      {q:'3. Why is the girl angry with the boy?',opts:["a) He won't let her use his MP3 player","b) He accused her of stealing from a friend","c) He accidentally deleted something she wanted"]},
+      {q:'4. The dialogue takes place a short while before…',opts:['a) a dance performance','b) a football match','c) a social event']},
+      {q:'5. It is an opinion, not a fact, that the girl playing the game…',opts:['a) needs to cross the river','b) does not have a high score','c) does not have a lot of time left']}
+    ];
+    document.getElementById('p8-ex6new').innerHTML=qs6.map((q,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px">${q.opts.map(o=>`<label><input type="radio" name="p8-ex6new-${i}" value="${o[0]}"><span>${o}</span></label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p8-ex6new-r${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p8-ex6new-r${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  }
+  // Ex5c: 2.14 collocations – match 1-5 with a-e, 6-10 with f-j
+  const col1=[['1','open / close','e'],['2','save','d'],['3','enter','c'],['4','scroll up / down','b'],['5','empty','a']];
+  const col2=[['6','check / uncheck','g'],['7','follow','f'],['8','copy and paste','i'],['9','create','j'],['10','click / double click on','h']];
+  const colAll=[...col1,...col2];
+  const opts1=['a','b','c','d','e']; const opts2=['f','g','h','i','j'];
+  document.getElementById('p6-ex5c').innerHTML=colAll.map(([num,verb,ans],i)=>{
+    const opts=i<5?opts1:opts2;
+    return `<div class="qrow" id="p6-ex5c-row-${i}"><span class="qnum">${num}.</span><div class="qtxt"><strong>${verb}</strong> → <select class="qs" id="p6-ex5c-${i}" style="margin-top:3px;width:auto"><option value="">--</option>${opts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select><div class="fbrow" id="p6-ex5c-fb-${i}" style="display:inline-block;margin-left:8px"></div></div></div>`;
+  }).join('');
+  // Ex6c: 2.15 helpline dialogues MCQ
+  const help6=[
+    {q:"The customer doesn't know how to",opts:["a) enter his payment details.","b) add items to the basket.","c) get money off something he wants to buy."]},
+    {q:"The technical support assistant advises the woman to",opts:["a) send the email to the bank, then remove it from her computer.","b) click on the link in the email.","c) choose a new password."]},
+    {q:"The man can",opts:["a) send emails, but can't receive them.","b) receive emails, but can't send them.","c) send and receive emails from one email account, but not from another."]}
+  ];
+  document.getElementById('p6-ex6c').innerHTML=help6.map((item,i)=>`<div class="qrow" id="p6-ex6c-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${item.q}<div style="display:flex;flex-direction:column;gap:4px;margin-top:6px">${item.opts.map(o=>`<label style="font-size:.84rem"><input type="radio" name="p6-ex6c-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p6-ex6cr-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p6-ex6cr-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+}
+
+function buildP7(){
+  // Ex5c: which 3 jobs from list of 6
+  const jobs=['hotel receptionist','nurse','police officer','sales assistant','sports coach','teacher'];
+  document.getElementById('p7-ex5c').innerHTML=`<p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Tick the THREE jobs discussed (three are extra):</p><div style="display:flex;flex-wrap:wrap;gap:7px">${jobs.map((j,i)=>`<label style="display:flex;align-items:center;gap:4px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:5px 11px;cursor:pointer;font-size:.83rem"><input type="checkbox" id="p7-ex5c-${i}" style="accent-color:#7c3aed"> ${j}</label>`).join('')}</div><div class="sa" style="margin-top:9px"><label><input type="radio" name="p7-ex5cr" value="3"><span>✅ All 3 correct</span></label><label><input type="radio" name="p7-ex5cr" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="p7-ex5cr" value="1"><span>❌ Missed</span></label></div>`;
+  // Ex6c: adjective forms – 7 sentences (3 dialogues)
+  const adj6=[
+    {dlg:"Dialogue 1", q:`The <input type="text" class="qi" id="p7-ex6c-0a" placeholder="(sympathetic)→" style="width:130px;display:inline-block;margin:0 4px"> you are, the <input type="text" class="qi" id="p7-ex6c-0b" placeholder="(good)→" style="width:90px;display:inline-block;margin:0 4px"> you'll be at the job.`},
+    {dlg:"", q:`I don't think idealism is <input type="text" class="qi" id="p7-ex6c-1" placeholder="(useful)→" style="width:100px;display:inline-block;margin:0 4px"> as patience.`},
+    {dlg:"", q:`These days they have to work <input type="text" class="qi" id="p7-ex6c-2a" placeholder="(long)→" style="width:90px;display:inline-block;margin:0 4px"> and <input type="text" class="qi" id="p7-ex6c-2b" placeholder="(long)→" style="width:90px;display:inline-block;margin:0 4px"> hours.`},
+    {dlg:"Dialogue 2", q:`I think that <input type="text" class="qi" id="p7-ex6c-3" placeholder="(important)→" style="width:140px;display:inline-block;margin:0 4px"> quality is punctuality.`},
+    {dlg:"", q:`You'll certainly be <input type="text" class="qi" id="p7-ex6c-4" placeholder="(popular)→" style="width:120px;display:inline-block;margin:0 4px"> if you can laugh at things.`},
+    {dlg:"Dialogue 3", q:`I think patience is less <input type="text" class="qi" id="p7-ex6c-5" placeholder="(important)→" style="width:100px;display:inline-block;margin:0 4px"> physical courage.`},
+    {dlg:"", q:`Which do you think is <input type="text" class="qi" id="p7-ex6c-6" placeholder="(useful)→" style="width:140px;display:inline-block;margin:0 4px"> quality of the three?`}
+  ];
+  document.getElementById('p7-ex6c').innerHTML=adj6.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${item.dlg?`<span style="font-size:.75rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px">${item.dlg}</span>`:''}${item.q}<div class="sa" style="margin-top:5px"><label><input type="radio" name="p7-ex6cr-${i}" value="3"><span>✅ Correct</span></label><label><input type="radio" name="p7-ex6cr-${i}" value="1"><span>❌ Wrong</span></label></div></div></div>`).join('');
+}
+
+
+function buildP8(){
+  // Ex2 article scored in submit (self-assess radio)
+  // Ex4: linking phrases (scored – answers: a=however, b=for that reason, c=indeed, d=for instance)
+  if(document.getElementById('p8-ex4')){
+    const groups=[
+      {lbl:'a) contrast',ex:'mind you, though,'},
+      {lbl:'b) result',ex:'as a result, consequently,'},
+      {lbl:'c) emphasis',ex:'in fact,'},
+      {lbl:'d) example',ex:'for example,'}
+    ];
+    const opts=['for instance','for that reason','however','indeed'];
+    document.getElementById('p8-ex4').innerHTML=groups.map((g,i)=>`<div class="qrow" id="p8-ex4-row-${i}"><span class="qnum">${g.lbl}:</span><div class="qtxt"><em>${g.ex}</em> <select class="qs" id="p8-ex4-${i}" style="margin-top:4px;width:auto"><option value="">-- choose --</option>${opts.map(o=>`<option value="${o}">${o}</option>`).join('')}</select><div class="fbrow" id="p8-ex4-fb-${i}" style="display:inline-block;margin-left:8px"></div></div></div>`).join('');
+  }
+  // Ex3 (2.26) – self-assess: listen and check qualities
+  if(document.getElementById('p11-ex3')){
+    const quals=['ambitious','creative','determined','intelligent','patient','self-confident','stubborn'];
+    document.getElementById('p11-ex3').innerHTML='<p style="font-size:.83rem;color:#4b5563;margin-bottom:8px">Which qualities does the audio confirm Nellie Bly showed? Tick those you heard evidence for.</p><div style="display:flex;flex-wrap:wrap;gap:7px">'+quals.map((q,i)=>`<label style="display:flex;align-items:center;gap:4px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:5px 11px;cursor:pointer;font-size:.83rem"><input type="checkbox" id="p11-ex3-${i}" style="accent-color:#7c3aed"> ${q}</label>`).join('')+'</div><div class="sa" style="margin-top:9px"><label><input type="radio" name="p11-ex3r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="p11-ex3r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="p11-ex3r" value="1"><span>❌ Struggled</span></label></div>';
+  }
+  // Ex5 (2.27) – six sentences, circle ending a or b
+  const nb5=[
+    {stem:'…but…',a:'Nellie was not interested in that.',b:'Nellie was happy just to have a job.'},
+    {stem:'…although…',a:"this did not affect Nellie's ambitions.",b:'Nellie was one of the first.'},
+    {stem:'…and…',a:'her reports were truthful and well written.',b:'she wrote about children who worked in factories.'},
+    {stem:'…so…',a:'she was not popular with those people.',b:'she was shocked by what she saw.'},
+    {stem:'…because…',a:'the pay was not good.',b:'they started before sunrise.'},
+    {stem:'…because…',a:'nobody seemed to know or care.',b:'the staff did not treat the patients well.'}
+  ];
+  document.getElementById('p11-ex5').innerHTML=nb5.map((q,i)=>`<div class="qrow" id="p11-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt"><div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex5-${i}" value="a"><span>a. ${q.a}</span></label><label><input type="radio" name="p11-ex5-${i}" value="b"><span>b. ${q.b}</span></label></div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p11-ex5r-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p11-ex5r-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p11-ex5r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  // Ex6 (2.28) self-assess
+  if(document.getElementById('p11-ex6')){
+    document.getElementById('p11-ex6').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">After listening to check, how many of your answers in Ex 5 were correct?<div class="sa" style="margin-top:6px"><label><input type="radio" name="p11-ex6r" value="3"><span>✅ 5–6 correct</span></label><label><input type="radio" name="p11-ex6r" value="2"><span>🟡 3–4 correct</span></label><label><input type="radio" name="p11-ex6r" value="1"><span>❌ 0–2 correct</span></label></div></div></div>`;
+  }
+  // Ex7 (2.29) – radio interview about world trip (map gaps)
+  if(document.getElementById('p11-ex7')){
+    document.getElementById('p11-ex7').innerHTML=['A (between New York and Brindisi)','B (between Amiens and back to New York)','C (another stop on the route)'].map((gap,i)=>`<div class="qrow"><span class="qnum">${String.fromCharCode(65+i)}.</span><div class="qtxt">${gap}:<br><input type="text" class="qi" id="p11-ex7-${i}" placeholder="Place name…" style="margin-top:4px"><div class="sa" style="margin-top:4px"><label><input type="radio" name="p11-ex7r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p11-ex7r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex8 (2.29) – T/F about Nellie's world trip
+  if(document.getElementById('p11-ex8')){
+    const nb8=["Nellie's adventure was Joseph Pulitzer's idea.","Elizabeth Bisland worked for a different newspaper.","Nellie began her journey in 1888.","Nellie and Elizabeth travelled together some of the way.","Bad weather nearly caused Nellie to fail.","Joseph Pulitzer's money helped Nellie get home on time."];
+    document.getElementById('p11-ex8').innerHTML=nb8.map((s,i)=>`<div class="qrow" id="p11-ex8-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex8-${i}" value="T"><span>True</span></label><label><input type="radio" name="p11-ex8-${i}" value="F"><span>False</span></label></div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p11-ex8r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p11-ex8r-${i}" value="2"><span>🟡</span></label><label><input type="radio" name="p11-ex8r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex9 (2.30) – listen again, self-assess
+  if(document.getElementById('p11-ex9')){
+    document.getElementById('p11-ex9').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">Write 2–3 things you understood from this extra track:<br><textarea class="qt" id="p11-ex9-0" placeholder="Key ideas heard…" style="margin-top:5px;min-height:50px"></textarea><div class="sa" style="margin-top:6px"><label><input type="radio" name="p11-ex9r" value="3"><span>✅ Good</span></label><label><input type="radio" name="p11-ex9r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p11-ex9r" value="1"><span>❌ Missed</span></label></div></div></div>`;
+  }
+}
+
+function buildP9(){
+  // Ex2 (3.03) – read and listen to poem; self-assess
+  if(document.getElementById('p13-ex2')){
+    document.getElementById('p13-ex2').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">Do you think the poem's message is optimistic or pessimistic? What is the last line telling us to do?<br><textarea class="qt" id="p13-ex2-0" placeholder="Your answer…" style="margin-top:5px;min-height:50px"></textarea><div class="sa" style="margin-top:6px"><label><input type="radio" name="p13-ex2r" value="3"><span>✅ Good</span></label><label><input type="radio" name="p13-ex2r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p13-ex2r" value="1"><span>❌ Missed</span></label></div></div></div>`;
+  }
+  // Ex4 (3.04) – poem again read from last line; self-assess
+  if(document.getElementById('p13-ex4')){
+    document.getElementById('p13-ex4').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">How does starting from the last line change the meaning?<br><textarea class="qt" id="p13-ex4-0" placeholder="Your answer…" style="margin-top:5px;min-height:50px"></textarea><div class="sa" style="margin-top:6px"><label><input type="radio" name="p13-ex4r" value="3"><span>✅ Good</span></label><label><input type="radio" name="p13-ex4r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p13-ex4r" value="1"><span>❌ Missed</span></label></div></div></div>`;
+  }
+  // Ex5 (3.05) – five short extracts: circle correct implication
+  const imp5=[
+    {a:"He wishes he hadn't gone to the gym.",b:'He was much stronger in the past.'},
+    {a:'She is a big fan of Robbie Williams.',b:'She is not a big fan of Robbie Williams.'},
+    {a:'He often tries food from other countries.',b:'He rarely tries food from other countries.'},
+    {a:'She thought the hotel was good.',b:"She didn't think the hotel was very good."},
+    {a:'He does not like the jumper very much.',b:'His sister does not usually buy him a birthday present.'}
+  ];
+  document.getElementById('p13-ex5').innerHTML=imp5.map((q,i)=>`<div class="qrow" id="p13-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">Circle the correct implication:<div class="rg" style="margin-top:5px"><label><input type="radio" name="p13-ex5-${i}" value="a"><span>a. ${q.a}</span></label><label><input type="radio" name="p13-ex5-${i}" value="b"><span>b. ${q.b}</span></label></div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p13-ex5r-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p13-ex5r-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p13-ex5r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  // Ex6 (3.06) – five speakers match A–F
+  if(document.getElementById('p13-ex6')){
+    document.getElementById('p13-ex6').innerHTML=[1,2,3,4,5].map((n,i)=>`<div class="qrow" id="p13-ex6-row-${i}"><span class="qnum">${n}.</span><div class="qtxt">Speaker ${n}<div class="rg" style="margin-top:5px">${['A','B','C','D','E','F'].map(l=>`<label><input type="radio" name="p13-ex6-${i}" value="${l}"><span>${l}</span></label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p13-ex6r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p13-ex6r-${i}" value="2"><span>🟡</span></label><label><input type="radio" name="p13-ex6r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex7 (3.06) – circle correct word for each opinion
+  if(document.getElementById('p13-ex7')){
+    const op7=[
+      "These days, rap artists <strong>are / aren't</strong> the best poets.",
+      "Writing poems for greetings cards <strong>would / wouldn't</strong> be a good job.",
+      "A good poem <strong>has / doesn't have</strong> to rhyme and make sense.",
+      "Learning poems by heart <strong>is / isn't</strong> a waste of time.",
+      "Poems <strong>are / aren't</strong> always a true reflection of the poet's feelings."
+    ];
+    document.getElementById('p13-ex7').innerHTML=op7.map((s,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="sa" style="margin-top:5px"><label><input type="radio" name="p13-ex7r-${i}" value="3"><span>✅ Caught it</span></label><label><input type="radio" name="p13-ex7r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  }
+}
+
+function buildP10(){
+
+  // ── UNIT 10A: Undersea cables (3.13-3.15) ────────────────────────
+  // Ex2 (3.13) self-assess
+  if(document.getElementById('p9-ex2')){
+    document.getElementById('p9-ex2').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">What does the radio programme say about undersea cables? (gist)<div class="sa" style="margin-top:6px"><label><input type="radio" name="p9-ex2r" value="3"><span>✅ Got gist</span></label><label><input type="radio" name="p9-ex2r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p9-ex2r" value="1"><span>❌ Missed</span></label></div></div></div>`;
+  }
+  // Ex3 (3.13) – significance of numbers, self-assess
+  if(document.getElementById('p9-ex3')){
+    document.getElementById('p9-ex3').innerHTML=['95%','8 cm','21,000 km','60%'].map((n,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt"><strong>${n}</strong> – what does this figure refer to?<br><input type="text" class="qi" id="p9-ex3-${i}" placeholder="Your answer…" style="margin-top:4px"><div class="sa" style="margin-top:4px"><label><input type="radio" name="p9-ex3r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p9-ex3r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex4 (3.14) – voicemail: circle correct word
+  const vm4=[
+    {s:"Speaker 1 <strong>will / won't</strong> be able to meet Sam outside the theatre."},
+    {s:"Speaker 2 <strong>can / can't</strong> come to Ava's birthday meal."},
+    {s:"Speaker 3 <strong>is / isn't</strong> going to recommend a hotel in Paris."},
+    {s:"Speaker 4 <strong>has / hasn't</strong> sent Emma's top back to her."}
+  ];
+  document.getElementById('p9-ex4').innerHTML=vm4.map((q,i)=>`<div class="qrow" id="p9-ex4-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p9-ex4-${i}" value="a"><span>First option</span></label><label><input type="radio" name="p9-ex4-${i}" value="b"><span>Second option</span></label></div><div class="sa" style="margin-top:4px"><label><input type="radio" name="p9-ex4r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p9-ex4r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  // Ex5 (3.15) – radio programme part 2: multiple choice a-d
+  const mc5=[
+    {q:'What advance in technology was made between 1840 and 1850?',opts:['a) A cable was laid under the Atlantic Ocean','b) The electric telegraph was invented','c) A cable was laid under the English Channel','d) A telegraph message was sent from France to the USA']},
+    {q:"For Field's first attempt to lay a cable under the Atlantic, where did the two ships begin?",opts:['a) In the middle of the Atlantic','b) On the east coast of America','c) One in America and one in Ireland','d) Both on the west coast of Ireland']},
+    {q:'On the second attempt, how many times did the cable break?',opts:['a) Once','b) Twice','c) Three times','d) Six times']},
+    {q:"For the third attempt, the ships' starting position…",opts:['a) was the same as the first attempt','b) was the same as the second attempt','c) was different from both previous attempts','d) is not mentioned in the programme']},
+    {q:'What period of history does the programme mainly talk about?',opts:['a) From 1840 to the present day','b) The decade 1840 to 1850','c) From 1858 to the present day','d) The two years 1857 and 1858']}
+  ];
+  document.getElementById('p9-ex5').innerHTML=mc5.map((q,i)=>`<div class="qrow" id="p9-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p9-ex5r-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p9-ex5r-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p9-ex5r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+}
+
+function buildP11(){
+  // ── 9C: TRAVEL SOLUTIONS (3.24-3.26) ─────────────────────────────
+  // Ex6 (3.24) – who or what is it?
+  if(document.getElementById('p9-ex6')){
+    const items6=['the Princess Ariadne','a tuk tuk','Ely','Martins & Cole','Damian Fairchild','Bellagio'];
+    document.getElementById('p9-ex6').innerHTML=items6.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt"><strong>${item}</strong><br><input type="text" class="qi" id="p9-ex6-${i}" placeholder="It is a/an…" style="margin-top:4px"><div class="sa" style="margin-top:4px"><label><input type="radio" name="p9-ex6r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p9-ex6r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex4b (3.24) – which extracts are formal?
+  if(document.getElementById('p9-ex4b')){
+    document.getElementById('p9-ex4b').innerHTML=[1,2,3,4,5,6].map((n,i)=>`<div class="qrow"><span class="qnum">${n}.</span><div class="qtxt">Extract ${n}: &nbsp;<label><input type="radio" name="p9-ex4b-${i}" value="F"> Formal</label>&nbsp;&nbsp;<label><input type="radio" name="p9-ex4b-${i}" value="I"> Informal</label><div class="sa" style="margin-top:4px"><label><input type="radio" name="p9-ex4br-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p9-ex4br-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  }
+  // Ex5b (3.25) – four extracts, MCQ a-c
+  if(document.getElementById('p9-ex5b')){
+    const mc5b=[
+      {q:"1. What is the speaker's main purpose?",opts:['a) To offer passengers a drink or snack','b) To warn passengers against standing up','c) To inform passengers they will take off late']},
+      {q:"2. It is the speaker's opinion, not a fact, that…",opts:['a) nobody told him about the delay at check-in','b) staff in the airport knew the reason for the delay','c) a number of passengers got cross']},
+      {q:'3. What happened to the woman at the airport?',opts:['a) She caused her plane to take off late',"b) Her plane took off late because a fellow traveller wasn't on board",'c) She was asleep when they called her flight']},
+      {q:'4. Where is this announcement made?',opts:['a) On a train','b) In an airport','c) In an aeroplane']}
+    ];
+    document.getElementById('p9-ex5b').innerHTML=mc5b.map((q,i)=>`<div class="qrow" id="p9-ex5b-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5b-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p9-ex5br-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p9-ex5br-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p9-ex5br-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  }
+  // Ex7 (3.26) self-assess
+  if(document.getElementById('p9-ex7')){
+    document.getElementById('p9-ex7').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">After checking: how many formal words/phrases did you identify correctly?<div class="sa" style="margin-top:6px"><label><input type="radio" name="p9-ex7r" value="3"><span>✅ 5+ correct</span></label><label><input type="radio" name="p9-ex7r" value="2"><span>🟡 3–4 correct</span></label><label><input type="radio" name="p9-ex7r" value="1"><span>❌ 0–2 correct</span></label></div></div></div>`;
+  }
+}
+
+
+function submitPractice(n){
+  let score=0,max=0;
+  const mistakes=[];
+
+  if(n===1){
+    // P1: Unit Introduction – Feelings
+    const u2=document.getElementById('p1-ex2-0').value;
+    const kw=AK.p1.ex2_kw.some(k=>u2.toLowerCase().includes(k));
+    const r2=document.getElementById('p1-ex2-row-0'),f2=document.getElementById('p1-ex2-fb-0');
+    if(r2)r2.className='qrow '+(kw?'ca':'wa');
+    if(f2)f2.innerHTML=kw?'<span class="fc">✓ Good – key idea included</span>':'<span class="fw">✗ Missing key idea.</span> <span class="fl">Should mention: has to sing on his own / solo</span>';
+    score+=kw?1:0;max++;
+    if(!kw)mistakes.push('P1 Ex2: Key idea missing – should mention performing solo/alone.');
+    const f3=['anxious','embarrassed','excited','frightened','terrified','thrilled','upset'];
+    const correct3=new Set(AK.p1.ex3);
+    const ok3=AK.p1.ex3.every((_,j)=>{const idx=f3.indexOf(AK.p1.ex3[j]);return document.getElementById(`p1-ex3-${idx}`)?.checked;})&&f3.every((f,i)=>correct3.has(f)||!document.getElementById(`p1-ex3-${i}`)?.checked);
+    const fb3=document.getElementById('p1-ex3-fb');
+    if(fb3)fb3.innerHTML=ok3?'<span class="fc">✓ Correct</span>':'<span class="fw">✗ Not quite.</span> <span class="fl">Correct: anxious, excited, frightened, terrified, upset</span>';
+    score+=ok3?1:0;max++;
+    if(!ok3)mistakes.push('P1 Ex3: Correct feelings: anxious, excited, frightened, terrified, upset.');
+    AK.p1.ex5.forEach((ans,i)=>{
+      const u=document.getElementById(`p1-ex5-${i}`)?.value;
+      score+=markRow(`p1-ex5-row-${i}`,`p1-ex5-fb-${i}`,u===ans,LBL.p1.ex5[i]);max++;
+      if(u!==ans)mistakes.push(`P1 Ex5 Speaker ${i+1}: "${u||'(blank)'}" – Correct: ${LBL.p1.ex5[i]}`);
+    });
+  }
+
+  else if(n===2){
+    // P2: Unit 1 – Identity & Family
+    AK.p2.ex5.forEach((_,i)=>{
+      const u=document.querySelector(`input[name="p2-ex5-${i}"]:checked`);
+      const fb=document.getElementById(`p2-ex5-fb-${i}`);
+      if(fb)fb.innerHTML=u?`<span style="color:#6b7280;font-size:.8rem">✔ Answered: ${u.value} – check against audio/transcript</span>`:'<span class="fw">No answer</span>';
+      score+=(u?1:0);max++;
+    });
+    AK.p2.ex6.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p2-ex6-${i}"]:checked`)?.value;
+      if(ans!==null){
+        const ok=u===ans;
+        score+=markRow(`p2-ex6-row-${i}`,`p2-ex6-fb-${i}`,ok,LBL.p2.ex6[i]||ans);max++;
+        if(!ok)mistakes.push(`P2 Ex6 Speaker ${i+1}: "${u||'(blank)'}" – Correct: ${ans}`);
+      }else{
+        const fb=document.getElementById(`p2-ex6-fb-${i}`);
+        if(fb)fb.innerHTML=u?`<span style="color:#6b7280;font-size:.8rem">✔ Answered: ${u} – verify with audio</span>`:'<span class="fw">No answer</span>';
+        score+=(u?1:0);max++;
+      }
+    });
+  }
+
+  else if(n===3){
+    // P3: Unit 2 – Leisure (2C + 2E/G)
+    // 2C: Context listening
+    AK.p4ex4.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p3-ex4c-${i}"]:checked`)?.value;
+      score+=markRow(`p3-ex4c-row-${i}`,`p3-ex4c-fb-${i}`,u===ans,LBL.p4ex4[i]);max++;
+      if(u!==ans)mistakes.push(`U2 Ex4 Extract ${i+1}: "${u||'(blank)'}" – Correct: ${LBL.p4ex4[i]}`);
+    });
+    AK.p4ex5.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p3-ex5c-${i}"]:checked`)?.value;
+      score+=markRow(`p3-ex5c-row-${i}`,`p3-ex5c-fb-${i}`,u===ans,LBL.p4ex5[i]);max++;
+      if(u!==ans)mistakes.push(`U2 Ex5 Q${i+1}: "${u||'(blank)'}" – Correct: ${LBL.p4ex5[i]}`);
+    });
+    // 2E/G: Word skills
+    const u3a=document.querySelector('input[name="p5-ex3a"]:checked')?.value;
+    const ok3a=u3a==='first';
+    score+=markRow('p5-ex3a-row-0','p5-ex3a-fb-0',ok3a,'The FIRST word');max++;
+    if(!ok3a)mistakes.push('U2 Ex3a: Compound noun stress – correct: The FIRST word.');
+    const actsAll=['kayaking','surfing','parkour','karting','hiking'];
+    const extras=['climbing','cycling'];
+    const actsOk=actsAll.every(a=>document.getElementById(`p5-act-${a}`)?.checked)&&extras.every(a=>!document.getElementById(`p5-act-${a}`)?.checked);
+    const r0=document.getElementById('p5-ex3b-row-0'),f0=document.getElementById('p5-ex3b-fb-0');
+    if(r0)r0.className='qrow '+(actsOk?'ca':'wa');
+    if(f0)f0.innerHTML=actsOk?'<span class="fc">✓ Correct</span>':'<span class="fw">✗</span> <span class="fl">Correct: kayaking, surfing, parkour, karting, hiking</span>';
+    score+=actsOk?1:0;max++;
+    if(!actsOk)mistakes.push('U2 Ex3b: Correct activities: kayaking, surfing, parkour, karting, hiking.');
+    const uAg=document.getElementById('p5-ex3b-agree')?.value;
+    const okAg=norm(uAg).includes('karting');
+    const r1=document.getElementById('p5-ex3b-row-1'),f1=document.getElementById('p5-ex3b-fb-1');
+    if(r1)r1.className='qrow '+(okAg?'ca':'wa');
+    if(f1)f1.innerHTML=okAg?'<span class="fc">✓ Correct – karting</span>':'<span class="fw">✗</span> <span class="fl">Correct: <strong>karting</strong></span>';
+    score+=okAg?1:0;max++;
+    if(!okAg)mistakes.push('U2 Ex3b: Activity agreed on – correct: karting.');
+  }
+
+  else if(n===4){
+    // P4: Unit 3 – The Body (all self-assess)
+    score+=parseInt(document.querySelector('input[name="p4-ex2r"]:checked')?.value||'0');max+=3;
+    score+=parseInt(document.querySelector('input[name="p4-ex3r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p4-ex4r-${i}"]:checked`)?.value||'0');max+=3;}
+    score+=parseInt(document.querySelector('input[name="p4-ex5r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p4-ex6r-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===5){
+    // P5: Unit 4 – Home
+    // Ex2: vocabulary tick (no answer key) – unscored
+    AK.p7.ex4.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p7-ex4-${i}"]:checked`)?.value;
+      score+=markRow(`p7-ex4-row-${i}`,`p7-ex4-fb-${i}`,u===ans,LBL.p7.ex4[i]);max++;
+      if(u!==ans)mistakes.push(`P5 Ex4 Q${i+1}: "${u||'(blank)'}" – Correct: ${LBL.p7.ex4[i]}`);
+    });
+    // vocab fill-in
+    ['help','ignore','try','enjoy','talk','contact'].forEach((ans,i)=>{
+      const u=(document.getElementById(`p5-vocab-${i}`)?.value||'').trim().toLowerCase();
+      const ok=u===ans;
+      score+=markRow(`p5-vocab-row-${i}`,`p5-vocab-fb-${i}`,ok,ans);max++;
+      if(!ok)mistakes.push(`P5 Vocab Q${i+1}: "${u||'(blank)'}" – Correct: ${ans}`);
+    });
+    // 2.07 speaker questions (self-assess)
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p5-ex4br-${i}"]:checked`)?.value||'0');max+=3;}
+    // 2.08 formal/informal (self-assess)
+    for(let n=1;n<=5;n++){score+=parseInt(document.querySelector(`input[name="p5-ex5br-${n}"]:checked`)?.value||'0');max+=3;}
+    // 2.08 Ex6 MCQ (self-assess)
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p5-ex6r-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===6){
+    // P6: Unit 5 – Technology
+    // Ex5c: collocations (scored – answer key: e,d,c,b,a,g,f,i,j,h)
+    const colAK=['e','d','c','b','a','g','f','i','j','h'];
+    const colVerbs=['open/close','save','enter','scroll up/down','empty','check/uncheck','follow','copy and paste','create','click/double click on'];
+    colAK.forEach((ans,i)=>{
+      const u=document.getElementById(`p6-ex5c-${i}`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p6-ex5c-row-${i}`,`p6-ex5c-fb-${i}`,ok,ans);max++;
+      if(!ok)mistakes.push(`P6 Ex5 "${colVerbs[i]}": Correct: ${ans}`);
+    });
+    // Ex6c: helpline MCQ (self-assess)
+    for(let i=0;i<3;i++){score+=parseInt(document.querySelector(`input[name="p6-ex6cr-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===7){
+    // P7: Unit 6 – Ambitions & Career Plans
+    score+=parseInt(document.querySelector('input[name="p7-ex5cr"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<7;i++){score+=parseInt(document.querySelector(`input[name="p7-ex6cr-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===8){
+    // P8: Unit 7 – Journalism / Nellie Bly
+    // Ex2 article (self-assess)
+    score+=parseInt(document.querySelector('input[name="p8-ex2r"]:checked')?.value||'0');max+=3;
+    // Ex4 linking phrases (scored – a=however, b=for that reason, c=indeed, d=for instance)
+    const lkAK=['however','for that reason','indeed','for instance'];
+    const lkLbl=['contrast','result','emphasis','example'];
+    lkAK.forEach((ans,i)=>{
+      const u=document.getElementById(`p8-ex4-${i}`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p8-ex4-row-${i}`,`p8-ex4-fb-${i}`,ok,ans);max++;
+      if(!ok)mistakes.push(`P8 Ex4 ${lkLbl[i]}: Correct: ${ans}`);
+    });
+    score+=parseInt(document.querySelector('input[name="p11-ex3r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p11-ex5r-${i}"]:checked`)?.value||'0');max+=3;}
+    score+=parseInt(document.querySelector('input[name="p11-ex6r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<3;i++){score+=parseInt(document.querySelector(`input[name="p11-ex7r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p11-ex8r-${i}"]:checked`)?.value||'0');max+=3;}
+    score+=parseInt(document.querySelector('input[name="p11-ex9r"]:checked')?.value||'0');max+=3;
+  }
+
+  else if(n===9){
+    // P9: Unit 7 – Poetry & Society
+    const vocAK10=['era','apathetic','straight','peers','quick fix','foolish','the norm','lethargic'];
+    const vocLbl10=['a','b','c','d','e','f','g','h'];
+    vocAK10.forEach((ans,i)=>{
+      const u=document.getElementById('p10v-'+i)?.value;
+      const ok=u===ans;
+      score+=markRow('p10v-row-'+i,'p10v-fb-'+i,ok,ans);max++;
+      if(!ok)mistakes.push('P9 Ex3 ('+vocLbl10[i]+'): Correct: '+ans);
+    });
+    score+=parseInt(document.querySelector('input[name="p13-ex2r"]:checked')?.value||'0');max+=3;
+    score+=parseInt(document.querySelector('input[name="p13-ex4r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p13-ex5r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p13-ex6r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p13-ex7r-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===10){
+    // P10: Unit 8 – Communication (Undersea Cables 3.13–3.15)
+    score+=parseInt(document.querySelector('input[name="p9-ex2r"]:checked')?.value||'0');max+=3;
+    for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex3r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex4r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p9-ex5r-${i}"]:checked`)?.value||'0');max+=3;}
+  }
+
+  else if(n===11){
+    // P11: Unit 9 – Travel Solutions (3.24–3.26)
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p9-ex6r-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p9-ex4br-${i}"]:checked`)?.value||'0');max+=3;}
+    for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex5br-${i}"]:checked`)?.value||'0');max+=3;}
+    score+=parseInt(document.querySelector('input[name="p11fmlr"]:checked')?.value||'0');max+=3;
+    score+=parseInt(document.querySelector('input[name="p9-ex7r"]:checked')?.value||'0');max+=3;
+  }
+  else if(n===12){
+    // ET1
+    const u1=document.querySelector('input[name="et1-ex3r"]:checked')?.value;
+    const ok1=(u1==="c");
+    const fb1=document.getElementById("et1-ex3-fb");
+    if(fb1)fb1.innerHTML=ok1?"<span class=\'ca\'>✅ C – Correct!</span>":"<span class=\'wa\'>❌ Answer: C – caused problems she did not see at the time</span>";
+    score+=ok1?1:0;max+=1;
+    score+=parseInt(document.querySelector('input[name="et1-ex4r"]:checked')?.value||"0");max+=3;
+    // ET2
+    score+=parseInt(document.querySelector('input[name="et2-ex3r"]:checked')?.value||"0");max+=3;
+    score+=parseInt(document.querySelector('input[name="et2-ex4r"]:checked')?.value||"0");max+=3;
+    // ET3
+    const u3=document.querySelector('input[name="et3-ex3r"]:checked')?.value;
+    const ok3=(u3==="a");
+    const fb3=document.getElementById("et3-ex3-fb");
+    if(fb3)fb3.innerHTML=ok3?"<span class=\'ca\'>✅ A – Correct!</span>":"<span class=\'wa\'>❌ Answer: A (taking some time off = missed several classes)</span>";
+    score+=ok3?1:0;max+=1;
+    score+=parseInt(document.querySelector('input[name="et3-ex4r"]:checked')?.value||"0");max+=3;
+    // ET4
+    const u4=document.querySelector('input[name="et4-ex3r"]:checked')?.value;
+    const ok4=(u4==="b");
+    const fb4=document.getElementById("et4-ex3-fb");
+    if(fb4)fb4.innerHTML=ok4?"<span class=\'ca\'>✅ B – Correct! (loyalty)</span>":"<span class=\'wa\'>❌ Answer: B – loyalty</span>";
+    score+=ok4?1:0;max+=1;
+    score+=parseInt(document.querySelector('input[name="et4-ex4r"]:checked')?.value||"0");max+=3;
+    // ET5
+    score+=parseInt(document.querySelector('input[name="et5-ex4r"]:checked')?.value||"0");max+=3;
+  }
+
+  const pKey=`p${n}`;
+  if(!attempts[pKey])attempts[pKey]=[];
+  const pct=max>0?Math.round(score/max*100):0;
+  _stopTimer();const _t=_timerSecs;if(!_practiceTime[pKey])_practiceTime[pKey]=[];_practiceTime[pKey].push(_t);attempts[pKey].push({score,max,pct,date:new Date().toLocaleString(),mistakes,time:_t});
+  saveAttempts();
+  renderScoreArea(n,score,max);
+  updatePGrid();
+}
+
+function renderScoreArea(n,score,max){
+  const att=attempts[`p${n}`]||[];
+  const pct=max>0?Math.round(score/max*100):0;
+  const cls=pct>=80?'green':pct>=60?'yellow':'red';
+  let h=`<div class="scorebox"><div><div class="scmain">${score}<span style="font-size:1rem;color:#6b7280"> / ${max}</span></div><div class="sclabel">Practice ${n} Score</div></div><span class="scpct ${cls}">${pct}%</span></div>`;
+  if(att.length>1){h+=`<div class="ath"><h4>All Attempts</h4><div class="atl">`;att.forEach((a,i)=>{const p=a.max>0?Math.round(a.score/a.max*100):0;h+=`<div class="chip">Attempt ${i+1}: <span class="cs">${a.score}/${a.max} (${p}%)</span> · ${a.date}</div>`;});h+=`</div></div>`;}
+  document.getElementById(`p${n}-score-area`).innerHTML=h;
+}
+
+function redoPractice(n){
+  const sc=document.getElementById(`screen-${n}`);
+  sc.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(el=>el.checked=false);
+  sc.querySelectorAll('input[type=text],input[type=email],textarea').forEach(el=>el.value='');
+  sc.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  sc.querySelectorAll('.qrow').forEach(el=>el.className='qrow');
+  sc.querySelectorAll('[id*="-fb"]').forEach(el=>el.innerHTML='');
+  document.getElementById(`p${n}-score-area`).innerHTML='';
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────
+function exportPDF(){
+  const nm=getStudentName(),em=getStudentEmail();
+  const rows=[],tts=[]; let ts=0,tm=0,totalTime=0;
+  for(let n=1;n<=12;n++){
+    const att=attempts[`p${n}`]||[];
+    const pr=PRACTICES[n-1];
+    if(att.length===0){rows.push({n,title:pr.title,unit:pr.unit,score:'—',max:'—',pct:'—',attempts:0,time:'—'});}
+    else{
+      const last=att[att.length-1];
+      const best=att.reduce((a,b)=>a.pct>b.pct?a:b);
+      if(typeof last.max==='number'){ts+=last.score;tm+=last.max;}
+      const t=typeof last.time==='number'?last.time:0;
+      totalTime+=t;
+      rows.push({n,title:pr.title,unit:pr.unit,score:last.score,max:last.max,pct:last.pct,bestPct:best.pct,attempts:att.length,time:t?_fmtTime(t):'—'});
+    }
+  }
+  const tp=tm>0?Math.round(ts/tm*100):0;
+  const ttStr=_fmtTime(totalTime);
+  const w=window.open('','_blank','width=900,height=700');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Results – ${nm}</title>
+<style>
+body{font-family:Arial,sans-serif;font-size:13px;color:#111;margin:30px 40px}
+h1{color:#5b21b6;margin:0 0 4px}
+.hd{border-bottom:2px solid #7c3aed;padding-bottom:10px;margin-bottom:18px}
+.meta{color:#555;font-size:12px;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;margin-bottom:20px}
+th{background:#5b21b6;color:#fff;padding:7px 10px;text-align:left;font-size:12px}
+td{padding:6px 10px;border-bottom:1px solid #e5e7eb;font-size:12px}
+tr:nth-child(even)td{background:#f5f3ff}
+.tot{font-weight:700;background:#ede9fe!important}
+.good{color:#059669;font-weight:700}.bad{color:#dc2626;font-weight:700}.mid{color:#d97706;font-weight:700}
+.summary{background:#f5f3ff;border:1px solid #c4b5fd;border-radius:8px;padding:14px 18px;margin-bottom:20px}
+.footer{font-size:11px;color:#888;margin-top:20px;border-top:1px solid #eee;padding-top:10px}
+@media print{body{margin:15px 25px}}
+</style></head><body>
+<div class="hd"><h1>📊 Listening Practice – Level 3 · Results Report</h1></div>
+<div class="meta">
+  <strong>Student:</strong> ${nm} &nbsp;|&nbsp; <strong>Email:</strong> ${em||'—'} &nbsp;|&nbsp;
+  <strong>Date:</strong> ${new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'})} &nbsp;|&nbsp;
+  <strong>Institution:</strong> Huong Stella Paradigm
+</div>
+<div class="summary">
+  <strong>Overall Score:</strong> ${ts} / ${tm} &nbsp;
+  <span class="${tp>=80?'good':tp>=60?'mid':'bad'}">(${tp}%)</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <strong>Total Time:</strong> ${ttStr}
+</div>
+<table>
+<thead><tr><th>#</th><th>Practice</th><th>Unit</th><th>Score</th><th>Best%</th><th>Attempts</th><th>Time</th><th>Status</th></tr></thead>
+<tbody>
+${rows.map(r=>`<tr><td>${r.n}</td><td>${r.title}</td><td>${r.unit}</td><td>${r.score==='—'?'—':r.score+' / '+r.max}</td><td>${r.bestPct!=null?r.bestPct+'%':'—'}</td><td>${r.attempts}</td><td>${r.time}</td><td class="${r.pct>=80?'good':r.pct>=60?'mid':r.pct==='—'?'':'bad'}">${r.pct==='—'?'Not attempted':r.pct+'%'}</td></tr>`).join('')}
+<tr class="tot"><td colspan="3">TOTAL</td><td>${ts} / ${tm}</td><td colspan="2">${tp}%</td><td>${ttStr}</td><td class="${tp>=80?'good':tp>=60?'mid':'bad'}">${tp>=80?'✅ Good':tp>=60?'⚠️ Review':'❌ Needs work'}</td></tr>
+</tbody></table>
+<div class="footer">Generated by Huong Stella Paradigm · Teacher: ${TEACHER_EMAIL}</div>
+</body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(),400);
+}
+
+function renderResults(){
+  let ts=0,tm=0;
+  const rows=[],allM=[];
+  for(let n=1;n<=12;n++){
+    const att=attempts[`p${n}`]||[];
+    const pr=PRACTICES[n-1];
+    if(att.length===0){rows.push({n,title:pr.title,unit:pr.unit,score:'—',max:'—',pct:'—',bestPct:null,attempts:0,status:'Not attempted'});}
+    else{
+      const best=att.reduce((a,b)=>a.pct>b.pct?a:b);
+      const last=att[att.length-1];
+      if(typeof last.max==='number'){ts+=last.score;tm+=last.max;}
+      rows.push({n,title:pr.title,unit:pr.unit,score:last.score,max:last.max,pct:last.pct,bestPct:best.pct,attempts:att.length,time:typeof last.time==='number'?last.time:null,status:last.pct>=80?'✅ Good':'⚠️ Review'});
+      (last.mistakes||[]).forEach(m=>allM.push(m));
+    }
+  }
+  const tp=tm>0?Math.round(ts/tm*100):0;
+  const pCls=tp>=80?'green':tp>=60?'yellow':'red';
+  const sN=getStudentName(),sE=getStudentEmail();
+  const recs=generateRecs(rows,allM);
+  const incomplete=rows.filter(r=>r.attempts===0).length;
+  let html=(incomplete>0?`<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.87rem;color:#92400e">⚠️ <strong>Lưu ý:</strong> Còn ${incomplete} bài chưa làm. Kết quả dưới đây chưa đầy đủ.</div>`:'')+
+  `<div class="rh"><h1>📊 Total Results – Listening Practice Level 3</h1><p style="color:#6b7280;font-size:.86rem"><strong>Student:</strong> ${sN}${sE?' · <strong>Email:</strong> '+sE:''} · <strong>Date:</strong> ${new Date().toLocaleDateString()} · <strong>Institution:</strong> Huong Stella Paradigm</p></div>
+  <div class="card"><h2>Overall Score</h2><div class="ts"><div style="text-align:center"><div class="bs">${ts}</div><div style="font-size:.88rem;color:#6b7280">out of ${tm}</div></div><span class="scpct ${pCls}" style="font-size:1.6rem;padding:9px 20px">${tp}%</span></div><div style="text-align:center;margin-top:8px;font-size:.84rem;color:#6b7280">⏱ Total time: <strong>${_fmtTime(rows.reduce((a,r)=>a+(r.time||0),0))}</strong></div></div>
+  <div class="card"><h2>Results by Practice</h2><table class="rt"><thead><tr><th>#</th><th>Practice</th><th>Unit</th><th>Last Score</th><th>Best %</th><th>Attempts</th><th>Time</th><th>Status</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr><td>${r.n}</td><td>${r.title}</td><td>${r.unit}</td><td>${r.score==='—'?'—':r.score+' / '+r.max}</td><td>${r.bestPct!=null?r.bestPct+'%':'—'}</td><td>${r.attempts}</td><td>${typeof r.time==='number'?_fmtTime(r.time):'—'}</td><td>${r.status}</td></tr>`).join('')}</tbody></table></div>`;
+  if(allM.length>0)html+=`<div class="card"><h2>❌ Mistakes Summary</h2><p style="font-size:.82rem;color:#6b7280;margin-bottom:10px">From your most recent attempt at each practice:</p><ul class="ml">${allM.slice(0,40).map(m=>`<li>${m}</li>`).join('')}${allM.length>40?`<li>…and ${allM.length-40} more.</li>`:''}</ul></div>`;
+  html+=`<div class="card"><h2>💡 Recommendations &amp; Action Plan</h2><ul class="rl">${recs.map(r=>`<li>${r}</li>`).join('')}</ul></div>
+  <div class="card ebox np"><h3>📧 Send Results to Teacher</h3><p>Send your full results to <strong>${TEACHER_EMAIL}</strong></p><button class="btn btns" onclick="sendEmail()">Send Email Now</button></div>`;
+  document.getElementById('results-content').innerHTML=html;
+}
+
+function generateRecs(rows,mistakes){
+  const recs=[];
+  const weak=rows.filter(r=>typeof r.pct==='number'&&r.pct<70);
+  const notDone=rows.filter(r=>r.attempts===0);
+  if(notDone.length>0)recs.push(`Complete the ${notDone.length} unattempted practice(s): ${notDone.map(r=>'P'+r.n+' ('+r.unit+')').join(', ')}.`);
+  if(weak.some(r=>r.n===1))recs.push('<strong>P1 Introduction – Feelings:</strong> Flashcard the six feelings from Ex5 (envious, confused, relieved, proud, suspicious, excited). Use example sentences to remember each one in context.');
+  if(weak.some(r=>r.n===2))recs.push('<strong>P2 Unit 1 – Speaker attitudes:</strong> Practise identifying the purpose of speech (advertising, complaining, persuading). Listen to TED Talks and identify the speaker\'s intent before looking at the transcript.');
+  if(weak.some(r=>r.n===3))recs.push('<strong>P3 Unit 2 – Leisure:</strong> (A) Frequency adverbs: write 10 true sentences about your habits. (C) Context: cover the visual and guess the location from vocabulary alone. (E/G) Compound noun stress rule: FIRST word stressed (SWIMMING pool, FOOT-ball).');
+  if(weak.some(r=>r.n===4))recs.push('<strong>P4 Unit 3 – The Body:</strong> Review emotional adjective → adverb pairs (angry→angrily, hopeful→hopefully). Listen to BBC health/science podcasts and practise note-taking on statistics.');
+  if(weak.some(r=>r.n===5))recs.push('<strong>P5 Unit 4 – Home:</strong> Revise double comparatives (more and more…), superlatives (the most…). Note the flat comparison key points: Flat 2 = most rooms; Flat 1 = fewest rooms, nearest city centre.');
+  if(weak.some(r=>r.n===6))recs.push('<strong>P6 Unit 5 – Technology:</strong> Learn computing verbs as collocations: <em>download a file, upload a photo, follow an account, delete a message</em>. Watch step-by-step tutorial videos in English to improve process-listening.');
+  if(weak.some(r=>r.n===7))recs.push('<strong>P7 Unit 6 – Ambitions:</strong> Revise: <em>will</em> (prediction/spontaneous), <em>going to</em> (plan/evidence), <em>present continuous</em> (fixed arrangement). Listen to people being interviewed about their plans and note which form they use.');
+  if(weak.some(r=>r.n===8))recs.push('<strong>P8 Unit 7 – Journalism:</strong> Pay attention to linking words (although, because, so, however). In dictation-style exercises, listen for the word BEFORE the gap to predict how sentences connect. Read short news articles and identify linking devices.');
+  if(weak.some(r=>r.n===9))recs.push('<strong>P9 Unit 8 – Health:</strong> Make a grammar chart: must/have to (strong obligation), should/ought to (advice), don\'t need to/needn\'t (no obligation). Listen to medical/health advice podcasts to hear these in context.');
+  if(weak.some(r=>r.n===10))recs.push('<strong>P10 Unit 9 – Poetry:</strong> Practise identifying implied meaning: what a speaker SUGGESTS vs what they SAY. Read poems aloud to improve your sense of rhythm and tone, which helps decode implied messages in listening tasks.');
+  if(weak.some(r=>r.n===11))recs.push('<strong>P11 Unit 10/9C – Exam Skills:</strong> For multiple-choice listening: eliminate clearly wrong options first. Formal register tasks: learn key formal synonyms (adjacent, due to, prior to, to commence). Practise listening to announcements and travel news.');
+  if(weak.length===0&&notDone.length===0)recs.push('Excellent work across all practices! Maintain your level with 20 minutes of authentic English listening daily – podcasts, radio, or video lectures work well.');
+  recs.push('General strategy: After each exercise, read the transcript and highlight any words or phrases you missed. Add them to a vocabulary journal with a sample sentence.');
+  return recs;
+}
+
+function sendEmail(){
+  const sN=getStudentName(),sE=getStudentEmail();
+  let body='LISTENING PRACTICE LEVEL 3 – STUDENT RESULTS\nInstitution: Huong Stella Paradigm\nBook: Solutions Intermediate 3rd Edition\n============================================\n';
+  body+=`Student: ${sN}\n`;if(sE)body+=`Email: ${sE}\n`;
+  body+=`Date: ${new Date().toLocaleDateString()}\n\nSCORES:\n`;
+  for(let n=1;n<=11;n++){
+    const att=attempts[`p${n}`]||[];const pr=PRACTICES[n-1];
+    body+=`  P${n} (${pr.title} – ${pr.unit}):\n`;
+    if(att.length===0)body+=`    Not attempted\n`;
+    else att.forEach((a,i)=>{body+=`    Attempt ${i+1}: ${a.score}/${a.max} (${a.pct}%) – ${a.date}\n`;});
+  }
+  body+='\nMISTAKES:\n';let hm=false;
+  for(let n=1;n<=11;n++){const att=attempts[`p${n}`]||[];if(att.length>0)(att[att.length-1].mistakes||[]).forEach(m=>{body+=`  – ${m}\n`;hm=true;});}
+  if(!hm)body+='  No mistakes recorded.\n';
+  body+='\nRECOMMENDATIONS:\n';
+  const rows=[];for(let n=1;n<=11;n++){const att=attempts[`p${n}`]||[];const pr=PRACTICES[n-1];if(att.length===0)rows.push({n,title:pr.title,unit:pr.unit,attempts:0,pct:null});else{const l=att[att.length-1];rows.push({n,title:pr.title,unit:pr.unit,attempts:att.length,pct:l.pct});}}
+  generateRecs(rows,[]).forEach(r=>body+=`  • ${r.replace(/<[^>]+>/g,'')}\n`);
+  const sub=encodeURIComponent(`Listening Practice Level 3 – Results – ${sN}`);
+  window.location.href=`mailto:${TEACHER_EMAIL}?subject=${sub}&body=${encodeURIComponent(body)}`;
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id==='results'?'screen-results':`screen-${id}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){showScreen('home');updatePGrid();}
+function goTo(n){showScreen(n);if(n>=1&&n<=12){_startTimer(n);}else{_stopTimer();}}
+function goToResults(){_stopTimer();showScreen('results');renderResults();}
+function resetAllData(){
+  if(!confirm('Reset ALL attempts and student info? This cannot be undone.'))return;
+  localStorage.removeItem('lp3-attempts');
+  localStorage.removeItem('lp3-name');
+  localStorage.removeItem('lp3-email');
+  attempts={};
+  document.getElementById('student-name').value='';
+  document.getElementById('student-email').value='';
+  updatePGrid();
+  alert('All data cleared. You can start fresh!');
+}
+
+function updatePGrid(){
+  const g=document.getElementById('pgrid');if(!g)return;
+  g.innerHTML=PRACTICES.map(p=>{
+    const att=attempts[`p${p.id}`]||[];const done=att.length>0;const last=done?att[att.length-1]:null;
+    return `<div class="pcard ${done?'done':''}" onclick="goTo(${p.id})"><div class="pn">Practice ${p.id}</div><div class="pt">${p.title}</div><div class="pu">${p.unit}</div><div class="ps">${done?`Last: ${last.score}/${last.max} (${last.pct}%) · ${att.length} attempt(s)`:'Not attempted'}</div></div>`;
+  }).join('');
+}
+
+function saveStudentInfo(){try{localStorage.setItem('lp3-name',document.getElementById('student-name').value);localStorage.setItem('lp3-email',document.getElementById('student-email').value);}catch(e){}_updateAllSbars();}
+function loadStudentInfo(){/* fields always start blank so each student enters their own info */}
+function getStudentName(){return(document.getElementById('student-name')||{value:''}).value.trim()||'(Unknown)';}
+function getStudentEmail(){return(document.getElementById('student-email')||{value:''}).value.trim();}
+function saveAttempts(){try{localStorage.setItem('lp3-attempts',JSON.stringify(attempts));}catch(e){}}
+
+function buildP12(){
+  // // ── Exam Trainer 1 ──
+  (()=>{
+    // ET1 Ex3: scored MCQ (extract about childhood/army)
+      const q3opts=["A brought her closer to friends and family.","B was fantastic in every way.","C caused problems that she did not see at the time."];
+      document.getElementById("et1-ex3").innerHTML=q3opts.map((o,i)=>`<label style="display:block;margin:4px 0;font-size:.84rem"><input type="radio" name="et1-ex3r" value="${["a","b","c"][i]}"> ${o}</label>`).join("")+`<div class="fbrow" id="et1-ex3-fb" style="margin-top:6px"></div>`;
+      // ET1 Ex4: 6 MCQ (self-assess – audio 1.17)
+      const q4=[
+        {q:"What does Cara say about the incident that happened when she was two?",opts:["A She remembers it clearly.","B It still affects her today.","C She blames her parents for it."]},
+        {q:"What point does the speaker make?",opts:["A That young people are not reliable friends.","B That making friends is easier for young people than for adults.","C That young people end friendships more quickly than adults."]},
+        {q:"Who is the speaker?",opts:["A a hairdresser","B a customer at a hairdresser's","C a fashion reporter"]},
+        {q:"How does the woman explain why she likes audio books?",opts:["A Her father records them.","B They bring back a good feeling.","C They helped her learn to read."]},
+        {q:"What does the woman say about the sport she liked at school?",opts:["A Her children are better at it than she was.","B She was never very good at it.","C She has stopped playing it."]},
+        {q:"Where is the speaker?",opts:["A in a classroom","B at a job training centre","C in a library"]}
+      ];
+      document.getElementById("et1-ex4").innerHTML=q4.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt"><strong>${item.q}</strong><br>${item.opts.map(o=>`<label style="display:block;margin:3px 0;font-size:.82rem"><input type="radio" name="et1ex4-${i}" value="${o[0].toLowerCase()}"> ${o}</label>`).join("")}</div></div>`).join("")+`<div class="sa" style="margin-top:10px"><label><input type="radio" name="et1-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et1-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et1-ex4r" value="1"><span>❌ Several wrong</span></label></div>`;
+  })();
+  // // ── Exam Trainer 2 ──
+  (()=>{
+    // ET2 Ex3: match extracts to descriptions
+      document.getElementById("et2-ex3").innerHTML=`<div style="margin-top:8px;font-size:.84rem"><strong>Your answers:</strong><br>Extract 1 matches descriptions: <input type="text" class="qi" id="et2-ex3-1a" placeholder="e.g. a" style="width:45px;margin:0 4px"> and <input type="text" class="qi" id="et2-ex3-1b" placeholder="e.g. d" style="width:45px;margin:0 4px"><br>Extract 2 matches descriptions: <input type="text" class="qi" id="et2-ex3-2a" placeholder="e.g. c" style="width:45px;margin:0 4px"> and <input type="text" class="qi" id="et2-ex3-2b" placeholder="e.g. f" style="width:45px;margin:0 4px"></div><div class="sa" style="margin-top:6px"><label><input type="radio" name="et2-ex3r" value="3"><span>✅ Correct</span></label><label><input type="radio" name="et2-ex3r" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="et2-ex3r" value="1"><span>❌ Wrong</span></label></div>`;
+      // ET2 Ex4: 4 speakers → sentences A-E (self-assess)
+      document.getElementById("et2-ex4").innerHTML=["Speaker 1","Speaker 2","Speaker 3","Speaker 4"].map((sp,i)=>`<div class="qrow"><span class="qnum">${sp}:</span><div class="qtxt"><select class="qs" id="et2ex4-${i}"><option value="">-- choose A-E --</option>${["A","B","C","D","E"].map(l=>`<option value="${l}">${l}</option>`).join("")}</select></div></div>`).join("")+`<div class="sa" style="margin-top:8px"><label><input type="radio" name="et2-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et2-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et2-ex4r" value="1"><span>❌ Several wrong</span></label></div>`;
+  })();
+  // // ── Exam Trainer 3 ──
+  (()=>{
+    // ET3 Ex3: choose extract A or B (scored)
+      document.getElementById("et3-ex3").innerHTML=`<div style="margin-top:8px"><label style="display:block;font-size:.84rem;margin:4px 0"><input type="radio" name="et3-ex3r" value="a"> A – "I've only just come back to yoga after taking some time off – I found I really missed it."</label><label style="display:block;font-size:.84rem;margin:4px 0"><input type="radio" name="et3-ex3r" value="b"> B – "There was an emergency at home, so I couldn't come to the last class, but I don't like missing lessons."</label></div><div class="fbrow" id="et3-ex3-fb" style="margin-top:6px"></div>`;
+      // ET3 Ex4: 8 T/F sentences (self-assess)
+      const tfs=["Sal paid too much for her phone.","Sal's parents encouraged her to get a new phone.","Tim is not happy with his sister's use of her phone.","Sal's family avoid using their phones at dinner.","Sal does not like talking when she's eating.","Tim could cause a problem by using his phone.","Sal advises Tim not to listen to music on his phone.","Tim disagrees with Sal's suggestion."];
+      document.getElementById("et3-ex4").innerHTML=tfs.map((s,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt" style="font-size:.84rem">${s} <label><input type="radio" name="et3tf-${i}" value="T"> T</label> <label><input type="radio" name="et3tf-${i}" value="F"> F</label></div></div>`).join("")+`<div class="sa" style="margin-top:8px"><label><input type="radio" name="et3-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et3-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et3-ex4r" value="1"><span>❌ Several wrong</span></label></div>`;
+  })();
+  // // ── Exam Trainer 4 ──
+  (()=>{
+    // ET4 Ex3: MCQ (scored – answer: b = loyalty)
+      const q3opts=["A creativity","B loyalty","C self-confidence"];
+      document.getElementById("et4-ex3").innerHTML=q3opts.map((o,i)=>`<label style="display:block;margin:4px 0;font-size:.84rem" id="et4ex3-lbl-${i}"><input type="radio" name="et4-ex3r" value="${["a","b","c"][i]}"> ${o}</label>`).join("")+`<div class="fbrow" id="et4-ex3-fb" style="margin-top:6px"></div>`;
+      // ET4 Ex4: 5 MCQ Gold Performance Academy (self-assess)
+      const q4=[
+        {q:"The Gold Performance Academy …",opts:["A is a school of contemporary dance.","B teaches people dance, drama and music.","C specialises in classical ballet and musical theatre."]},
+        {q:"The Academy helps students to …",opts:["A build confidence as a performer.","B choose the right performing art for them.","C decide on a future career."]},
+        {q:"Many of the teachers at the Academy …",opts:["A have experience in the industry.","B perform in the lessons.","C like pop music."]},
+        {q:"Every year, students …",opts:["A work in a theatre during the summer.","B design a certificate for a ceremony.","C take part in stage performances."]},
+        {q:"The speaker …",opts:["A wants everyone in the audience to attend the Academy.","B invites her audience to come to see a lesson at the Academy.","C asks the audience to write an email to apply to the Academy."]}
+      ];
+      document.getElementById("et4-ex4").innerHTML=q4.map((item,i)=>`<div class="qrow"><span class="qnum">${i+1}.</span><div class="qtxt"><strong>${item.q}</strong><br>${item.opts.map(o=>`<label style="display:block;margin:3px 0;font-size:.82rem"><input type="radio" name="et4ex4-${i}" value="${o[0].toLowerCase()}"> ${o}</label>`).join("")}</div></div>`).join("")+`<div class="sa" style="margin-top:10px"><label><input type="radio" name="et4-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et4-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et4-ex4r" value="1"><span>❌ Several wrong</span></label></div>`;
+  })();
+  // // ── Exam Trainer 5: summary gaps already in static HTML ──
+  (()=>{
+    // ET5: nothing to build – summary gaps already in HTML
+  })();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildP1();buildP2();buildP3();buildP4();buildP5();
+  buildP6();buildP7();buildP8();buildP9();buildP10();buildP11();buildP12();
+  updatePGrid();loadStudentInfo();_injectExtras();
+});
+</script>
+</body>
+</html>
