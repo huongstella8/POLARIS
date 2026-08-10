@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huong Stella Paradigm – Structures & Voice (B1)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4ff;--bg2:#e8eeff;--side:#1e1b4b;
+  --purple:#6d28d9;--teal:#0891b2;--gold:#b45309;
+  --green:#059669;--red:#dc2626;--orange:#ea580c;
+  --text:#1e293b;--muted:#475569;--border:#cbd5e1;
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;display:flex;min-height:100vh}
+#sidebar{width:268px;min-height:100vh;background:var(--side);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;padding-bottom:40px}
+#sidebar .logo{padding:16px 16px 12px;border-bottom:1px solid #312e81}
+#sidebar .logo span{font-size:14px;font-weight:700;color:#c4b5fd;line-height:1.4;display:block}
+#sidebar .logo small{font-size:11px;color:#7c3aed}
+.nav-group{padding:6px 0}
+.nav-group-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#6d28d9;padding:6px 16px;display:flex;align-items:center;gap:6px}
+.nav-group-title .mod-badge{background:#6d28d9;color:#e9d5ff;font-size:9px;border-radius:99px;padding:1px 7px;font-weight:700}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;border-left:3px solid transparent;transition:all .2s;font-size:12.5px;color:#94a3b8}
+.nav-item:hover{background:rgba(109,40,217,.2);color:#e0d9ff;border-left-color:#a78bfa}
+.nav-item.active{background:rgba(109,40,217,.25);color:#c4b5fd;border-left-color:#c4b5fd;font-weight:600}
+.nav-item .icon{width:18px;text-align:center;font-size:13px;flex-shrink:0}
+.nav-item .score-badge{margin-left:auto;background:#059669;color:#fff;font-size:10px;font-weight:700;border-radius:20px;padding:2px 6px;display:none}
+.nav-item.scored .score-badge{display:inline}
+.mod-divider{margin:4px 16px;height:1px;background:rgba(109,40,217,.25)}
+#main{margin-left:268px;flex:1;padding:28px 32px;max-width:960px}
+.section-page{display:none}.section-page.active{display:block}
+.page-header{background:linear-gradient(135deg,rgba(109,40,217,.1),rgba(8,145,178,.08));border:1px solid rgba(109,40,217,.2);border-radius:16px;padding:22px 26px;margin-bottom:24px}
+.page-header h1{font-size:24px;font-weight:700;margin-bottom:5px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-header p{color:var(--muted);font-size:13.5px}
+.mod-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 10px;border-radius:99px;margin-bottom:8px}
+.mod1{background:rgba(109,40,217,.12);color:#5b21b6}
+.mod2{background:rgba(8,145,178,.12);color:#155e75}
+.mod3{background:rgba(234,88,12,.12);color:#9a3412}
+.mod4{background:rgba(5,150,105,.12);color:#065f46}
+.tabs{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--border)}
+.tab-btn{padding:8px 18px;cursor:pointer;border:none;background:none;color:#475569;font-size:13.5px;font-weight:500;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple)}
+.tab-content{display:none}.tab-content.active{display:block}
+.rule-box{background:#fff;border:1px solid rgba(109,40,217,.18);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:0 1px 4px rgba(109,40,217,.05)}
+.rule-box h3{color:var(--purple);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.rule-box ul{padding-left:16px;font-size:13.5px;line-height:1.85;color:var(--text)}
+.rule-box li{margin-bottom:3px}
+.example{background:#eff6ff;border-left:3px solid var(--teal);padding:7px 12px;margin:7px 0;border-radius:0 6px 6px 0;font-size:13px;color:#1e40af;line-height:1.65}
+.example .label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--teal);margin-bottom:2px}
+.start-point{background:#e0f9ff;border:1px solid rgba(8,145,178,.22);border-radius:10px;padding:14px 16px;margin:12px 0}
+.start-point h3{color:var(--teal);font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px}
+.tip-box{background:#fffbeb;border:1px solid rgba(180,83,9,.18);border-radius:8px;padding:11px 15px;margin:9px 0;font-size:13px}
+.tip-box strong{color:var(--gold)}
+.table-wrap{overflow-x:auto;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(109,40,217,.1);color:var(--purple);padding:8px 11px;text-align:left;font-weight:600}
+td{padding:7px 11px;border-bottom:1px solid var(--border);color:var(--text);line-height:1.6}
+tr:hover td{background:rgba(109,40,217,.03)}
+.sub-heading{font-size:16px;font-weight:700;color:#1e293b;margin:20px 0 9px;padding-bottom:5px;border-bottom:2px solid rgba(109,40,217,.2)}
+p.lead{font-size:14px;line-height:1.7;color:#334155;margin-bottom:9px}
+/* Exercise blocks */
+.ex-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ex-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.q-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:9px 0;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:border-color .2s}
+.q-block.correct-block{border-color:var(--green);background:#f0fdf4}
+.q-block.wrong-block{border-color:var(--red);background:#fef2f2}
+.q-num{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.q-text{font-size:14px;color:var(--text);margin-bottom:9px;line-height:1.65}
+.opt-group{display:flex;flex-wrap:wrap;gap:7px}
+.opt{padding:6px 13px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;background:#f8faff;color:var(--text);transition:all .2s}
+.opt:hover{border-color:var(--purple);background:rgba(109,40,217,.07)}
+.opt.selected{border-color:var(--purple);background:rgba(109,40,217,.11);color:#5b21b6}
+.opt.correct-opt{border-color:var(--green)!important;background:#f0fdf4!important;color:#065f46!important;font-weight:600}
+.opt.wrong-opt{border-color:var(--red)!important;background:#fef2f2!important;color:#991b1b!important}
+.feedback{display:none;margin-top:7px;font-size:13px;padding:7px 11px;border-radius:6px}
+.feedback.show{display:block}
+.feedback.ok{background:#f0fdf4;color:#065f46;border:1px solid #bbf7d0}
+.feedback.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+/* Translation */
+.trans-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:9px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.vn-sent{font-size:14.5px;font-weight:600;color:#92400e;margin-bottom:7px}
+.hint-box{font-size:12px;color:#475569;padding:5px 9px;background:#fffbeb;border:1px solid rgba(180,83,9,.1);border-radius:4px;margin:4px 0}
+.hint-box strong{color:var(--gold)}
+.trans-input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:6px;padding:9px 13px;color:var(--text);font-size:13.5px;outline:none;resize:vertical;min-height:46px;transition:border-color .2s}
+.trans-input:focus{border-color:var(--teal)}
+.model-answer{display:none;margin-top:9px;padding:9px 13px;background:#e0f9ff;border-radius:6px;border-left:3px solid var(--teal)}
+.model-answer .label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--teal);margin-bottom:3px}
+.model-answer .answer{font-size:13.5px;color:#1e40af;font-style:italic}
+.model-answer.show{display:block}
+/* Transform block */
+.tf-block{background:#fff;border:1px solid rgba(109,40,217,.15);border-radius:10px;padding:14px 16px;margin:9px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.tf-original{font-size:14px;color:#1e293b;margin-bottom:6px;line-height:1.6}
+.tf-original strong{color:var(--purple)}
+.tf-instruction{font-size:12px;color:var(--muted);margin-bottom:8px;font-style:italic}
+.tf-input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:6px;padding:9px 13px;color:var(--text);font-size:13.5px;outline:none;transition:border-color .2s}
+.tf-input:focus{border-color:var(--purple)}
+.tf-model{display:none;margin-top:9px;padding:9px 13px;background:#f5f3ff;border-radius:6px;border-left:3px solid var(--purple)}
+.tf-model .label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:3px}
+.tf-model .answer{font-size:13.5px;color:#3730a3}
+.tf-model.show{display:block}
+/* Error correction */
+.ec-block{background:#fff;border:1px solid rgba(220,38,38,.15);border-radius:10px;padding:14px 16px;margin:9px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ec-sentence{font-size:14px;color:#1e293b;margin-bottom:8px;line-height:1.6}
+.ec-parts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.ec-part{padding:5px 11px;border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:13px;background:#f8faff;transition:all .2s}
+.ec-part:hover{border-color:var(--red);background:#fef2f2}
+.ec-part.selected-wrong{border-color:var(--red);background:#fef2f2;color:#991b1b;font-weight:600;text-decoration:line-through}
+.ec-part.correct-part{border-color:var(--green);background:#f0fdf4;color:#065f46;font-weight:600}
+.ec-explain{display:none;margin-top:8px;padding:9px 13px;background:#fef9ee;border-radius:6px;border-left:3px solid var(--gold);font-size:13px}
+.ec-explain.show{display:block}
+.ec-explain .correction{color:var(--green);font-weight:700}
+/* Writing */
+.writing-block{background:#fff;border:1px solid rgba(109,40,217,.18);border-radius:10px;padding:16px 18px;margin:9px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.writing-prompt{font-size:14px;color:var(--text);margin-bottom:7px;line-height:1.7}
+.writing-criteria{list-style:none;padding:0;margin:7px 0 11px;font-size:13px;color:var(--muted)}
+.writing-criteria li{padding:3px 0;display:flex;gap:7px}
+.writing-criteria li::before{content:'☐';color:var(--purple)}
+.writing-area{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:12px 15px;color:var(--text);font-size:13.5px;outline:none;resize:vertical;min-height:110px;transition:border-color .2s}
+.writing-area:focus{border-color:var(--purple)}
+.model-para{display:none;margin-top:13px;padding:13px 16px;background:#f5f3ff;border-radius:8px;border-left:3px solid var(--purple)}
+.model-para .label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:5px}
+.model-para .answer{font-size:13.5px;color:#1e293b;line-height:1.8}
+.model-para .takeaway{margin-top:9px;font-size:13px;color:#7c3aed;font-weight:600}
+.model-para.show{display:block}
+/* Buttons */
+.btn{padding:9px 20px;border-radius:8px;border:none;cursor:pointer;font-size:13.5px;font-weight:600;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.btn-outline{background:#fff;border:1px solid var(--purple);color:var(--purple)}
+.btn-outline:hover{background:rgba(109,40,217,.08)}
+.btn-gold{background:var(--gold);color:#fff;font-weight:700}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.section-score{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:11px 16px;margin-top:18px;display:none;font-size:13.5px;color:#065f46;font-weight:600}
+.section-score.show{display:block}
+/* Results */
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.result-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.result-card h3{font-size:12.5px;color:var(--muted);margin-bottom:3px}
+.result-card .val{font-size:26px;font-weight:700}
+.val.good{color:var(--green)}.val.ok{color:var(--gold)}.val.poor{color:var(--red)}
+.module-bar{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin:10px 0}
+.module-bar h4{font-size:13px;font-weight:700;margin-bottom:8px}
+.module-bar .bar{background:#e2e8f0;border-radius:99px;height:8px;overflow:hidden}
+.module-bar .bar-fill{height:100%;border-radius:99px;transition:width .6s}
+.error-log{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:12px 0}
+.error-log-header{background:#fef2f2;border-bottom:1px solid var(--border);padding:9px 14px;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--red)}
+.error-entry{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.error-entry:last-child{border-bottom:none}
+/* Info overlay */
+#info-overlay{position:fixed;inset:0;background:rgba(30,27,75,.6);backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center}
+.info-card{background:#fff;border:1px solid rgba(109,40,217,.25);border-radius:20px;padding:34px 40px;max-width:450px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(109,40,217,.15)}
+.info-card h2{font-size:21px;font-weight:700;margin-bottom:3px;background:linear-gradient(135deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.info-card .subtitle{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:16px;letter-spacing:.5px}
+.info-card p{color:#475569;font-size:13.5px;margin-bottom:20px}
+.info-field{margin:10px 0;text-align:left}
+.info-field label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase}
+.info-field input{width:100%;background:#f8faff;border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:#1e293b;font-size:13.5px;outline:none;transition:border-color .2s}
+.info-field input:focus{border-color:var(--purple)}
+@media(max-width:820px){#sidebar{width:220px}#main{margin-left:220px;padding:18px}}
+</style>
+</head>
+<body>
+
+<div id="info-overlay">
+  <div class="info-card">
+    <h2>Huong Stella Paradigm</h2>
+    <div class="subtitle">GRAMMAR SERIES – VOL. 3</div>
+    <p>Structures &amp; Voice (B1) – Conditionals · Reported Speech · Passive · Relative Clauses</p>
+    <div class="info-field"><label>Your Name</label><input id="student-name" type="text" placeholder="Enter your full name"/></div>
+    <div class="info-field"><label>Date</label><input id="student-date" type="date"/></div>
+    <div class="info-field"><label>Class / Level</label><input id="student-class" type="text" placeholder="e.g. PO-1"/></div>
+    <div style="margin-top:20px"><button class="btn btn-primary" style="width:100%;padding:11px" onclick="startStudy()">Start Studying 🚀</button></div>
+  </div>
+</div>
+
+<div id="sidebar">
+  <div class="logo">
+    <span>Huong Stella Paradigm</span>
+    <small>Vol.3 – Structures &amp; Voice (B1)</small>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Overview</div>
+    <div class="nav-item active" onclick="showSection('s0')" id="nav-s0"><span class="icon">🗺️</span>Vol.3 Overview<span class="score-badge" id="badge-s0"></span></div>
+  </div>
+
+  <div class="mod-divider"></div>
+  <div class="nav-group">
+    <div class="nav-group-title"><span class="mod-badge">MOD 1</span> Conditionals</div>
+    <div class="nav-item" onclick="showSection('s1')" id="nav-s1"><span class="icon">0️⃣</span>Zero &amp; Type 1<span class="score-badge" id="badge-s1"></span></div>
+    <div class="nav-item" onclick="showSection('s2')" id="nav-s2"><span class="icon">2️⃣</span>Type 2<span class="score-badge" id="badge-s2"></span></div>
+    <div class="nav-item" onclick="showSection('s3')" id="nav-s3"><span class="icon">3️⃣</span>Type 3<span class="score-badge" id="badge-s3"></span></div>
+    <div class="nav-item" onclick="showSection('s4')" id="nav-s4"><span class="icon">🔀</span>Mixed &amp; Special<span class="score-badge" id="badge-s4"></span></div>
+  </div>
+
+  <div class="mod-divider"></div>
+  <div class="nav-group">
+    <div class="nav-group-title"><span class="mod-badge" style="background:#0891b2;color:#e0f9ff">MOD 2</span> Reported Speech</div>
+    <div class="nav-item" onclick="showSection('s5')" id="nav-s5"><span class="icon">📢</span>Reported Statements<span class="score-badge" id="badge-s5"></span></div>
+    <div class="nav-item" onclick="showSection('s6')" id="nav-s6"><span class="icon">❓</span>Reported Questions<span class="score-badge" id="badge-s6"></span></div>
+    <div class="nav-item" onclick="showSection('s7')" id="nav-s7"><span class="icon">📋</span>Commands &amp; Requests<span class="score-badge" id="badge-s7"></span></div>
+  </div>
+
+  <div class="mod-divider"></div>
+  <div class="nav-group">
+    <div class="nav-group-title"><span class="mod-badge" style="background:#ea580c;color:#fff">MOD 3</span> Passive Voice</div>
+    <div class="nav-item" onclick="showSection('s8')" id="nav-s8"><span class="icon">🔄</span>Present &amp; Past Passive<span class="score-badge" id="badge-s8"></span></div>
+    <div class="nav-item" onclick="showSection('s9')" id="nav-s9"><span class="icon">⚡</span>Perfect &amp; Modal Passive<span class="score-badge" id="badge-s9"></span></div>
+    <div class="nav-item" onclick="showSection('s10')" id="nav-s10"><span class="icon">📰</span>Reporting Verb Passive<span class="score-badge" id="badge-s10"></span></div>
+  </div>
+
+  <div class="mod-divider"></div>
+  <div class="nav-group">
+    <div class="nav-group-title"><span class="mod-badge" style="background:#059669;color:#fff">MOD 4</span> Relative Clauses</div>
+    <div class="nav-item" onclick="showSection('s11')" id="nav-s11"><span class="icon">🎯</span>Defining vs Non-defining<span class="score-badge" id="badge-s11"></span></div>
+    <div class="nav-item" onclick="showSection('s12')" id="nav-s12"><span class="icon">✂️</span>Reduced Relative Clauses<span class="score-badge" id="badge-s12"></span></div>
+    <div class="nav-item" onclick="showSection('s13')" id="nav-s13"><span class="icon">📍</span>Clauses with Prepositions<span class="score-badge" id="badge-s13"></span></div>
+  </div>
+
+  <div class="mod-divider"></div>
+  <div class="nav-group">
+    <div class="nav-group-title">Report</div>
+    <div class="nav-item" onclick="showSection('results')" id="nav-results"><span class="icon">📋</span>Results &amp; Report</div>
+  </div>
+
+  <div style="padding:14px 16px;margin-top:8px">
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:5px">Overall Progress</div>
+    <div style="background:#312e81;border-radius:99px;height:6px;overflow:hidden">
+      <div id="overall-bar" style="height:100%;background:linear-gradient(90deg,#7c3aed,#0891b2);width:0%;transition:width .5s"></div>
+    </div>
+    <div id="overall-pct" style="font-size:11px;color:#94a3b8;margin-top:3px">0% complete</div>
+  </div>
+</div>
+
+<div id="main">
+<!-- ===== S0: OVERVIEW ===== -->
+<div id="s0" class="section-page active">
+  <div class="page-header"><h1>🗺️ Grammar Series Vol.3</h1><p>Structures &amp; Voice – B1 Level · 4 Modules · 13 Sections</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s0-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s0-ex')">✏️ Exercises</button></div>
+  <div id="s0-learn" class="tab-content active">
+    <p class="lead">This volume covers four essential B1 grammar structures. Mastering them will allow you to talk about hypothetical situations, report what others said, describe processes, and give precise descriptions.</p>
+    <div class="rule-box"><h3>📦 The 4 Modules</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Module</th><th>Key Structure</th><th>Example</th></tr>
+      <tr><td><span class="mod-tag mod1">MOD 1</span> <strong>Conditionals</strong></td><td>if + tense, modal + verb</td><td><em>If I had studied harder, I would have passed.</em></td></tr>
+      <tr><td><span class="mod-tag mod2">MOD 2</span> <strong>Reported Speech</strong></td><td>said/told/asked + that/if/wh-</td><td><em>She said (that) she was tired.</em></td></tr>
+      <tr><td><span class="mod-tag mod3">MOD 3</span> <strong>Passive Voice</strong></td><td>be + past participle</td><td><em>The report is written every month.</em></td></tr>
+      <tr><td><span class="mod-tag mod4">MOD 4</span> <strong>Relative Clauses</strong></td><td>who / which / that / where / whose</td><td><em>The city where I grew up is beautiful.</em></td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 Mới trong Vol.3:</strong> Bên cạnh MCQ và dịch Việt→Anh, Vol.3 bổ sung thêm:<br>
+    <strong>Part C – Sentence Transformation</strong>: viết lại câu theo yêu cầu (ví dụ: chuyển Type 1 → Type 2)<br>
+    <strong>Part D – Error Correction</strong>: tìm và sửa lỗi sai trong câu</div>
+  </div>
+  <div id="s0-ex" class="tab-content">
+    <div class="ex-label">Part A – Identify the Structure</div><div id="s0-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s0-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s0-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s0-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s0-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s0')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s0')">👁 Show Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s0')">🔄 Show Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s0')">🔍 Show Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s0')">📝 Show Model</button>
+    </div>
+    <div class="section-score" id="score-s0"></div>
+  </div>
+</div>
+
+<!-- ===== S1: ZERO & TYPE 1 ===== -->
+<div id="s1" class="section-page">
+  <div class="page-header"><span class="mod-tag mod1">MODULE 1 – CONDITIONALS</span><h1>0️⃣ Zero &amp; Type 1 Conditionals</h1><p>Real situations – general truths and likely future events</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s1-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s1-ex')">✏️ Exercises</button></div>
+  <div id="s1-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Zero Conditional – General Truths / Facts</h3>
+    <p style="font-size:14px"><strong>If/When + present simple, present simple</strong></p>
+    <div class="example">If you <u>heat</u> water to 100°C, it <u>boils</u>. (always true)</div>
+    <div class="example">When people <u>don't sleep</u> enough, they <u>feel</u> tired. (general fact)</div></div>
+    <div class="rule-box"><h3>🔮 Type 1 – Real / Likely Future</h3>
+    <ul><li>Used for situations that are <strong>possible or likely</strong> in the future</li>
+    <li><strong>If + present simple, will + base verb</strong></li>
+    <li>Can also use: <em>can, may, might, should, must</em> instead of <em>will</em></li></ul>
+    <div class="table-wrap"><table>
+      <tr><th>If-clause (condition)</th><th>Main clause (result)</th></tr>
+      <tr><td>If it <strong>rains</strong> tomorrow,</td><td>I <strong>will stay</strong> home.</td></tr>
+      <tr><td>If you <strong>study</strong> hard,</td><td>you <strong>might pass</strong> the exam.</td></tr>
+      <tr><td>If she <strong>doesn't hurry</strong>,</td><td>she <strong>will miss</strong> the bus.</td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 Key Rules</h3>
+    <ul>
+      <li>NEVER use <em>will</em> in the if-clause: ✗ <em>If it <u>will rain</u>…</em> → ✓ <em>If it <u>rains</u>…</em></li>
+      <li>The if-clause can come first or second. Comma only when if-clause is <strong>first</strong>.</li>
+      <li>Zero conditional: can use <em>when</em> instead of <em>if</em> (same meaning)</li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 Phân biệt Zero vs Type 1:</strong><br>
+    Zero: <em>If you heat water, it boils.</em> → luôn đúng, bất biến (quy luật tự nhiên/thói quen)<br>
+    Type 1: <em>If it rains tomorrow, I will stay home.</em> → có thể xảy ra trong tương lai cụ thể</div>
+  </div>
+  <div id="s1-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s1-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s1-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s1-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s1-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s1-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s1')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s1')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s1')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s1')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s1')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s1"></div>
+  </div>
+</div>
+
+<!-- ===== S2: TYPE 2 ===== -->
+<div id="s2" class="section-page">
+  <div class="page-header"><span class="mod-tag mod1">MODULE 1 – CONDITIONALS</span><h1>2️⃣ Type 2 Conditional</h1><p>Unreal present/future – imagining things differently from reality</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s2-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s2-ex')">✏️ Exercises</button></div>
+  <div id="s2-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Type 2 – Unreal Present / Future</h3>
+    <p style="font-size:14px"><strong>If + past simple, would/could/might + base verb</strong></p>
+    <div class="example">If I <u>were</u> a bird, I <u>would fly</u> everywhere. (I'm not a bird — imaginary)</div>
+    <div class="example">If she <u>had</u> more money, she <u>could travel</u> the world. (she doesn't have much money)</div></div>
+    <div class="rule-box"><h3>📐 Structure</h3>
+    <div class="table-wrap"><table>
+      <tr><th>If-clause</th><th>Main clause</th></tr>
+      <tr><td>If + subject + <strong>past simple</strong></td><td>subject + <strong>would/could/might</strong> + base verb</td></tr>
+      <tr><td>If I <strong>lived</strong> in Hanoi,</td><td>I <strong>would visit</strong> the museums every weekend.</td></tr>
+      <tr><td>If she <strong>spoke</strong> French,</td><td>she <strong>could get</strong> the job.</td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 Special: "were" for all subjects</h3>
+    <ul>
+      <li>In formal/correct English: use <strong>were</strong> for ALL subjects (not <em>was</em>):<br>
+        ✓ <em>If I <strong>were</strong> you, I would study harder.</em><br>
+        ✓ <em>If she <strong>were</strong> here, she would help us.</em></li>
+      <li>In informal speech, <em>was</em> is acceptable for I/he/she/it</li>
+      <li><em>If I were you…</em> = very common idiom for giving advice</li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 Type 1 vs Type 2:</strong><br>
+    Type 1: <em>If it rains, I will stay home.</em> → có thể xảy ra (mang ô phòng khi)<br>
+    Type 2: <em>If it rained every day, I would move away.</em> → không thực tế ở hiện tại (giả định)</div>
+  </div>
+  <div id="s2-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s2-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s2-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s2-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s2-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s2-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s2')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s2')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s2')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s2')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s2')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s2"></div>
+  </div>
+</div>
+
+<!-- ===== S3: TYPE 3 ===== -->
+<div id="s3" class="section-page">
+  <div class="page-header"><span class="mod-tag mod1">MODULE 1 – CONDITIONALS</span><h1>3️⃣ Type 3 Conditional</h1><p>Unreal past – imagining how things could have been different</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s3-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s3-ex')">✏️ Exercises</button></div>
+  <div id="s3-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Type 3 – Unreal Past</h3>
+    <p style="font-size:14px"><strong>If + past perfect, would/could/might + have + past participle</strong></p>
+    <div class="example">If I <u>had studied</u> harder, I <u>would have passed</u> the exam. (I didn't study → I failed)</div>
+    <div class="example">If she <u>hadn't missed</u> the bus, she <u>wouldn't have been</u> late. (she missed it → she was late)</div></div>
+    <div class="rule-box"><h3>📐 Structure</h3>
+    <div class="table-wrap"><table>
+      <tr><th>If-clause (past perfect)</th><th>Main clause</th></tr>
+      <tr><td>If + subject + <strong>had + p.p.</strong></td><td>subject + <strong>would/could/might + have + p.p.</strong></td></tr>
+      <tr><td>If he <strong>had arrived</strong> on time,</td><td>we <strong>would have started</strong> the meeting.</td></tr>
+      <tr><td>If they <strong>hadn't argued</strong>,</td><td>they <strong>might have stayed</strong> together.</td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 Common Contractions</h3>
+    <ul>
+      <li><em>If I <strong>hadn't</strong> = If I had not</em></li>
+      <li><em>I <strong>would've</strong> passed = I would have passed</em> (spoken English)</li>
+      <li><em>I <strong>wouldn't have</strong> = I would not have</em></li>
+      <li>Inversion (formal): <em><strong>Had I known</strong>, I would have helped.</em> = If I had known…</li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 Diễn đạt hối tiếc và phê phán:</strong><br>
+    Type 3 thường diễn đạt sự hối tiếc hoặc phê bình về quá khứ:<br>
+    <em>If you had told me earlier, I could have helped you.</em> (tiếc là bạn không nói)<br>
+    <em>If she hadn't been so careless, the accident wouldn't have happened.</em> (phê bình)</div>
+  </div>
+  <div id="s3-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s3-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s3-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s3-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s3-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s3-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s3')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s3')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s3')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s3')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s3')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s3"></div>
+  </div>
+</div>
+
+<!-- ===== S4: MIXED & SPECIAL ===== -->
+<div id="s4" class="section-page">
+  <div class="page-header"><span class="mod-tag mod1">MODULE 1 – CONDITIONALS</span><h1>🔀 Mixed &amp; Special Conditionals</h1><p>Mixed types + unless / provided that / as long as / in case / even if</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s4-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s4-ex')">✏️ Exercises</button></div>
+  <div id="s4-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Mixed Conditionals</h3>
+    <p style="font-size:14px">Mix past unreal condition with present result, or present unreal condition with past result.</p></div>
+    <div class="rule-box"><h3>🔀 Two Common Mixed Types</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Type</th><th>Structure</th><th>Example</th></tr>
+      <tr><td><strong>Past → Present</strong><br><small>(unreal past condition, present result)</small></td><td>If + past perfect, would + base verb</td><td><em>If I <strong>had studied</strong> medicine, I <strong>would be</strong> a doctor now.</em></td></tr>
+      <tr><td><strong>Present → Past</strong><br><small>(unreal present condition, past result)</small></td><td>If + past simple, would have + p.p.</td><td><em>If I <strong>were</strong> more organised, I <strong>wouldn't have forgotten</strong> the meeting.</em></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>🔑 Special Conditional Words</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Word</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td><strong>unless</strong></td><td>if not / except if</td><td><em>I'll go <strong>unless</strong> it rains. (= if it doesn't rain)</em></td></tr>
+      <tr><td><strong>provided (that)</strong></td><td>on the condition that</td><td><em>You can borrow it <strong>provided (that)</strong> you return it tomorrow.</em></td></tr>
+      <tr><td><strong>as long as</strong></td><td>on the condition that</td><td><em>I'll help you <strong>as long as</strong> you try your best.</em></td></tr>
+      <tr><td><strong>in case</strong></td><td>because it is possible that</td><td><em>Take an umbrella <strong>in case</strong> it rains. (= because it might rain)</em></td></tr>
+      <tr><td><strong>even if</strong></td><td>regardless of whether</td><td><em>I'll finish this <strong>even if</strong> it takes all night.</em></td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 unless vs if not:</strong><br>
+    <em>unless</em> = <em>if not</em> trong hầu hết các trường hợp — nhưng KHÔNG dùng <em>unless</em> với câu phủ định:<br>
+    ✓ <em>Unless you hurry, you'll be late.</em> = <em>If you don't hurry, you'll be late.</em><br>
+    ✗ <em>Unless you don't hurry, you'll be late.</em> (sai — double negative)</div>
+  </div>
+  <div id="s4-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s4-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s4-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s4-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s4-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s4-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s4')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s4')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s4')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s4')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s4')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s4"></div>
+  </div>
+</div>
+
+<!-- ===== S5: REPORTED STATEMENTS ===== -->
+<div id="s5" class="section-page">
+  <div class="page-header"><span class="mod-tag mod2">MODULE 2 – REPORTED SPEECH</span><h1>📢 Reported Statements</h1><p>Tense backshift, pronoun &amp; time expression changes</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s5-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s5-ex')">✏️ Exercises</button></div>
+  <div id="s5-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Reporting a Statement</h3>
+    <p style="font-size:14px">Direct: <em>"I am tired."</em> → Reported: <em>She <strong>said (that)</strong> she <strong>was</strong> tired.</em></p></div>
+    <div class="rule-box"><h3>⏪ Tense Backshift (one step back)</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Direct Speech</th><th>Reported Speech</th></tr>
+      <tr><td>present simple → <em>am/is/are</em></td><td>past simple → <em>was/were</em></td></tr>
+      <tr><td>present continuous → <em>is/are doing</em></td><td>past continuous → <em>was/were doing</em></td></tr>
+      <tr><td>present perfect → <em>has/have done</em></td><td>past perfect → <em>had done</em></td></tr>
+      <tr><td>past simple → <em>did</em></td><td>past perfect → <em>had done</em></td></tr>
+      <tr><td>will → <em>will</em></td><td>would → <em>would</em></td></tr>
+      <tr><td>can → <em>can</em></td><td>could → <em>could</em></td></tr>
+      <tr><td>may → <em>may</em></td><td>might → <em>might</em></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>🔄 Other Changes</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Category</th><th>Direct</th><th>Reported</th></tr>
+      <tr><td>Pronouns</td><td>I → she/he; we → they; my → her/his</td><td>Depends on context</td></tr>
+      <tr><td>Time</td><td>now → then; today → that day; yesterday → the day before; tomorrow → the next day / the following day</td><td></td></tr>
+      <tr><td>Place</td><td>here → there; this → that; these → those</td><td></td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 Khi KHÔNG cần backshift:</strong><br>
+    Nếu câu nói vẫn còn đúng tại thời điểm tường thuật, có thể giữ nguyên thì:<br>
+    <em>"The Earth is round." → He said (that) the Earth <strong>is</strong> round.</em> (sự thật hiển nhiên)<br>
+    <em>"I love you." → He says (that) he loves her.</em> (reporting verb ở hiện tại → không backshift)</div>
+  </div>
+  <div id="s5-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s5-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s5-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s5-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s5-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s5-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s5')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s5')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s5')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s5')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s5')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s5"></div>
+  </div>
+</div>
+
+<!-- ===== S6: REPORTED QUESTIONS ===== -->
+<div id="s6" class="section-page">
+  <div class="page-header"><span class="mod-tag mod2">MODULE 2 – REPORTED SPEECH</span><h1>❓ Reported Questions</h1><p>Embedding yes/no and wh-questions with statement word order</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s6-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s6-ex')">✏️ Exercises</button></div>
+  <div id="s6-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Reporting a Question</h3>
+    <p style="font-size:14px">Direct: <em>"Where do you live?"</em> → Reported: <em>She asked me <strong>where I lived</strong>.</em></p></div>
+    <div class="rule-box"><h3>📋 Two Types of Reported Questions</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Type</th><th>Connector</th><th>Direct → Reported</th></tr>
+      <tr><td><strong>Yes/No questions</strong></td><td>if / whether</td><td><em>"Are you ready?" → He asked if I <strong>was</strong> ready.</em></td></tr>
+      <tr><td><strong>Wh- questions</strong></td><td>the same wh-word</td><td><em>"What do you want?" → She asked what I <strong>wanted</strong>.</em></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 Critical Rule: Statement Word Order</h3>
+    <ul>
+      <li>In reported questions, always use <strong>statement word order</strong> (S + V), NOT question order.</li>
+      <li>✗ <em>She asked where <u>did I live</u>.</em></li>
+      <li>✓ <em>She asked where <u>I lived</u>.</em></li>
+      <li>✗ <em>He asked if <u>was I</u> hungry.</em></li>
+      <li>✓ <em>He asked if <u>I was</u> hungry.</em></li>
+      <li>Do NOT use a question mark in reported questions.</li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 Động từ tường thuật cho câu hỏi:</strong><br>
+    <strong>ask</strong> = câu hỏi thông thường: <em>She asked me where I was going.</em><br>
+    <strong>wonder</strong> = tự hỏi: <em>He wondered whether she would come.</em><br>
+    <strong>want to know</strong>: <em>They wanted to know how much it cost.</em><br>
+    <strong>inquire</strong> (formal): <em>He inquired whether a room was available.</em></div>
+  </div>
+  <div id="s6-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s6-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s6-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s6-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s6-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s6-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s6')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s6')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s6')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s6')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s6')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s6"></div>
+  </div>
+</div>
+
+<!-- ===== S7: COMMANDS & REQUESTS ===== -->
+<div id="s7" class="section-page">
+  <div class="page-header"><span class="mod-tag mod2">MODULE 2 – REPORTED SPEECH</span><h1>📋 Reported Commands &amp; Requests</h1><p>tell/ask/warn/advise + object + (not) to-infinitive</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s7-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s7-ex')">✏️ Exercises</button></div>
+  <div id="s7-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Reporting Commands and Requests</h3>
+    <p style="font-size:14px">Direct: <em>"Open the window."</em> → Reported: <em>She <strong>told me to open</strong> the window.</em></p></div>
+    <div class="rule-box"><h3>📐 Structure</h3>
+    <ul>
+      <li><strong>Positive:</strong> reporting verb + object + <strong>to + base verb</strong><br>
+        <em>He told her to sit down.</em></li>
+      <li><strong>Negative:</strong> reporting verb + object + <strong>not to + base verb</strong><br>
+        <em>She told me not to be late.</em></li>
+    </ul></div>
+    <div class="rule-box"><h3>🔑 Reporting Verbs for Commands/Requests</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Verb</th><th>Direct</th><th>Reported</th></tr>
+      <tr><td><strong>tell</strong> (command)</td><td>"Sit down!"</td><td>He <strong>told</strong> me <strong>to sit</strong> down.</td></tr>
+      <tr><td><strong>ask</strong> (polite request)</td><td>"Please close the door."</td><td>She <strong>asked</strong> me <strong>to close</strong> the door.</td></tr>
+      <tr><td><strong>warn</strong> (danger)</td><td>"Don't touch that!"</td><td>He <strong>warned</strong> me <strong>not to touch</strong> it.</td></tr>
+      <tr><td><strong>advise</strong> (advice)</td><td>"You should rest."</td><td>She <strong>advised</strong> me <strong>to rest</strong>.</td></tr>
+      <tr><td><strong>remind</strong> (reminder)</td><td>"Don't forget your keys."</td><td>He <strong>reminded</strong> me <strong>not to forget</strong> my keys.</td></tr>
+      <tr><td><strong>encourage</strong> (motivation)</td><td>"Keep trying!"</td><td>She <strong>encouraged</strong> me <strong>to keep</strong> trying.</td></tr>
+      <tr><td><strong>forbid</strong> (prohibition)</td><td>"Don't smoke here."</td><td>He <strong>forbade</strong> me <strong>to smoke</strong> there.</td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 say vs tell:</strong><br>
+    <em>say</em> → no object: <em>She said (that) she was tired.</em><br>
+    <em>tell</em> → needs object: <em>She told <u>me</u> (that) she was tired.</em><br>
+    ✗ <em>She said me to come.</em> → ✓ <em>She told me to come.</em></div>
+  </div>
+  <div id="s7-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s7-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s7-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s7-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s7-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s7-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s7')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s7')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s7')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s7')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s7')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s7"></div>
+  </div>
+</div>
+<!-- ===== S8: PRESENT & PAST PASSIVE ===== -->
+<div id="s8" class="section-page">
+  <div class="page-header"><span class="mod-tag mod3">MODULE 3 – PASSIVE VOICE</span><h1>🔄 Present &amp; Past Passive</h1><p>Shifting focus from the doer to the action or the receiver</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s8-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s8-ex')">✏️ Exercises</button></div>
+  <div id="s8-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Active → Passive</h3>
+    <p style="font-size:14px">Active: <em>The chef <u>cooks</u> the meal.</em> → Passive: <em>The meal <u>is cooked</u> by the chef.</em></p></div>
+    <div class="rule-box"><h3>📐 Passive Structures</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Tense</th><th>Active</th><th>Passive (be + p.p.)</th></tr>
+      <tr><td>Present simple</td><td>They make cars here.</td><td>Cars <strong>are made</strong> here.</td></tr>
+      <tr><td>Present continuous</td><td>They are building a road.</td><td>A road <strong>is being built</strong>.</td></tr>
+      <tr><td>Past simple</td><td>Someone stole my bag.</td><td>My bag <strong>was stolen</strong>.</td></tr>
+      <tr><td>Past continuous</td><td>They were repairing the bridge.</td><td>The bridge <strong>was being repaired</strong>.</td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 When to Use Passive</h3>
+    <ul>
+      <li>The doer is <strong>unknown</strong>: <em>My wallet was stolen.</em></li>
+      <li>The doer is <strong>obvious</strong>: <em>He was arrested. (by the police — obvious)</em></li>
+      <li>The doer is <strong>unimportant</strong>: <em>The bridge was built in 1990.</em></li>
+      <li>In <strong>formal/academic</strong> writing: <em>The experiment was conducted three times.</em></li>
+      <li>To <strong>focus on the result</strong>: <em>The report has been completed.</em></li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 By + agent:</strong> Chỉ dùng "by + tác nhân" khi tác nhân quan trọng hoặc đặc biệt:<br>
+    ✓ <em>The Mona Lisa was painted <strong>by Leonardo da Vinci</strong>.</em> (quan trọng)<br>
+    ✗ <em>The email was sent <strong>by someone</strong>.</em> (không cần thiết)<br>
+    <strong>with</strong> dùng cho công cụ: <em>The letter was written <strong>with</strong> a quill.</em></div>
+  </div>
+  <div id="s8-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s8-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s8-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s8-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s8-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s8-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s8')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s8')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s8')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s8')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s8')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s8"></div>
+  </div>
+</div>
+
+<!-- ===== S9: PERFECT & MODAL PASSIVE ===== -->
+<div id="s9" class="section-page">
+  <div class="page-header"><span class="mod-tag mod3">MODULE 3 – PASSIVE VOICE</span><h1>⚡ Perfect &amp; Modal Passive</h1><p>has/have/had been done · must/should/can be done</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s9-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s9-ex')">✏️ Exercises</button></div>
+  <div id="s9-learn" class="tab-content active">
+    <div class="rule-box"><h3>⏰ Perfect Passive</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Tense</th><th>Active</th><th>Passive</th></tr>
+      <tr><td>Present perfect</td><td>They have finished the project.</td><td>The project <strong>has been finished</strong>.</td></tr>
+      <tr><td>Past perfect</td><td>They had sent the report.</td><td>The report <strong>had been sent</strong>.</td></tr>
+      <tr><td>Future simple</td><td>They will complete it.</td><td>It <strong>will be completed</strong>.</td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>🔧 Modal Passive</h3>
+    <p style="font-size:13.5px;margin-bottom:8px">Structure: <strong>modal + be + past participle</strong></p>
+    <div class="table-wrap"><table>
+      <tr><th>Modal</th><th>Active</th><th>Passive</th></tr>
+      <tr><td>must</td><td>You must submit the form.</td><td>The form <strong>must be submitted</strong>.</td></tr>
+      <tr><td>should</td><td>They should repair the road.</td><td>The road <strong>should be repaired</strong>.</td></tr>
+      <tr><td>can</td><td>We can solve this problem.</td><td>This problem <strong>can be solved</strong>.</td></tr>
+      <tr><td>could have</td><td>They could have prevented it.</td><td>It <strong>could have been prevented</strong>.</td></tr>
+      <tr><td>should have</td><td>Someone should have told her.</td><td>She <strong>should have been told</strong>.</td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 Passive trong văn học thuật:</strong><br>
+    Modal passive rất phổ biến trong văn viết học thuật và báo cáo:<br>
+    <em>The results <strong>should be interpreted</strong> carefully.</em><br>
+    <em>Further research <strong>must be conducted</strong> to confirm these findings.</em><br>
+    <em>The error <strong>could have been avoided</strong> with better planning.</em></div>
+  </div>
+  <div id="s9-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s9-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s9-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s9-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s9-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s9-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s9')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s9')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s9')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s9')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s9')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s9"></div>
+  </div>
+</div>
+
+<!-- ===== S10: REPORTING VERB PASSIVE ===== -->
+<div id="s10" class="section-page">
+  <div class="page-header"><span class="mod-tag mod3">MODULE 3 – PASSIVE VOICE</span><h1>📰 Passive with Reporting Verbs</h1><p>It is said that… / He is believed to… / She is reported to have…</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s10-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s10-ex')">✏️ Exercises</button></div>
+  <div id="s10-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Impersonal Passive (News / Formal)</h3>
+    <p style="font-size:14px">Used to report information without identifying the source, very common in news and academic English.</p></div>
+    <div class="rule-box"><h3>📐 Two Structures</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Structure</th><th>Example</th></tr>
+      <tr><td><strong>It + passive + that clause</strong></td><td><em><strong>It is said that</strong> he is very wealthy.</em></td></tr>
+      <tr><td><strong>Subject + passive + to-infinitive</strong></td><td><em>He <strong>is said to be</strong> very wealthy.</em></td></tr>
+      <tr><td><strong>Subject + passive + to have + p.p.</strong><br>(for past reference)</td><td><em>She <strong>is reported to have left</strong> the country.</em></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>🔑 Common Reporting Verbs</h3>
+    <p style="font-size:13px;margin-bottom:8px">say · believe · report · think · consider · claim · know · expect · understand · allege · estimate</p>
+    <div class="example"><div class="label">All three equivalent:</div>
+    People say he is a genius.<br>
+    → <strong>It is said that</strong> he is a genius.<br>
+    → He <strong>is said to be</strong> a genius.</div>
+    <div class="example"><div class="label">Past action:</div>
+    People believe she left yesterday.<br>
+    → <strong>It is believed that</strong> she left yesterday.<br>
+    → She <strong>is believed to have left</strong> yesterday.</div></div>
+    <div class="tip-box"><strong>💡 Văn báo và học thuật:</strong><br>
+    Cấu trúc này cực kỳ phổ biến trong tin tức và học thuật để tránh nêu nguồn:<br>
+    <em><strong>It is estimated that</strong> over 50 million people speak Vietnamese worldwide.</em><br>
+    <em>The company <strong>is thought to be</strong> worth over $10 billion.</em><br>
+    <em>The suspect <strong>is alleged to have stolen</strong> the jewels.</em></div>
+  </div>
+  <div id="s10-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s10-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s10-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s10-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s10-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s10-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s10')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s10')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s10')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s10')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s10')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s10"></div>
+  </div>
+</div>
+
+<!-- ===== S11: DEFINING vs NON-DEFINING ===== -->
+<div id="s11" class="section-page">
+  <div class="page-header"><span class="mod-tag mod4">MODULE 4 – RELATIVE CLAUSES</span><h1>🎯 Defining vs Non-defining</h1><p>Which clauses are essential and which add optional information</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s11-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s11-ex')">✏️ Exercises</button></div>
+  <div id="s11-learn" class="tab-content active">
+    <div class="rule-box"><h3>🎯 Defining (Restrictive) Relative Clause</h3>
+    <ul>
+      <li>Identifies <strong>which one</strong> we mean — essential to the sentence</li>
+      <li><strong>No commas</strong></li>
+      <li>Can use <em>that</em> or <em>who/which</em></li>
+      <li>Relative pronoun can be omitted when it is the object</li>
+    </ul>
+    <div class="example">The woman <strong>who called you</strong> is outside. (= identifies which woman)<br>
+    The book <strong>that I bought</strong> yesterday is great. (= identifies which book)<br>
+    The book <strong>[Ø] I bought</strong> yesterday is great. (pronoun omitted — it's the object)</div></div>
+    <div class="rule-box"><h3>💬 Non-defining (Non-restrictive) Relative Clause</h3>
+    <ul>
+      <li>Adds <strong>extra information</strong> — not essential; could be removed</li>
+      <li>Always use <strong>commas</strong> around it</li>
+      <li>Use <em>which</em> (NOT that) for things; <em>who</em> for people</li>
+      <li>The relative pronoun <strong>cannot</strong> be omitted</li>
+    </ul>
+    <div class="example">My brother, <strong>who lives in Paris</strong>, is a chef. (= extra info about my only brother)<br>
+    The Eiffel Tower, <strong>which was built in 1889</strong>, attracts millions of tourists.</div></div>
+    <div class="rule-box"><h3>📋 Quick Comparison</h3>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>Defining</th><th>Non-defining</th></tr>
+      <tr><td>Commas</td><td>No</td><td>Yes</td></tr>
+      <tr><td>"that"</td><td>✓ allowed</td><td>✗ NOT allowed</td></tr>
+      <tr><td>Omit pronoun</td><td>✓ if object</td><td>✗ never</td></tr>
+      <tr><td>If removed</td><td>Sentence loses meaning</td><td>Sentence still makes sense</td></tr>
+    </table></div></div>
+    <div class="tip-box"><strong>💡 Mẹo nhớ:</strong><br>
+    Nếu câu vẫn rõ nghĩa khi bỏ mệnh đề quan hệ → <strong>non-defining</strong> (dùng dấu phẩy)<br>
+    Nếu bỏ đi thì không biết đang nói về cái gì → <strong>defining</strong> (không dấu phẩy)<br>
+    Test: <em>My sister who lives in Hanoi is a teacher.</em> (implies more than one sister → defining)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>My sister, who lives in Hanoi, is a teacher.</em> (I have only one sister → non-defining)</div>
+  </div>
+  <div id="s11-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s11-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s11-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s11-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s11-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s11-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s11')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s11')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s11')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s11')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s11')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s11"></div>
+  </div>
+</div>
+
+<!-- ===== S12: REDUCED RELATIVE CLAUSES ===== -->
+<div id="s12" class="section-page">
+  <div class="page-header"><span class="mod-tag mod4">MODULE 4 – RELATIVE CLAUSES</span><h1>✂️ Reduced Relative Clauses</h1><p>Shortening relative clauses with participles</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s12-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s12-ex')">✏️ Exercises</button></div>
+  <div id="s12-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ Why Reduce?</h3>
+    <p style="font-size:14px">Reduced relative clauses make sentences more concise and are very common in formal writing. Remove the relative pronoun + auxiliary verb, keep the participle.</p></div>
+    <div class="rule-box"><h3>⚡ Active Reduction → Present Participle (-ing)</h3>
+    <ul><li>who/that + is/are + verb-ing → <strong>verb-ing</strong></li></ul>
+    <div class="example">The man <strong>who is sitting</strong> by the window is my uncle.<br>
+    → The man <strong>sitting</strong> by the window is my uncle.</div>
+    <div class="example">Students <strong>who are studying</strong> abroad face many challenges.<br>
+    → Students <strong>studying</strong> abroad face many challenges.</div></div>
+    <div class="rule-box"><h3>⚡ Passive Reduction → Past Participle (p.p.)</h3>
+    <ul><li>which/that + is/was + past participle → <strong>past participle</strong></li></ul>
+    <div class="example">The letter <strong>which was written</strong> in 1865 is now in a museum.<br>
+    → The letter <strong>written</strong> in 1865 is now in a museum.</div>
+    <div class="example">The bridge <strong>that was built</strong> by the French still stands today.<br>
+    → The bridge <strong>built</strong> by the French still stands today.</div></div>
+    <div class="rule-box"><h3>📌 When Can You Reduce?</h3>
+    <ul>
+      <li>Only in <strong>defining</strong> relative clauses</li>
+      <li>The pronoun must be the <strong>subject</strong> of the relative clause</li>
+      <li>✗ Cannot reduce: <em>The man whom I met… → The man I met…</em> (pronoun is object → just omit, don't use participle)</li>
+    </ul></div>
+    <div class="tip-box"><strong>💡 -ing vs p.p.:</strong><br>
+    <strong>-ing</strong> (present participle) = the noun is <em>doing</em> the action (active): <em>the woman <strong>running</strong> in the park</em><br>
+    <strong>p.p.</strong> (past participle) = the noun <em>receives</em> the action (passive): <em>the car <strong>damaged</strong> in the accident</em></div>
+  </div>
+  <div id="s12-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s12-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s12-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s12-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s12-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s12-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s12')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s12')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s12')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s12')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s12')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s12"></div>
+  </div>
+</div>
+
+<!-- ===== S13: CLAUSES WITH PREPOSITIONS ===== -->
+<div id="s13" class="section-page">
+  <div class="page-header"><span class="mod-tag mod4">MODULE 4 – RELATIVE CLAUSES</span><h1>📍 Relative Clauses with Prepositions</h1><p>Formal vs informal preposition placement</p></div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab(this,'s13-learn')">📖 Learn</button><button class="tab-btn" onclick="switchTab(this,'s13-ex')">✏️ Exercises</button></div>
+  <div id="s13-learn" class="tab-content active">
+    <div class="start-point"><h3>✦ The Problem: Prepositions + Relative Pronouns</h3>
+    <p style="font-size:14px">When the verb in the relative clause needs a preposition, where does it go?</p></div>
+    <div class="rule-box"><h3>📐 Two Styles</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Style</th><th>Structure</th><th>Example</th></tr>
+      <tr><td><strong>Formal</strong></td><td>preposition + whom/which</td><td><em>The city <strong>in which</strong> I grew up is beautiful.</em></td></tr>
+      <tr><td><strong>Informal</strong></td><td>that/who/which + preposition at end</td><td><em>The city <strong>that</strong> I grew up <strong>in</strong> is beautiful.</em></td></tr>
+      <tr><td><strong>Omit pronoun</strong></td><td>Ø + preposition at end</td><td><em>The city I grew up <strong>in</strong> is beautiful.</em></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>🔑 More Examples</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Formal</th><th>Informal</th></tr>
+      <tr><td>the hotel <strong>at which</strong> we stayed</td><td>the hotel <strong>that</strong> we stayed <strong>at</strong></td></tr>
+      <tr><td>the person <strong>to whom</strong> I spoke</td><td>the person <strong>who</strong> I spoke <strong>to</strong></td></tr>
+      <tr><td>the reason <strong>for which</strong> she left</td><td>the reason <strong>why</strong> she left / the reason she left</td></tr>
+      <tr><td>the company <strong>for which</strong> he works</td><td>the company <strong>that</strong> he works <strong>for</strong></td></tr>
+    </table></div></div>
+    <div class="rule-box"><h3>📌 Special: whose + noun (possession)</h3>
+    <div class="example">The student <strong>whose essay</strong> won the prize is in my class.<br>
+    The building <strong>whose roof</strong> collapsed was built in the 1960s.</div>
+    <p style="font-size:13px;margin-top:6px">Note: <em>whose</em> can refer to people AND things. There is no alternative like "of which" in informal use.</p></div>
+    <div class="tip-box"><strong>💡 Mẹo:</strong> Trong bài thi học thuật (IELTS, TOEFL, B1+) → dùng <strong>in which / to whom / for which</strong> để thể hiện văn phong chuyên nghiệp.<br>
+    Trong giao tiếp thông thường → dùng <strong>that…in / who…to</strong> hoặc bỏ đại từ.<br>
+    Không bao giờ dùng <em>that</em> sau giới từ: ✗ <em>in that</em> → ✓ <em>in which</em></div>
+  </div>
+  <div id="s13-ex" class="tab-content">
+    <div class="ex-label">Part A – MCQ</div><div id="s13-qa"></div>
+    <div class="ex-label" style="margin-top:18px">Part B – Vietnamese → English</div><div id="s13-qb"></div>
+    <div class="ex-label" style="margin-top:18px">Part C – Sentence Transformation</div><div id="s13-qt"></div>
+    <div class="ex-label" style="margin-top:18px">Part D – Error Correction</div><div id="s13-qe"></div>
+    <div class="ex-label" style="margin-top:18px">Part E – Paragraph Writing</div><div id="s13-qc"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection('s13')">✅ Score Part A</button>
+      <button class="btn btn-outline" onclick="revealTrans('s13')">👁 Translations</button>
+      <button class="btn btn-teal" onclick="revealTransform('s13')">🔄 Transformations</button>
+      <button class="btn btn-outline" onclick="revealError('s13')">🔍 Error Corrections</button>
+      <button class="btn btn-outline" onclick="revealWriting('s13')">📝 Model</button>
+    </div>
+    <div class="section-score" id="score-s13"></div>
+  </div>
+</div>
+
+<!-- ===== RESULTS ===== -->
+<div id="results" class="section-page">
+  <div class="page-header"><h1>📋 Results &amp; Report</h1><p id="results-info">Complete the exercises, then generate your report here.</p></div>
+  <div class="results-grid">
+    <div class="result-card"><h3>Overall Score (Part A)</h3><div class="val" id="res-overall">—</div></div>
+    <div class="result-card"><h3>Sections Scored</h3><div class="val" id="res-sections">0 / 14</div></div>
+    <div class="result-card"><h3>Attempts</h3><div class="val" id="res-attempts">0</div></div>
+    <div class="result-card"><h3>Date</h3><div class="val" style="font-size:18px" id="res-date">—</div></div>
+  </div>
+
+  <div class="sub-heading">Module Progress</div>
+  <div id="module-bars"></div>
+
+  <div class="sub-heading" style="margin-top:22px">Section Breakdown</div>
+  <table style="width:100%;border-collapse:collapse;font-size:13.5px">
+    <thead><tr style="background:rgba(109,40,217,.08)">
+      <th style="padding:9px 12px;text-align:left;color:var(--muted);font-size:12px">Section</th>
+      <th style="padding:9px 12px;text-align:left;color:var(--muted);font-size:12px">Score</th>
+      <th style="padding:9px 12px;text-align:left;color:var(--muted);font-size:12px">%</th>
+      <th style="padding:9px 12px;text-align:left;color:var(--muted);font-size:12px">Status</th>
+    </tr></thead>
+    <tbody id="section-breakdown"></tbody>
+  </table>
+
+  <div class="sub-heading" style="margin-top:22px">❌ Error Log</div>
+  <div id="error-log-container"><div style="color:var(--muted);font-size:14px;padding:16px">Score a section to see errors here.</div></div>
+
+  <div class="sub-heading" style="margin-top:22px">📤 Export &amp; Send</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generateReport()">🖨️ Generate PDF Report</button>
+    <button class="btn btn-gold" onclick="sendToTeacher()">📧 Send to Teacher</button>
+    <button class="btn btn-outline" onclick="copyReport()">📋 Copy Report Text</button>
+  </div>
+  <div id="email-status" style="margin-top:11px;font-size:13px;display:none"></div>
+  <div style="margin-top:14px;padding:13px 16px;background:#fffbeb;border:1px solid rgba(180,83,9,.2);border-radius:8px;font-size:13px;color:var(--muted)">
+    📧 Results sent to: <strong style="color:var(--gold)">huongstella8@gmail.com</strong>
+  </div>
+</div>
+
+</div><!-- end #main -->
+<script>
+// ============================================================
+// EXERCISE DATA
+// ============================================================
+const SECTIONS = {
+  s0:{
+    qa:[
+      {q:"Which sentence is a Type 2 conditional?",opts:["If it rains, take an umbrella.","If I were rich, I would travel the world.","If you heat water, it boils.","If she had studied, she would have passed."],ans:1,exp:"Type 2 = If + past simple, would + base verb. Refers to an unreal present/future situation."},
+      {q:"'The report ___ by the manager every Monday.' — Correct passive form?",opts:["is written","writes","has written","written"],ans:0,exp:"Present simple passive = am/is/are + past participle. 'The report is written by...'"},
+      {q:"'She said that she ___ tired.' — Correct backshift?",opts:["is","was","has been","will be"],ans:1,exp:"Present simple (is) → Past simple (was) in reported speech. Tense backshift one step back."},
+      {q:"How do you reduce the relative clause in 'The man who is sitting by the window is my uncle'?",opts:["The man who sitting by the window is my uncle.","The man sitting by the window is my uncle.","The man sat by the window is my uncle.","The man that sitting by the window is my uncle."],ans:1,exp:"Remove the pronoun + auxiliary: 'who is sitting' → 'sitting' (active participle). Result: 'The man sitting by the window is my uncle.'"},
+      {q:"'Take an umbrella ___ it rains.' — Which fits best for 'because it might rain'?",opts:["if","unless","in case","even if"],ans:2,exp:"'in case' = because it might happen. We take precaution BEFORE the possible event."},
+      {q:"Which sentence uses the passive with a reporting verb correctly?",opts:["People say that he is honest. → It says that he is honest.","People believe she left. → She is believed to have left.","They know he lied. → He is knowing to have lied.","People expect he wins. → It is expected he winning."],ans:1,exp:"Correct structure: Subject + is/are + believed/said/reported + to have + past participle (for past reference)."},
+    ],
+    qb:[
+      {vn:"Nếu bạn không vội, chúng ta có thể dừng lại uống cà phê.",hint:"unless / hurry / stop for coffee",model:"Unless you are in a hurry, we can stop for a coffee.",note:"'unless' = if not. Type 1 conditional (real possibility)."},
+      {vn:"Cô ấy nói rằng cô ấy đang học để chuẩn bị cho kỳ thi.",hint:"said / studying / prepare for exam",model:"She said that she was studying to prepare for the exam.",note:"Reported speech: 'is studying' → 'was studying' (backshift)."},
+      {vn:"Ngôi nhà này được xây từ năm 1920 vẫn đang được sử dụng.",hint:"built in 1920 / still / being used",model:"The house built in 1920 is still being used.",note:"'built in 1920' = reduced relative clause (past participle). 'is being used' = present continuous passive."},
+      {vn:"Người phụ nữ mà tôi nói chuyện cùng là giám đốc của công ty.",hint:"the woman / who I spoke to / director / company",model:"The woman who I spoke to is the director of the company.",note:"Informal: relative pronoun + preposition at end. Formal: 'to whom I spoke'"},
+    ],
+    qt:[
+      {original:"If you don't practise, you won't improve.",instruction:"Rewrite using 'unless'",model:"Unless you practise, you won't improve.",note:"'unless' = 'if not'. Remove 'don't' and replace 'If' with 'Unless'."},
+      {original:"Someone stole her bicycle yesterday.",instruction:"Rewrite in the passive voice",model:"Her bicycle was stolen yesterday.",note:"Past simple passive: was/were + past participle. Agent ('someone') omitted — unknown."},
+      {original:"'I have already eaten,' he said.",instruction:"Change to reported speech",model:"He said (that) he had already eaten.",note:"Present perfect (have eaten) → past perfect (had eaten) in reported speech."},
+      {original:"The woman who is wearing a red coat is my professor.",instruction:"Reduce the relative clause",model:"The woman wearing a red coat is my professor.",note:"Active reduction: 'who is wearing' → 'wearing' (present participle)."},
+    ],
+    qe:[
+      {s:"If I would have more time, I would exercise every day.",parts:["If I would have","more time,","I would exercise","every day."],wrong:0,fix:"If I had",exp:"Type 2 conditional: if-clause uses PAST SIMPLE, not 'would have'. Correct: 'If I had more time...'"},
+      {s:"She told me that she will call me the next day.",parts:["She told me","that she will call","me","the next day."],wrong:1,fix:"that she would call",exp:"Reported speech backshift: 'will' → 'would'. She told me that she WOULD call me."},
+      {s:"The letter, that was written in 1900, is now in a museum.",parts:["The letter,","that was written","in 1900,","is now in a museum."],wrong:1,fix:"which was written",exp:"Non-defining relative clauses use 'which' for things, NOT 'that'. Commas confirm it's non-defining."},
+      {s:"He asked me where did I live.",parts:["He asked me","where","did I live","(whole clause)"],wrong:2,fix:"I lived",exp:"Reported questions use STATEMENT word order (S+V), never question order. Correct: 'where I lived'."},
+    ],
+    wc:{prompt:"Write a short paragraph (5–6 sentences) about what you would do differently if you could go back and change one decision in your life. Use: a Type 3 conditional, a reported speech sentence, and a passive structure.",hints:"If I had … / I would have … / … told me that … / … was said / … was given",criteria:["Contains a Type 3 conditional","Contains at least one reported speech structure","Contains at least one passive voice sentence","Logical and coherent narrative","Correct grammar throughout"],model:"If I had chosen to study English more seriously at secondary school, I would have been much better prepared for university. A teacher once told me that consistent daily practice was the key to language learning. However, this advice was not fully appreciated at the time. I was advised by my parents to focus on science subjects, and so English was neglected. Now I realise that the decision to prioritise other subjects over language learning was a mistake I should have avoided.",takeaway:"Key takeaway: Vol.3 structures — conditionals, reported speech, passive voice, and relative clauses — are the backbone of sophisticated B1+ writing. Combining them fluently is the mark of an advanced learner."}
+  },
+  s1:{
+    qa:[
+      {q:"Complete: 'If you freeze water, it ___ ice.' (Zero conditional)",opts:["becomes","will become","would become","became"],ans:0,exp:"Zero conditional = If + present simple, present simple. General/scientific truth: always present tense in both clauses."},
+      {q:"Choose: 'If she ___ harder, she will pass the exam.' (Type 1)",opts:["studied","studies","would study","had studied"],ans:1,exp:"Type 1: If + PRESENT SIMPLE (not future, not past). 'If she studies' = real, possible future condition."},
+      {q:"Which sentence is Type 1 (real/likely future)?",opts:["If I had wings, I would fly.","If water freezes, it expands.","If you call me, I will answer.","If she had come, we would have celebrated."],ans:2,exp:"'If you call, I will answer' = Type 1: real, possible future. Option A = Type 2, B = Zero, D = Type 3."},
+      {q:"'If ___ late for work, my boss gets angry.' — Correct?",opts:["I am","I will be","I would be","I were"],ans:0,exp:"Zero conditional for habitual/repeated situations: present simple in both clauses. This is a regular pattern."},
+      {q:"'Unless you hurry, you ___ the train.' — Type 1 result?",opts:["miss","missed","would miss","will miss"],ans:3,exp:"Type 1 result clause uses 'will' + base verb. 'Unless you hurry, you WILL miss the train.'"},
+      {q:"Which sentence has CORRECT Type 1 punctuation?",opts:["If it rains we will stay home.","If it rains, we will stay home.","If, it rains we will stay home.","If it rains we will, stay home."],ans:1,exp:"When the if-clause comes FIRST, use a comma after it: 'If it rains, [comma] we will stay home.'"},
+    ],
+    qb:[
+      {vn:"Nếu bạn luyện tập mỗi ngày, bạn sẽ tiến bộ rất nhanh.",hint:"practise every day / improve / quickly",model:"If you practise every day, you will improve very quickly.",note:"Type 1: If + present simple, will + base verb. If-clause first → comma."},
+      {vn:"Khi bạn đun sôi nước, nó bốc hơi.",hint:"when / boil / water / evaporate",model:"When you boil water, it evaporates.",note:"Zero conditional: when = if for general truths. Both clauses = present simple."},
+      {vn:"Nếu cô ấy không đến đúng giờ, cuộc họp sẽ bắt đầu mà không có cô ấy.",hint:"unless / on time / meeting / without her",model:"If she doesn't arrive on time, the meeting will start without her.",note:"Type 1 negative: 'If she doesn't arrive' — use present simple negative in if-clause."},
+      {vn:"Bạn có thể bị phạt nếu đỗ xe sai chỗ.",hint:"may / fine / park / wrong place",model:"You may be fined if you park in the wrong place.",note:"Type 1 can use 'may' instead of 'will' for possibility. If-clause at end → no comma needed."},
+    ],
+    qt:[
+      {original:"If it rains, I will take an umbrella. (Type 1)",instruction:"Rewrite as Zero Conditional (general habit/truth)",model:"If/When it rains, I take an umbrella.",note:"Zero conditional: remove 'will', use present simple in both clauses."},
+      {original:"You don't exercise, so you feel tired all the time.",instruction:"Rewrite as Type 1 conditional beginning with 'If'",model:"If you exercise regularly, you will feel less tired. / (Note: Type 2 form also possible: 'If you exercised regularly, you wouldn't feel so tired.')",note:"Type 1 = If + present simple, will + base verb. The Type 1 version expresses a real, achievable future change."},
+      {original:"If you heat iron, it expands. (Zero)",instruction:"Rewrite as Type 1 (specific future situation — tomorrow)",model:"If you heat the iron tomorrow, it will expand.",note:"Adding a specific time ('tomorrow') makes it Type 1 — a particular, real future event."},
+      {original:"She will fail unless she studies. (Type 1)",instruction:"Rewrite using 'if…not' instead of 'unless'",model:"She will fail if she doesn't study.",note:"unless = if not. Replace 'unless' with 'if…not' and remove double negative."},
+    ],
+    qe:[
+      {s:"If it will rain tomorrow, I will stay at home.",parts:["If it will rain","tomorrow,","I will stay","at home."],wrong:0,fix:"If it rains",exp:"NEVER use 'will' in the if-clause of Type 1. Use present simple: 'If it rains tomorrow...'"},
+      {s:"When you are mixing red and blue, you get purple.",parts:["When you are mixing","red and blue,","you get","purple."],wrong:0,fix:"When you mix",exp:"Zero conditional uses simple present, not continuous, in the if/when-clause: 'When you MIX...'"},
+      {s:"If she will study hard, she might pass the exam.",parts:["If she will study","hard,","she might pass","the exam."],wrong:0,fix:"If she studies",exp:"If-clause always uses present simple in Type 1. 'will' is never used in the condition clause."},
+      {s:"You will fail the test if you won't prepare.",parts:["You will fail","the test","if you won't prepare","(whole clause)."],wrong:2,fix:"if you don't prepare",exp:"Use present simple (not 'won't') in the if-clause: 'if you don't prepare'."},
+    ],
+    wc:{prompt:"Write a paragraph (5–6 sentences) about your plans or goals for this year. Use at least 3 Type 1 conditional sentences and 1 Zero conditional sentence.",hints:"if I / when I / unless / provided that / will / can / may / might",criteria:["At least 3 Type 1 conditional sentences","At least 1 Zero conditional","Correct tense in both clauses","Comma used when if-clause is first","Logical and connected paragraph"],model:"I have several goals for this year. If I manage my time effectively, I will be able to study English for at least an hour every day. When I practise speaking regularly, my confidence improves significantly — this is simply how language learning works. If I complete this grammar workbook by the end of the month, I will start a new vocabulary course immediately. Unless I stay consistent, I may fall behind my study plan. However, if I follow the schedule carefully, I am confident that I will reach B1 level by December.",takeaway:"Key takeaway: Zero conditional = always true (general facts, habits). Type 1 conditional = real and likely (specific future possibilities). NEVER use 'will' in the if-clause."}
+  },
+  s2:{
+    qa:[
+      {q:"Complete: 'If I ___ more money, I would buy a new laptop.' (Type 2)",opts:["have","had","would have","will have"],ans:1,exp:"Type 2 if-clause uses PAST SIMPLE: 'If I had…' (not real — imagining a different present)."},
+      {q:"'If she were the president, she ___ change the tax system.' — Correct main clause?",opts:["will","would","had","has"],ans:1,exp:"Type 2 main clause = would/could/might + base verb. 'She would change...'"},
+      {q:"'If I ___ you, I would apologise.' — Which word is correct?",opts:["am","was","were","had been"],ans:2,exp:"'If I were you' is the standard idiom for giving advice. 'Were' is used for all subjects in formal Type 2."},
+      {q:"Which sentence is Type 2?",opts:["If I study, I will pass.","If I studied more, I could get a better job.","If I had studied, I would have passed.","If you boil water, it evaporates."],ans:1,exp:"Type 2: If + past simple, would/could/might + base verb. Refers to an unreal present/future. Option C = Type 3, A = Type 1, D = Zero."},
+      {q:"'If she ___ English fluently, she could work abroad.' — Correct?",opts:["spoke","speaks","would speak","has spoken"],ans:0,exp:"Type 2 if-clause: past simple. 'If she spoke' (she doesn't speak it fluently — imaginary)."},
+      {q:"'If I were rich, I ___ travel around the world.' — Which modal is NOT possible here?",opts:["would","could","might","will"],ans:3,exp:"Type 2 main clause uses would/could/might — never 'will'. 'Will' belongs to Type 1."},
+    ],
+    qb:[
+      {vn:"Nếu tôi biết đáp án, tôi đã nói cho bạn rồi. (không thực tế hiện tại)",hint:"Type 2 / knew / would tell",model:"If I knew the answer, I would tell you.",note:"Type 2: 'knew' (past simple, not 'know') in if-clause → unreal present."},
+      {vn:"Nếu tôi là bạn, tôi sẽ nhận lời xin lỗi đó.",hint:"If I were you / would accept / apology",model:"If I were you, I would accept the apology.",note:"Classic advice idiom. 'were' for all subjects in Type 2, though 'was' is acceptable informally."},
+      {vn:"Cô ấy có thể giúp chúng tôi nếu cô ấy không bận như thế.",hint:"could help / if / weren't so busy",model:"She could help us if she weren't so busy.",note:"Could = possibility in main clause. 'weren't' (not 'wasn't') is preferred in formal Type 2."},
+      {vn:"Cuộc sống sẽ dễ dàng hơn nếu mọi người lắng nghe nhau hơn.",hint:"would be easier / if / listened more",model:"Life would be easier if people listened to each other more.",note:"Unreal general situation — Type 2 with 'would be' in main clause."},
+    ],
+    qt:[
+      {original:"I don't have a car, so I can't drive to work. (Type 1→ Type 2)",instruction:"Rewrite as Type 2 conditional",model:"If I had a car, I could drive to work.",note:"Type 2: present imaginary. 'don't have' → 'had'; 'can't' → 'could'."},
+      {original:"If it rains, we will cancel the picnic. (Type 1)",instruction:"Rewrite as Type 2 (imaginary: suppose it rained)",model:"If it rained, we would cancel the picnic.",note:"Type 1 → Type 2: 'rains'→'rained'; 'will'→'would'. Meaning shifts from likely to imaginary."},
+      {original:"I am not a doctor, so I can't help you.",instruction:"Rewrite as Type 2 beginning with 'If'",model:"If I were a doctor, I could help you.",note:"'am not' → 'were' (Type 2, all subjects); 'can't help' → 'could help'."},
+      {original:"She works too slowly, so she doesn't finish on time.",instruction:"Rewrite as Type 2 conditional",model:"If she didn't work so slowly, she would finish on time.",note:"Negate the condition: 'works slowly' → 'didn't work so slowly'. Main: 'would finish'."},
+    ],
+    qe:[
+      {s:"If I would be taller, I could play basketball better.",parts:["If I would be","taller,","I could play","basketball better."],wrong:0,fix:"If I were",exp:"Type 2 if-clause uses PAST SIMPLE (or 'were' for 'be'). Never 'would' in the if-clause."},
+      {s:"If she was the manager, she would change the rules.",parts:["If she was","the manager,","she would change","the rules."],wrong:0,fix:"If she were",exp:"Formally correct Type 2 uses 'were' for all subjects, including she/he/it. 'If she WERE the manager...'"},
+      {s:"What would you do if you will win the lottery?",parts:["What would you do","if you will win","the lottery","(whole)"],wrong:1,fix:"if you won",exp:"Type 2 if-clause uses past simple, not 'will'. Correct: 'if you WON the lottery'."},
+      {s:"If I knew the answer, I will tell you.",parts:["If I knew","the answer,","I will tell","you."],wrong:2,fix:"I would tell",exp:"Type 2 main clause requires 'would/could/might', not 'will'. Correct: 'I WOULD tell you.'"},
+    ],
+    wc:{prompt:"Write a paragraph (5–6 sentences) about what your life would be like if you lived in a different country. Use Type 2 conditionals throughout. Include at least one 'If I were you' or 'If I were + noun' structure.",hints:"If I lived in … / If I were … / I would / I could / I might / opportunities / challenges / culture / language / lifestyle",criteria:["All conditional sentences are Type 2","Uses past simple in if-clauses","Uses would/could/might in main clauses","At least one 'If I were' structure","Vivid, specific description of imaginary life"],model:"If I lived in Japan, my daily routine would be completely different from what it is now. I would wake up early and commute by bullet train to a busy office in Tokyo. If I were fluent in Japanese, I could socialise with local people and truly immerse myself in the culture. I might feel lonely at first if I didn't have any friends nearby, but I would gradually adapt. If I were in that situation, I would join community clubs and language exchange programmes. Life would certainly be challenging, but I believe it would also be incredibly rewarding.",takeaway:"Key takeaway: Type 2 = imaginary present/future. Always past simple in the if-clause, always would/could/might in the main clause. 'If I were you' is a fixed expression for giving advice — 'was' is technically wrong in formal English."}
+  },
+  s3:{
+    qa:[
+      {q:"Complete: 'If she ___ harder, she would have passed.' (Type 3)",opts:["studied","had studied","would study","was studying"],ans:1,exp:"Type 3 if-clause = had + past participle (past perfect). 'If she HAD STUDIED harder...'"},
+      {q:"'If they hadn't argued, they ___ together.' — Correct main clause?",opts:["might stay","might have stayed","would stay","will have stayed"],ans:1,exp:"Type 3 main clause = would/could/might + have + past participle. 'might have stayed'."},
+      {q:"Which sentence expresses regret about a past action?",opts:["If I study more, I will pass.","If I studied more, I would pass.","If I had studied more, I would have passed.","If I were studying now, I could pass."],ans:2,exp:"Type 3 = unreal past. 'If I had studied' = I didn't study → expressing regret about the past result."},
+      {q:"'___ I known you were coming, I would have prepared dinner.' — Formal inversion:",opts:["If","Had","Should","Were"],ans:1,exp:"Formal inversion of Type 3: 'Had I known…' = 'If I had known…'. Had comes first, no 'if'."},
+      {q:"'If she had caught an earlier train, she ___ on time.' — Choose correctly:",opts:["would arrive","would have arrived","had arrived","will have arrived"],ans:1,exp:"Type 3 main clause: would + have + past participle. 'she would HAVE ARRIVED on time.'"},
+      {q:"What is the main use of Type 3 conditionals?",opts:["Real future plans","General scientific truths","Imaginary present situations","Unreal past situations and regrets"],ans:3,exp:"Type 3 refers to the past: situations that did NOT happen. Used for regrets, criticism, and 'what if' about the past."},
+    ],
+    qb:[
+      {vn:"Nếu anh ấy học chăm hơn, anh ấy đã có thể đậu kỳ thi rồi.",hint:"if / had studied harder / could have passed",model:"If he had studied harder, he could have passed the exam.",note:"Type 3: 'had studied' (past perfect) + 'could have passed' (modal perfect)."},
+      {vn:"Nếu tôi mang ô, tôi đã không bị ướt.",hint:"had brought / umbrella / wouldn't have got / wet",model:"If I had brought an umbrella, I wouldn't have got wet.",note:"Type 3 negative: 'wouldn't have got/gotten wet'. Both 'got' and 'gotten' are acceptable."},
+      {vn:"Họ sẽ không bị lạc nếu họ mang theo bản đồ.",hint:"wouldn't have got lost / had taken / map",model:"They wouldn't have got lost if they had taken a map.",note:"Main clause first → no comma before 'if'. Type 3: 'had taken' + 'wouldn't have got lost'."},
+      {vn:"Giá như cô ấy nói với tôi sớm hơn, tôi đã có thể giúp cô ấy.",hint:"If only / had told / could have helped",model:"If only she had told me earlier, I could have helped her.",note:"'If only' = stronger regret/wish. Type 3 structure is the same: had + p.p. in if-clause."},
+    ],
+    qt:[
+      {original:"She didn't study, so she failed the exam.",instruction:"Rewrite as Type 3 conditional beginning with 'If'",model:"If she had studied, she wouldn't have failed the exam.",note:"Type 3: 'didn't study' → 'had studied'; 'failed' → 'wouldn't have failed'."},
+      {original:"If I had known about the traffic, I would have left earlier. (Type 3)",instruction:"Rewrite using formal inversion (no 'if')",model:"Had I known about the traffic, I would have left earlier.",note:"Inversion: remove 'if', put 'Had' first. No comma change — still comma after the first clause."},
+      {original:"If I had more time yesterday, I could finish the report.",instruction:"Correct the Type 3 error and rewrite properly",model:"If I had had more time yesterday, I could have finished the report.",note:"'had had' = past perfect of 'have'. Main clause also needs 'have': 'could have finished'."},
+      {original:"He was careless, so the accident happened.",instruction:"Rewrite as a Type 3 conditional, expressing criticism",model:"If he hadn't been so careless, the accident wouldn't have happened.",note:"Type 3 for criticism: negate the past action. 'hadn't been' + 'wouldn't have happened'."},
+    ],
+    qe:[
+      {s:"If she studied harder, she would have passed the exam.",parts:["If she studied","harder,","she would have passed","the exam."],wrong:0,fix:"If she had studied",exp:"Type 3 if-clause needs PAST PERFECT (had + p.p.). 'If she HAD STUDIED' — not past simple."},
+      {s:"If I had known, I would tell you.",parts:["If I had known,","I would tell","you","(whole)"],wrong:1,fix:"I would have told",exp:"Type 3 main clause: would + HAVE + past participle. Correct: 'I would HAVE TOLD you.'"},
+      {s:"Had she told me, I would helped her.",parts:["Had she told me,","I would helped","her","(whole)"],wrong:1,fix:"I would have helped",exp:"Main clause of Type 3 (inverted): would + have + p.p. 'I would HAVE HELPED her.'"},
+      {s:"If only he hasn't been so arrogant, he could have kept his friends.",parts:["If only","he hasn't been","so arrogant,","he could have kept his friends."],wrong:1,fix:"he hadn't been",exp:"Type 3 if-clause uses HAD NOT (past perfect negative): 'hadn't been' — not present perfect."},
+    ],
+    wc:{prompt:"Write a paragraph (5–6 sentences) about a historical event or personal decision, reflecting on how things might have been different. Use at least 3 Type 3 conditionals.",hints:"If … had … / would have / could have / might have / hadn't / If only / had they … (inversion)",criteria:["At least 3 Type 3 conditionals","Past perfect in all if-clauses","Would/could/might + have + p.p. in all main clauses","Expresses clear regret or counterfactual reflection","At least one negative structure (wouldn't have / hadn't)"],model:"The outbreak of World War One was one of the most tragic events in human history. If political leaders had chosen diplomacy over mobilisation in 1914, millions of lives could have been saved. Had the assassination of Archduke Franz Ferdinand not occurred, the fragile peace in Europe might have held for longer. If nations had communicated more openly, the misunderstandings that led to war might have been avoided. The suffering that followed would not have happened if early warnings had been taken more seriously. This event reminds us that small decisions can have enormous consequences.",takeaway:"Key takeaway: Type 3 = unreal PAST. It's the language of regret, criticism, and historical reflection. Remember: had + p.p. in the if-clause; would/could/might + have + p.p. in the main clause."}
+  },
+  s4:{
+    qa:[
+      {q:"Which is a MIXED conditional (past condition → present result)?",opts:["If I had studied, I would have passed.","If I had studied medicine, I would be a doctor now.","If I studied medicine, I would be a doctor.","If I study medicine, I will be a doctor."],ans:1,exp:"Mixed (past→present): If + past perfect, would + base verb. 'Had studied' (past) → 'would be' (present result)."},
+      {q:"'___ you study tonight, you won't pass tomorrow.' — Which word makes a condition?",opts:["Unless","Provided that","As long as","All of the above"],ans:3,exp:"All three work: 'Unless you study' (= if you don't study); 'Provided that you study'; 'As long as you study' — all express the condition for passing."},
+      {q:"'I'll lend you money ___ you pay me back.' — Which fits best?",opts:["unless","in case","even if","as long as"],ans:3,exp:"'as long as' = on the condition that. I'll lend → condition: you pay back."},
+      {q:"'Take a jacket ___ it gets cold later.' — Best choice:",opts:["if","unless","in case","provided that"],ans:2,exp:"'in case' = precaution for something that MIGHT happen. We don't know if it will get cold, but we prepare."},
+      {q:"'___ it snows, the match will go ahead.' — The match happens regardless. Choose:",opts:["Unless","Even if","In case","Provided that"],ans:1,exp:"'even if' = regardless of whether. The match goes ahead no matter what, even in snow."},
+      {q:"Which is a MIXED conditional (present condition → past result)?",opts:["If he were more careful, he wouldn't have crashed.","If he had been careful, he wouldn't have crashed.","If he is careful, he won't crash.","If he were careful, he wouldn't crash."],ans:0,exp:"Mixed (present→past): If + past simple (were), would have + p.p. Present unreal condition → past missed result."},
+    ],
+    qb:[
+      {vn:"Tôi sẽ giúp bạn với điều kiện bạn cũng cố gắng hết sức.",hint:"provided that / try / best",model:"I will help you provided that you also try your best.",note:"'provided that' = a formal condition. Can also use 'as long as'."},
+      {vn:"Mang theo nước phòng khi bạn khát.",hint:"take / water / in case / thirsty",model:"Take some water in case you get thirsty.",note:"'in case' introduces a precautionary action for a possible future event."},
+      {vn:"Nếu anh ấy học y khoa, bây giờ anh ấy đã là bác sĩ rồi. (quá khứ → hiện tại)",hint:"had studied / medicine / would be / now",model:"If he had studied medicine, he would be a doctor now.",note:"Mixed conditional: past perfect (had studied) → would + base verb (present result 'now')."},
+      {vn:"Cô ấy sẽ đến ngay cả khi trời mưa.",hint:"will come / even if / rain",model:"She will come even if it rains.",note:"'even if' = regardless of the condition. Type 1 result (will come) + hypothetical condition."},
+    ],
+    qt:[
+      {original:"If you don't save regularly, you won't have any money.",instruction:"Rewrite using 'unless'",model:"Unless you save regularly, you won't have any money.",note:"unless = if not. Remove 'don't' and use 'unless' instead of 'if…not'."},
+      {original:"You can borrow the car if you drive carefully.",instruction:"Rewrite using 'as long as' or 'provided that'",model:"You can borrow the car as long as / provided that you drive carefully.",note:"'as long as'/'provided that' strengthen the condition — emphasise the requirement."},
+      {original:"If I hadn't moved to the city, I wouldn't have met my best friend. (Type 3)",instruction:"Rewrite as a Mixed conditional (past condition → present result)",model:"If I hadn't moved to the city, I wouldn't have my best friend now.",note:"Mixed: past perfect condition → present state result ('wouldn't have' = don't have now)."},
+      {original:"She takes a first-aid kit because the children might get hurt. (in case)",instruction:"Rewrite using 'in case'",model:"She takes a first-aid kit in case the children get hurt.",note:"'in case' replaces 'because...might'. Note: present simple after 'in case' (not 'might get')."},
+    ],
+    qe:[
+      {s:"Even if it will rain, the concert will take place outdoors.",parts:["Even if it will rain,","the concert","will take place","outdoors."],wrong:0,fix:"Even if it rains,",exp:"After 'even if', use PRESENT SIMPLE for a future condition (not 'will'): 'Even if it rains...'"},
+      {s:"Unless you won't hurry, you'll miss the bus.",parts:["Unless","you won't hurry,","you'll miss","the bus."],wrong:1,fix:"you hurry,",exp:"'unless' already means 'if not'. Adding 'won't' creates a double negative. Correct: 'Unless you hurry...'"},
+      {s:"If she would be more organised, she wouldn't have missed the deadline.",parts:["If she would be","more organised,","she wouldn't have missed","the deadline."],wrong:0,fix:"If she were",exp:"Mixed conditional (present→past): if-clause uses PAST SIMPLE/were, not 'would'. 'If she WERE more organised...'"},
+      {s:"Take an umbrella in case that it rains.",parts:["Take an umbrella","in case that","it rains","(whole)"],wrong:1,fix:"in case",exp:"'in case' is NOT followed by 'that'. Correct: 'Take an umbrella IN CASE it rains.'"},
+    ],
+    wc:{prompt:"Write a short paragraph (5–7 sentences) about plans for a project or trip. Use: one Type 1, one Type 2 or mixed conditional, 'unless', 'in case', and 'even if'.",hints:"unless / in case / provided that / as long as / even if / would / will / had",criteria:["Contains Type 1 conditional","Contains Type 2 or mixed conditional","Uses 'unless' correctly","Uses 'in case' correctly","Uses 'even if' correctly","Correct punctuation throughout"],model:"We are planning a camping trip next month, and there are several things to consider. If the weather forecast is good, we will set off on Saturday morning. Unless we book the campsite this week, we might not get a spot. I am bringing a portable stove in case the campfire regulations are strict in that area. Even if it rains lightly, we will still enjoy the trip — we have good waterproof tents. However, if I had known earlier how complicated the preparation would be, I would have started planning months ago. As long as everyone cooperates, it will be a wonderful experience.",takeaway:"Key takeaway: 'unless' = if not (no double negatives); 'in case' = precaution for a possible event; 'even if' = regardless of whether; 'as long as / provided that' = on the condition that. Mixed conditionals blend past and present for nuanced meaning."}
+  }
+};
+// ---- Add more sections to SECTIONS ----
+Object.assign(SECTIONS, {
+  s5:{
+    qa:[
+      {q:"'I am hungry.' → He said ___",opts:["that he is hungry","that he was hungry","that he were hungry","he is hungry"],ans:1,exp:"Reported speech backshift: present simple (am) → past simple (was). 'He said that he WAS hungry.'"},
+      {q:"Which time expression changes correctly in reported speech?",opts:["today → yesterday","now → here","tomorrow → the next day","last week → next week"],ans:2,exp:"'tomorrow' → 'the next day' (or 'the following day'). 'Today' → 'that day'; 'now' → 'then'."},
+      {q:"'She has already left.' → He said that she ___",opts:["has already left","had already left","already left","was already left"],ans:1,exp:"Present perfect (has left) → past perfect (had left). Backshift one step: have/has → had."},
+      {q:"'I will call you tomorrow.' → She said that she ___",opts:["will call me the next day","would call me the next day","calls me tomorrow","called me the next day"],ans:1,exp:"'will' → 'would' in reported speech. 'Tomorrow' → 'the next day'. 'she would call me the next day.'"},
+      {q:"When is backshift NOT necessary?",opts:["When the reporting verb is in the past","When reporting a universal truth or scientific fact","When the action is completed","When 'that' is omitted"],ans:1,exp:"Universal truths remain in present simple: 'She said the Earth orbits the Sun.' (always true, no backshift needed)."},
+      {q:"'We bought this house here.' → They said that ___",opts:["they had bought that house there","we had bought this house here","they bought this house here","they will buy that house there"],ans:0,exp:"'we' → 'they'; 'bought' → 'had bought' (past→past perfect); 'this' → 'that'; 'here' → 'there'."},
+    ],
+    qb:[
+      {vn:"Cô ấy nói rằng cô ấy đang học để thi vào tuần tới.",hint:"said / was studying / following week",model:"She said that she was studying for the exam the following week.",note:"'is studying' → 'was studying'; 'next week' → 'the following week'."},
+      {vn:"Anh ấy cho tôi biết rằng anh ấy đã hoàn thành báo cáo.",hint:"told me / had finished / report",model:"He told me that he had finished the report.",note:"'has finished' (present perfect) → 'had finished' (past perfect)."},
+      {vn:"Họ tuyên bố rằng kết quả kiểm tra đã được công bố rồi.",hint:"announced / test results / had been released",model:"They announced that the test results had been released.",note:"Passive backshift: 'have been released' → 'had been released'."},
+      {vn:"Cô giáo nói rằng trời đất là hình cầu. (sự thật hiển nhiên)",hint:"teacher said / Earth / round / (no backshift needed)",model:"The teacher said that the Earth is round.",note:"Scientific fact → no backshift needed. Present simple stays in reported speech."},
+    ],
+    qt:[
+      {original:"'I don't understand the question,' she said.",instruction:"Change to reported speech",model:"She said (that) she didn't understand the question.",note:"'don't understand' → 'didn't understand'. 'I' → 'she'."},
+      {original:"'We have been waiting for an hour,' they said.",instruction:"Change to reported speech",model:"They said (that) they had been waiting for an hour.",note:"Present perfect continuous → past perfect continuous. 'have been waiting' → 'had been waiting'."},
+      {original:"He said (that) he would come the following day.",instruction:"Change back to direct speech",model:"He said, 'I will come tomorrow.'",note:"'would' → 'will'; 'the following day' → 'tomorrow'; 'he' → 'I'. Add speech marks."},
+      {original:"'My parents live in Hue,' she told me.",instruction:"Change to reported speech",model:"She told me (that) her parents lived in Hue.",note:"'My' → 'her'; 'live' → 'lived'. 'tell' needs an object: 'told ME'."},
+    ],
+    qe:[
+      {s:"She said me that she was tired.",parts:["She said","me that","she was tired","(whole)"],wrong:0,fix:"She told",exp:"'say' cannot take a personal object. Replace 'said' with 'told': 'She TOLD me that she was tired.'"},
+      {s:"He told that he had finished.",parts:["He told","that he","had finished","(whole)"],wrong:0,fix:"He said / He told me",exp:"'tell' MUST have an object: 'He told ME' or use 'said': 'He said (that) he had finished.'"},
+      {s:"She said she will come the next day.",parts:["She said","she will come","the next day","(whole)"],wrong:1,fix:"she would come",exp:"Backshift: 'will' → 'would' in reported speech. 'She said she WOULD come the next day.'"},
+      {s:"They said that they are from Vietnam.",parts:["They said","that they are","from Vietnam","(whole)"],wrong:1,fix:"that they were",exp:"Backshift past: 'are' → 'were'. 'They said that they WERE from Vietnam.' (unless it is still true and being emphasised)"},
+    ],
+    wc:{prompt:"Write a short report (5–7 sentences) about what was discussed at a recent class, meeting, or conversation. Use reported speech throughout (no direct speech). Include at least one example of each: statement, question (reported as a statement), and a universal truth (no backshift).",hints:"said / told / mentioned / explained / announced / added / pointed out / stated / reported / asked | that / whether / how / why",criteria:["All speech is in reported form (no speech marks)","Correct tense backshift applied","Time expressions changed appropriately","At least one universal truth kept in present simple","Coherent narrative throughout"],model:"In last week's grammar class, our teacher explained that reported speech required careful attention to tense changes. She told us that many students forgot to shift 'will' to 'would' when reporting past conversations. She also pointed out that scientific facts did not need to change tense — she reminded us that water boils at 100°C, for instance. She asked us whether we had practised the exercises from the previous lesson, and mentioned that she would give us more examples the following week. One student added that he had been confused by the pronoun changes, so the teacher clarified that 'I' always became 'he' or 'she' depending on the speaker.",takeaway:"Key takeaway: Reported speech changes: tense (one step back), pronouns (I→he/she, we→they), time (now→then, today→that day, tomorrow→the next day). Use 'say' without an object; 'tell' always needs one. Universal truths stay in present simple."}
+  },
+  s6:{
+    qa:[
+      {q:"'Are you ready?' → He asked ___",opts:["if I am ready","if I was ready","whether am I ready","whether I ready"],ans:1,exp:"Yes/No reported question: asked + if/whether + subject + verb (statement order, backshift). 'if I WAS ready'."},
+      {q:"'Where do you live?' → She asked me ___",opts:["where do I live","where I lived","where did I live","where I live"],ans:1,exp:"Wh- reported question: statement word order + backshift. 'where I LIVED' (not 'where did I live')."},
+      {q:"Which reported question is punctuated CORRECTLY?",opts:["He asked me where I was going?","She wondered whether he had arrived.","They asked what did we want.","He asked me, 'where are you going?'"],ans:1,exp:"Reported questions do NOT end with a question mark. Statement word order. 'whether he had arrived.' ✓"},
+      {q:"'How long have you been waiting?' → She asked ___",opts:["how long I had been waiting","how long had I been waiting","how long I have been waiting","if I had been waiting"],ans:0,exp:"Wh- question → same wh-word (how long). Statement order + backshift: 'I had been waiting'."},
+      {q:"'Did you finish the homework?' → He wanted to know ___",opts:["did I finish the homework","if I finished the homework","whether I had finished the homework","if I have finished the homework"],ans:2,exp:"Yes/No question + past simple in direct → whether + had + p.p. in reported (backshift). 'whether I HAD FINISHED'."},
+      {q:"Which verb is NOT typically used to report questions?",opts:["ask","wonder","inquire","announce"],ans:3,exp:"'announce' is used for statements, not questions. Questions are reported with: ask, wonder, inquire, want to know."},
+    ],
+    qb:[
+      {vn:"Anh ấy hỏi tôi liệu tôi có thể nói tiếng Pháp không.",hint:"asked / whether / could speak French",model:"He asked me whether I could speak French.",note:"Yes/No → whether/if + statement order + backshift ('can' → 'could')."},
+      {vn:"Cô giáo hỏi chúng tôi tại sao chúng tôi đến muộn.",hint:"teacher asked / why / were late",model:"The teacher asked us why we were late.",note:"Wh- (why) + statement order: 'why WE WERE late' (not 'why were we late')."},
+      {vn:"Cô ấy tự hỏi anh ấy có đến đúng giờ không.",hint:"wondered / whether / would arrive / on time",model:"She wondered whether he would arrive on time.",note:"'wonder' for indirect/internal question. 'will' → 'would'."},
+      {vn:"Họ hỏi khách sạn còn phòng trống không.",hint:"inquired / whether / rooms / available",model:"They inquired whether any rooms were available.",note:"'inquire' = formal 'ask'. Yes/No question → whether + statement order."},
+    ],
+    qt:[
+      {original:"'What time does the next train leave?' she asked.",instruction:"Change to reported speech",model:"She asked what time the next train left.",note:"Wh- → 'what time'. Statement order: 'the next train LEFT'. No auxiliary 'does'."},
+      {original:"'Have you ever been to Japan?' he asked me.",instruction:"Change to reported speech",model:"He asked me if/whether I had ever been to Japan.",note:"Yes/No → if/whether. Backshift: 'have been' → 'had been'. Statement order."},
+      {original:"She asked me if I knew the answer.",instruction:"Change back to direct speech",model:"She asked me, 'Do you know the answer?'",note:"'if' → yes/no question. 'knew' → 'know' (forward shift). Add question mark."},
+      {original:"'Why didn't you call me?' he demanded.",instruction:"Change to reported speech",model:"He demanded to know why I hadn't called him.",note:"'demanded to know' for angry/forceful questions. 'didn't call' → 'hadn't called'. Pronoun: 'me' stays 'him'."},
+    ],
+    qe:[
+      {s:"She asked me where did I come from.",parts:["She asked me","where","did I come from","(whole clause)"],wrong:2,fix:"I came from",exp:"Reported questions use STATEMENT word order. Remove the auxiliary 'did': 'where I CAME from'."},
+      {s:"He wondered if was she tired.",parts:["He wondered","if","was she tired","(whole clause)"],wrong:2,fix:"she was tired",exp:"Statement word order: subject BEFORE verb. 'if SHE WAS tired' — not inverted."},
+      {s:"They asked why did the project fail?",parts:["They asked","why did","the project fail?","(whole)"],wrong:1,fix:"why the project failed",exp:"Reported questions use statement word order — remove auxiliary 'did' and invert back: 'why the project FAILED'. Also remove the question mark."},
+      {s:"She asked me whether I will come to the party.",parts:["She asked me","whether I will come","to the party","(whole)"],wrong:1,fix:"whether I would come",exp:"Backshift: 'will' → 'would' in reported speech. 'whether I WOULD come to the party.'"},
+    ],
+    wc:{prompt:"Imagine you are a journalist who interviewed a famous person. Write 5–6 sentences reporting what questions you asked and what they answered. Use at least 3 different reported question structures.",hints:"asked / wondered / inquired / wanted to know | whether / if / what / where / when / how / why / how long | said / replied / explained / admitted | backshift all tenses",criteria:["At least 3 reported questions (wh- and yes/no mix)","Statement word order in all reported questions","Correct tense backshift","No question marks in reported questions","Includes both the questions asked AND the answers reported"],model:"Last week, I had the opportunity to interview a well-known environmental scientist. I first asked her how long she had been researching climate change, and she replied that she had dedicated over twenty years to the field. I then inquired whether she believed governments were doing enough to address the crisis. She said she was deeply concerned that action was not coming fast enough. I also wanted to know what ordinary people could do in their daily lives, and she explained that small changes in diet and energy use could make a significant difference. Finally, I asked whether she was optimistic about the future, and she admitted that she was cautiously hopeful.",takeaway:"Key takeaway: Reported questions NEVER use question word order and NEVER end with a question mark. Yes/No questions → if/whether. Wh-questions → same wh-word. Always apply tense backshift."}
+  },
+  s7:{
+    qa:[
+      {q:"'Sit down!' → The teacher told the students ___",opts:["to sit down","sitting down","that sit down","sit down"],ans:0,exp:"Reported command: tell + object + to-infinitive. 'told the students TO SIT DOWN'."},
+      {q:"'Don't touch that!' → He warned me ___",opts:["not touch that","not to touch that","to not touch that","didn't touch that"],ans:1,exp:"Negative reported command: warn/tell + object + NOT TO + base verb. 'warned me NOT TO TOUCH that.'"},
+      {q:"'Please open the window,' she said to me. → She asked me ___",opts:["open the window","to open the window","opening the window","that I open the window"],ans:1,exp:"Polite request with 'please' → ask + object + to-infinitive. 'asked me TO OPEN the window.'"},
+      {q:"Which verb is used for giving advice in reported speech?",opts:["tell","ask","advise","warn"],ans:2,exp:"'advise' = give advice. Structure: advise + object + to-infinitive. 'She advised me to rest.'"},
+      {q:"'You should see a doctor.' → She advised ___",opts:["me seeing a doctor","me to see a doctor","me that I see a doctor","me see a doctor"],ans:1,exp:"advise + object + to-infinitive. 'She advised me TO SEE a doctor.'"},
+      {q:"Which sentence is INCORRECT?",opts:["He told me to be quiet.","She asked me not to be late.","They warned us to not go near the edge.","He reminded me to lock the door."],ans:2,exp:"'not to' (one unit) is correct. 'to not' (split infinitive) is used but less preferred in formal English for reported commands. The most natural form is 'warned us NOT TO go'."},
+    ],
+    qb:[
+      {vn:"Cô giáo nhắc nhở chúng tôi đừng quên nộp bài tập về nhà.",hint:"reminded / not to forget / submit / homework",model:"The teacher reminded us not to forget to submit our homework.",note:"remind + object + not to + base verb. Double infinitive: 'not to forget TO submit'."},
+      {vn:"Bác sĩ khuyên anh ấy nên nghỉ ngơi và uống nhiều nước.",hint:"advised / rest / drink / plenty of water",model:"The doctor advised him to rest and drink plenty of water.",note:"advise + object + to + base verb. Two verbs joined by 'and': 'to rest AND drink'."},
+      {vn:"Người bảo vệ cấm chúng tôi chụp ảnh trong bảo tàng.",hint:"guard / forbade / take photos / museum",model:"The guard forbade us to take photos in the museum.",note:"forbid + object + to-infinitive. Past tense of forbid = forbade."},
+      {vn:"Người quản lý yêu cầu nhân viên đến đúng giờ.",hint:"manager / asked / staff / to arrive / on time",model:"The manager asked the staff to arrive on time.",note:"ask + object + to-infinitive for polite requests or instructions."},
+    ],
+    qt:[
+      {original:"'Don't be late again!' the boss said to me.",instruction:"Change to reported speech using 'warn'",model:"The boss warned me not to be late again.",note:"warn + object + not to-infinitive. No 'that' clause — infinitive structure instead."},
+      {original:"'Please help me with this,' she said to him.",instruction:"Change to reported speech using 'ask'",model:"She asked him to help her with that.",note:"'please' → use 'ask'. Pronoun: 'me' → 'her'. Demonstrative: 'this' → 'that'."},
+      {original:"He advised me not to sign the contract.",instruction:"Change back to direct speech",model:"He said to me, 'You shouldn't sign the contract.' / 'Don't sign the contract.'",note:"Reverse: 'not to sign' → 'don't sign' or 'shouldn't sign'. Remove reporting verb structure."},
+      {original:"'Remember to turn off the lights before you leave,' she said.",instruction:"Change to reported speech using 'remind'",model:"She reminded us/me to turn off the lights before we/I left.",note:"remind + object + to-infinitive. Pronoun and tense adjustment needed."},
+    ],
+    qe:[
+      {s:"She said me to be quiet.",parts:["She said","me to be","quiet","(whole)"],wrong:0,fix:"She told",exp:"'say' cannot take an object + infinitive. Use 'TELL' for commands: 'She TOLD me to be quiet.'"},
+      {s:"The doctor told me not eating too much sugar.",parts:["The doctor told me","not eating","too much sugar","(whole)"],wrong:1,fix:"not to eat",exp:"Negative reported command: tell + object + NOT TO + base verb. 'not to EAT' — not 'not eating'."},
+      {s:"He warned us to not go near the fire.",parts:["He warned us","to not go","near the fire","(whole)"],wrong:1,fix:"not to go",exp:"'not to' (together before the verb) is the preferred standard form. 'warned us NOT TO go near the fire.'"},
+      {s:"She asked him open the window.",parts:["She asked him","open the window","(missing word)","(whole)"],wrong:1,fix:"to open the window",exp:"ask + object + TO + base verb. The 'to' is required: 'She asked him TO OPEN the window.'"},
+    ],
+    wc:{prompt:"Write a short narrative (5–7 sentences) about a situation where several people gave instructions, warnings, advice, and reminders. Use at least 4 different reporting verbs for commands/requests (tell, ask, warn, advise, remind, encourage, forbid).",hints:"told / asked / warned / advised / reminded / encouraged / forbade / instructed | to / not to | stay / leave / submit / arrive / touch / follow / practise",criteria:["Uses at least 4 different reporting verbs","Correct structure: verb + object + (not) to-infinitive","No direct speech (all reported)","Logical sequence of events","No errors in pronoun use"],model:"Before our hiking trip, the guide gave everyone clear instructions. She told us to wear sturdy boots and to bring at least two litres of water. She warned us not to wander off the marked trail under any circumstances. The park ranger also advised us to check the weather forecast before setting out each morning. Our team leader reminded us not to leave any rubbish behind and to respect the natural environment. One experienced hiker encouraged us to pace ourselves slowly for the first few kilometres. Finally, the guide forbade anyone to feed the wildlife, explaining that it could disrupt the ecosystem.",takeaway:"Key takeaway: Reported commands use: verb + object + (not) to-infinitive. Choose the right verb: 'tell' (neutral command), 'ask' (polite request), 'warn' (danger), 'advise' (advice), 'remind' (reminder), 'encourage' (motivation), 'forbid' (prohibition). 'Say' NEVER takes object + infinitive."}
+  },
+  s8:{
+    qa:[
+      {q:"'They clean the office every day.' → Passive?",opts:["The office is cleaned every day.","The office was cleaned every day.","The office has been cleaned every day.","The office cleans every day."],ans:0,exp:"Present simple passive: am/is/are + past participle. 'The office IS CLEANED every day.'"},
+      {q:"'Someone broke the window last night.' → Passive?",opts:["The window is broken last night.","The window was broken last night.","The window had been broken last night.","The window broke last night."],ans:1,exp:"Past simple passive: was/were + past participle. 'The window WAS BROKEN last night.' (by someone — omitted, unknown)"},
+      {q:"'They are repairing the road right now.' → Passive?",opts:["The road is being repaired right now.","The road was being repaired right now.","The road has been repaired right now.","The road is repaired right now."],ans:0,exp:"Present continuous passive: is/are + being + past participle. 'The road IS BEING REPAIRED right now.'"},
+      {q:"When should we omit 'by + agent' in passive sentences?",opts:["Always","When the agent is unknown, obvious, or unimportant","When the sentence is negative","When the verb is in present tense"],ans:1,exp:"Omit 'by + agent' when: the agent is unknown ('stolen by someone'), obvious ('arrested by the police'), or unimportant ('built by workers')."},
+      {q:"Which sentence correctly uses the passive?",opts:["The cake was eaten by the children.","The children was eating the cake.","The cake ate by the children.","The cake is eating by the children."],ans:0,exp:"Correct passive: subject + was + past participle + by + agent. 'The cake WAS EATEN by the children.'"},
+      {q:"'The manager interviewed three candidates.' → Passive? (past simple)",opts:["Three candidates were interviewed by the manager.","Three candidates are interviewed by the manager.","Three candidates had been interviewed by the manager.","Three candidates have been interviewed by the manager."],ans:0,exp:"Past simple passive: were + past participle. 'Three candidates WERE INTERVIEWED by the manager.'"},
+    ],
+    qb:[
+      {vn:"Tiếng Anh được dạy ở hầu hết các trường học trên thế giới.",hint:"English / is taught / most schools",model:"English is taught in most schools around the world.",note:"Present simple passive: is + past participle. Agent omitted (obvious/unimportant)."},
+      {vn:"Cây cầu đang được sửa chữa vào lúc chúng tôi đến.",hint:"bridge / was being repaired / when / arrived",model:"The bridge was being repaired when we arrived.",note:"Past continuous passive: was/were + being + p.p. Simultaneous action with 'when'."},
+      {vn:"Tháp Eiffel được xây dựng bởi Gustave Eiffel vào năm 1889.",hint:"Eiffel Tower / was built / by / 1889",model:"The Eiffel Tower was built by Gustave Eiffel in 1889.",note:"Past simple passive. Keep 'by + agent' because it's important historical information."},
+      {vn:"Điện thoại của tôi đã bị ai đó lấy mất.",hint:"phone / was taken / someone / (omit agent)",model:"My phone was taken.",note:"Agent ('by someone') omitted — unknown. Past simple passive."},
+    ],
+    qt:[
+      {original:"Scientists discovered a new planet last year.",instruction:"Rewrite in the passive voice (omit agent)",model:"A new planet was discovered last year.",note:"Past simple passive. 'Scientists' omitted as unimportant; focus shifts to 'a new planet'."},
+      {original:"The cleaner is mopping the floor right now.",instruction:"Rewrite in the passive voice",model:"The floor is being mopped right now.",note:"Present continuous passive: is being + p.p. Agent 'the cleaner' omitted."},
+      {original:"Volunteers plant trees in this park every spring.",instruction:"Rewrite in the passive voice",model:"Trees are planted in this park every spring.",note:"Present simple passive. Agent 'by volunteers' can be omitted or included."},
+      {original:"The storm damaged several houses in the area.",instruction:"Rewrite in the passive voice",model:"Several houses were damaged by the storm.",note:"Past simple passive. Keep 'by the storm' — the cause is relevant."},
+    ],
+    qe:[
+      {s:"The report wrote by the manager last week.",parts:["The report","wrote","by the manager","last week."],wrong:1,fix:"was written",exp:"Passive voice requires: subject + WAS/WERE + past participle. 'The report WAS WRITTEN by the manager.'"},
+      {s:"This building was build in 1920.",parts:["This building","was build","in 1920","(whole)"],wrong:1,fix:"was built",exp:"Past participle of 'build' = 'built'. Passive: was/were + PAST PARTICIPLE. 'was BUILT'."},
+      {s:"The windows are cleaning by the staff every morning.",parts:["The windows","are cleaning","by the staff","every morning."],wrong:1,fix:"are cleaned",exp:"Present simple passive: am/is/are + PAST PARTICIPLE. Not '-ing'. 'The windows ARE CLEANED every morning.'"},
+      {s:"She was given the award from the president.",parts:["She was given","the award","from the president","(whole)"],wrong:2,fix:"by the president",exp:"Passive uses 'BY' to introduce the agent, not 'from'. 'She was given the award BY the president.'"},
+    ],
+    wc:{prompt:"Write a short paragraph (5–6 sentences) describing how a product (e.g., coffee, chocolate, a smartphone) is made. Use passive voice in at least 4 sentences. Include present simple, past simple, and present continuous passive.",hints:"is grown / are picked / is processed / was invented / are assembled / is being developed / is exported / are sold / is made / is stored",criteria:["At least 4 passive voice sentences","Mix of present simple, past simple, and at least one other tense","Logical process order (step by step)","Agent included only when important","No mixing up of active and passive incorrectly"],model:"Coffee is one of the world's most popular drinks, and its production involves many steps. Coffee beans are grown in tropical regions close to the equator. After harvesting, the beans are carefully sorted and washed to remove impurities. They are then dried in the sun before being roasted at high temperatures to develop their distinctive flavour. Once roasted, the beans are ground and packaged in airtight containers. Finally, the finished product is distributed to retailers around the world, where it is purchased by millions of coffee lovers every day.",takeaway:"Key takeaway: Present simple passive (is/are + p.p.) for regular processes; past simple passive (was/were + p.p.) for historical events; present continuous passive (is/are being + p.p.) for actions happening now. Include 'by + agent' only when the agent is important or unexpected."}
+  },
+  s9:{
+    qa:[
+      {q:"'They have already sent the package.' → Passive?",opts:["The package has already been sent.","The package was already sent.","The package had already been sent.","The package is already sent."],ans:0,exp:"Present perfect passive: has/have + been + past participle. 'The package HAS ALREADY BEEN SENT.'"},
+      {q:"'You must complete this form.' → Modal passive?",opts:["This form must completed.","This form must be completed.","This form must been completed.","This form must being completed."],ans:1,exp:"Modal passive: modal + BE + past participle. 'This form MUST BE COMPLETED.' (not 'been', not '-ing')"},
+      {q:"'They should have told her.' → Passive?",opts:["She should be told.","She should have been told.","She should been told.","She was should been told."],ans:1,exp:"Past modal passive: should/could/might + have been + p.p. 'She SHOULD HAVE BEEN TOLD.'"},
+      {q:"'The bridge had been repaired before the storm hit.' — What tense is this?",opts:["Present perfect passive","Past perfect passive","Past simple passive","Modal passive"],ans:1,exp:"Had been + past participle = past perfect passive. Action completed BEFORE another past action."},
+      {q:"Which sentence correctly uses future passive?",opts:["The results will announced tomorrow.","The results will be announced tomorrow.","The results will been announced tomorrow.","The results are will announced tomorrow."],ans:1,exp:"Future passive: will + be + past participle. 'The results WILL BE ANNOUNCED tomorrow.'"},
+      {q:"'The error could have been prevented.' — What does this sentence imply?",opts:["The error is possible to prevent","The error was prevented","The error was not prevented, but it could have been","The error cannot be prevented"],ans:2,exp:"'could have been prevented' = it was POSSIBLE to prevent it, but it did NOT happen → past unrealised possibility."},
+    ],
+    qb:[
+      {vn:"Kết quả sẽ được công bố vào thứ Sáu.",hint:"results / will be announced / Friday",model:"The results will be announced on Friday.",note:"Future passive: will + be + past participle."},
+      {vn:"Bài tập phải được nộp trước 9 giờ sáng.",hint:"assignment / must be submitted / by 9 a.m.",model:"The assignment must be submitted by 9 a.m.",note:"Modal passive: must + be + p.p. 'by' = deadline."},
+      {vn:"Lỗi sai đáng lẽ phải được sửa trước khi nộp.",hint:"error / should have been corrected / before submitting",model:"The error should have been corrected before submitting.",note:"Past modal passive: should + have been + p.p. Expresses missed obligation."},
+      {vn:"Hợp đồng đã được ký trước khi cuộc họp kết thúc.",hint:"contract / had been signed / before / meeting ended",model:"The contract had been signed before the meeting ended.",note:"Past perfect passive: had + been + p.p. Sequence: signed first, then meeting ended."},
+    ],
+    qt:[
+      {original:"They might discover a solution soon.",instruction:"Rewrite in the passive voice (modal passive)",model:"A solution might be discovered soon.",note:"Modal passive: might + be + p.p. Agent 'they' omitted."},
+      {original:"Someone should have warned her about the risks.",instruction:"Rewrite in the passive voice",model:"She should have been warned about the risks.",note:"Past modal passive: should + have been + p.p."},
+      {original:"The committee has approved the new policy.",instruction:"Rewrite in the passive voice (present perfect)",model:"The new policy has been approved by the committee.",note:"Present perfect passive: has/have + been + p.p."},
+      {original:"Workers will complete the project by December.",instruction:"Rewrite in the passive voice",model:"The project will be completed by December.",note:"Future passive: will + be + p.p. Agent 'by workers' omitted (obvious/unimportant)."},
+    ],
+    qe:[
+      {s:"The homework must submitted by tomorrow.",parts:["The homework","must submitted","by tomorrow","(whole)"],wrong:1,fix:"must be submitted",exp:"Modal passive: modal + BE + p.p. The 'be' is required: 'must BE SUBMITTED'."},
+      {s:"She should been told about the meeting.",parts:["She","should been told","about the meeting","(whole)"],wrong:1,fix:"should have been told",exp:"Past modal passive: should + HAVE BEEN + p.p. 'should HAVE BEEN TOLD'."},
+      {s:"The report has been finish.",parts:["The report","has been","finish","(whole)"],wrong:2,fix:"finished",exp:"Perfect passive needs PAST PARTICIPLE: 'has been FINISHED'. 'finish' is base form — wrong."},
+      {s:"The building will completed next year.",parts:["The building","will completed","next year","(whole)"],wrong:1,fix:"will be completed",exp:"Future passive: will + BE + p.p. 'will BE COMPLETED'. Missing 'be'."},
+    ],
+    wc:{prompt:"Write a paragraph (5–7 sentences) about a process in your workplace, school, or community (e.g., how assignments are assessed, how decisions are made in your organisation). Use a variety of passive structures: present perfect, past perfect, modal passive (must/should/can), and future passive.",hints:"has been / had been / will be / must be / should be / can be / could have been / have been / might be",criteria:["Contains present perfect passive","Contains at least one modal passive","Contains future passive","Logical flow describing a process or system","Accurate use of tense in all passive structures"],model:"In our school, student performance is assessed at the end of every term. Exam papers must be submitted to the examination board at least two weeks before the test date. The results are processed by the academic office, and final grades will be announced within three working days after the exams. If an error has been made in the marking, it should be reported immediately and the paper must be re-evaluated. In past years, some incorrect grades were not corrected until several weeks had passed — a mistake that should have been avoided with better systems in place. In future, it is hoped that all results will be verified electronically before they are released to students.",takeaway:"Key takeaway: Perfect passive (has/have been done) for completed actions with present relevance; past perfect passive (had been done) for actions completed before another past action; modal passive (must/should/can be done) for obligation, advice, and possibility; future passive (will be done) for planned future actions."}
+  },
+  s10:{
+    qa:[
+      {q:"'People say he is very talented.' → Passive with reporting verb?",opts:["It says that he is very talented.","It is said that he is very talented.","He said to be very talented.","He is saying to be very talented."],ans:1,exp:"Structure 1: It + is + past participle of reporting verb + that-clause. 'It IS SAID that he is very talented.'"},
+      {q:"'People believe she left the country.' → Structure 2 (subject passive)?",opts:["It is believed she left.","She is believed to leave.","She is believed to have left.","She believed to have left."],ans:2,exp:"Past reference: subject + is believed + to have + p.p. 'She IS BELIEVED TO HAVE LEFT' (past action)."},
+      {q:"'Experts estimate the population will reach 10 billion.' → Passive (Structure 1)?",opts:["It is estimated the population will reach 10 billion.","It is estimated that the population will reach 10 billion.","The population is estimated reaching 10 billion.","The population estimates to reach 10 billion."],ans:1,exp:"Structure 1 requires 'that' before the clause: 'It is estimated THAT the population will reach...'"},
+      {q:"'People consider him to be the best player.' → Structure 2?",opts:["He is considered the best player.","He is considered to be the best player.","He considers to be the best player.","It is considered that he is the best player."],ans:1,exp:"Structure 2: subject + is considered + to be... Both options A and B are acceptable, but B is more explicit."},
+      {q:"Which reporting verb is NOT typically used in this passive structure?",opts:["say","believe","think","give"],ans:3,exp:"'give' is not used in 'It is given that...' or 'He is given to be...'. Common ones: say, believe, think, report, know, claim, consider, expect, understand, allege."},
+      {q:"'It is reported that the company is expanding.' → Structure 2?",opts:["The company is reported expanding.","The company reports to expand.","The company is reported to be expanding.","The company is being reported expanding."],ans:2,exp:"Present continuous reference: subject + is reported + to be + -ing. 'The company IS REPORTED TO BE EXPANDING.'"},
+    ],
+    qb:[
+      {vn:"Người ta cho rằng ông ấy là một trong những nhà khoa học vĩ đại nhất.",hint:"It is thought / one of the greatest scientists",model:"It is thought that he is one of the greatest scientists.",note:"Structure 1: It is thought that + present tense (still alive/current reference)."},
+      {vn:"Người ta nói rằng cô ấy đã rời khỏi công ty.",hint:"She is said / to have left / the company",model:"She is said to have left the company.",note:"Structure 2 (past reference): is said + to have + past participle."},
+      {vn:"Người ta ước tính rằng hơn 1 tỷ người nói tiếng Anh.",hint:"It is estimated / over one billion / speak English",model:"It is estimated that over one billion people speak English.",note:"Structure 1. Scientific/statistical claim without identifying the source."},
+      {vn:"Người ta tin rằng dự án sẽ được hoàn thành vào năm tới.",hint:"The project is believed / to be completed / next year",model:"The project is believed to be completed next year.",note:"Future reference: is believed + to be + p.p. (future passive infinitive)."},
+    ],
+    qt:[
+      {original:"People say that he stole the money.",instruction:"Rewrite using Structure 1 (It is said...)",model:"It is said that he stole the money.",note:"Structure 1: It + is said + that + clause. Tense of the clause stays unchanged."},
+      {original:"It is believed that she has been living abroad for years.",instruction:"Rewrite using Structure 2 (subject + is believed to...)",model:"She is believed to have been living abroad for years.",note:"Perfect continuous: 'has been living' → 'to have been living'. Past action ongoing."},
+      {original:"People know that the treatment is effective.",instruction:"Rewrite using both structures",model:"Structure 1: It is known that the treatment is effective. / Structure 2: The treatment is known to be effective.",note:"Both are correct and equivalent. Structure 2 is more concise."},
+      {original:"It is alleged that the director committed fraud.",instruction:"Rewrite using Structure 2",model:"The director is alleged to have committed fraud.",note:"Past reference: 'committed' → 'to have committed'. Alleged = claimed without proof."},
+    ],
+    qe:[
+      {s:"It is said that he is knowing the answer.",parts:["It is said","that he","is knowing","the answer."],wrong:2,fix:"knows",exp:"'know' is a stative verb — no continuous form. Correct: 'that he KNOWS the answer.'"},
+      {s:"She is believed leaving the company last month.",instruction:"",parts:["She is believed","leaving","the company last month","(whole)"],wrong:1,fix:"to have left",exp:"Past reference needs 'to have + p.p.': 'She is believed TO HAVE LEFT the company last month.'"},
+      {s:"It is expected that the prices rising soon.",parts:["It is expected","that the prices","rising soon","(whole)"],wrong:2,fix:"will rise",exp:"After 'it is expected that', use a proper verb form. Future: 'that the prices WILL RISE soon.'"},
+      {s:"He is said to be stolen the documents.",parts:["He is said","to be stolen","the documents","(whole)"],wrong:1,fix:"to have stolen",exp:"Active meaning (he stole): 'to have STOLEN'. 'to be stolen' would mean he was the victim."},
+    ],
+    wc:{prompt:"Write a short news-style paragraph (5–6 sentences) about a local or global event (real or imaginary). Use at least 3 different passive reporting verb structures (It is said that…, It is believed that…, [Subject] is reported to…, [Subject] is thought to…, etc.).",hints:"It is reported that / It is believed that / It is said that / It is estimated that / [Name] is thought to / [Subject] is alleged to have / [Subject] is expected to",criteria:["At least 3 different passive reporting verb structures","Mix of Structure 1 (It is…that) and Structure 2 (Subject is…to)","Appropriate vocabulary for news/academic writing","Logical and coherent news report","No identified speaker — impersonal style throughout"],model:"A technology company in Ho Chi Minh City is reported to be developing a revolutionary new battery that could power electric vehicles for over 1,000 kilometres on a single charge. It is believed that the technology has been in development for more than five years. The company's lead engineer is said to have published preliminary findings in an international journal last month. It is estimated that commercial production could begin within three years, potentially transforming the electric vehicle market in Southeast Asia. The government is thought to be considering significant investment in the project. However, independent experts are alleged to have expressed concerns about the cost of scaling up the technology for mass production.",takeaway:"Key takeaway: Passive reporting verb structures are essential in news and academic writing — they report information without identifying the source. Structure 1: 'It is [verb] that...' | Structure 2: '[Subject] is [verb] to be/have...' Use 'to have + p.p.' for past references."}
+  },
+  s11:{
+    qa:[
+      {q:"Which sentence uses a DEFINING relative clause correctly?",opts:["My cat, that sleeps all day, is very lazy.","The students who pass the test will get a certificate.","Paris, which is the capital of France, is beautiful.","My brother, who works in London, is an architect."],ans:1,exp:"Defining clause: no commas, identifies which students. Options C and D have commas (non-defining). Option A uses 'that' after a comma — wrong."},
+      {q:"'I have two sisters. The one ___ lives in Hanoi is a doctor.' — Which pronoun?",opts:["who, with commas","which","that or who, no commas","whom"],ans:2,exp:"Defining clause (identifies which sister): no commas. 'that' or 'who' both acceptable for people in defining clauses."},
+      {q:"'Shakespeare, ___ wrote Hamlet, was born in 1564.' — Correct form?",opts:["that","who","which","whom"],ans:1,exp:"Non-defining clause for a person: use 'who' (NOT 'that'). Commas confirm it's non-defining."},
+      {q:"Which sentence has a NON-DEFINING relative clause?",opts:["The book that I read last week was brilliant.","She married a man who she met online.","My laptop, which I bought last year, is already broken.","The restaurant that we visited was very expensive."],ans:2,exp:"Non-defining: commas around the clause, adds optional information. Removing it ('My laptop is already broken') still makes sense."},
+      {q:"'The Mona Lisa, ___ is displayed in the Louvre, was painted by Da Vinci.' — Correct?",opts:["that","who","which","whose"],ans:2,exp:"Non-defining clause for a thing: use 'which' (never 'that' in non-defining). Commas confirm non-defining."},
+      {q:"In which sentence can the relative pronoun be OMITTED?",opts:["The man who lives next door is very friendly.","The film that I watched last night was boring.","The woman whose car was stolen is my teacher.","The city where I was born is very small."],ans:1,exp:"Pronoun can be omitted when it is the OBJECT: 'The film [that] I watched' — I watched it → 'that' is the object. In options A and C, the pronoun is the subject."},
+    ],
+    qb:[
+      {vn:"Những học sinh thi đậu sẽ nhận được học bổng.",hint:"Students who pass / will receive / scholarship",model:"Students who pass the exam will receive a scholarship.",note:"Defining clause: identifies which students. No commas. 'who' = subject relative pronoun."},
+      {vn:"Hà Nội, là thủ đô của Việt Nam, có dân số hơn 8 triệu người.",hint:"Hanoi, which is the capital / population / over 8 million",model:"Hanoi, which is the capital of Vietnam, has a population of over 8 million people.",note:"Non-defining clause: Hanoi is already identified. Commas + 'which' for a place."},
+      {vn:"Cuốn sách mà thầy giáo tôi khuyên đọc rất thú vị.",hint:"The book / (that) my teacher recommended / interesting",model:"The book (that) my teacher recommended is very interesting.",note:"Defining clause. 'that' is the object (teacher recommended it) → can be omitted. No commas."},
+      {vn:"Bạn tôi, người mà tôi quen đã hơn mười năm, vừa chuyển sang Úc.",hint:"My friend, whom I have known / ten years / just moved / Australia",model:"My friend, whom I have known for over ten years, has just moved to Australia.",note:"Non-defining. 'whom' = object of 'known'. Formal. Could use 'who' informally."},
+    ],
+    qt:[
+      {original:"The woman is my teacher. She helped me pass the exam.",instruction:"Combine using a defining relative clause",model:"The woman who helped me pass the exam is my teacher.",note:"Subject relative clause: 'who' replaces 'she' (subject). No commas — defining."},
+      {original:"The Eiffel Tower was built in 1889. It attracts millions of tourists.",instruction:"Combine using a non-defining relative clause",model:"The Eiffel Tower, which was built in 1889, attracts millions of tourists.",note:"Non-defining: The Eiffel Tower already identified. Commas + 'which' for things."},
+      {original:"The students who study hardest will succeed. (defining)",instruction:"Rewrite with the relative clause at the end",model:"The students will succeed who study hardest. (less natural) / Better: Students who study hardest will succeed.",note:"Moving the relative clause after the main verb is grammatically possible but sounds awkward. Best to keep it immediately after the noun."},
+      {original:"I met a man. His daughter is a famous singer.",instruction:"Combine using 'whose'",model:"I met a man whose daughter is a famous singer.",note:"'whose' shows possession: 'His daughter' → 'whose daughter'. Works for people and things."},
+    ],
+    qe:[
+      {s:"The book, that I borrowed from the library, was fascinating.",parts:["The book,","that I borrowed","from the library,","was fascinating."],wrong:1,fix:"which I borrowed",exp:"Non-defining clauses (with commas) use 'WHICH' for things, NOT 'that'. 'the book, WHICH I borrowed...'"},
+      {s:"My sister, who lives in Paris is a fashion designer.",parts:["My sister,","who lives in Paris","is a fashion designer","(whole)"],wrong:1,fix:"who lives in Paris,",exp:"Non-defining clauses need commas on BOTH sides. A closing comma is missing after 'Paris': 'My sister, who lives in Paris, is a fashion designer.'"},
+      {s:"The student which won the prize is very talented.",parts:["The student","which won","the prize","is very talented."],wrong:1,fix:"who won",exp:"'which' is for things. For people, use 'WHO' (subject) or 'whom' (object): 'The student WHO won...'"},
+      {s:"The man that I spoke to him is the director.",parts:["The man","that I spoke to","him","is the director."],wrong:2,fix:"(remove 'him')",exp:"Do not repeat the pronoun! The relative pronoun already replaces 'him'. Correct: 'The man that I spoke to is the director.'"},
+    ],
+    wc:{prompt:"Write a paragraph (5–6 sentences) describing a place you know well (a city, a neighbourhood, a school). Use at least 2 defining and 2 non-defining relative clauses. Try to use different relative pronouns (who, which, whose, where, that).",hints:"who / which / that / whose / where / when | defining (no commas) | non-defining (commas) | which can be omitted when object",criteria:["At least 2 defining relative clauses (no commas)","At least 2 non-defining relative clauses (with commas)","Uses at least 3 different relative pronouns","At least one clause with pronoun omitted (object position)","Accurate and natural description of the place"],model:"My hometown is a small coastal city that many tourists visit during the summer months. The old market, which has been running for over a hundred years, is the beating heart of the community. Most of the vendors who sell at the market are local families that have been in the trade for generations. The beach that I loved as a child is still as beautiful as I remember. The city's oldest hotel, whose founder was a French colonial architect, still operates today and attracts visitors interested in history. There is a small hill near the centre where my friends and I used to watch the sunset every evening.",takeaway:"Key takeaway: Defining clause = no commas = identifies WHICH one. Non-defining clause = commas = adds optional extra information. Use 'which' (not 'that') in non-defining clauses. Object pronouns can be omitted: 'The book [that] I read' but NOT 'The book [which] is on the table.'"}
+  },
+  s12:{
+    qa:[
+      {q:"'The man who is reading a newspaper is my father.' → Reduced?",opts:["The man reading a newspaper is my father.","The man read a newspaper is my father.","The man been reading a newspaper is my father.","The man who reads a newspaper is my father."],ans:0,exp:"Active reduction: 'who is reading' → 'reading' (present participle). Remove pronoun + auxiliary."},
+      {q:"'The car which was damaged in the accident is now repaired.' → Reduced?",opts:["The car damaging in the accident is now repaired.","The car damaged in the accident is now repaired.","The car which damaged in the accident is now repaired.","The car being damaged in the accident is now repaired."],ans:1,exp:"Passive reduction: 'which was damaged' → 'damaged' (past participle). 'Damaging' would mean the car is doing the damaging — wrong."},
+      {q:"Which sentence uses a REDUCED relative clause?",opts:["The woman who is wearing red is my boss.","The woman wearing red is my boss.","The woman that wears red is my boss.","The woman, who wears red, is my boss."],ans:1,exp:"'wearing red' = reduced active relative clause. The original: 'who is wearing red'."},
+      {q:"'Students who study in this library must be quiet.' → Can this be reduced?",opts:["Yes: Students studying in this library must be quiet.","Yes: Students studied in this library must be quiet.","No: relative pronoun cannot be removed here","No: only passive clauses can be reduced"],ans:0,exp:"Yes, active reduction: 'who study' → 'studying'. Present participle for active sense."},
+      {q:"'The letter which was sent by email arrived immediately.' → Reduced?",opts:["The letter sending by email arrived immediately.","The letter sent by email arrived immediately.","The letter being sent by email arrived immediately.","The letter that sent by email arrived immediately."],ans:1,exp:"Passive reduction: 'which was sent' → 'sent' (past participle). Active sense would be 'sending' (incorrect here)."},
+      {q:"CANNOT reduce: 'The report which I wrote last year won an award.' Why?",opts:["Because the clause is non-defining","Because 'which' is the object — just omit, don't use participle","Because past tense cannot be reduced","Because the clause comes after a comma"],ans:1,exp:"When the relative pronoun is the OBJECT, you simply omit it: 'The report I wrote last year won an award.' You don't replace it with a participle."},
+    ],
+    qb:[
+      {vn:"Người phụ nữ đang nói chuyện điện thoại là giám đốc của chúng tôi.",hint:"woman / talking on the phone / director",model:"The woman talking on the phone is our director.",note:"Reduced active clause: 'who is talking' → 'talking' (present participle)."},
+      {vn:"Những sinh viên được chọn cho chương trình sẽ nhận học bổng.",hint:"students / selected for the programme / will receive / scholarship",model:"Students selected for the programme will receive a scholarship.",note:"Reduced passive clause: 'who are selected' → 'selected' (past participle)."},
+      {vn:"Hầu hết đồ vật được bày bán ở đây đều được sản xuất tại địa phương.",hint:"most items / displayed / locally produced",model:"Most items displayed here are locally produced.",note:"Two reduced clauses are possible: 'items displayed' (passive) + 'locally produced' (another passive)."},
+      {vn:"Bất cứ ai quan tâm đến vị trí này nên nộp đơn trước thứ Sáu.",hint:"anyone / interested in this position / should apply / by Friday",model:"Anyone interested in this position should apply by Friday.",note:"Passive reduction: 'who is interested' → 'interested'. Common in job advertisements."},
+    ],
+    qt:[
+      {original:"The people who are waiting outside have been there for an hour.",instruction:"Reduce the relative clause",model:"The people waiting outside have been there for an hour.",note:"Active reduction: 'who are waiting' → 'waiting'. Subject pronoun + is/are removed."},
+      {original:"The bridge which was built by the Romans is still standing.",instruction:"Reduce the relative clause",model:"The bridge built by the Romans is still standing.",note:"Passive reduction: 'which was built' → 'built'. 'By the Romans' stays."},
+      {original:"The man standing at the door works in our department.",instruction:"Expand the reduced relative clause",model:"The man who is standing at the door works in our department.",note:"Expand: add 'who is' before the participle. Present participle → active continuous relative clause."},
+      {original:"Any student failing to submit by the deadline will lose marks.",instruction:"Expand the reduced relative clause",model:"Any student who fails to submit by the deadline will lose marks.",note:"'failing' → 'who fails'. Note: present simple used (general rule), not continuous."},
+    ],
+    qe:[
+      {s:"The woman sat in the corner is a famous novelist.",parts:["The woman","sat in the corner","is a famous novelist","(whole)"],wrong:1,fix:"sitting in the corner",exp:"Active (she is sitting): use PRESENT PARTICIPLE (-ing). 'sat' is past simple, not a participle here. 'The woman SITTING in the corner...'"},
+      {s:"The letter writing by the manager was very formal.",parts:["The letter","writing","by the manager","was very formal."],wrong:1,fix:"written",exp:"Passive (the letter was written): use PAST PARTICIPLE. 'writing' suggests active. 'The letter WRITTEN by the manager...'"},
+      {s:"Students studying hard they will pass the exam.",parts:["Students studying hard","they","will pass","the exam."],wrong:1,fix:"(remove 'they')",exp:"Do not add a subject pronoun after a reduced relative clause. 'Students studying hard' IS the subject — no 'they' needed."},
+      {s:"The instructions given to us was very confusing.",parts:["The instructions","given to us","was very confusing","(whole)"],wrong:2,fix:"were very confusing",exp:"'The instructions' is plural → plural verb 'WERE'. 'The instructions given to us WERE very confusing.'"},
+    ],
+    wc:{prompt:"Write a description (5–6 sentences) of people or things in a place (e.g., a market, an office, a classroom). Use at least 3 reduced relative clauses — a mix of active (present participle) and passive (past participle) forms.",hints:"-ing (active: doing the action) | p.p. (passive: receiving the action) | sitting / standing / talking / written / displayed / sold / built / used / working / chosen",criteria:["At least 3 reduced relative clauses","Mix of active (-ing) and passive (p.p.) reductions","No unnecessary relative pronouns","Vivid and specific descriptions","No grammar errors in reduction"],model:"The market is a lively, colourful place full of activity. Vendors selling fresh vegetables and fruits line both sides of the central aisle. Customers attracted by the smell of freshly baked bread crowd around a small bakery stall. A woman wearing a traditional Vietnamese dress arranges flowers near the entrance with great care. The handmade crafts displayed on the wooden shelves are produced by local artisans from the surrounding villages. Children following their parents from stall to stall reach out curiously to touch everything within their grasp. It is a world defined by energy, colour, and sound.",takeaway:"Key takeaway: Reduced relative clauses make writing more concise and sophisticated. Active (-ing) = the noun IS doing the action. Passive (p.p.) = the noun RECEIVES the action. Only reduce when the pronoun is the SUBJECT of the relative clause — for objects, simply omit the pronoun."}
+  },
+  s13:{
+    qa:[
+      {q:"'The city in which I grew up is beautiful.' — What style is this?",opts:["Informal with preposition at end","Formal with preposition before 'which'","Incorrect — prepositions cannot precede 'which'","Reduced relative clause"],ans:1,exp:"Formal style: preposition + whom/which placed BEFORE the relative pronoun. 'in which' = formal equivalent of 'that...in'."},
+      {q:"'The person ___ I was speaking to is the director.' — Informal style?",opts:["in whom","whom","to whom","who"],ans:3,exp:"Informal: use 'who' (not 'whom') and put the preposition at the end: 'The person who I was speaking TO...'"},
+      {q:"'The hotel ___ we stayed had a beautiful view.' — Which fits?",opts:["where","which we stayed at","at which","All of A, B and C are correct"],ans:3,exp:"All three are grammatically valid: 'where' (informal/neutral), 'which we stayed at' (informal, preposition at end), 'at which' (formal). This section focuses on A and C as the clearest contrasting pair."},
+      {q:"'The reason ___ she left was never explained.' — Correct options?",opts:["for which","why","that","A and B are both correct"],ans:3,exp:"'for which' (formal) and 'why' (informal) are both correct for reason nouns. 'that' is also used informally."},
+      {q:"'The company ___ he works is expanding rapidly.' — Formal preposition style?",opts:["that he works at","which he works for","for which he works","B and C are both correct"],ans:3,exp:"'for which he works' = formal. 'which he works for' = semi-formal. Both are correct. Option A uses 'at' which is wrong for 'work for a company'."},
+      {q:"Which sentence is INCORRECT?",opts:["The man to whom I spoke was very helpful.","The city in which she lives is known for its food.","The chair in that he sits is very old.","The topic about which we argued was climate change."],ans:2,fix:"in which",exp:"'in that' is NEVER used in relative clauses with prepositions. After a preposition, use 'which' (for things) or 'whom' (for people): 'in WHICH he sits'."},
+    ],
+    qb:[
+      {vn:"Ngôi trường tôi đã học thực sự đã thay đổi cuộc đời tôi.",hint:"The school / at which I studied / truly changed my life",model:"The school at which I studied truly changed my life. / The school where I studied truly changed my life.",note:"Formal: 'at which'. Informal: 'where'. Both correct for place nouns."},
+      {vn:"Người mà tôi nói chuyện hôm qua là một chuyên gia hàng đầu.",hint:"The person / to whom I spoke / expert",model:"The person to whom I spoke yesterday is a leading expert.",note:"Formal: 'to whom'. Informal: 'who...to' or 'that...to'. 'to' cannot precede 'that'."},
+      {vn:"Lý do mà cô ấy từ chối lời đề nghị vẫn chưa được giải thích.",hint:"The reason / for which / rejected the offer / never explained",model:"The reason for which she rejected the offer has never been explained.",note:"'for which' (formal) = 'why' (informal). After the formal structure, normal word order continues."},
+      {vn:"Đây là công ty mà anh tôi đã làm việc được hơn mười năm.",hint:"This is the company / for which / brother / has worked / ten years",model:"This is the company for which my brother has worked for over ten years.",note:"'for which' (formal). Informal: 'that/which my brother has worked for'. Note: 'for' appears twice — the preposition in the clause and the duration 'for ten years'."},
+    ],
+    qt:[
+      {original:"The chair that I sit on is very uncomfortable. (informal)",instruction:"Rewrite in formal style (preposition + which)",model:"The chair on which I sit is very uncomfortable.",note:"Preposition 'on' moves to before 'which'. 'that' → 'which'. Result: 'on which'."},
+      {original:"The scientist for whose research the prize was awarded has retired.",instruction:"Rewrite in informal style",model:"The scientist whose research the prize was awarded for has retired.",note:"Move preposition to end. 'whose' stays — it's possessive and doesn't change."},
+      {original:"This is the topic about which we have been arguing.",instruction:"Rewrite in two informal ways",model:"This is the topic that we have been arguing about. / This is the topic we have been arguing about.",note:"Informal 1: 'that...about'. Informal 2: omit pronoun entirely (object position) — 'the topic Ø we...about'."},
+      {original:"The country where she was born no longer exists.",instruction:"Rewrite using 'in which'",model:"The country in which she was born no longer exists.",note:"'where' → 'in which' (formal). For countries/places, the preposition is typically 'in'."},
+    ],
+    qe:[
+      {s:"This is the company in that he works.",parts:["This is the company","in that","he works","(whole)"],wrong:1,fix:"in which",exp:"NEVER use 'that' after a preposition. Always use 'which' (things) or 'whom' (people): 'in WHICH he works'."},
+      {s:"The woman to who I spoke is the manager.",parts:["The woman","to who","I spoke","is the manager."],wrong:1,fix:"to whom",exp:"After a preposition, use 'WHOM' (not 'who') for people in formal style: 'to WHOM I spoke'."},
+      {s:"The city where in I was born is now a tourist destination.",parts:["The city","where in","I was born","is now a tourist destination."],wrong:1,fix:"where / in which",exp:"Either 'where' OR 'in which' — not both together. 'where in' is incorrect."},
+      {s:"The hotel which we stayed was luxurious.",parts:["The hotel","which we stayed","was luxurious","(whole)"],wrong:1,fix:"where we stayed / at which we stayed / which we stayed at",exp:"'stay' is an intransitive verb here — it needs 'at': 'which we stayed AT' or 'where we stayed' or 'at which we stayed'."},
+    ],
+    wc:{prompt:"Write a formal paragraph (5–6 sentences) for a report or essay about a place, organisation, or experience that was important to you. Use at least 3 formal relative clause structures with prepositions (in which / at which / for which / to whom / on which / about which / whose).",hints:"in which / at which / for which / to whom / on which / about which / by whom / from which / with which | formal register / avoid contractions / third person",criteria:["At least 3 formal relative clause structures with prepositions","Formal, academic register throughout","No contractions (don't, can't, etc.)","At least one 'whose' structure","No preposition-at-end constructions (all formal style)"],model:"The university at which I completed my undergraduate studies was a transformative experience in many ways. The department of linguistics, for which I have great admiration, provided an environment in which critical thinking and intellectual curiosity were actively encouraged. The professors to whom I owe the most were those who challenged conventional assumptions and insisted on rigorous academic standards. I also participated in a research project on which the department had been working for several years, and the skills I acquired during that period have proved invaluable throughout my career. The values for which that institution stood — honesty, excellence, and collaboration — continue to guide my professional life.",takeaway:"Key takeaway: Formal style: preposition + which/whom (never 'that'). Informal style: that/who/which + preposition at end, or simply omit the pronoun. In formal/academic writing, always use 'whom' for people after prepositions and 'which' for things. 'where' is a convenient alternative to 'in/at which' for place nouns."}
+  }
+});
+// ============================================================
+// STATE
+// ============================================================
+let studentName='', studentDate='', studentClass='';
+let totalAttempts=0;
+const sectionData={};
+const allSectionIds=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13'];
+const sectionNames={s0:'Overview',s1:'Zero & Type 1',s2:'Type 2',s3:'Type 3',s4:'Mixed & Special',s5:'Reported Statements',s6:'Reported Questions',s7:'Commands & Requests',s8:'Present & Past Passive',s9:'Perfect & Modal Passive',s10:'Reporting Verb Passive',s11:'Defining vs Non-defining',s12:'Reduced Relative Clauses',s13:'Clauses with Prepositions'};
+const moduleMap={s0:'Overview',s1:'Conditionals',s2:'Conditionals',s3:'Conditionals',s4:'Conditionals',s5:'Reported Speech',s6:'Reported Speech',s7:'Reported Speech',s8:'Passive Voice',s9:'Passive Voice',s10:'Passive Voice',s11:'Relative Clauses',s12:'Relative Clauses',s13:'Relative Clauses'};
+const modules={Overview:['s0'],Conditionals:['s1','s2','s3','s4'],'Reported Speech':['s5','s6','s7'],'Passive Voice':['s8','s9','s10'],'Relative Clauses':['s11','s12','s13']};
+const moduleColors={Overview:'#6d28d9',Conditionals:'#6d28d9','Reported Speech':'#0891b2','Passive Voice':'#ea580c','Relative Clauses':'#059669'};
+const selectedOpts={};
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  const today=new Date();
+  document.getElementById('student-date').value=today.toISOString().split('T')[0];
+  allSectionIds.forEach(id=>{
+    sectionData[id]={score:null,total:0,errors:[],transAnswers:{},transformAnswers:{},errorAnswers:{},writingText:'',attempts:0};
+    if(SECTIONS[id]) buildExercises(id);
+  });
+});
+
+function startStudy(){
+  const n=document.getElementById('student-name').value.trim();
+  const d=document.getElementById('student-date').value;
+  const c=document.getElementById('student-class').value.trim();
+  if(!n){alert('Please enter your name.');return;}
+  studentName=n; studentDate=d; studentClass=c||'N/A';
+  document.getElementById('info-overlay').style.display='none';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(id){
+  document.querySelectorAll('.section-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page=document.getElementById(id);
+  const nav=document.getElementById('nav-'+id);
+  if(page) page.classList.add('active');
+  if(nav) nav.classList.add('active');
+  if(id==='results') updateResults();
+}
+function switchTab(btn,contentId){
+  const section=btn.closest('.section-page');
+  section.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  section.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(contentId).classList.add('active');
+}
+
+// ============================================================
+// BUILD EXERCISES
+// ============================================================
+function buildExercises(sid){
+  const data=SECTIONS[sid]; if(!data) return;
+  // Part A MCQ
+  const qaEl=document.getElementById(sid+'-qa');
+  if(qaEl&&data.qa){
+    qaEl.innerHTML=data.qa.map((q,i)=>`
+      <div class="q-block" id="${sid}-qblock-${i}">
+        <div class="q-num">Question ${i+1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="opt-group">${q.opts.map((o,j)=>`<div class="opt" onclick="selectOpt('${sid}',${i},${j},this)">${o}</div>`).join('')}</div>
+        <div class="feedback" id="${sid}-fb-${i}"></div>
+      </div>`).join('');
+  }
+  // Part B Translation
+  const qbEl=document.getElementById(sid+'-qb');
+  if(qbEl&&data.qb){
+    qbEl.innerHTML=data.qb.map((q,i)=>`
+      <div class="trans-block" id="${sid}-tb-${i}">
+        <div class="vn-sent">🇻🇳 ${q.vn}</div>
+        ${q.hint?`<div class="hint-box"><strong>💡</strong> ${q.hint}</div>`:''}
+        <textarea class="trans-input" placeholder="Write your English translation…" oninput="sectionData['${sid}'].transAnswers[${i}]=this.value" rows="2"></textarea>
+        <div class="model-answer" id="${sid}-ma-${i}">
+          <div class="label">Model Answer</div>
+          <div class="answer">✅ ${q.model}</div>
+          ${q.note?`<div style="font-size:12px;color:#475569;margin-top:4px">📌 ${q.note}</div>`:''}
+        </div>
+      </div>`).join('');
+  }
+  // Part C Transformation
+  const qtEl=document.getElementById(sid+'-qt');
+  if(qtEl&&data.qt){
+    qtEl.innerHTML=data.qt.map((q,i)=>`
+      <div class="tf-block" id="${sid}-tfblock-${i}">
+        <div class="q-num">Transformation ${i+1}</div>
+        <div class="tf-original"><strong>Original:</strong> ${q.original}</div>
+        <div class="tf-instruction">📝 Task: ${q.instruction}</div>
+        <input class="tf-input" type="text" placeholder="Write your transformed sentence…" oninput="sectionData['${sid}'].transformAnswers[${i}]=this.value"/>
+        <div class="tf-model" id="${sid}-tm-${i}">
+          <div class="label">Model Answer</div>
+          <div class="answer">✅ ${q.model}</div>
+          ${q.note?`<div style="font-size:12px;color:#475569;margin-top:4px">📌 ${q.note}</div>`:''}
+        </div>
+      </div>`).join('');
+  }
+  // Part D Error Correction
+  const qeEl=document.getElementById(sid+'-qe');
+  if(qeEl&&data.qe){
+    qeEl.innerHTML=data.qe.map((q,i)=>`
+      <div class="ec-block" id="${sid}-ecblock-${i}">
+        <div class="q-num">Error Correction ${i+1}</div>
+        <div class="ec-sentence">Find and click the error: <em>"${q.s}"</em></div>
+        <div class="ec-parts">${q.parts.map((p,j)=>`<span class="ec-part" onclick="selectError('${sid}',${i},${j},this)">${p}</span>`).join('')}</div>
+        <div class="ec-explain" id="${sid}-ec-${i}">
+          <strong>✅ Correction:</strong> <span class="correction">${q.fix}</span><br>
+          <span style="color:#92400e;margin-top:4px;display:block">📌 ${q.exp}</span>
+        </div>
+      </div>`).join('');
+  }
+  // Part E Writing
+  const qcEl=document.getElementById(sid+'-qc');
+  if(qcEl&&data.wc){
+    const w=data.wc;
+    qcEl.innerHTML=`
+      <div class="writing-block">
+        <div class="writing-prompt">✍️ <strong>Task:</strong> ${w.prompt}</div>
+        ${w.hints?`<div class="hint-box" style="margin:7px 0"><strong>💡 Word bank:</strong> ${w.hints}</div>`:''}
+        <div style="margin:8px 0"><strong style="font-size:12.5px;color:var(--muted)">Success criteria:</strong>
+          <ul class="writing-criteria">${w.criteria.map(c=>`<li>${c}</li>`).join('')}</ul>
+        </div>
+        <textarea class="writing-area" id="${sid}-writing" placeholder="Write your paragraph here…" oninput="sectionData['${sid}'].writingText=this.value" rows="6"></textarea>
+        <div class="model-para" id="${sid}-model-para">
+          <div class="label">Model Answer</div>
+          <div class="answer">${w.model}</div>
+          <div class="takeaway">🌟 ${w.takeaway}</div>
+        </div>
+      </div>`;
+  }
+  sectionData[sid].total=data.qa?data.qa.length:0;
+}
+
+// ============================================================
+// SCORING
+// ============================================================
+function selectOpt(sid,qIdx,optIdx,el){
+  const key=sid+'-'+qIdx;
+  if(selectedOpts[key]!==undefined) return;
+  selectedOpts[key]=optIdx;
+  const block=document.getElementById(sid+'-qblock-'+qIdx);
+  const opts=block.querySelectorAll('.opt');
+  const correct=SECTIONS[sid].qa[qIdx].ans;
+  const exp=SECTIONS[sid].qa[qIdx].exp;
+  opts[correct].classList.add('correct-opt');
+  if(optIdx!==correct){el.classList.add('wrong-opt');block.classList.add('wrong-block');}
+  else{block.classList.add('correct-block');}
+  opts.forEach(o=>o.style.cursor='default');
+  const fb=document.getElementById(sid+'-fb-'+qIdx);
+  fb.innerHTML=(optIdx===correct?'✅ Correct! ':'❌ Incorrect. ')+exp;
+  fb.className='feedback show '+(optIdx===correct?'ok':'err');
+}
+
+const selectedErrors={};
+function selectError(sid,qIdx,partIdx,el){
+  const key=sid+'-e-'+qIdx;
+  if(selectedErrors[key]!==undefined) return;
+  selectedErrors[key]=partIdx;
+  const block=document.getElementById(sid+'-ecblock-'+qIdx);
+  const parts=block.querySelectorAll('.ec-part');
+  const correct=SECTIONS[sid].qe[qIdx].wrong;
+  parts[correct].classList.add('correct-part');
+  if(partIdx!==correct) el.classList.add('selected-wrong');
+  parts.forEach(p=>p.style.cursor='default');
+  document.getElementById(sid+'-ec-'+qIdx).classList.add('show');
+}
+
+function scoreSection(sid){
+  totalAttempts++;
+  sectionData[sid].attempts++;
+  const qa=SECTIONS[sid].qa;
+  let correct=0;
+  const errors=[];
+  qa.forEach((q,i)=>{
+    const key=sid+'-'+i;
+    const chosen=selectedOpts[key];
+    if(chosen===undefined){errors.push({q:q.q,chosen:'(not answered)',correct:q.opts[q.ans],exp:q.exp});}
+    else if(chosen!==q.ans){errors.push({q:q.q,chosen:q.opts[chosen],correct:q.opts[q.ans],exp:q.exp});}
+    else{correct++;}
+  });
+  sectionData[sid].score=correct;
+  sectionData[sid].errors=errors;
+  const pct=Math.round(correct/qa.length*100);
+  const scoreEl=document.getElementById('score-'+sid);
+  if(scoreEl){
+    scoreEl.innerHTML=`Part A Score: ${correct}/${qa.length} (${pct}%) — ${pct>=80?'🌟 Excellent!':pct>=60?'👍 Good progress!':'📚 Keep practising!'}`;
+    scoreEl.className='section-score show';
+  }
+  const badge=document.getElementById('badge-'+sid);
+  if(badge){badge.textContent=pct+'%';badge.parentElement.classList.add('scored');}
+  updateProgress();
+}
+
+function revealTrans(sid){const data=SECTIONS[sid];if(!data||!data.qb) return;data.qb.forEach((_,i)=>{const el=document.getElementById(sid+'-ma-'+i);if(el) el.classList.add('show');});}
+function revealTransform(sid){const data=SECTIONS[sid];if(!data||!data.qt) return;data.qt.forEach((_,i)=>{const el=document.getElementById(sid+'-tm-'+i);if(el) el.classList.add('show');});}
+function revealError(sid){const data=SECTIONS[sid];if(!data||!data.qe) return;data.qe.forEach((_,i)=>{const ecEl=document.getElementById(sid+'-ec-'+i);if(ecEl) ecEl.classList.add('show');const block=document.getElementById(sid+'-ecblock-'+i);if(block){const correct=data.qe[i].wrong;const parts=block.querySelectorAll('.ec-part');if(parts[correct]) parts[correct].classList.add('correct-part');}});}
+function revealWriting(sid){const el=document.getElementById(sid+'-model-para');if(el) el.classList.add('show');}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function updateProgress(){
+  const scored=allSectionIds.filter(id=>sectionData[id]&&sectionData[id].score!==null).length;
+  const pct=Math.round(scored/allSectionIds.length*100);
+  document.getElementById('overall-bar').style.width=pct+'%';
+  document.getElementById('overall-pct').textContent=pct+'% complete';
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function updateResults(){
+  let totalScore=0,totalQ=0,completed=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;completed++;}});
+  const overallEl=document.getElementById('res-overall');
+  if(totalQ>0){const pct=Math.round(totalScore/totalQ*100);overallEl.textContent=pct+'%';overallEl.className='val '+(pct>=80?'good':pct>=60?'ok':'poor');}
+  else overallEl.textContent='—';
+  document.getElementById('res-sections').textContent=completed+' / '+allSectionIds.length;
+  document.getElementById('res-attempts').textContent=totalAttempts;
+  document.getElementById('res-date').textContent=studentDate||'—';
+  document.getElementById('results-info').textContent=studentName?`Student: ${studentName} | Class: ${studentClass} | Date: ${studentDate}`:'Complete the exercises first, then generate your report here.';
+
+  // Module bars
+  const mbEl=document.getElementById('module-bars');
+  mbEl.innerHTML=Object.entries(modules).map(([mod,ids])=>{
+    const scored=ids.filter(id=>sectionData[id]&&sectionData[id].score!==null);
+    const modTotal=ids.reduce((a,id)=>a+(sectionData[id]?sectionData[id].total:0),0);
+    const modScore=ids.reduce((a,id)=>a+(sectionData[id]&&sectionData[id].score!==null?sectionData[id].score:0),0);
+    const pct=modTotal>0&&scored.length>0?Math.round(modScore/modTotal*100):0;
+    return `<div class="module-bar">
+      <h4 style="color:${moduleColors[mod]||'#6d28d9'}">${mod} — ${scored.length}/${ids.length} sections scored · ${pct}%</h4>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${moduleColors[mod]||'#6d28d9'}"></div></div>
+    </div>`;
+  }).join('');
+
+  // Section table
+  const tbody=document.getElementById('section-breakdown');
+  tbody.innerHTML=allSectionIds.map(id=>{
+    const d=sectionData[id]; const scored=d&&d.score!==null;
+    const pct=scored?Math.round(d.score/d.total*100):null;
+    const mod=moduleMap[id]||'';
+    return`<tr>
+      <td style="color:${moduleColors[mod]||'#6d28d9'};font-size:11px;font-weight:600">${mod}</td>
+      <td>${sectionNames[id]}</td>
+      <td>${scored?d.score+'/'+d.total:'—'}</td>
+      <td>${pct!==null?pct+'%':'—'}</td>
+      <td>${scored?(pct>=80?'🌟 Excellent':pct>=60?'👍 Good':'📚 Needs work'):'⬜ Not scored'}</td>
+    </tr>`;
+  }).join('');
+
+  // Error log
+  const logEl=document.getElementById('error-log-container');
+  const allErrors=[];
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.errors&&d.errors.length>0)d.errors.forEach(e=>allErrors.push({section:sectionNames[id],...e}));});
+  if(allErrors.length===0){logEl.innerHTML='<div style="color:var(--green);font-size:14px;padding:16px">✅ No errors yet. Score sections to see your error log here.</div>';}
+  else{logEl.innerHTML='<div class="error-log"><div class="error-log-header">❌ Error Log ('+allErrors.length+' error'+(allErrors.length!==1?'s':'')+')</div>'+allErrors.map(e=>`<div class="error-entry"><div style="font-size:11px;color:var(--purple);font-weight:700;margin-bottom:3px">[${e.section}]</div><div style="margin-bottom:3px"><strong>Q:</strong> ${e.q}</div><div style="color:var(--red)"><strong>Your answer:</strong> ${e.chosen}</div><div style="color:var(--green)"><strong>Correct:</strong> ${e.correct}</div>${e.exp?`<div style="color:#475569;font-size:12.5px;margin-top:3px">📌 ${e.exp}</div>`:''}</div>`).join('')+'</div>';}
+}
+
+// ============================================================
+// REPORT TEXT
+// ============================================================
+function buildReportText(){
+  let totalScore=0,totalQ=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;}});
+  const overall=totalQ>0?Math.round(totalScore/totalQ*100)+'%':'N/A';
+  let txt=`HUONG STELLA PARADIGM – GRAMMAR SERIES VOL.3\nStructures & Voice (B1)\n${'='.repeat(50)}\n`;
+  txt+=`Student: ${studentName}\nDate: ${studentDate}\nClass: ${studentClass}\nAttempts: ${totalAttempts}\nOverall Score (Part A): ${overall}\n\n`;
+  txt+='MODULE BREAKDOWN\n'+'-'.repeat(40)+'\n';
+  Object.entries(modules).forEach(([mod,ids])=>{
+    const scored=ids.filter(id=>sectionData[id]&&sectionData[id].score!==null);
+    txt+=`\n${mod} (${scored.length}/${ids.length} sections scored)\n`;
+    ids.forEach(id=>{const d=sectionData[id];const s=d&&d.score!==null?d.score+'/'+d.total+' ('+Math.round(d.score/d.total*100)+'%)':'not scored';txt+=`  ${sectionNames[id]}: ${s}\n`;});
+  });
+  txt+='\nERROR LOG\n'+'-'.repeat(40)+'\n';
+  let errCount=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.errors&&d.errors.length>0){txt+=`\n[${sectionNames[id]}]\n`;d.errors.forEach((e,i)=>{errCount++;txt+=`  ${i+1}. ${e.q}\n     Your answer: ${e.chosen}\n     Correct: ${e.correct}\n     Note: ${e.exp}\n`;});}});
+  if(errCount===0) txt+='No errors logged.\n';
+  txt+='\nKEY TAKEAWAYS\n'+'-'.repeat(40)+'\n';
+  allSectionIds.forEach(id=>{const data=SECTIONS[id];if(data&&data.wc)txt+=`★ [${sectionNames[id]}] ${data.wc.takeaway}\n`;});
+  txt+='\n'+'-'.repeat(50)+'\nHuong Stella Paradigm – Grammar Series Vol.3\nGenerated: '+new Date().toLocaleString()+'\n';
+  return txt;
+}
+function copyReport(){
+  const txt=buildReportText();
+  navigator.clipboard.writeText(txt).then(()=>{const el=document.getElementById('email-status');el.innerHTML='✅ Report copied to clipboard!';el.style.display='block';setTimeout(()=>el.style.display='none',3000);});
+}
+
+// ============================================================
+// PDF
+// ============================================================
+function generateReport(){
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'a4'});
+  const W=doc.internal.pageSize.getWidth();
+  const margin=48; let y=margin;
+  function addLine(text,opts={}){
+    const{size=11,bold=false,color=[30,41,59],indent=0}=opts;
+    doc.setFontSize(size);doc.setFont('helvetica',bold?'bold':'normal');doc.setTextColor(...color);
+    const lines=doc.splitTextToSize(text,W-margin*2-indent);
+    lines.forEach(l=>{if(y>800){doc.addPage();y=margin;}doc.text(l,margin+indent,y);y+=15;});
+  }
+  function addGap(n=7){y+=n;}
+  function addRule(){doc.setDrawColor(203,213,225);doc.line(margin,y,W-margin,y);y+=9;}
+  doc.setFillColor(30,27,75);doc.rect(0,0,W,78,'F');
+  doc.setFontSize(17);doc.setFont('helvetica','bold');doc.setTextColor(196,181,253);
+  doc.text('Huong Stella Paradigm – Grammar Series Vol.3',margin,33);
+  doc.setFontSize(11);doc.setFont('helvetica','normal');doc.setTextColor(167,139,250);
+  doc.text('Structures & Voice (B1) – Study Report',margin,52);
+  y=98;
+  addLine('Student: '+studentName,{bold:true,size:12});
+  addLine('Date: '+studentDate+'   |   Class: '+studentClass,{size:11});
+  addGap();addRule();
+  let totalScore=0,totalQ=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;}});
+  const overall=totalQ>0?Math.round(totalScore/totalQ*100)+'%':'N/A';
+  addLine('Overall Score (Part A): '+overall+'   |   Attempts: '+totalAttempts,{bold:true,size:12,color:[109,40,217]});
+  addGap(12);
+  addLine('MODULE BREAKDOWN',{bold:true,size:12});addRule();
+  Object.entries(modules).forEach(([mod,ids])=>{
+    addLine(mod,{bold:true,size:11,color:[109,40,217]});
+    ids.forEach(id=>{const d=sectionData[id];const s=d&&d.score!==null?d.score+'/'+d.total+' ('+Math.round(d.score/d.total*100)+'%)':'—';addLine(sectionNames[id]+': '+s,{indent:12,size:11});});
+    addGap(4);
+  });
+  addGap(8);addLine('ERROR LOG',{bold:true,size:12,color:[220,38,38]});addRule();
+  let errCount=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.errors&&d.errors.length>0){addLine('['+sectionNames[id]+']',{bold:true,size:11,color:[109,40,217]});d.errors.forEach((e,i)=>{errCount++;addLine((i+1)+'. '+e.q,{indent:10,size:11});addLine('Your answer: '+e.chosen,{indent:20,size:10,color:[220,38,38]});addLine('Correct: '+e.correct,{indent:20,size:10,color:[5,150,105]});addLine('Note: '+e.exp,{indent:20,size:10,color:[71,85,105]});addGap(4);});}});
+  if(errCount===0) addLine('No errors logged yet.',{color:[100,116,139]});
+  addGap(10);addLine('KEY TAKEAWAYS',{bold:true,size:12,color:[180,83,9]});addRule();
+  allSectionIds.forEach(id=>{const data=SECTIONS[id];if(data&&data.wc)addLine('★ ['+sectionNames[id]+'] '+data.wc.takeaway,{size:10,indent:4,color:[92,33,160]});});
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(148,163,184);doc.text('Huong Stella Paradigm – Vol.3 | Page '+i+'/'+pages,margin,825);doc.text(new Date().toLocaleString(),W-margin,825,{align:'right'});}
+  doc.save('GrammarVol3_Report_'+studentName.replace(/\s+/g,'_')+'.pdf');
+}
+
+// ============================================================
+// EMAIL
+// ============================================================
+function sendToTeacher(){
+  const teacherEmail='huongstella8@gmail.com';
+  let totalScore=0,totalQ=0;
+  allSectionIds.forEach(id=>{const d=sectionData[id];if(d&&d.score!==null){totalScore+=d.score;totalQ+=d.total;}});
+  const overall=totalQ>0?Math.round(totalScore/totalQ*100)+'%':'N/A';
+  const subject=`[Grammar Vol.3 Report] ${studentName} – ${studentDate}`;
+  const body=buildReportText();
+  const statusEl=document.getElementById('email-status');
+  statusEl.style.display='block';statusEl.innerHTML='📤 Sending…';
+  fetch('https://formsubmit.co/ajax/'+teacherEmail,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:subject,name:studentName,email:'no-reply@grammarvol3.local',message:body,_captcha:'false'})})
+  .then(r=>r.json()).then(data=>{if(data.success){statusEl.innerHTML='✅ Report sent to '+teacherEmail+'!';}else{fallbackMailto(teacherEmail,subject,body,statusEl);}})
+  .catch(()=>fallbackMailto(teacherEmail,subject,body,statusEl));
+}
+function fallbackMailto(email,subject,body,statusEl){
+  window.open('mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body));
+  statusEl.innerHTML='📧 Email client opened. Please send to '+email;
+}
+</script>
+</body>
+</html>
