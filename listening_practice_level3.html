@@ -126,27 +126,78 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
 .et-panel{animation:fadein .2s ease;}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
+
+/* Self-assess rubric tooltip */
+.sa{position:relative;}
+.sa::before{content:'Tự đánh giá:';display:block;font-size:.7rem;color:#9ca3af;margin-bottom:2px;font-style:italic;}
+.sa:hover::after{
+  content:'✅ Hiểu ≥80% · 🟡 Hiểu 50–79% · ❌ Dưới 50%';
+  position:absolute;top:-26px;left:0;
+  background:#1f2937;color:#f9fafb;
+  font-size:.7rem;padding:3px 10px;border-radius:5px;
+  white-space:nowrap;z-index:200;pointer-events:none;
+}
+
+
+/* ── Topbar ── */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;flex-direction:column;padding:0;background:#4c1d95;color:#fff;box-shadow:0 2px 8px #0004;}
+.tb-row1{display:flex;align-items:center;padding:6px 16px;background:#3b0764;border-bottom:1px solid #6d28d9;}
+.tb-brand-stack{display:flex;flex-direction:column;gap:1px;}
+.tb-brand-main{font-size:.66rem;font-weight:800;letter-spacing:.12em;color:#a78bfa;text-transform:uppercase;}
+.tb-title{font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:.01em;}
+.tb-row2{display:flex;align-items:center;gap:5px;padding:5px 10px;overflow-x:auto;}
+.tb-inp{height:28px;padding:0 8px;border-radius:6px;border:none;font-size:.75rem;width:130px;background:#ede9fe;color:#1e1b4b;}
+.tb-tabs{display:flex;gap:3px;flex-wrap:nowrap;}
+.tb-tab{padding:4px 9px;border-radius:12px;border:1.5px solid #7c3aed;background:transparent;color:#ddd6fe;cursor:pointer;font-size:.72rem;font-weight:700;white-space:nowrap;transition:all .18s;}
+.tb-tab:hover{background:#6d28d9;}
+.tb-tab.tb-active{background:#7c3aed;color:#fff;border-color:#a78bfa;}
+.tb-results-btn{padding:4px 10px;border-radius:12px;border:1.5px solid #a78bfa;background:transparent;color:#fbbf24;cursor:pointer;font-size:.78rem;font-weight:700;white-space:nowrap;}
+.tb-results-btn:hover{background:#6d28d9;}
+/* Hide old UI elements */
+#screen-home{display:none!important;}
+.brand-bar{display:none!important;}
+.navbar{display:none!important;}
+/* Push content below fixed topbar */
+.screen.active{padding-top:90px!important;}
+#screen-results.active{padding-top:90px!important;}
+/* Topbar timer in topbar context */
+#topbar .timer-badge{font-size:.72rem;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+
+
+/* Check-answer hints */
+.wa-hint{background:#fef2f2!important;border-left:3px solid #ef4444!important;transition:background .3s;}
+.ca-hint{background:#f0fdf4!important;border-left:3px solid #22c55e!important;transition:background .3s;}
+.hint-ans{color:#6d28d9;font-size:.78rem;font-weight:700;margin-top:3px;}
+
 </style>
 </head>
 <body>
+<div id="topbar">
+  <div class="tb-row1">
+    <div class="tb-brand-stack">
+      <span class="tb-brand-main">HUONG STELLA PARADIGM</span>
+      <span class="tb-title">Listening Practice – Level 3</span>
+    </div>
+  </div>
+  <div class="tb-row2">
+    <input type="text"  id="student-name"  class="tb-inp" placeholder="Full name" oninput="saveStudentInfo()">
+    <input type="email" id="student-email" class="tb-inp" placeholder="Email" oninput="saveStudentInfo()">
+    <div class="tb-tabs"><button class="tb-tab tb-active" id="tbtab-1" onclick="goTo(1)">Intro</button><button class="tb-tab" id="tbtab-2" onclick="goTo(2)">Unit 1</button><button class="tb-tab" id="tbtab-3" onclick="goTo(3)">Unit 2</button><button class="tb-tab" id="tbtab-4" onclick="goTo(4)">Unit 3</button><button class="tb-tab" id="tbtab-5" onclick="goTo(5)">Unit 4</button><button class="tb-tab" id="tbtab-6" onclick="goTo(6)">Unit 5</button><button class="tb-tab" id="tbtab-7" onclick="goTo(7)">Unit 6A</button><button class="tb-tab" id="tbtab-8" onclick="goTo(8)">Unit 6B</button><button class="tb-tab" id="tbtab-9" onclick="goTo(9)">Unit 7</button><button class="tb-tab" id="tbtab-10" onclick="goTo(10)">Unit 8</button><button class="tb-tab" id="tbtab-11" onclick="goTo(11)">Unit 9</button><button class="tb-tab" id="tbtab-12" onclick="goTo(12)">ET</button></div>
+    <button class="tb-results-btn" onclick="goToResults()">📊</button>
+    <span id="topbar-timer" class="timer-badge">⏱ --:--</span>
+  </div>
+</div>
+  <button class="tb-results-btn" onclick="goToResults()">📊</button>
+  <span id="topbar-timer" class="timer-badge">⏱ --:--</span>
+</div>
+
 
 <!-- HOME -->
 <div id="screen-home" class="screen active">
   <div class="brand-bar">Huong Stella Paradigm</div>
-  <div class="navbar"><h1>🎧 Listening Practice – Level 3</h1><span style="font-size:.78rem;opacity:.85">Solutions Intermediate · 12 Practices</span></div>
+  <div class="navbar"><h1>Listening Practice – Level 3</h1><span style="font-size:.78rem;opacity:.85">Solutions Intermediate · 12 Practices</span></div>
   <div class="content">
-<div class="card" style="margin-bottom:22px">
-      <h2 style="margin-bottom:13px">👤 Student Information</h2>
-      <div style="display:flex;gap:16px;flex-wrap:wrap">
-        <div style="flex:1;min-width:180px">
-          <label style="font-size:.82rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Full Name *</label>
-          <input type="text" id="student-name" class="qi" placeholder="Enter your full name…" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
-        </div>
-        <div style="flex:1;min-width:180px">
-          <label style="font-size:.82rem;font-weight:600;color:#374151;display:block;margin-bottom:4px">Email *</label>
-          <input type="email" id="student-email" class="qi" placeholder="your@email.com" style="max-width:100%;width:100%" oninput="saveStudentInfo()">
-        </div>
-      </div>
+
     </div>
     <div class="pgrid" id="pgrid"></div>
     <div class="bgrp" style="justify-content:center;margin-top:22px">
@@ -183,7 +234,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p1-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(1)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(1)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(1)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(1)">🔄 Redo</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
       <button class="btn btnd" onclick="goTo(2)">Next →</button>
@@ -214,7 +265,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p2-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(2)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(2)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(2)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(2)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(1)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -262,7 +313,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
 
     <div id="p3-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(3)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(3)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(3)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(3)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(2)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -316,7 +367,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p4-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(4)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(4)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(4)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(4)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(3)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -403,7 +454,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p5-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(5)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(5)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(5)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(5)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(4)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -506,7 +557,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p6-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(6)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(6)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(6)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(6)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(5)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -544,7 +595,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p7-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(7)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(7)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(7)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(7)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(6)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -603,7 +654,7 @@ textarea.qt:focus{outline:none;border-color:#7c3aed}
     </div>
     <div id="p8-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(8)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(8)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(8)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(8)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(7)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -705,7 +756,7 @@ And all of this will come true unless we reverse it.</p>
     </div>
     <div id="p9-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(9)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(9)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(9)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(9)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(8)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -750,7 +801,7 @@ And all of this will come true unless we reverse it.</p>
 
     <div id="p10-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(10)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(10)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(10)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(10)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(9)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -827,7 +878,7 @@ And all of this will come true unless we reverse it.</p>
     </div>
     <div id="p11-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(11)">✅ Submit</button>
+      <button class="btn btni" onclick="checkAnswers(11)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(11)">✅ Submit</button>
       <button class="btn btnd" onclick="redoPractice(11)">🔄 Redo</button>
       <button class="btn btnd" onclick="goTo(10)">← Prev</button>
       <button class="btn btnd" onclick="goHome()">🏠 Home</button>
@@ -962,9 +1013,10 @@ And all of this will come true unless we reverse it.</p>
       <div class="sa" style="margin-top:8px"><label><input type="radio" name="et5-ex4r" value="3"><span>✅ All correct</span></label><label><input type="radio" name="et5-ex4r" value="2"><span>🟡 Mostly</span></label><label><input type="radio" name="et5-ex4r" value="1"><span>❌ Several wrong</span></label></div>
     </div>
             </div>
+      <div id="et5-ex4-ak"></div>
 <div id="p12-score-area"></div>
     <div class="bgrp">
-      <button class="btn btnp" onclick="submitPractice(12)">&#x2705; Submit</button>
+      <button class="btn btni" onclick="checkAnswers(12)" style="background:#0891b2">🔍 Check</button> <button class="btn btnp" onclick="confirmAndSubmit(12)">&#x2705; Submit</button>
       <button class="btn btnd" onclick="redoPractice(12)">&#x1F504; Redo</button>
       <button class="btn btnd" onclick="goTo(11)">&#x2190; Prev</button>
       <button class="btn btnd" onclick="goHome()">&#x1F3E0; Home</button>
@@ -996,7 +1048,7 @@ function _fmtTime(s){const m=String(Math.floor(s/60)).padStart(2,'0');return m+'
 function _startTimer(n){
   _stopTimer();
   _timerSecs=0;_curPractice=n;
-  const el=document.getElementById('timer-'+n);
+  const el=document.getElementById('topbar-timer');
   if(el){el.textContent='⏱ 00:00';el.className='timer-badge timer-running';}
   _timerInterval=setInterval(()=>{
     _timerSecs++;
@@ -1009,31 +1061,24 @@ function _stopTimer(){
   if(el)el.className='timer-badge';
 }
 function _injectExtras(){
-  // Inject timer + student bar into practice screen navbars
-  for(let n=1;n<=12;n++){
-    const sc=document.getElementById('screen-'+n);
-    if(!sc)continue;
-    const nav=sc.querySelector('.navbar');
-    if(!nav)continue;
-    if(!nav.querySelector('.timer-badge')){
-      const t=document.createElement('span');t.id='timer-'+n;t.className='timer-badge';t.textContent='⏱ 00:00';
-      nav.appendChild(t);
-    }
-    if(!nav.querySelector('.sbar')){
-      const sb=document.createElement('span');sb.id='sbar-'+n;sb.className='sbar';
-      nav.appendChild(sb);
-    }
-  }
-  _updateAllSbars();
+  _updateAllSbars(); // navbars hidden; topbar inputs are used
 }
-function _updateAllSbars(){
-  const nm=getStudentName(),em=getStudentEmail();
-  const txt=(nm&&nm!=='(Unknown)'?'👤 '+nm:'')+(em?' · '+em:'');
-  for(let n=1;n<=12;n++){const el=document.getElementById('sbar-'+n);if(el)el.textContent=txt;}
+function _updateAllSbars(){}
+function _updateEtTabStatus(){
+  const tabBtns=document.querySelectorAll('.et-tab-btn');
+  [1,2,3,4,5].forEach((t,i)=>{
+    const panel=document.getElementById('ep-'+t);
+    if(!panel)return;
+    const answered=panel.querySelector('input[type=radio]:checked,select,input[type=text]');
+    const hasAnswer=panel.querySelector('input[type=radio]:checked')!=null||
+      [...panel.querySelectorAll('select')].some(s=>s.value)||
+      [...panel.querySelectorAll('input[type=text]')].some(s=>s.value.trim());
+    if(tabBtns[i]){
+      const lbl=tabBtns[i].textContent.replace(' ✓','');
+      tabBtns[i].textContent=hasAnswer?lbl+' ✓':lbl;
+    }
+  });
 }
-let attempts={}; // always start fresh each session
-
-
 function _switchEtTab(n){
   for(let i=1;i<=5;i++){
     const p=document.getElementById('ep-'+i);
@@ -1041,6 +1086,7 @@ function _switchEtTab(n){
     if(p) p.style.display=i===n?'':'none';
     if(btns[i-1]) btns[i-1].className='et-tab-btn'+(i===n?' et-tab-active':'');
   }
+  setTimeout(_updateEtTabStatus,100);
 }
 const PRACTICES=[
   {id:1, title:'Introduction – Feelings', unit:'Unit Introduction'},
@@ -1066,7 +1112,7 @@ const AK={
   },
   p2:{
     ex5:[null,null,null,null],
-    ex6:['b',null,null,null]
+    ex6:['b','c','a','d']
   },
   // Unit 2C (context)
   p4ex4:['A','B','C','D'],
@@ -1081,6 +1127,18 @@ const AK={
     ex1:['a','b','a','a','c','b','a','b'],
     ex4:['D','B','E','A','F'],
     ex5:['T','T','F','F','T']
+  },
+  // NEW: auto-graded exercises
+  p8new:{
+    nb5:['a','b','b','a','b','a'],  // Nellie Bly – circle ending a/b (2.28)
+    nb8:['F','T','F','F','T','T']   // T/F world trip (2.29)
+  },
+  p10new:{
+    vm4:['a','b','a','b'],          // voicemail first/second (3.14)
+    mc5:['c','d','c','b','d']       // cables MCQ a-d (3.15)
+  },
+  p11new:{
+    mc5b:['c','b','a','c']          // airport MCQ a-c (3.25)
   }
 };
 
@@ -1307,7 +1365,7 @@ function buildP8(){
     {stem:'…because…',a:'the pay was not good.',b:'they started before sunrise.'},
     {stem:'…because…',a:'nobody seemed to know or care.',b:'the staff did not treat the patients well.'}
   ];
-  document.getElementById('p11-ex5').innerHTML=nb5.map((q,i)=>`<div class="qrow" id="p11-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt"><div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex5-${i}" value="a"><span>a. ${q.a}</span></label><label><input type="radio" name="p11-ex5-${i}" value="b"><span>b. ${q.b}</span></label></div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p11-ex5r-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p11-ex5r-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p11-ex5r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  document.getElementById('p11-ex5').innerHTML=nb5.map((q,i)=>`<div class="qrow" id="p11-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt"><div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex5-${i}" value="a"><span>a. ${q.a}</span></label><label><input type="radio" name="p11-ex5-${i}" value="b"><span>b. ${q.b}</span></label></div><div class="fbrow" id="p11-ex5-fb-${i}"></div></div></div>`).join('');
   // Ex6 (2.28) self-assess
   if(document.getElementById('p11-ex6')){
     document.getElementById('p11-ex6').innerHTML=`<div class="qrow"><span class="qnum">→</span><div class="qtxt">After listening to check, how many of your answers in Ex 5 were correct?<div class="sa" style="margin-top:6px"><label><input type="radio" name="p11-ex6r" value="3"><span>✅ 5–6 correct</span></label><label><input type="radio" name="p11-ex6r" value="2"><span>🟡 3–4 correct</span></label><label><input type="radio" name="p11-ex6r" value="1"><span>❌ 0–2 correct</span></label></div></div></div>`;
@@ -1319,7 +1377,7 @@ function buildP8(){
   // Ex8 (2.29) – T/F about Nellie's world trip
   if(document.getElementById('p11-ex8')){
     const nb8=["Nellie's adventure was Joseph Pulitzer's idea.","Elizabeth Bisland worked for a different newspaper.","Nellie began her journey in 1888.","Nellie and Elizabeth travelled together some of the way.","Bad weather nearly caused Nellie to fail.","Joseph Pulitzer's money helped Nellie get home on time."];
-    document.getElementById('p11-ex8').innerHTML=nb8.map((s,i)=>`<div class="qrow" id="p11-ex8-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex8-${i}" value="T"><span>True</span></label><label><input type="radio" name="p11-ex8-${i}" value="F"><span>False</span></label></div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p11-ex8r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p11-ex8r-${i}" value="2"><span>🟡</span></label><label><input type="radio" name="p11-ex8r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+    document.getElementById('p11-ex8').innerHTML=nb8.map((s,i)=>`<div class="qrow" id="p11-ex8-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p11-ex8-${i}" value="T"><span>True</span></label><label><input type="radio" name="p11-ex8-${i}" value="F"><span>False</span></label></div><div class="fbrow" id="p11-ex8-fb-${i}"></div></div></div>`).join('');
   }
   // Ex9 (2.30) – listen again, self-assess
   if(document.getElementById('p11-ex9')){
@@ -1403,7 +1461,7 @@ function buildP10(){
     {s:"Speaker 3 <strong>is / isn't</strong> going to recommend a hotel in Paris."},
     {s:"Speaker 4 <strong>has / hasn't</strong> sent Emma's top back to her."}
   ];
-  document.getElementById('p9-ex4').innerHTML=vm4.map((q,i)=>`<div class="qrow" id="p9-ex4-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p9-ex4-${i}" value="a"><span>First option</span></label><label><input type="radio" name="p9-ex4-${i}" value="b"><span>Second option</span></label></div><div class="sa" style="margin-top:4px"><label><input type="radio" name="p9-ex4r-${i}" value="3"><span>✅</span></label><label><input type="radio" name="p9-ex4r-${i}" value="1"><span>❌</span></label></div></div></div>`).join('');
+  document.getElementById('p9-ex4').innerHTML=vm4.map((q,i)=>`<div class="qrow" id="p9-ex4-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.s}<div class="rg" style="margin-top:5px"><label><input type="radio" name="p9-ex4-${i}" value="a"><span>First option</span></label><label><input type="radio" name="p9-ex4-${i}" value="b"><span>Second option</span></label></div><div class="fbrow" id="p9-ex4-fb-${i}"></div></div></div>`).join('');
   // Ex5 (3.15) – radio programme part 2: multiple choice a-d
   const mc5=[
     {q:'What advance in technology was made between 1840 and 1850?',opts:['a) A cable was laid under the Atlantic Ocean','b) The electric telegraph was invented','c) A cable was laid under the English Channel','d) A telegraph message was sent from France to the USA']},
@@ -1412,7 +1470,7 @@ function buildP10(){
     {q:"For the third attempt, the ships' starting position…",opts:['a) was the same as the first attempt','b) was the same as the second attempt','c) was different from both previous attempts','d) is not mentioned in the programme']},
     {q:'What period of history does the programme mainly talk about?',opts:['a) From 1840 to the present day','b) The decade 1840 to 1850','c) From 1858 to the present day','d) The two years 1857 and 1858']}
   ];
-  document.getElementById('p9-ex5').innerHTML=mc5.map((q,i)=>`<div class="qrow" id="p9-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p9-ex5r-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p9-ex5r-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p9-ex5r-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+  document.getElementById('p9-ex5').innerHTML=mc5.map((q,i)=>`<div class="qrow" id="p9-ex5-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="fbrow" id="p9-ex5-fb-${i}"></div></div></div>`).join('');
 }
 
 function buildP11(){
@@ -1434,7 +1492,7 @@ function buildP11(){
       {q:'3. What happened to the woman at the airport?',opts:['a) She caused her plane to take off late',"b) Her plane took off late because a fellow traveller wasn't on board",'c) She was asleep when they called her flight']},
       {q:'4. Where is this announcement made?',opts:['a) On a train','b) In an airport','c) In an aeroplane']}
     ];
-    document.getElementById('p9-ex5b').innerHTML=mc5b.map((q,i)=>`<div class="qrow" id="p9-ex5b-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5b-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="sa" style="margin-top:5px"><label><input type="radio" name="p9-ex5br-${i}" value="3"><span>✅ Got it</span></label><label><input type="radio" name="p9-ex5br-${i}" value="2"><span>🟡 Partial</span></label><label><input type="radio" name="p9-ex5br-${i}" value="1"><span>❌ Missed</span></label></div></div></div>`).join('');
+    document.getElementById('p9-ex5b').innerHTML=mc5b.map((q,i)=>`<div class="qrow" id="p9-ex5b-row-${i}"><span class="qnum">${i+1}.</span><div class="qtxt">${q.q}<div class="rg" style="margin-top:5px;flex-direction:column;align-items:flex-start">${q.opts.map(o=>`<label style="margin-bottom:3px"><input type="radio" name="p9-ex5b-${i}" value="${o[0]}"> ${o}</label>`).join('')}</div><div class="fbrow" id="p9-ex5b-fb-${i}"></div></div></div>`).join('');
   }
   // Ex7 (3.26) self-assess
   if(document.getElementById('p9-ex7')){
@@ -1443,6 +1501,137 @@ function buildP11(){
 }
 
 
+
+// ── CHECK ANSWERS (highlight wrong, reveal if ≥80%) ─────────────────
+function _chkRow(rowId, fbId, ok, answer, reveal){
+  const row=document.getElementById(rowId);
+  const fb =document.getElementById(fbId);
+  if(row){row.classList.remove('wa-hint','ca-hint');row.classList.add(ok?'ca-hint':'wa-hint');}
+  if(fb){
+    if(!ok && reveal) fb.innerHTML='<span class="hint-ans">💡 '+answer+'</span>';
+    else if(ok)       fb.innerHTML='<span class="fc" style="font-size:.78rem">✓</span>';
+    else              fb.innerHTML='';
+  }
+}
+function checkAnswers(n){
+  const pKey=`p${n}`;
+  const att=attempts[pKey]||[];
+  const reveal=att.some(a=>a.pct>=80);
+  // clear all existing hints on this screen
+  const sc=document.getElementById(`screen-${n}`);
+  if(sc){sc.querySelectorAll('.wa-hint,.ca-hint').forEach(el=>{el.classList.remove('wa-hint','ca-hint');});
+         sc.querySelectorAll('.hint-ans').forEach(el=>el.remove());}
+
+  if(n===1){
+    const u2=document.getElementById('p1-ex2-0')?.value||'';
+    const kw=AK.p1.ex2_kw.some(k=>u2.toLowerCase().includes(k));
+    _chkRow('p1-ex2-row-0','p1-ex2-fb-0',kw,reveal?'should mention: singing solo/alone':'',reveal);
+    const f3=['anxious','embarrassed','excited','frightened','terrified','thrilled','upset'];
+    const correct3=new Set(AK.p1.ex3);
+    const ok3=AK.p1.ex3.every((_,j)=>{const idx=f3.indexOf(AK.p1.ex3[j]);return document.getElementById(`p1-ex3-${idx}`)?.checked;})&&f3.every((f,i)=>correct3.has(f)||!document.getElementById(`p1-ex3-${i}`)?.checked);
+    const r3=document.getElementById('p1-ex3-row');if(r3){r3.classList.remove('wa-hint','ca-hint');r3.classList.add(ok3?'ca-hint':'wa-hint');}
+    const fb3=document.getElementById('p1-ex3-fb');if(fb3){if(!ok3&&reveal)fb3.innerHTML='<span class="hint-ans">💡 anxious, excited, frightened, terrified, upset</span>';else if(ok3)fb3.innerHTML='<span class="fc" style="font-size:.78rem">✓</span>';else fb3.innerHTML='';}
+    AK.p1.ex5.forEach((ans,i)=>{
+      const u=document.getElementById(`p1-ex5-${i}`)?.value;
+      _chkRow(`p1-ex5-row-${i}`,`p1-ex5-fb-${i}`,u===ans,reveal?LBL.p1.ex5[i]:'',reveal);
+    });
+  }
+  else if(n===2){
+    // Ex6 speaker purpose (auto-graded – 1.11)
+    AK.p2.ex6.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p2-ex6-${i}"]:checked`)?.value;
+      _chkRow(`p2-ex6-row-${i}`,`p2-ex6-fb-${i}`,u===ans,reveal?ans.toUpperCase():'',reveal);
+    });
+  }
+  else if(n===3){
+    AK.p4ex4.forEach((ans,i)=>{const u=document.querySelector(`input[name="p3-ex4c-${i}"]:checked`)?.value;_chkRow(`p3-ex4c-row-${i}`,`p3-ex4c-fb-${i}`,u===ans,reveal?LBL.p4ex4[i]:'',reveal);});
+    AK.p4ex5.forEach((ans,i)=>{const u=document.querySelector(`input[name="p3-ex5c-${i}"]:checked`)?.value;_chkRow(`p3-ex5c-row-${i}`,`p3-ex5c-fb-${i}`,u===ans,reveal?LBL.p4ex5[i]:'',reveal);});
+    const u3a=document.querySelector('input[name="p5-ex3a"]:checked')?.value;
+    _chkRow('p5-ex3a-row-0','p5-ex3a-fb-0',u3a==='first',reveal?'The FIRST word':'',reveal);
+    const actsAll=['kayaking','surfing','parkour','karting','hiking'];
+    const extras=['climbing','cycling'];
+    const actsOk=actsAll.every(a=>document.getElementById(`p5-act-${a}`)?.checked)&&extras.every(a=>!document.getElementById(`p5-act-${a}`)?.checked);
+    _chkRow('p5-ex3b-row-0','p5-ex3b-fb-0',actsOk,reveal?'kayaking, surfing, parkour, karting, hiking':'',reveal);
+    const uAg=document.getElementById('p5-ex3b-agree')?.value||'';
+    _chkRow('p5-ex3b-row-1','p5-ex3b-fb-1',norm(uAg).includes('karting'),reveal?'karting':'',reveal);
+  }
+  else if(n===5){
+    AK.p7.ex4.forEach((ans,i)=>{const u=document.querySelector(`input[name="p7-ex4-${i}"]:checked`)?.value;_chkRow(`p7-ex4-row-${i}`,`p7-ex4-fb-${i}`,u===ans,reveal?LBL.p7.ex4[i]:'',reveal);});
+    ['help','ignore','try','enjoy','talk','contact'].forEach((ans,i)=>{const u=(document.getElementById(`p5-vocab-${i}`)?.value||'').trim().toLowerCase();_chkRow(`p5-vocab-row-${i}`,`p5-vocab-fb-${i}`,u===ans,reveal?ans:'',reveal);});
+  }
+  else if(n===6){
+    const colAK=['e','d','c','b','a','g','f','i','j','h'];
+    colAK.forEach((ans,i)=>{const u=document.getElementById(`p6-ex5c-${i}`)?.value;_chkRow(`p6-ex5c-row-${i}`,`p6-ex5c-fb-${i}`,u===ans,reveal?ans:'',reveal);});
+  }
+  else if(n===8){
+    // Linking phrases
+    const lkAK=['however','for that reason','indeed','for instance'];
+    lkAK.forEach((ans,i)=>{const u=document.getElementById(`p8-ex4-${i}`)?.value;_chkRow(`p8-ex4-row-${i}`,`p8-ex4-fb-${i}`,u===ans,reveal?ans:'',reveal);});
+    // Ex5 Nellie – circle ending a/b (auto-graded)
+    AK.p8new.nb5.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p11-ex5-${i}"]:checked`)?.value;
+      _chkRow(`p11-ex5-row-${i}`,`p11-ex5-fb-${i}`,u===ans,reveal?ans.toUpperCase():'',reveal);
+    });
+    // Ex8 T/F world trip (auto-graded)
+    AK.p8new.nb8.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p11-ex8-${i}"]:checked`)?.value;
+      _chkRow(`p11-ex8-row-${i}`,`p11-ex8-fb-${i}`,u===ans,reveal?ans:'',reveal);
+    });
+  }
+  else if(n===9){
+    const vocAK=['era','apathetic','straight','peers','quick fix','foolish','the norm','lethargic'];
+    vocAK.forEach((ans,i)=>{const u=document.getElementById('p10v-'+i)?.value||'';_chkRow('p10v-row-'+i,'p10v-fb-'+i,u===ans,reveal?ans:'',reveal);});
+  }
+  else if(n===12){
+    const u1=document.querySelector('input[name="et1-ex3r"]:checked')?.value;
+    _chkRow('et1-ex3-row','et1-ex3-fb',u1==='c',reveal?'C – caused problems she did not see at the time':'',reveal);
+    const u3=document.querySelector('input[name="et3-ex3r"]:checked')?.value;
+    _chkRow('et3-ex3-row','et3-ex3-fb',u3==='a',reveal?'A – taking some time off':'',reveal);
+    const u4=document.querySelector('input[name="et4-ex3r"]:checked')?.value;
+    _chkRow('et4-ex3-row','et4-ex3-fb',u4==='b',reveal?'B – loyalty':'',reveal);
+  }
+  else if(n===10){
+    // Ex4 voicemail (auto-graded)
+    const vm4lbl=['will/won't','can/can't','is/isn't','has/hasn't'];
+    AK.p10new.vm4.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex4-${i}"]:checked`)?.value;
+      _chkRow(`p9-ex4-row-${i}`,`p9-ex4-fb-${i}`,u===ans,reveal?(ans==='a'?'First':'Second'):'',reveal);
+    });
+    // Ex5 cables MCQ (auto-graded)
+    AK.p10new.mc5.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex5-${i}"]:checked`)?.value;
+      _chkRow(`p9-ex5-row-${i}`,`p9-ex5-fb-${i}`,u===ans,reveal?ans.toUpperCase():'',reveal);
+    });
+  }
+  else if(n===11){
+    // Ex5b airport MCQ (auto-graded)
+    AK.p11new.mc5b.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex5b-${i}"]:checked`)?.value;
+      _chkRow(`p9-ex5b-row-${i}`,`p9-ex5b-fb-${i}`,u===ans,reveal?ans.toUpperCase():'',reveal);
+    });
+  }
+  // For purely self-assess practices (2,4,7): just flash a message
+  else {
+    const msg=document.createElement('div');
+    msg.style.cssText='position:fixed;bottom:20px;right:20px;background:#1f2937;color:#fff;padding:10px 18px;border-radius:10px;font-size:.82rem;z-index:9999';
+    msg.textContent='Bài này tự đánh giá – không có đáp án tự động.';
+    document.body.appendChild(msg);setTimeout(()=>msg.remove(),2500);
+  }
+  if(!reveal&&att.length===0){
+    const msg=document.createElement('div');
+    msg.style.cssText='position:fixed;bottom:20px;right:20px;background:#7c3aed;color:#fff;padding:10px 18px;border-radius:10px;font-size:.82rem;z-index:9999';
+    msg.textContent='Làm đạt ≥80% rồi Submit để xem đáp án đúng.';
+    document.body.appendChild(msg);setTimeout(()=>msg.remove(),2800);
+  } else if(!reveal&&att.length>0){
+    const best=Math.max(...att.map(a=>a.pct));
+    if(best<80){const msg=document.createElement('div');msg.style.cssText='position:fixed;bottom:20px;right:20px;background:#7c3aed;color:#fff;padding:10px 18px;border-radius:10px;font-size:.82rem;z-index:9999';msg.textContent=`Điểm cao nhất: ${best}%. Cần ≥80% để xem đáp án.`;document.body.appendChild(msg);setTimeout(()=>msg.remove(),2800);}
+  }
+}
+
+function confirmAndSubmit(n){
+  if(!confirm('Bạn đã làm xong tất cả câu hỏi chưa?\nBấm OK để nộp bài.'))return;
+  submitPractice(n);
+}
 function submitPractice(n){
   let score=0,max=0;
   const mistakes=[];
@@ -1475,20 +1664,15 @@ function submitPractice(n){
     AK.p2.ex5.forEach((_,i)=>{
       const u=document.querySelector(`input[name="p2-ex5-${i}"]:checked`);
       const fb=document.getElementById(`p2-ex5-fb-${i}`);
-      if(fb)fb.innerHTML=u?`<span style="color:#6b7280;font-size:.8rem">✔ Answered: ${u.value} – check against audio/transcript</span>`:'<span class="fw">No answer</span>';
+      if(fb)fb.innerHTML=u?`<span style="color:#6b7280;font-size:.8rem">✔ Chọn: <strong>${u.value}</strong> – so sánh với transcript</span>`:'<span class="fw">Chưa trả lời</span>';
       score+=(u?1:0);max++;
     });
+    // Ex6 speaker purpose – fully auto-graded (1=b, 2=c, 3=a, 4=d)
     AK.p2.ex6.forEach((ans,i)=>{
       const u=document.querySelector(`input[name="p2-ex6-${i}"]:checked`)?.value;
-      if(ans!==null){
-        const ok=u===ans;
-        score+=markRow(`p2-ex6-row-${i}`,`p2-ex6-fb-${i}`,ok,LBL.p2.ex6[i]||ans);max++;
-        if(!ok)mistakes.push(`P2 Ex6 Speaker ${i+1}: "${u||'(blank)'}" – Correct: ${ans}`);
-      }else{
-        const fb=document.getElementById(`p2-ex6-fb-${i}`);
-        if(fb)fb.innerHTML=u?`<span style="color:#6b7280;font-size:.8rem">✔ Answered: ${u} – verify with audio</span>`:'<span class="fw">No answer</span>';
-        score+=(u?1:0);max++;
-      }
+      const ok=u===ans;
+      score+=markRow(`p2-ex6-row-${i}`,`p2-ex6-fb-${i}`,ok,ans.toUpperCase());max++;
+      if(!ok)mistakes.push(`P2 Ex6 Speaker ${i+1}: Correct: ${ans.toUpperCase()}`);
     });
   }
 
@@ -1584,7 +1768,7 @@ function submitPractice(n){
     // P8: Unit 7 – Journalism / Nellie Bly
     // Ex2 article (self-assess)
     score+=parseInt(document.querySelector('input[name="p8-ex2r"]:checked')?.value||'0');max+=3;
-    // Ex4 linking phrases (scored – a=however, b=for that reason, c=indeed, d=for instance)
+    // Ex4 linking phrases (scored)
     const lkAK=['however','for that reason','indeed','for instance'];
     const lkLbl=['contrast','result','emphasis','example'];
     lkAK.forEach((ans,i)=>{
@@ -1593,11 +1777,27 @@ function submitPractice(n){
       score+=markRow(`p8-ex4-row-${i}`,`p8-ex4-fb-${i}`,ok,ans);max++;
       if(!ok)mistakes.push(`P8 Ex4 ${lkLbl[i]}: Correct: ${ans}`);
     });
+    // Ex3 Nellie qualities: self-assess
     score+=parseInt(document.querySelector('input[name="p11-ex3r"]:checked')?.value||'0');max+=3;
-    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p11-ex5r-${i}"]:checked`)?.value||'0');max+=3;}
+    // Ex5 Nellie – circle ending a/b (NOW AUTO-GRADED)
+    AK.p8new.nb5.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p11-ex5-${i}"]:checked`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p11-ex5-row-${i}`,`p11-ex5-fb-${i}`,ok,ans==='a'?'a. ending':'b. ending');max++;
+      if(!ok)mistakes.push(`P8 Ex5 Q${i+1}: Correct ending: ${ans.toUpperCase()}`);
+    });
+    // Ex6 self-check
     score+=parseInt(document.querySelector('input[name="p11-ex6r"]:checked')?.value||'0');max+=3;
+    // Ex7 place names: self-assess
     for(let i=0;i<3;i++){score+=parseInt(document.querySelector(`input[name="p11-ex7r-${i}"]:checked`)?.value||'0');max+=3;}
-    for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p11-ex8r-${i}"]:checked`)?.value||'0');max+=3;}
+    // Ex8 T/F world trip (NOW AUTO-GRADED)
+    AK.p8new.nb8.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p11-ex8-${i}"]:checked`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p11-ex8-row-${i}`,`p11-ex8-fb-${i}`,ok,ans);max++;
+      if(!ok)mistakes.push(`P8 Ex8 Q${i+1}: Correct: ${ans}`);
+    });
+    // Ex9 open reflection: self-assess
     score+=parseInt(document.querySelector('input[name="p11-ex9r"]:checked')?.value||'0');max+=3;
   }
 
@@ -1620,17 +1820,41 @@ function submitPractice(n){
 
   else if(n===10){
     // P10: Unit 8 – Communication (Undersea Cables 3.13–3.15)
+    // Ex2 gist – self-assess
     score+=parseInt(document.querySelector('input[name="p9-ex2r"]:checked')?.value||'0');max+=3;
+    // Ex3 numbers significance – self-assess
     for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex3r-${i}"]:checked`)?.value||'0');max+=3;}
-    for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex4r-${i}"]:checked`)?.value||'0');max+=3;}
-    for(let i=0;i<5;i++){score+=parseInt(document.querySelector(`input[name="p9-ex5r-${i}"]:checked`)?.value||'0');max+=3;}
+    // Ex4 voicemail first/second (NOW AUTO-GRADED)
+    {const vm4lbl=['will/won't','can/can't','is/isn't','has/hasn't'];
+    AK.p10new.vm4.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex4-${i}"]:checked`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p9-ex4-row-${i}`,`p9-ex4-fb-${i}`,ok,ans==='a'?'First word':'Second word');max++;
+      if(!ok)mistakes.push(`P10 Ex4 Q${i+1} (${vm4lbl[i]}): Correct: ${ans==='a'?'First':'Second'}`);
+    });}
+    // Ex5 cables MCQ (NOW AUTO-GRADED)
+    AK.p10new.mc5.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex5-${i}"]:checked`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p9-ex5-row-${i}`,`p9-ex5-fb-${i}`,ok,ans.toUpperCase());max++;
+      if(!ok)mistakes.push(`P10 Ex5 Q${i+1}: Correct: ${ans.toUpperCase()}`);
+    });
   }
 
   else if(n===11){
     // P11: Unit 9 – Travel Solutions (3.24–3.26)
+    // Ex6 who/what is it – self-assess
     for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p9-ex6r-${i}"]:checked`)?.value||'0');max+=3;}
+    // Ex4b formal/informal – self-assess (answers need teacher verification)
     for(let i=0;i<6;i++){score+=parseInt(document.querySelector(`input[name="p9-ex4br-${i}"]:checked`)?.value||'0');max+=3;}
-    for(let i=0;i<4;i++){score+=parseInt(document.querySelector(`input[name="p9-ex5br-${i}"]:checked`)?.value||'0');max+=3;}
+    // Ex5b airport MCQ (NOW AUTO-GRADED)
+    AK.p11new.mc5b.forEach((ans,i)=>{
+      const u=document.querySelector(`input[name="p9-ex5b-${i}"]:checked`)?.value;
+      const ok=u===ans;
+      score+=markRow(`p9-ex5b-row-${i}`,`p9-ex5b-fb-${i}`,ok,ans.toUpperCase());max++;
+      if(!ok)mistakes.push(`P11 Ex5b Q${i+1}: Correct: ${ans.toUpperCase()}`);
+    });
+    // Ex7 formal words check – self-assess
     score+=parseInt(document.querySelector('input[name="p11fmlr"]:checked')?.value||'0');max+=3;
     score+=parseInt(document.querySelector('input[name="p9-ex7r"]:checked')?.value||'0');max+=3;
   }
@@ -1679,6 +1903,8 @@ function renderScoreArea(n,score,max){
   let h=`<div class="scorebox"><div><div class="scmain">${score}<span style="font-size:1rem;color:#6b7280"> / ${max}</span></div><div class="sclabel">Practice ${n} Score</div></div><span class="scpct ${cls}">${pct}%</span></div>`;
   if(att.length>1){h+=`<div class="ath"><h4>All Attempts</h4><div class="atl">`;att.forEach((a,i)=>{const p=a.max>0?Math.round(a.score/a.max*100):0;h+=`<div class="chip">Attempt ${i+1}: <span class="cs">${a.score}/${a.max} (${p}%)</span> · ${a.date}</div>`;});h+=`</div></div>`;}
   document.getElementById(`p${n}-score-area`).innerHTML=h;
+  const _sa=document.getElementById(`p${n}-score-area`);
+  if(_sa)setTimeout(()=>_sa.scrollIntoView({behavior:'smooth',block:'center'}),80);
 }
 
 function redoPractice(n){
@@ -1832,7 +2058,11 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 function goHome(){showScreen('home');updatePGrid();}
-function goTo(n){showScreen(n);if(n>=1&&n<=12){_startTimer(n);}else{_stopTimer();}}
+function goTo(n){
+  showScreen(n);
+  document.querySelectorAll('.tb-tab').forEach((b,i)=>b.classList.toggle('tb-active',i+1===n));
+  if(n>=1&&n<=12){_startTimer(n);}else{_stopTimer();}
+}
 function goToResults(){_stopTimer();showScreen('results');renderResults();}
 function resetAllData(){
   if(!confirm('Reset ALL attempts and student info? This cannot be undone.'))return;
@@ -1854,11 +2084,21 @@ function updatePGrid(){
   }).join('');
 }
 
-function saveStudentInfo(){try{localStorage.setItem('lp3-name',document.getElementById('student-name').value);localStorage.setItem('lp3-email',document.getElementById('student-email').value);}catch(e){}_updateAllSbars();}
-function loadStudentInfo(){/* fields always start blank so each student enters their own info */}
+function saveStudentInfo(){
+  try{
+    localStorage.setItem('lp3-name',document.getElementById('student-name').value);
+    localStorage.setItem('lp3-email',document.getElementById('student-email').value);
+  }catch(e){}
+  loadAttempts(); // reload saved attempts for this email
+  updatePGrid();
+  _updateAllSbars();
+}
+function loadStudentInfo(){/* fields start blank — student enters email first, then loadAttempts() is called */}
 function getStudentName(){return(document.getElementById('student-name')||{value:''}).value.trim()||'(Unknown)';}
 function getStudentEmail(){return(document.getElementById('student-email')||{value:''}).value.trim();}
-function saveAttempts(){try{localStorage.setItem('lp3-attempts',JSON.stringify(attempts));}catch(e){}}
+function _attKey(){const em=getStudentEmail();return em?'lp3-attempts-'+em:'lp3-attempts';}
+function saveAttempts(){try{localStorage.setItem(_attKey(),JSON.stringify(attempts));}catch(e){}}
+function loadAttempts(){try{const d=localStorage.getItem(_attKey());if(d)attempts=JSON.parse(d);}catch(e){}}
 
 function buildP12(){
   // // ── Exam Trainer 1 ──
@@ -1911,13 +2151,33 @@ function buildP12(){
   (()=>{
     // ET5: nothing to build – summary gaps already in HTML
   })();
+
+  // ET5 Ex4: reveal answer key after submit
+  (()=>{
+    const et5ak=['1 – <strong>experienced</strong>','2 – <strong>well-known</strong>',
+      '3 – <strong>has been</strong>','4 – <strong>takes</strong>',
+      '5 – <strong>based on</strong>','6 – <strong>listening to</strong>'];
+    const el=document.getElementById('et5-ex4-ak');
+    if(el)el.innerHTML='<div style="margin-top:10px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;font-size:.83rem"><strong>📋 Answer Key – Summary gaps:</strong><ol style="margin:6px 0 0 1.2rem;line-height:1.9">'+et5ak.map(a=>`<li>${a}</li>`).join('')+'</ol></div>';
+  })();
+
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
   buildP1();buildP2();buildP3();buildP4();buildP5();
   buildP6();buildP7();buildP8();buildP9();buildP10();buildP11();buildP12();
   updatePGrid();loadStudentInfo();_injectExtras();
+  setInterval(saveAttempts,10000);
+  goTo(1); // start directly on Practice 1
 });
+
+// ── AUDIO EXCLUSIVITY ─────────────────────────────────────────────
+document.addEventListener('play', function(e){
+  if(e.target.tagName==='AUDIO'){
+    document.querySelectorAll('audio').forEach(a=>{if(a!==e.target)a.pause();});
+  }
+}, true);
+
 </script>
 </body>
 </html>
