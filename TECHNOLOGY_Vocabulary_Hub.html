@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Technology Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · TECHNOLOGY</div>
+  <h1>Technology — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "Devices & Hardware", "sub": "Gadgets · parts of a computer", "groups": [{"name": "Devices & Gadgets", "words": [{"w": "smartphone", "vi": "điện thoại thông minh", "ex": "the latest smartphone"}, {"w": "laptop", "vi": "máy tính xách tay", "ex": "a lightweight laptop"}, {"w": "tablet", "vi": "máy tính bảng", "ex": "read on a tablet"}, {"w": "smartwatch", "vi": "đồng hồ thông minh", "ex": "a fitness smartwatch"}, {"w": "wearable device", "vi": "thiết bị đeo", "ex": "a wearable device"}, {"w": "gadget", "vi": "thiết bị công nghệ nhỏ", "ex": "the newest gadget"}, {"w": "router", "vi": "bộ định tuyến (mạng)", "ex": "reset the router"}, {"w": "charger", "vi": "bộ sạc", "ex": "a fast charger"}, {"w": "headset", "vi": "tai nghe (có mic)", "ex": "a wireless headset"}, {"w": "drone", "vi": "máy bay không người lái", "ex": "fly a drone"}, {"w": "console", "vi": "máy chơi game", "ex": "a games console"}, {"w": "appliance", "vi": "thiết bị gia dụng", "ex": "smart home appliances"}]}, {"name": "Parts of a Computer", "words": [{"w": "hardware", "vi": "phần cứng", "ex": "upgrade the hardware"}, {"w": "processor / CPU", "vi": "bộ xử lý", "ex": "a fast processor"}, {"w": "memory / RAM", "vi": "bộ nhớ (RAM)", "ex": "add more memory"}, {"w": "hard drive", "vi": "ổ cứng", "ex": "a 1TB hard drive"}, {"w": "screen / display", "vi": "màn hình", "ex": "a high-resolution display"}, {"w": "keyboard", "vi": "bàn phím", "ex": "a mechanical keyboard"}, {"w": "touchscreen", "vi": "màn hình cảm ứng", "ex": "a responsive touchscreen"}, {"w": "battery", "vi": "pin", "ex": "a long battery life"}, {"w": "webcam", "vi": "camera máy tính", "ex": "a built-in webcam"}, {"w": "port", "vi": "cổng kết nối", "ex": "a USB port"}]}]}, {"letter": "B", "title": "Software & Internet", "sub": "Software & apps · the internet", "groups": [{"name": "Software & Apps", "words": [{"w": "software", "vi": "phần mềm", "ex": "install new software"}, {"w": "application / app", "vi": "ứng dụng", "ex": "download an app"}, {"w": "operating system", "vi": "hệ điều hành", "ex": "update the operating system"}, {"w": "program", "vi": "chương trình", "ex": "run a program"}, {"w": "update", "vi": "bản cập nhật", "ex": "a software update"}, {"w": "upgrade", "vi": "nâng cấp", "ex": "upgrade to the pro version"}, {"w": "bug", "vi": "lỗi phần mềm", "ex": "fix a bug"}, {"w": "interface", "vi": "giao diện", "ex": "a user-friendly interface"}, {"w": "feature", "vi": "tính năng", "ex": "a handy feature"}, {"w": "plug-in", "vi": "tiện ích mở rộng", "ex": "a browser plug-in"}, {"w": "open-source", "vi": "mã nguồn mở", "ex": "open-source software"}, {"w": "user-friendly", "vi": "dễ sử dụng", "ex": "a user-friendly app"}]}, {"name": "The Internet", "words": [{"w": "browser", "vi": "trình duyệt", "ex": "open the browser"}, {"w": "search engine", "vi": "công cụ tìm kiếm", "ex": "a search engine"}, {"w": "website", "vi": "trang web", "ex": "visit a website"}, {"w": "web page", "vi": "trang (trong web)", "ex": "load a web page"}, {"w": "link", "vi": "đường dẫn, liên kết", "ex": "click the link"}, {"w": "bandwidth", "vi": "băng thông", "ex": "limited bandwidth"}, {"w": "Wi-Fi", "vi": "mạng Wi-Fi", "ex": "connect to Wi-Fi"}, {"w": "network", "vi": "mạng lưới", "ex": "a home network"}, {"w": "cloud storage", "vi": "lưu trữ đám mây", "ex": "use cloud storage"}, {"w": "download", "vi": "tải xuống", "ex": "download a file"}, {"w": "upload", "vi": "tải lên", "ex": "upload a video"}, {"w": "stream", "vi": "phát trực tuyến", "ex": "stream a movie"}]}]}, {"letter": "C", "title": "Digital Life", "sub": "Online activities · social media", "groups": [{"name": "Online Activities", "words": [{"w": "go online", "vi": "lên mạng", "ex": "go online for a while"}, {"w": "surf the web", "vi": "lướt web", "ex": "surf the web"}, {"w": "log in / log on", "vi": "đăng nhập", "ex": "log in to your account"}, {"w": "log out", "vi": "đăng xuất", "ex": "log out when finished"}, {"w": "sign up", "vi": "đăng ký (tài khoản)", "ex": "sign up for free"}, {"w": "browse", "vi": "duyệt (web)", "ex": "browse online stores"}, {"w": "online banking", "vi": "ngân hàng trực tuyến", "ex": "use online banking"}, {"w": "e-commerce", "vi": "thương mại điện tử", "ex": "the rise of e-commerce"}, {"w": "online shopping", "vi": "mua sắm trực tuyến", "ex": "online shopping"}, {"w": "video call", "vi": "gọi video", "ex": "make a video call"}]}, {"name": "Social Media & Content", "words": [{"w": "social media", "vi": "mạng xã hội", "ex": "spend hours on social media"}, {"w": "post", "vi": "đăng bài", "ex": "post a photo"}, {"w": "share", "vi": "chia sẻ", "ex": "share a link"}, {"w": "like", "vi": "thích (bấm like)", "ex": "get lots of likes"}, {"w": "follower", "vi": "người theo dõi", "ex": "thousands of followers"}, {"w": "hashtag", "vi": "thẻ hashtag", "ex": "use a hashtag"}, {"w": "go viral", "vi": "lan truyền chóng mặt", "ex": "the clip went viral"}, {"w": "influencer", "vi": "người có ảnh hưởng", "ex": "a social media influencer"}, {"w": "profile", "vi": "hồ sơ cá nhân", "ex": "update your profile"}, {"w": "newsfeed", "vi": "bảng tin", "ex": "scroll the newsfeed"}, {"w": "notification", "vi": "thông báo", "ex": "turn off notifications"}, {"w": "emoji", "vi": "biểu tượng cảm xúc", "ex": "add an emoji"}]}]}, {"letter": "D", "title": "Data & Security", "sub": "Data & storage · cyber security", "groups": [{"name": "Data & Storage", "words": [{"w": "data", "vi": "dữ liệu", "ex": "store data safely"}, {"w": "file", "vi": "tập tin", "ex": "save the file"}, {"w": "folder", "vi": "thư mục", "ex": "organise into folders"}, {"w": "back up", "vi": "sao lưu", "ex": "back up your data"}, {"w": "the cloud", "vi": "đám mây (lưu trữ)", "ex": "stored in the cloud"}, {"w": "database", "vi": "cơ sở dữ liệu", "ex": "a customer database"}, {"w": "storage", "vi": "dung lượng lưu trữ", "ex": "run out of storage"}, {"w": "sync", "vi": "đồng bộ hóa", "ex": "sync across devices"}, {"w": "big data", "vi": "dữ liệu lớn", "ex": "analyse big data"}, {"w": "server", "vi": "máy chủ", "ex": "a cloud server"}]}, {"name": "Cyber Security", "words": [{"w": "password", "vi": "mật khẩu", "ex": "a strong password"}, {"w": "username", "vi": "tên đăng nhập", "ex": "enter your username"}, {"w": "encryption", "vi": "mã hóa", "ex": "end-to-end encryption"}, {"w": "firewall", "vi": "tường lửa", "ex": "set up a firewall"}, {"w": "antivirus", "vi": "phần mềm diệt virus", "ex": "antivirus software"}, {"w": "malware", "vi": "phần mềm độc hại", "ex": "block malware"}, {"w": "virus", "vi": "virus máy tính", "ex": "a computer virus"}, {"w": "hacker", "vi": "tin tặc", "ex": "a group of hackers"}, {"w": "phishing", "vi": "lừa đảo qua mạng (giả mạo)", "ex": "a phishing email"}, {"w": "data breach", "vi": "rò rỉ dữ liệu", "ex": "a major data breach"}, {"w": "two-factor authentication", "vi": "xác thực hai lớp", "ex": "enable two-factor authentication"}, {"w": "cyber attack", "vi": "tấn công mạng", "ex": "a cyber attack"}]}]}, {"letter": "E", "title": "Emerging Tech", "sub": "AI · robotics & innovation", "groups": [{"name": "AI & Automation", "words": [{"w": "artificial intelligence (AI)", "vi": "trí tuệ nhân tạo", "ex": "powered by AI"}, {"w": "machine learning", "vi": "học máy", "ex": "a machine learning model"}, {"w": "algorithm", "vi": "thuật toán", "ex": "a recommendation algorithm"}, {"w": "automation", "vi": "tự động hóa", "ex": "factory automation"}, {"w": "robot", "vi": "người máy", "ex": "an industrial robot"}, {"w": "robotics", "vi": "ngành robot", "ex": "advances in robotics"}, {"w": "chatbot", "vi": "trợ lý ảo chatbot", "ex": "talk to a chatbot"}, {"w": "virtual assistant", "vi": "trợ lý ảo", "ex": "a voice virtual assistant"}, {"w": "self-driving car", "vi": "xe tự lái", "ex": "a self-driving car"}, {"w": "facial recognition", "vi": "nhận diện khuôn mặt", "ex": "facial recognition"}]}, {"name": "Innovation & Trends", "words": [{"w": "innovation", "vi": "sự đổi mới", "ex": "technological innovation"}, {"w": "breakthrough", "vi": "đột phá", "ex": "a scientific breakthrough"}, {"w": "cutting-edge", "vi": "tiên tiến nhất", "ex": "cutting-edge technology"}, {"w": "state-of-the-art", "vi": "hiện đại nhất", "ex": "a state-of-the-art lab"}, {"w": "virtual reality (VR)", "vi": "thực tế ảo", "ex": "a virtual reality headset"}, {"w": "augmented reality (AR)", "vi": "thực tế tăng cường", "ex": "an augmented reality app"}, {"w": "3D printing", "vi": "in 3D", "ex": "3D printing"}, {"w": "blockchain", "vi": "chuỗi khối", "ex": "blockchain technology"}, {"w": "cryptocurrency", "vi": "tiền mã hóa", "ex": "invest in cryptocurrency"}, {"w": "the Internet of Things (IoT)", "vi": "Internet vạn vật", "ex": "the Internet of Things"}]}]}, {"letter": "F", "title": "Using Technology", "sub": "Actions & processes · problems", "groups": [{"name": "Actions & Processes", "words": [{"w": "install", "vi": "cài đặt", "ex": "install the app"}, {"w": "uninstall", "vi": "gỡ cài đặt", "ex": "uninstall the program"}, {"w": "set up", "vi": "thiết lập", "ex": "set up a new phone"}, {"w": "configure", "vi": "cấu hình", "ex": "configure the settings"}, {"w": "connect", "vi": "kết nối", "ex": "connect to the network"}, {"w": "pair", "vi": "ghép nối (bluetooth)", "ex": "pair the earbuds"}, {"w": "reboot / restart", "vi": "khởi động lại", "ex": "reboot the computer"}, {"w": "charge", "vi": "sạc", "ex": "charge the battery"}, {"w": "swipe", "vi": "vuốt (màn hình)", "ex": "swipe left"}, {"w": "tap", "vi": "chạm", "ex": "tap the icon"}, {"w": "scroll", "vi": "cuộn (màn hình)", "ex": "scroll down"}, {"w": "customise", "vi": "tùy chỉnh", "ex": "customise the layout"}]}, {"name": "Problems & Fixes", "words": [{"w": "crash", "vi": "treo, sập (phần mềm)", "ex": "the app keeps crashing"}, {"w": "freeze", "vi": "đơ, treo máy", "ex": "the screen froze"}, {"w": "glitch", "vi": "trục trặc nhỏ", "ex": "a minor glitch"}, {"w": "lag", "vi": "độ trễ, giật lag", "ex": "annoying lag"}, {"w": "buffer", "vi": "tải đệm (video)", "ex": "the video keeps buffering"}, {"w": "run out of battery", "vi": "hết pin", "ex": "run out of battery"}, {"w": "out of date", "vi": "lỗi thời", "ex": "the software is out of date"}, {"w": "troubleshoot", "vi": "khắc phục sự cố", "ex": "troubleshoot the problem"}, {"w": "factory reset", "vi": "khôi phục cài đặt gốc", "ex": "do a factory reset"}, {"w": "compatible", "vi": "tương thích", "ex": "compatible with your device"}]}]}, {"letter": "G", "title": "Tech & Society", "sub": "Benefits · problems & impact", "groups": [{"name": "Benefits", "words": [{"w": "convenient", "vi": "tiện lợi", "ex": "fast and convenient"}, {"w": "efficient", "vi": "hiệu quả", "ex": "efficient and reliable"}, {"w": "productivity", "vi": "năng suất", "ex": "boost productivity"}, {"w": "time-saving", "vi": "tiết kiệm thời gian", "ex": "time-saving apps"}, {"w": "connectivity", "vi": "khả năng kết nối", "ex": "global connectivity"}, {"w": "accessible", "vi": "dễ tiếp cận", "ex": "accessible to everyone"}, {"w": "paperless", "vi": "không dùng giấy", "ex": "a paperless office"}, {"w": "remote working", "vi": "làm việc từ xa", "ex": "enable remote working"}, {"w": "digital literacy", "vi": "hiểu biết công nghệ số", "ex": "improve digital literacy"}, {"w": "empower", "vi": "trao quyền, tiếp sức", "ex": "technology empowers users"}]}, {"name": "Problems & Impact", "words": [{"w": "screen addiction", "vi": "nghiện màn hình", "ex": "screen addiction"}, {"w": "digital divide", "vi": "khoảng cách số", "ex": "the digital divide"}, {"w": "privacy concerns", "vi": "lo ngại về quyền riêng tư", "ex": "privacy concerns"}, {"w": "surveillance", "vi": "sự giám sát", "ex": "mass surveillance"}, {"w": "misinformation", "vi": "thông tin sai lệch", "ex": "spread misinformation"}, {"w": "cyberbullying", "vi": "bắt nạt trên mạng", "ex": "tackle cyberbullying"}, {"w": "job displacement", "vi": "mất việc do tự động hóa", "ex": "job displacement"}, {"w": "information overload", "vi": "quá tải thông tin", "ex": "information overload"}, {"w": "technophobia", "vi": "nỗi sợ công nghệ", "ex": "technophobia"}, {"w": "dependence on technology", "vi": "sự lệ thuộc công nghệ", "ex": "dependence on technology"}]}]}, {"letter": "H", "title": "Describing Technology", "sub": "Positive & negative descriptions", "groups": [{"name": "Positive Descriptions", "words": [{"w": "high-tech", "vi": "công nghệ cao", "ex": "a high-tech device"}, {"w": "advanced", "vi": "tiên tiến", "ex": "advanced technology"}, {"w": "innovative", "vi": "đổi mới, sáng tạo", "ex": "an innovative product"}, {"w": "reliable", "vi": "đáng tin cậy", "ex": "reliable software"}, {"w": "intuitive", "vi": "trực quan, dễ dùng", "ex": "an intuitive interface"}, {"w": "seamless", "vi": "liền mạch, mượt", "ex": "a seamless experience"}, {"w": "wireless", "vi": "không dây", "ex": "wireless earbuds"}, {"w": "portable", "vi": "gọn nhẹ, di động", "ex": "a portable charger"}, {"w": "smart", "vi": "thông minh", "ex": "a smart device"}, {"w": "groundbreaking", "vi": "mang tính đột phá", "ex": "groundbreaking research"}]}, {"name": "Negative Descriptions", "words": [{"w": "outdated / obsolete", "vi": "lỗi thời", "ex": "obsolete technology"}, {"w": "faulty", "vi": "bị lỗi", "ex": "a faulty device"}, {"w": "unreliable", "vi": "không đáng tin", "ex": "unreliable software"}, {"w": "glitchy", "vi": "hay trục trặc", "ex": "a glitchy app"}, {"w": "incompatible", "vi": "không tương thích", "ex": "incompatible formats"}, {"w": "intrusive", "vi": "xâm phạm (riêng tư)", "ex": "intrusive tracking"}, {"w": "addictive", "vi": "gây nghiện", "ex": "addictive apps"}, {"w": "clunky", "vi": "cồng kềnh, khó dùng", "ex": "a clunky interface"}, {"w": "vulnerable", "vi": "dễ bị tấn công", "ex": "vulnerable to hackers"}, {"w": "overpriced", "vi": "giá quá cao", "ex": "an overpriced gadget"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Tech idioms · collocations", "groups": [{"name": "Tech Idioms & Expressions", "words": [{"w": "ahead of the curve", "vi": "đi trước thời đại", "ex": "stay ahead of the curve"}, {"w": "cutting-edge", "vi": "tối tân, tiên phong", "ex": "cutting-edge tech"}, {"w": "a tech-savvy person", "vi": "người rành công nghệ", "ex": "a tech-savvy teenager"}, {"w": "plug and play", "vi": "cắm là chạy", "ex": "a plug-and-play device"}, {"w": "teething problems", "vi": "trục trặc ban đầu", "ex": "the usual teething problems"}, {"w": "crash and burn", "vi": "thất bại thảm hại", "ex": "the launch crashed and burned"}, {"w": "go offline", "vi": "ngắt kết nối, offline", "ex": "go offline for the weekend"}, {"w": "digital detox", "vi": "cai nghiện thiết bị số", "ex": "a weekend digital detox"}, {"w": "the digital age", "vi": "thời đại số", "ex": "in the digital age"}, {"w": "bells and whistles", "vi": "tính năng phụ hào nhoáng", "ex": "full of bells and whistles"}, {"w": "push the envelope", "vi": "vượt giới hạn, đột phá", "ex": "push the technological envelope"}, {"w": "future-proof", "vi": "bền vững trước tương lai", "ex": "future-proof your skills"}]}, {"name": "Common Collocations", "words": [{"w": "browse the internet", "vi": "lướt internet", "ex": "browse the internet"}, {"w": "send an email", "vi": "gửi email", "ex": "send an email"}, {"w": "charge your phone", "vi": "sạc điện thoại", "ex": "charge your phone overnight"}, {"w": "install an app", "vi": "cài đặt ứng dụng", "ex": "install a new app"}, {"w": "back up your data", "vi": "sao lưu dữ liệu", "ex": "back up your data regularly"}, {"w": "run software", "vi": "chạy phần mềm", "ex": "run the software"}, {"w": "update the system", "vi": "cập nhật hệ thống", "ex": "update the system"}, {"w": "access the internet", "vi": "truy cập internet", "ex": "access the internet"}, {"w": "protect your privacy", "vi": "bảo vệ quyền riêng tư", "ex": "protect your privacy online"}, {"w": "keep up with technology", "vi": "bắt kịp công nghệ", "ex": "keep up with technology"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Devices, Internet & Innovation`;
+$('foot').innerHTML = 'POLARIS · Technology — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
