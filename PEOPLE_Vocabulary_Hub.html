@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · People Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · UNIT 1</div>
+  <h1>People — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "Basic Information", "sub": "Countries · Nationalities · Jobs", "groups": [{"name": "Countries & Nationalities", "words": [{"w": "Afghan / Afghani", "vi": "Afghanistan", "ex": "an Afghan citizen, the Afghan government"}, {"w": "Argentine / Argentinian", "vi": "Argentina", "ex": "Argentine cuisine, an Argentinian passport"}, {"w": "Australian", "vi": "Australia", "ex": "an Australian accent, Australian rules football"}, {"w": "Brazilian", "vi": "Brazil", "ex": "Brazilian Portuguese, a Brazilian visa"}, {"w": "Cambodian", "vi": "Cambodia", "ex": "Cambodian temples, a Cambodian student"}, {"w": "Canadian", "vi": "Canada", "ex": "Canadian French, a Canadian citizen"}, {"w": "Chinese", "vi": "China", "ex": "Chinese Mandarin, Chinese cuisine"}, {"w": "Egyptian", "vi": "Egypt", "ex": "Egyptian Arabic, an Egyptian passport"}, {"w": "French", "vi": "France", "ex": "French culture, a French speaker"}, {"w": "German", "vi": "Germany", "ex": "German engineering, a German visa"}, {"w": "Indian", "vi": "India", "ex": "Indian English, an Indian passport"}, {"w": "Indonesian", "vi": "Indonesia", "ex": "Indonesian Bahasa, an Indonesian island"}, {"w": "Italian", "vi": "Italy", "ex": "Italian cuisine, an Italian speaker"}, {"w": "Japanese", "vi": "Japan", "ex": "Japanese culture, a Japanese visa"}, {"w": "Lao / Laotian", "vi": "Laos", "ex": "a Lao citizen, Laotian food"}, {"w": "Malaysian", "vi": "Malaysia", "ex": "Malaysian Ringgit, a Malaysian passport"}, {"w": "Mexican", "vi": "Mexico", "ex": "Mexican Spanish, Mexican cuisine"}, {"w": "Burmese", "vi": "Myanmar", "ex": "a Burmese citizen, Myanmar culture"}, {"w": "Dutch", "vi": "the Netherlands", "ex": "Dutch tulips, a Dutch passport"}, {"w": "New Zealander / Kiwi", "vi": "New Zealand", "ex": "a New Zealand passport, a Kiwi accent"}, {"w": "Filipino / Filipina", "vi": "the Philippines", "ex": "a Filipino worker, a Filipina actress"}, {"w": "Portuguese", "vi": "Portugal", "ex": "Portuguese cuisine, a Portuguese passport"}, {"w": "Russian", "vi": "Russia", "ex": "Russian culture, a Russian visa"}, {"w": "Saudi / Saudi Arabian", "vi": "Saudi Arabia", "ex": "Saudi customs, a Saudi passport"}, {"w": "Singaporean", "vi": "Singapore", "ex": "a Singaporean accent, the Singapore dollar"}, {"w": "South Korean / Korean", "vi": "South Korea", "ex": "Korean culture, a Korean passport"}, {"w": "Spanish", "vi": "Spain", "ex": "Spanish cuisine, a Spanish speaker"}, {"w": "Swedish", "vi": "Sweden", "ex": "Swedish design, a Swedish passport"}, {"w": "Thai", "vi": "Thailand", "ex": "Thai cuisine, a Thai visa"}, {"w": "British", "vi": "the United Kingdom", "ex": "a British accent, British culture"}, {"w": "American", "vi": "the United States", "ex": "an American accent, a US passport"}, {"w": "Vietnamese", "vi": "Vietnam", "ex": "a Vietnamese passport, Vietnamese cuisine"}]}, {"name": "Jobs & Occupations", "words": [{"w": "surgeon", "vi": "bác sĩ phẫu thuật", "ex": "a cardiac surgeon, perform surgery"}, {"w": "pharmacist", "vi": "dược sĩ", "ex": "a licensed pharmacist, fill a prescription"}, {"w": "paramedic", "vi": "nhân viên y tế cấp cứu", "ex": "a trained paramedic, respond to emergencies"}, {"w": "midwife", "vi": "hộ sinh", "ex": "a certified midwife, deliver a baby"}, {"w": "therapist", "vi": "nhà trị liệu", "ex": "a speech therapist, a physical therapist"}, {"w": "tutor", "vi": "gia sư", "ex": "a private tutor, hire a tutor"}, {"w": "lecturer", "vi": "giảng viên đại học", "ex": "a university lecturer, deliver a lecture"}, {"w": "principal", "vi": "hiệu trưởng", "ex": "the school principal, report to the principal"}, {"w": "counsellor", "vi": "chuyên viên tư vấn", "ex": "a school counsellor, a career counsellor"}, {"w": "accountant", "vi": "kế toán viên", "ex": "a certified accountant, file taxes"}, {"w": "consultant", "vi": "chuyên gia tư vấn", "ex": "a management consultant, hire a consultant"}, {"w": "entrepreneur", "vi": "doanh nhân khởi nghiệp", "ex": "a successful entrepreneur, start a venture"}, {"w": "analyst", "vi": "nhà phân tích", "ex": "a data analyst, a financial analyst"}, {"w": "auditor", "vi": "kiểm toán viên", "ex": "an internal auditor, conduct an audit"}, {"w": "software developer", "vi": "lập trình viên phần mềm", "ex": "a full-stack developer, write code"}, {"w": "UX designer", "vi": "nhà thiết kế UX", "ex": "a UX designer, improve user experience"}, {"w": "data scientist", "vi": "nhà khoa học dữ liệu", "ex": "a data scientist, analyse big data"}, {"w": "cybersecurity expert", "vi": "chuyên gia an ninh mạng", "ex": "prevent data breaches"}, {"w": "copywriter", "vi": "người viết nội dung quảng cáo", "ex": "a copywriter, craft compelling ads"}, {"w": "illustrator", "vi": "họa sĩ minh họa", "ex": "a children's illustrator, draw illustrations"}, {"w": "cinematographer", "vi": "người quay phim điện ảnh", "ex": "a cinematographer, shoot a film"}, {"w": "curator", "vi": "người quản lý triển lãm", "ex": "a museum curator, curate an exhibition"}, {"w": "plumber", "vi": "thợ sửa ống nước", "ex": "a licensed plumber, fix a pipe"}, {"w": "electrician", "vi": "thợ điện", "ex": "a certified electrician, wire a building"}, {"w": "carpenter", "vi": "thợ mộc", "ex": "a skilled carpenter, build furniture"}, {"w": "chef", "vi": "đầu bếp", "ex": "a head chef, a sous chef"}, {"w": "flight attendant", "vi": "tiếp viên hàng không", "ex": "a flight attendant, board the plane"}, {"w": "real estate agent", "vi": "môi giới bất động sản", "ex": "a real estate agent, list a property"}]}]}, {"letter": "B", "title": "Family & Friends", "sub": "Extended family · social relationships", "groups": [{"name": "Extended Family", "words": [{"w": "maternal grandmother", "vi": "bà ngoại", "ex": "on my mother's side"}, {"w": "paternal grandfather", "vi": "ông nội", "ex": "on my father's side"}, {"w": "great-grandparents", "vi": "cụ (4 đời)", "ex": "four generations"}, {"w": "mother-in-law", "vi": "mẹ chồng / mẹ vợ", "ex": "get along with my mother-in-law"}, {"w": "father-in-law", "vi": "bố chồng / bố vợ", "ex": "visit my father-in-law"}, {"w": "sister-in-law", "vi": "chị/em dâu · chị/em vợ", "ex": "my sister-in-law is a doctor"}, {"w": "brother-in-law", "vi": "anh/em rể · anh/em vợ", "ex": "meet my brother-in-law"}, {"w": "stepbrother / stepsister", "vi": "anh/chị/em kế", "ex": "from my dad's second marriage"}, {"w": "half-brother / half-sister", "vi": "anh/chị/em cùng cha khác mẹ", "ex": "same father, different mother"}, {"w": "adopted child", "vi": "con nuôi", "ex": "an adopted child, adopt a baby"}, {"w": "godmother / godfather", "vi": "mẹ / cha đỡ đầu", "ex": "my godmother at the christening"}, {"w": "godchild", "vi": "con đỡ đầu", "ex": "be a godparent to a godchild"}, {"w": "first cousin", "vi": "anh/chị/em họ (một đời)", "ex": "my first cousin on my mum's side"}, {"w": "second cousin", "vi": "họ hàng xa (hai đời)", "ex": "a second cousin I barely know"}, {"w": "aunt by marriage", "vi": "bác/cô/dì dâu", "ex": "not a blood relative"}, {"w": "nephew", "vi": "cháu trai", "ex": "my nephew is 5 years old"}, {"w": "niece", "vi": "cháu gái", "ex": "my niece just started school"}, {"w": "widow / widower", "vi": "góa phụ / góa phụ nam", "ex": "a widow since her husband passed away"}, {"w": "guardian", "vi": "người giám hộ", "ex": "a legal guardian, guardianship"}, {"w": "surrogate mother", "vi": "người mang thai hộ", "ex": "a surrogate mother, surrogacy"}, {"w": "only child", "vi": "con một", "ex": "I'm an only child — no siblings"}, {"w": "eldest child", "vi": "con cả", "ex": "as the eldest child, I set an example"}, {"w": "middle child", "vi": "con giữa", "ex": "the middle child often feels overlooked"}, {"w": "youngest child", "vi": "con út", "ex": "the youngest child, spoilt sometimes"}, {"w": "immediate family", "vi": "gia đình thân cận", "ex": "just five people in my immediate family"}]}, {"name": "Social Relationships", "words": [{"w": "flatmate / roommate", "vi": "bạn cùng phòng/nhà", "ex": "split the rent with my flatmate"}, {"w": "colleague", "vi": "đồng nghiệp", "ex": "a trusted work colleague"}, {"w": "mentor", "vi": "người cố vấn, hướng dẫn", "ex": "find a mentor, a mentorship programme"}, {"w": "mentee", "vi": "người được cố vấn", "ex": "a mentee who learns quickly"}, {"w": "rival", "vi": "đối thủ", "ex": "a friendly rival, a business rival"}, {"w": "confidant", "vi": "người tâm sự, tin tưởng", "ex": "my closest confidant"}, {"w": "pen pal", "vi": "bạn qua thư", "ex": "my pen pal in France"}, {"w": "acquaintance", "vi": "người quen (không thân)", "ex": "a work acquaintance, not a close friend"}, {"w": "childhood friend", "vi": "bạn thời thơ ấu", "ex": "from primary school"}, {"w": "former classmate", "vi": "bạn học cũ", "ex": "a former classmate at a reunion"}, {"w": "networking contact", "vi": "mối quan hệ mạng lưới", "ex": "a useful networking contact"}, {"w": "role model", "vi": "hình mẫu lý tưởng", "ex": "a role model for young people"}, {"w": "soulmate", "vi": "người bạn tâm giao", "ex": "find your soulmate"}, {"w": "sponsor", "vi": "người bảo trợ", "ex": "a visa sponsor, a financial sponsor"}, {"w": "neighbour", "vi": "hàng xóm", "ex": "my next-door neighbour"}]}]}, {"letter": "C", "title": "Personality", "sub": "Positive · negative · compound adjectives", "groups": [{"name": "Positive Traits", "words": [{"w": "analytical", "vi": "có tư duy phân tích", "ex": "an analytical mind, think analytically"}, {"w": "creative", "vi": "sáng tạo", "ex": "a creative approach, creative thinking"}, {"w": "curious", "vi": "tò mò, ham học hỏi", "ex": "naturally curious about the world"}, {"w": "open-minded", "vi": "cởi mở, chấp nhận cái mới", "ex": "be open-minded about change"}, {"w": "perceptive", "vi": "tinh tế, nhạy bén", "ex": "a perceptive observer"}, {"w": "resourceful", "vi": "biết xoay sở, đa năng", "ex": "a resourceful problem-solver"}, {"w": "logical", "vi": "có lý luận, logic", "ex": "a logical argument"}, {"w": "intellectual", "vi": "ham tri thức", "ex": "an intellectual conversation"}, {"w": "charismatic", "vi": "có sức hút, lôi cuốn", "ex": "a charismatic leader"}, {"w": "diplomatic", "vi": "khéo léo, ngoại giao", "ex": "a diplomatic response"}, {"w": "empathetic", "vi": "đồng cảm", "ex": "an empathetic listener"}, {"w": "generous", "vi": "rộng rãi, hào phóng", "ex": "generous with time, a generous donation"}, {"w": "sociable", "vi": "hòa đồng, thích giao tiếp", "ex": "a sociable person"}, {"w": "tactful", "vi": "tế nhị, khéo nói", "ex": "a tactful reply"}, {"w": "assertive", "vi": "quyết đoán, dám nói ý kiến", "ex": "assertive communication"}, {"w": "compassionate", "vi": "giàu lòng trắc ẩn", "ex": "a compassionate nurse"}, {"w": "patient", "vi": "kiên nhẫn", "ex": "a patient teacher"}, {"w": "resilient", "vi": "kiên cường, bền bỉ", "ex": "bounce back resiliently"}, {"w": "self-aware", "vi": "có ý thức về bản thân", "ex": "emotionally self-aware"}, {"w": "sincere", "vi": "chân thành, thật lòng", "ex": "a sincere apology"}, {"w": "diligent", "vi": "chăm chỉ, cần cù", "ex": "a diligent student"}, {"w": "disciplined", "vi": "có kỷ luật", "ex": "a disciplined approach, self-disciplined"}, {"w": "meticulous", "vi": "tỉ mỉ, cẩn thận", "ex": "meticulous attention to detail"}, {"w": "motivated", "vi": "có động lực", "ex": "highly motivated, self-motivated"}, {"w": "punctual", "vi": "đúng giờ", "ex": "always punctual for meetings"}, {"w": "proactive", "vi": "chủ động, tiên phong", "ex": "a proactive attitude"}, {"w": "versatile", "vi": "đa năng, linh hoạt", "ex": "a versatile skill set"}]}, {"name": "Negative & Neutral Traits", "words": [{"w": "arrogant", "vi": "kiêu ngạo, tự phụ", "ex": "come across as arrogant"}, {"w": "impulsive", "vi": "bốc đồng", "ex": "an impulsive decision, act impulsively"}, {"w": "indecisive", "vi": "thiếu quyết đoán", "ex": "be indecisive about choices"}, {"w": "manipulative", "vi": "hay thao túng người khác", "ex": "manipulative behaviour"}, {"w": "narcissistic", "vi": "tự yêu bản thân thái quá", "ex": "narcissistic tendencies"}, {"w": "passive-aggressive", "vi": "thụ động công kích", "ex": "passive-aggressive comments"}, {"w": "pessimistic", "vi": "bi quan", "ex": "a pessimistic outlook"}, {"w": "reckless", "vi": "liều lĩnh, bất cẩn", "ex": "a reckless decision"}, {"w": "self-centred", "vi": "ích kỷ, chỉ nghĩ đến mình", "ex": "a self-centred attitude"}, {"w": "cynical", "vi": "hoài nghi, không tin tưởng", "ex": "a cynical view"}, {"w": "temperamental", "vi": "hay thay đổi tâm trạng", "ex": "a temperamental artist"}, {"w": "insecure", "vi": "thiếu tự tin, bất an", "ex": "insecure about appearance"}, {"w": "vindictive", "vi": "thù dai, hay trả thù", "ex": "vindictive behaviour"}, {"w": "hypocritical", "vi": "đạo đức giả, giả tạo", "ex": "a hypocritical statement"}, {"w": "confrontational", "vi": "hay gây xung đột", "ex": "a confrontational style"}]}, {"name": "Compound Adjectives", "words": [{"w": "absent-minded", "vi": "hay quên, đãng trí", "ex": "an absent-minded professor"}, {"w": "big-hearted", "vi": "rộng lượng, tốt bụng", "ex": "a big-hearted volunteer"}, {"w": "cold-hearted", "vi": "lạnh lùng, thiếu cảm xúc", "ex": "a cold-hearted response"}, {"w": "fair-minded", "vi": "công bằng, không thiên vị", "ex": "a fair-minded judge"}, {"w": "faint-hearted", "vi": "nhút nhát, thiếu can đảm", "ex": "not for the faint-hearted"}, {"w": "free-spirited", "vi": "tự do, phóng khoáng", "ex": "a free-spirited traveller"}, {"w": "good-natured", "vi": "hiền lành, dễ chịu", "ex": "a good-natured colleague"}, {"w": "hard-headed", "vi": "thực tế, cứng đầu", "ex": "a hard-headed businesswoman"}, {"w": "high-spirited", "vi": "sôi nổi, nhiều năng lượng", "ex": "a high-spirited child"}, {"w": "iron-willed", "vi": "ý chí sắt đá", "ex": "an iron-willed leader"}, {"w": "laid-back", "vi": "thư thái, thoải mái", "ex": "a laid-back attitude"}, {"w": "mean-spirited", "vi": "hẹp hòi, ích kỷ", "ex": "a mean-spirited remark"}, {"w": "narrow-minded", "vi": "hẹp hòi, bảo thủ", "ex": "a narrow-minded view"}, {"w": "quick-witted", "vi": "nhanh trí", "ex": "a quick-witted comedian"}, {"w": "single-minded", "vi": "tập trung một mục tiêu", "ex": "a single-minded pursuit"}, {"w": "soft-spoken", "vi": "nhẹ nhàng, nói khẽ", "ex": "a soft-spoken teacher"}, {"w": "strong-willed", "vi": "ý chí mạnh mẽ", "ex": "a strong-willed child"}, {"w": "well-balanced", "vi": "cân bằng, điều độ", "ex": "a well-balanced personality"}]}]}, {"letter": "D", "title": "Appearance", "sub": "Face & features", "groups": [{"name": "Face & Features", "words": [{"w": "angular face", "vi": "khuôn mặt góc cạnh", "ex": "a sharply angular face"}, {"w": "chiselled features", "vi": "đường nét thanh tú, rắn rỏi", "ex": "chiselled cheekbones"}, {"w": "prominent cheekbones", "vi": "gò má cao nổi bật", "ex": "prominent Slavic cheekbones"}, {"w": "square jaw", "vi": "hàm vuông", "ex": "a strong square jaw"}, {"w": "oval face", "vi": "khuôn mặt hình oval", "ex": "a classic oval face shape"}, {"w": "heart-shaped face", "vi": "khuôn mặt hình trái tim", "ex": "a delicate heart-shaped face"}, {"w": "almond-shaped eyes", "vi": "mắt hình hạt hạnh nhân", "ex": "almond-shaped brown eyes"}, {"w": "deep-set eyes", "vi": "mắt sâu", "ex": "deep-set dark eyes"}, {"w": "wide-set eyes", "vi": "mắt cách xa nhau", "ex": "wide-set blue eyes"}, {"w": "hooded eyelids", "vi": "mí mắt sụp", "ex": "a sleepy look"}, {"w": "bushy eyebrows", "vi": "lông mày rậm", "ex": "thick bushy eyebrows"}, {"w": "arched eyebrows", "vi": "lông mày cong", "ex": "perfectly arched eyebrows"}, {"w": "button nose", "vi": "mũi nhỏ, tròn", "ex": "a cute button nose"}, {"w": "aquiline nose", "vi": "mũi khoằm, mũi thẳng đẹp", "ex": "an aquiline Roman nose"}, {"w": "full lips", "vi": "môi đầy, môi dày", "ex": "full bow-shaped lips"}, {"w": "thin lips", "vi": "môi mỏng", "ex": "thin pale lips"}, {"w": "defined jawline", "vi": "đường hàm rõ nét", "ex": "a well-defined jawline"}, {"w": "freckles", "vi": "tàn nhang", "ex": "light freckles across the nose"}, {"w": "dimples", "vi": "lúm đồng tiền", "ex": "dimples when she smiles"}, {"w": "crow's feet", "vi": "nếp nhăn đuôi mắt", "ex": "fine crow's feet at the corners"}, {"w": "wrinkles", "vi": "nếp nhăn", "ex": "laugh lines and wrinkles"}, {"w": "high forehead", "vi": "trán cao", "ex": "a high intellectual forehead"}, {"w": "receding hairline", "vi": "tóc rụng, chân tóc lùi", "ex": "a receding hairline at the temples"}]}]}, {"letter": "E", "title": "Emotions", "sub": "Intensity levels · collocations & idioms", "groups": [{"name": "Emotion Intensity (mild → strong)", "words": [{"w": "sad", "vi": "buồn (nhẹ)", "ex": "feel a bit sad"}, {"w": "melancholy", "vi": "u sầu (trung bình)", "ex": "a melancholy mood"}, {"w": "devastated", "vi": "tan nát (mạnh)", "ex": "absolutely devastated"}, {"w": "pleased", "vi": "hài lòng (nhẹ)", "ex": "pleased with the result"}, {"w": "delighted", "vi": "vui mừng (trung bình)", "ex": "delighted to hear the news"}, {"w": "elated", "vi": "phấn khích (mạnh)", "ex": "elated after winning"}, {"w": "annoyed", "vi": "bực mình (nhẹ)", "ex": "slightly annoyed"}, {"w": "furious", "vi": "tức giận (mạnh)", "ex": "absolutely furious"}, {"w": "livid", "vi": "nổi giận (cực mạnh)", "ex": "livid with rage"}, {"w": "uneasy", "vi": "lo ngại (nhẹ)", "ex": "feel uneasy about it"}, {"w": "anxious", "vi": "lo lắng (trung bình)", "ex": "anxious before the interview"}, {"w": "terrified", "vi": "sợ hãi (mạnh)", "ex": "terrified of flying"}, {"w": "surprised", "vi": "ngạc nhiên (nhẹ)", "ex": "pleasantly surprised"}, {"w": "astonished", "vi": "kinh ngạc (mạnh)", "ex": "absolutely astonished"}, {"w": "flabbergasted", "vi": "sốc, không tin được", "ex": "utterly flabbergasted"}]}, {"name": "Emotion Collocations & Idioms", "words": [{"w": "burst into tears", "vi": "bật khóc nức nở", "ex": "She burst into tears at the news."}, {"w": "be over the moon", "vi": "vui sướng tột độ", "ex": "over the moon about the promotion"}, {"w": "hit rock bottom", "vi": "chạm đáy, tuyệt vọng", "ex": "he hit rock bottom"}, {"w": "on cloud nine", "vi": "hạnh phúc tột đỉnh", "ex": "on cloud nine since the proposal"}, {"w": "have butterflies in one's stomach", "vi": "bồn chồn, hồi hộp", "ex": "butterflies before a performance"}, {"w": "be at a loss", "vi": "bàng hoàng, không biết làm gì", "ex": "at a loss for words"}, {"w": "wear one's heart on one's sleeve", "vi": "không che giấu cảm xúc", "ex": "he wears his heart on his sleeve"}, {"w": "bottle up emotions", "vi": "kìm nén cảm xúc", "ex": "stop bottling up your emotions"}, {"w": "feel on top of the world", "vi": "cảm thấy tuyệt vời", "ex": "felt on top of the world"}, {"w": "be beside oneself", "vi": "không kiềm chế được cảm xúc", "ex": "beside herself with grief"}, {"w": "blow off steam", "vi": "xả hơi, giải tỏa", "ex": "hit the gym to blow off steam"}, {"w": "have a heavy heart", "vi": "lòng nặng trĩu", "ex": "left home with a heavy heart"}, {"w": "be in high spirits", "vi": "tinh thần phấn chấn", "ex": "in high spirits after the win"}, {"w": "keep one's cool", "vi": "giữ bình tĩnh", "ex": "keep her cool under pressure"}, {"w": "lose one's temper", "vi": "nổi nóng, mất bình tĩnh", "ex": "he lost his temper and shouted"}, {"w": "feel blue", "vi": "cảm thấy buồn, chán nản", "ex": "feeling blue since she left"}, {"w": "be torn", "vi": "bị giằng xé, khó quyết định", "ex": "torn between staying and leaving"}, {"w": "be wound up", "vi": "căng thẳng, bị cuốn vào", "ex": "don't get so wound up"}]}]}, {"letter": "F", "title": "Personality Idioms", "sub": "Character & behaviour", "groups": [{"name": "Personality Idioms", "words": [{"w": "a creature of habit", "vi": "người sống theo thói quen", "ex": "same coffee every morning"}, {"w": "a dark horse", "vi": "người bí ẩn bất ngờ nổi lên", "ex": "the dark horse of the competition"}, {"w": "a force to be reckoned with", "vi": "người đáng gờm", "ex": "a force to be reckoned with"}, {"w": "a late bloomer", "vi": "người phát triển muộn", "ex": "a late bloomer in school"}, {"w": "a lone wolf", "vi": "người thích ở một mình", "ex": "works best independently"}, {"w": "an old soul", "vi": "người già dặn trước tuổi", "ex": "wise and calm"}, {"w": "set in one's ways", "vi": "cứng nhắc, ngại thay đổi", "ex": "too set in his ways"}, {"w": "full of hot air", "vi": "nói nhiều mà chẳng làm", "ex": "his promises are full of hot air"}, {"w": "straight as an arrow", "vi": "ngay thẳng, trung thực", "ex": "you can trust him"}, {"w": "a big fish in a small pond", "vi": "giỏi nhưng ở môi trường nhỏ", "ex": "a big fish in a small pond"}, {"w": "wear many hats", "vi": "đóng nhiều vai trò", "ex": "as CEO, she wears many hats"}, {"w": "have a short fuse", "vi": "nóng tính, dễ bùng nổ", "ex": "he has a short fuse"}, {"w": "keep oneself to oneself", "vi": "sống khép kín, ít giao tiếp", "ex": "keeps herself to herself"}, {"w": "never miss a beat", "vi": "luôn nhanh nhạy", "ex": "never misses a beat in meetings"}, {"w": "take the bull by the horns", "vi": "đối mặt trực tiếp", "ex": "take the bull by the horns"}, {"w": "burn one's bridges", "vi": "phá hỏng mối quan hệ", "ex": "don't burn your bridges"}, {"w": "go the extra mile", "vi": "nỗ lực hơn mức cần thiết", "ex": "goes the extra mile for her team"}, {"w": "stick to one's guns", "vi": "giữ vững lập trường", "ex": "stuck to his guns despite criticism"}, {"w": "turn over a new leaf", "vi": "thay đổi tốt hơn", "ex": "she turned over a new leaf"}, {"w": "under the weather", "vi": "hơi mệt, không khỏe", "ex": "feeling under the weather"}]}]}, {"letter": "G", "title": "Memories & Events", "sub": "Time expressions · life-event phrasal verbs", "groups": [{"name": "Time Expressions for the Past", "words": [{"w": "in those days", "vi": "hồi đó, ngày xưa", "ex": "In those days, people wrote letters."}, {"w": "back then", "vi": "hồi đó", "ex": "Back then, life was simpler."}, {"w": "once upon a time", "vi": "ngày xưa (kể chuyện)", "ex": "Once upon a time, they lived in Hanoi."}, {"w": "in the good old days", "vi": "những ngày xưa tốt đẹp", "ex": "we had more time"}, {"w": "ages ago", "vi": "rất lâu rồi", "ex": "I learnt that ages ago."}, {"w": "at the time", "vi": "vào thời điểm đó", "ex": "At the time, I didn't understand."}, {"w": "at the height of", "vi": "vào đỉnh điểm của", "ex": "at the height of his career"}, {"w": "in the aftermath of", "vi": "sau hậu quả của", "ex": "in the aftermath of the accident"}, {"w": "prior to", "vi": "trước khi, trước đó", "ex": "prior to the meeting"}, {"w": "subsequently", "vi": "sau đó, tiếp theo", "ex": "she subsequently moved abroad"}, {"w": "all of a sudden", "vi": "đột nhiên, bỗng dưng", "ex": "All of a sudden, it started raining."}, {"w": "in due course", "vi": "vào thời điểm thích hợp", "ex": "you'll hear back in due course"}, {"w": "the turning point", "vi": "bước ngoặt", "ex": "the turning point in my career"}, {"w": "a watershed moment", "vi": "khoảnh khắc bước ngoặt lớn", "ex": "a watershed moment for the country"}, {"w": "in the long run", "vi": "về lâu về dài", "ex": "it's better in the long run"}, {"w": "in retrospect", "vi": "nhìn lại, hồi tưởng", "ex": "In retrospect, I should have stayed."}, {"w": "sooner or later", "vi": "sớm hay muộn", "ex": "Sooner or later, things change."}, {"w": "eventually", "vi": "cuối cùng, rốt cuộc", "ex": "Eventually, she found her path."}, {"w": "from that day forward", "vi": "từ ngày đó trở đi", "ex": "everything changed"}]}, {"name": "Phrasal Verbs for Life Events", "words": [{"w": "grow up", "vi": "lớn lên, trưởng thành", "ex": "grow up in Hanoi"}, {"w": "bring up / raise", "vi": "nuôi dưỡng, giáo dục", "ex": "brought up by grandparents"}, {"w": "settle down", "vi": "ổn định cuộc sống, kết hôn", "ex": "settle down in their 30s"}, {"w": "move on", "vi": "tiến về phía trước", "ex": "move on from a bad relationship"}, {"w": "go through", "vi": "trải qua (giai đoạn khó)", "ex": "go through a divorce"}, {"w": "look up to", "vi": "ngưỡng mộ, coi là hình mẫu", "ex": "look up to an older sibling"}, {"w": "take after", "vi": "giống (cha/mẹ)", "ex": "She takes after her mother."}, {"w": "fall out with", "vi": "cãi nhau, mất quan hệ", "ex": "fall out with a best friend"}, {"w": "make up with", "vi": "làm lành với ai", "ex": "make up after the argument"}, {"w": "drift apart", "vi": "dần xa cách nhau", "ex": "drift apart after university"}, {"w": "come of age", "vi": "trưởng thành về mặt xã hội", "ex": "come of age in the digital era"}, {"w": "pass away", "vi": "qua đời (lịch sự)", "ex": "her grandfather passed away"}, {"w": "hand down / pass down", "vi": "truyền lại (thế hệ trước)", "ex": "pass down family traditions"}, {"w": "bring out the best in", "vi": "khơi dậy điều tốt nhất ở ai", "ex": "brings out the best in her students"}, {"w": "face up to", "vi": "đối mặt với, thừa nhận", "ex": "face up to responsibilities"}]}]}, {"letter": "H", "title": "Life Stages", "sub": "From infancy to senior years", "groups": [{"name": "Life Stages & Milestones", "words": [{"w": "infancy", "vi": "tuổi sơ sinh (0–2)", "ex": "from infancy to toddlerhood"}, {"w": "toddler stage", "vi": "giai đoạn chập chững (2–4)", "ex": "in the toddler stage"}, {"w": "childhood", "vi": "tuổi thơ (5–12)", "ex": "a happy childhood"}, {"w": "adolescence", "vi": "tuổi vị thành niên (13–17)", "ex": "navigate adolescence"}, {"w": "early adulthood", "vi": "đầu tuổi trưởng thành (18–25)", "ex": "finding one's identity"}, {"w": "mid-life", "vi": "trung niên (40–55)", "ex": "a mid-life career change"}, {"w": "mid-life crisis", "vi": "khủng hoảng tuổi trung niên", "ex": "experience a mid-life crisis"}, {"w": "retirement", "vi": "về hưu", "ex": "plan for retirement"}, {"w": "old age / senior years", "vi": "tuổi già", "ex": "enjoy old age, senior living"}, {"w": "life expectancy", "vi": "tuổi thọ", "ex": "rising life expectancy"}, {"w": "milestone", "vi": "cột mốc quan trọng", "ex": "a career milestone"}, {"w": "rite of passage", "vi": "nghi lễ trưởng thành", "ex": "graduation as a rite of passage"}, {"w": "formative years", "vi": "những năm định hình tính cách", "ex": "formative years shaping character"}, {"w": "prime of one's life", "vi": "thời kỳ đỉnh cao", "ex": "in the prime of his life"}, {"w": "quarter-life crisis", "vi": "khủng hoảng tuổi 25", "ex": "face a quarter-life crisis"}, {"w": "empty nest syndrome", "vi": "hội chứng tổ trống", "ex": "suffer from empty nest syndrome"}]}]}, {"letter": "I", "title": "Marriages & Relationships", "sub": "Commitment · wedding · conflict", "groups": [{"name": "Relationships & Commitment", "words": [{"w": "commitment", "vi": "sự cam kết lâu dài", "ex": "make a long-term commitment"}, {"w": "compatibility", "vi": "sự tương thích, hợp nhau", "ex": "test compatibility"}, {"w": "mutual trust", "vi": "tin tưởng lẫn nhau", "ex": "build mutual trust"}, {"w": "open communication", "vi": "giao tiếp cởi mở", "ex": "maintain open communication"}, {"w": "emotional intimacy", "vi": "sự gần gũi về cảm xúc", "ex": "emotional intimacy in a relationship"}, {"w": "compromise", "vi": "sự thỏa hiệp, nhượng bộ", "ex": "reach a compromise"}, {"w": "boundaries", "vi": "ranh giới (trong quan hệ)", "ex": "set healthy boundaries"}, {"w": "codependency", "vi": "phụ thuộc lẫn nhau quá mức", "ex": "avoid codependency"}, {"w": "unconditional love", "vi": "tình yêu vô điều kiện", "ex": "unconditional love for a child"}, {"w": "infatuation", "vi": "si mê, say đắm (ngắn hạn)", "ex": "infatuation vs true love"}, {"w": "propose (to sb)", "vi": "cầu hôn", "ex": "propose on their anniversary"}, {"w": "engagement", "vi": "đính hôn", "ex": "an engagement ring, be engaged"}, {"w": "ceremony", "vi": "lễ cưới, buổi lễ", "ex": "the wedding ceremony"}, {"w": "vow", "vi": "lời thề, lời nguyện", "ex": "exchange vows"}, {"w": "honeymoon", "vi": "tuần trăng mật", "ex": "go on a honeymoon"}, {"w": "divorce", "vi": "ly hôn", "ex": "file for divorce"}, {"w": "custody", "vi": "quyền nuôi con", "ex": "fight for custody"}, {"w": "reconcile", "vi": "hòa giải", "ex": "reconcile with a partner"}, {"w": "separation", "vi": "ly thân", "ex": "a temporary separation"}, {"w": "annulment", "vi": "tuyên bố hôn nhân vô hiệu", "ex": "seek an annulment"}]}, {"name": "Wedding & Marriage", "words": [{"w": "venue", "vi": "địa điểm tổ chức", "ex": "choose a wedding venue"}, {"w": "officiant", "vi": "người chủ trì lễ cưới", "ex": "the wedding officiant"}, {"w": "best man", "vi": "phù rể chính", "ex": "the groom's best man"}, {"w": "maid of honour", "vi": "phù dâu chính", "ex": "ask her to be maid of honour"}, {"w": "bridesmaid", "vi": "phù dâu", "ex": "four bridesmaids in pink dresses"}, {"w": "groomsman", "vi": "phù rể", "ex": "three groomsmen at the altar"}, {"w": "bridal party", "vi": "đoàn cưới", "ex": "the entire bridal party"}, {"w": "reception", "vi": "tiệc cưới (sau lễ)", "ex": "hold a reception at a hotel"}, {"w": "toast", "vi": "nâng ly chúc mừng", "ex": "give a toast at the wedding"}, {"w": "exchange rings", "vi": "trao nhẫn cưới", "ex": "exchange rings at the altar"}, {"w": "bouquet", "vi": "bó hoa cô dâu", "ex": "toss the bouquet"}, {"w": "aisle", "vi": "lối đi giữa lễ đường", "ex": "walk down the aisle"}, {"w": "altar", "vi": "bàn thờ, nơi làm lễ", "ex": "stand at the altar"}, {"w": "rehearsal dinner", "vi": "bữa tối diễn tập", "ex": "attend the rehearsal dinner"}, {"w": "bridal shower", "vi": "tiệc mừng cô dâu", "ex": "throw a bridal shower"}, {"w": "wedding cake", "vi": "bánh cưới", "ex": "cut the wedding cake together"}, {"w": "anniversary", "vi": "ngày kỷ niệm hôn nhân", "ex": "celebrate their 10th anniversary"}, {"w": "prenuptial agreement", "vi": "hợp đồng tiền hôn nhân", "ex": "sign a prenuptial agreement"}, {"w": "dowry", "vi": "của hồi môn", "ex": "traditional dowry customs"}]}, {"name": "Conflict & Resolution", "words": [{"w": "fall out with", "vi": "cãi nhau, bất hòa với ai", "ex": "fall out with a friend"}, {"w": "patch things up", "vi": "làm lành, giải quyết mâu thuẫn", "ex": "patch things up"}, {"w": "clear the air", "vi": "giải tỏa hiểu lầm", "ex": "clear the air"}, {"w": "give sb the silent treatment", "vi": "im lặng trừng phạt ai", "ex": "the silent treatment"}, {"w": "bury the hatchet", "vi": "bỏ qua hiềm khích, làm hòa", "ex": "bury the hatchet"}, {"w": "come to blows", "vi": "xung đột gay gắt", "ex": "almost came to blows"}, {"w": "hold a grudge", "vi": "ôm lòng oán giận", "ex": "hold a grudge for years"}, {"w": "make amends", "vi": "bù đắp lỗi lầm", "ex": "make amends"}, {"w": "talk it out", "vi": "nói chuyện để giải quyết", "ex": "talk it out"}, {"w": "meet halfway", "vi": "nhượng bộ, gặp ở điểm chung", "ex": "meet each other halfway"}, {"w": "misunderstanding", "vi": "sự hiểu lầm", "ex": "clear up a misunderstanding"}, {"w": "conflict resolution", "vi": "giải quyết xung đột", "ex": "conflict resolution skills"}, {"w": "apologise sincerely", "vi": "xin lỗi thật lòng", "ex": "apologise sincerely"}, {"w": "forgive and forget", "vi": "tha thứ và quên đi", "ex": "forgive and forget"}, {"w": "seek common ground", "vi": "tìm điểm chung", "ex": "seek common ground"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Me & My Family`;
+$('foot').innerHTML = 'POLARIS Unit 1 · People — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
