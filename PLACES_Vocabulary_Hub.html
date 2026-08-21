@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Places Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · PLACES</div>
+  <h1>Places — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "City & Urban Life", "sub": "Parts of a city · urban infrastructure", "groups": [{"name": "Parts of a City", "words": [{"w": "city centre / downtown", "vi": "trung tâm thành phố", "ex": "the bustling city centre"}, {"w": "suburb", "vi": "vùng ngoại ô", "ex": "live in a quiet suburb"}, {"w": "outskirts", "vi": "vùng rìa, ngoại vi", "ex": "on the outskirts of town"}, {"w": "district", "vi": "quận, khu", "ex": "the financial district"}, {"w": "neighbourhood", "vi": "khu phố, xóm", "ex": "a friendly neighbourhood"}, {"w": "residential area", "vi": "khu dân cư", "ex": "a leafy residential area"}, {"w": "industrial estate", "vi": "khu công nghiệp", "ex": "a large industrial estate"}, {"w": "business district", "vi": "khu thương mại", "ex": "the central business district (CBD)"}, {"w": "slum", "vi": "khu ổ chuột", "ex": "overcrowded slums"}, {"w": "inner city", "vi": "khu nội đô (thường nghèo)", "ex": "inner-city poverty"}, {"w": "metropolis", "vi": "đô thị lớn", "ex": "a thriving metropolis"}, {"w": "capital", "vi": "thủ đô", "ex": "the nation's capital"}, {"w": "port city", "vi": "thành phố cảng", "ex": "a busy port city"}, {"w": "pedestrian zone", "vi": "khu phố đi bộ", "ex": "a car-free pedestrian zone"}, {"w": "square / plaza", "vi": "quảng trường", "ex": "the town square"}, {"w": "high street", "vi": "phố chính (mua sắm)", "ex": "shops on the high street"}, {"w": "cul-de-sac", "vi": "ngõ cụt", "ex": "a quiet cul-de-sac"}, {"w": "landmark", "vi": "địa danh nổi bật", "ex": "a famous landmark"}]}, {"name": "Urban Infrastructure", "words": [{"w": "infrastructure", "vi": "cơ sở hạ tầng", "ex": "invest in infrastructure"}, {"w": "public transport", "vi": "giao thông công cộng", "ex": "reliable public transport"}, {"w": "motorway / highway", "vi": "đường cao tốc", "ex": "a congested motorway"}, {"w": "flyover / overpass", "vi": "cầu vượt", "ex": "build a flyover"}, {"w": "underpass", "vi": "hầm chui cho người đi bộ", "ex": "a pedestrian underpass"}, {"w": "roundabout", "vi": "vòng xuyến, bùng binh", "ex": "a busy roundabout"}, {"w": "crossroads / intersection", "vi": "ngã tư", "ex": "wait at the crossroads"}, {"w": "pavement / sidewalk", "vi": "vỉa hè", "ex": "walk on the pavement"}, {"w": "street lighting", "vi": "đèn đường", "ex": "poor street lighting"}, {"w": "sewage system", "vi": "hệ thống thoát nước thải", "ex": "an ageing sewage system"}, {"w": "power grid", "vi": "lưới điện", "ex": "the national power grid"}, {"w": "skyscraper", "vi": "nhà chọc trời", "ex": "a gleaming skyscraper"}, {"w": "traffic congestion", "vi": "ùn tắc giao thông", "ex": "chronic traffic congestion"}, {"w": "rush hour", "vi": "giờ cao điểm", "ex": "stuck in rush hour"}, {"w": "car park / parking lot", "vi": "bãi đỗ xe", "ex": "a multi-storey car park"}]}]}, {"letter": "B", "title": "Countryside & Nature", "sub": "Rural life · natural landscape", "groups": [{"name": "Rural & Countryside", "words": [{"w": "countryside", "vi": "vùng nông thôn", "ex": "the peaceful countryside"}, {"w": "rural area", "vi": "khu vực nông thôn", "ex": "a remote rural area"}, {"w": "village", "vi": "làng", "ex": "a sleepy village"}, {"w": "hamlet", "vi": "xóm nhỏ", "ex": "a tiny hamlet"}, {"w": "farmland", "vi": "đất nông nghiệp", "ex": "fertile farmland"}, {"w": "field", "vi": "cánh đồng", "ex": "green fields"}, {"w": "meadow", "vi": "đồng cỏ", "ex": "a flower-filled meadow"}, {"w": "orchard", "vi": "vườn cây ăn quả", "ex": "an apple orchard"}, {"w": "barn", "vi": "nhà kho, chuồng trại", "ex": "a wooden barn"}, {"w": "pasture", "vi": "đồng cỏ chăn nuôi", "ex": "cattle grazing in the pasture"}, {"w": "remote", "vi": "hẻo lánh, xa xôi", "ex": "a remote mountain village"}, {"w": "unspoilt", "vi": "hoang sơ, chưa bị tàn phá", "ex": "unspoilt countryside"}, {"w": "tranquil", "vi": "yên bình, tĩnh lặng", "ex": "a tranquil setting"}]}, {"name": "Natural Landscape", "words": [{"w": "mountain range", "vi": "dãy núi", "ex": "a snow-capped mountain range"}, {"w": "hill", "vi": "đồi", "ex": "rolling hills"}, {"w": "valley", "vi": "thung lũng", "ex": "a lush green valley"}, {"w": "cliff", "vi": "vách đá", "ex": "steep coastal cliffs"}, {"w": "coast / coastline", "vi": "bờ biển", "ex": "a rugged coastline"}, {"w": "beach", "vi": "bãi biển", "ex": "a sandy beach"}, {"w": "river", "vi": "sông", "ex": "a winding river"}, {"w": "stream", "vi": "suối", "ex": "a bubbling stream"}, {"w": "lake", "vi": "hồ", "ex": "a calm lake"}, {"w": "waterfall", "vi": "thác nước", "ex": "a spectacular waterfall"}, {"w": "forest / woods", "vi": "rừng", "ex": "a dense forest"}, {"w": "rainforest / jungle", "vi": "rừng nhiệt đới", "ex": "a tropical rainforest"}, {"w": "desert", "vi": "sa mạc", "ex": "a vast desert"}, {"w": "plain", "vi": "đồng bằng", "ex": "open plains"}, {"w": "plateau", "vi": "cao nguyên", "ex": "a high plateau"}, {"w": "cave", "vi": "hang động", "ex": "explore a cave"}, {"w": "glacier", "vi": "sông băng", "ex": "a melting glacier"}, {"w": "swamp / marsh", "vi": "đầm lầy", "ex": "a muddy swamp"}]}]}, {"letter": "C", "title": "Home & Accommodation", "sub": "Housing types · rooms & parts", "groups": [{"name": "Types of Accommodation", "words": [{"w": "detached house", "vi": "nhà biệt lập", "ex": "a spacious detached house"}, {"w": "semi-detached house", "vi": "nhà song lập", "ex": "a semi-detached house"}, {"w": "terraced house", "vi": "nhà trong dãy liền kề", "ex": "a Victorian terraced house"}, {"w": "bungalow", "vi": "nhà một tầng", "ex": "a seaside bungalow"}, {"w": "cottage", "vi": "nhà nhỏ ở quê", "ex": "a country cottage"}, {"w": "flat / apartment", "vi": "căn hộ", "ex": "rent a flat"}, {"w": "studio flat", "vi": "căn hộ studio", "ex": "a tiny studio flat"}, {"w": "mansion", "vi": "biệt thự lớn", "ex": "a luxury mansion"}, {"w": "villa", "vi": "biệt thự", "ex": "a beachfront villa"}, {"w": "penthouse", "vi": "căn hộ áp mái", "ex": "a rooftop penthouse"}, {"w": "dormitory", "vi": "ký túc xá", "ex": "live in a dormitory"}, {"w": "high-rise", "vi": "nhà cao tầng", "ex": "a high-rise apartment block"}, {"w": "block of flats", "vi": "khu chung cư", "ex": "a block of flats"}, {"w": "accommodation", "vi": "chỗ ở", "ex": "affordable accommodation"}, {"w": "tenant", "vi": "người thuê nhà", "ex": "a reliable tenant"}, {"w": "landlord / landlady", "vi": "chủ nhà cho thuê", "ex": "pay the landlord"}, {"w": "mortgage", "vi": "khoản vay mua nhà", "ex": "take out a mortgage"}, {"w": "rent", "vi": "tiền thuê nhà", "ex": "pay the rent on time"}]}, {"name": "Rooms & Parts of a Home", "words": [{"w": "living room / lounge", "vi": "phòng khách", "ex": "a cosy living room"}, {"w": "hallway", "vi": "hành lang, sảnh", "ex": "a narrow hallway"}, {"w": "attic / loft", "vi": "gác mái", "ex": "a converted loft"}, {"w": "basement / cellar", "vi": "tầng hầm", "ex": "a damp basement"}, {"w": "balcony", "vi": "ban công", "ex": "a sunny balcony"}, {"w": "terrace", "vi": "sân thượng, hiên", "ex": "a rooftop terrace"}, {"w": "porch", "vi": "mái hiên trước cửa", "ex": "sit on the porch"}, {"w": "driveway", "vi": "lối vào nhà cho xe", "ex": "park in the driveway"}, {"w": "fence", "vi": "hàng rào", "ex": "a wooden fence"}, {"w": "courtyard", "vi": "sân trong", "ex": "a central courtyard"}, {"w": "staircase", "vi": "cầu thang", "ex": "a spiral staircase"}, {"w": "furnishings", "vi": "đồ nội thất", "ex": "modern furnishings"}]}]}, {"letter": "D", "title": "Buildings & Architecture", "sub": "Types of buildings · construction", "groups": [{"name": "Types of Buildings", "words": [{"w": "skyscraper", "vi": "nhà chọc trời", "ex": "a towering skyscraper"}, {"w": "tower", "vi": "tòa tháp", "ex": "a clock tower"}, {"w": "monument", "vi": "đài tưởng niệm", "ex": "a national monument"}, {"w": "cathedral", "vi": "nhà thờ lớn", "ex": "a Gothic cathedral"}, {"w": "temple", "vi": "đền, chùa", "ex": "an ancient temple"}, {"w": "mosque", "vi": "nhà thờ Hồi giáo", "ex": "the grand mosque"}, {"w": "palace", "vi": "cung điện", "ex": "a royal palace"}, {"w": "castle", "vi": "lâu đài", "ex": "a medieval castle"}, {"w": "fortress", "vi": "pháo đài", "ex": "a hilltop fortress"}, {"w": "warehouse", "vi": "nhà kho", "ex": "a converted warehouse"}, {"w": "factory", "vi": "nhà máy", "ex": "an abandoned factory"}, {"w": "stadium", "vi": "sân vận động", "ex": "a football stadium"}, {"w": "town hall", "vi": "tòa thị chính", "ex": "the old town hall"}, {"w": "skyscraper complex", "vi": "khu phức hợp cao tầng", "ex": "a mixed-use complex"}, {"w": "embassy", "vi": "đại sứ quán", "ex": "the British embassy"}, {"w": "headquarters", "vi": "trụ sở chính", "ex": "company headquarters"}]}, {"name": "Architecture & Construction", "words": [{"w": "facade", "vi": "mặt tiền", "ex": "an ornate facade"}, {"w": "foundation", "vi": "móng nhà", "ex": "lay the foundation"}, {"w": "pillar / column", "vi": "cột trụ", "ex": "marble columns"}, {"w": "dome", "vi": "mái vòm", "ex": "a golden dome"}, {"w": "arch", "vi": "vòm cổng", "ex": "a stone arch"}, {"w": "spire", "vi": "chóp nhọn (nhà thờ)", "ex": "a church spire"}, {"w": "scaffolding", "vi": "giàn giáo", "ex": "covered in scaffolding"}, {"w": "renovation", "vi": "sự cải tạo", "ex": "under renovation"}, {"w": "derelict", "vi": "bỏ hoang, đổ nát", "ex": "a derelict building"}, {"w": "heritage site", "vi": "di sản", "ex": "a UNESCO heritage site"}, {"w": "landmark building", "vi": "công trình biểu tượng", "ex": "an iconic landmark building"}, {"w": "high-rise development", "vi": "dự án nhà cao tầng", "ex": "a new high-rise development"}]}]}, {"letter": "E", "title": "Describing Places", "sub": "Positive & negative adjectives", "groups": [{"name": "Positive Descriptions", "words": [{"w": "bustling", "vi": "nhộn nhịp", "ex": "a bustling market"}, {"w": "vibrant", "vi": "sôi động, đầy sức sống", "ex": "a vibrant city"}, {"w": "picturesque", "vi": "đẹp như tranh", "ex": "a picturesque village"}, {"w": "scenic", "vi": "nhiều cảnh đẹp", "ex": "a scenic route"}, {"w": "charming", "vi": "quyến rũ, duyên dáng", "ex": "a charming old town"}, {"w": "lively", "vi": "náo nhiệt", "ex": "a lively neighbourhood"}, {"w": "spacious", "vi": "rộng rãi", "ex": "a spacious apartment"}, {"w": "cosy", "vi": "ấm cúng", "ex": "a cosy cottage"}, {"w": "tranquil", "vi": "yên bình", "ex": "a tranquil retreat"}, {"w": "thriving", "vi": "phát triển thịnh vượng", "ex": "a thriving city"}, {"w": "well-connected", "vi": "kết nối giao thông tốt", "ex": "a well-connected suburb"}, {"w": "affluent", "vi": "giàu có, sung túc", "ex": "an affluent neighbourhood"}, {"w": "historic", "vi": "cổ kính, có bề dày lịch sử", "ex": "a historic quarter"}, {"w": "breathtaking", "vi": "ngoạn mục", "ex": "breathtaking views"}, {"w": "up-and-coming", "vi": "đang lên, tiềm năng", "ex": "an up-and-coming district"}]}, {"name": "Negative Descriptions", "words": [{"w": "deprived", "vi": "nghèo khó, thiếu thốn", "ex": "a deprived area"}, {"w": "run-down", "vi": "xuống cấp", "ex": "a run-down district"}, {"w": "overcrowded", "vi": "đông đúc chật chội", "ex": "overcrowded streets"}, {"w": "polluted", "vi": "ô nhiễm", "ex": "a polluted city"}, {"w": "congested", "vi": "tắc nghẽn", "ex": "congested roads"}, {"w": "deserted", "vi": "vắng vẻ, hoang vắng", "ex": "a deserted street"}, {"w": "isolated", "vi": "biệt lập, hẻo lánh", "ex": "an isolated hamlet"}, {"w": "dilapidated", "vi": "đổ nát, mục nát", "ex": "a dilapidated house"}, {"w": "shabby", "vi": "cũ kỹ, tồi tàn", "ex": "a shabby neighbourhood"}, {"w": "cramped", "vi": "chật chội", "ex": "a cramped flat"}, {"w": "soulless", "vi": "vô hồn, buồn tẻ", "ex": "a soulless suburb"}, {"w": "sprawling", "vi": "trải rộng lộn xộn", "ex": "a sprawling metropolis"}, {"w": "noisy", "vi": "ồn ào", "ex": "a noisy area"}]}]}, {"letter": "F", "title": "Directions & Location", "sub": "Getting around · describing position", "groups": [{"name": "Directions", "words": [{"w": "opposite", "vi": "đối diện", "ex": "opposite the bank"}, {"w": "next to / beside", "vi": "bên cạnh", "ex": "next to the station"}, {"w": "between", "vi": "ở giữa", "ex": "between two shops"}, {"w": "behind", "vi": "phía sau", "ex": "behind the church"}, {"w": "in front of", "vi": "phía trước", "ex": "in front of the hotel"}, {"w": "around the corner", "vi": "ngay góc đường", "ex": "just around the corner"}, {"w": "straight ahead", "vi": "đi thẳng", "ex": "go straight ahead"}, {"w": "turn left / right", "vi": "rẽ trái / phải", "ex": "turn left at the lights"}, {"w": "at the end of", "vi": "ở cuối", "ex": "at the end of the road"}, {"w": "on the corner of", "vi": "ở góc", "ex": "on the corner of the street"}, {"w": "along", "vi": "dọc theo", "ex": "walk along the river"}, {"w": "adjacent to", "vi": "kề bên, liền kề", "ex": "adjacent to the park"}, {"w": "within walking distance", "vi": "trong tầm đi bộ", "ex": "within walking distance of shops"}]}, {"name": "Location & Position", "words": [{"w": "be located in", "vi": "nằm ở", "ex": "located in the city centre"}, {"w": "be situated on", "vi": "tọa lạc trên", "ex": "situated on a hill"}, {"w": "overlook", "vi": "nhìn ra", "ex": "a room overlooking the sea"}, {"w": "face", "vi": "hướng ra", "ex": "the house faces south"}, {"w": "be surrounded by", "vi": "được bao quanh bởi", "ex": "surrounded by mountains"}, {"w": "in the heart of", "vi": "ở trung tâm của", "ex": "in the heart of the city"}, {"w": "a stone's throw from", "vi": "rất gần", "ex": "a stone's throw from the beach"}, {"w": "off the beaten track", "vi": "nơi hẻo lánh, ít người đến", "ex": "a village off the beaten track"}, {"w": "on the doorstep", "vi": "ngay trước cửa, rất gần", "ex": "the countryside on your doorstep"}]}]}, {"letter": "G", "title": "Travel & Tourism", "sub": "Attractions · travel hubs", "groups": [{"name": "Attractions & Destinations", "words": [{"w": "tourist attraction", "vi": "điểm du lịch", "ex": "a top tourist attraction"}, {"w": "resort", "vi": "khu nghỉ dưỡng", "ex": "a beach resort"}, {"w": "destination", "vi": "điểm đến", "ex": "a popular destination"}, {"w": "sightseeing", "vi": "tham quan", "ex": "go sightseeing"}, {"w": "scenery", "vi": "phong cảnh", "ex": "stunning scenery"}, {"w": "viewpoint", "vi": "điểm ngắm cảnh", "ex": "a scenic viewpoint"}, {"w": "theme park", "vi": "công viên giải trí", "ex": "a huge theme park"}, {"w": "national park", "vi": "vườn quốc gia", "ex": "hike in the national park"}, {"w": "old town", "vi": "phố cổ", "ex": "the historic old town"}, {"w": "market", "vi": "chợ", "ex": "a bustling street market"}, {"w": "hidden gem", "vi": "viên ngọc ẩn", "ex": "a real hidden gem"}, {"w": "landmark", "vi": "địa danh nổi tiếng", "ex": "an iconic landmark"}]}, {"name": "Travel Hubs & Transport", "words": [{"w": "airport", "vi": "sân bay", "ex": "a busy international airport"}, {"w": "train station", "vi": "ga tàu", "ex": "the central train station"}, {"w": "bus terminal", "vi": "bến xe buýt", "ex": "the main bus terminal"}, {"w": "harbour / port", "vi": "bến cảng", "ex": "a fishing harbour"}, {"w": "pier / dock", "vi": "cầu tàu", "ex": "walk along the pier"}, {"w": "runway", "vi": "đường băng", "ex": "a new runway"}, {"w": "platform", "vi": "sân ga", "ex": "wait on the platform"}, {"w": "terminal", "vi": "nhà ga (sân bay)", "ex": "the departure terminal"}, {"w": "border", "vi": "biên giới", "ex": "cross the border"}, {"w": "checkpoint", "vi": "trạm kiểm soát", "ex": "a security checkpoint"}]}]}, {"letter": "H", "title": "Neighbourhood & Community", "sub": "Amenities · community life", "groups": [{"name": "Amenities & Facilities", "words": [{"w": "amenities", "vi": "tiện ích", "ex": "excellent local amenities"}, {"w": "facilities", "vi": "cơ sở vật chất", "ex": "modern facilities"}, {"w": "community centre", "vi": "trung tâm cộng đồng", "ex": "a local community centre"}, {"w": "leisure centre", "vi": "trung tâm thể thao, giải trí", "ex": "a leisure centre with a pool"}, {"w": "shopping centre / mall", "vi": "trung tâm mua sắm", "ex": "a huge shopping centre"}, {"w": "grocery store", "vi": "cửa hàng tạp hóa", "ex": "a corner grocery store"}, {"w": "pharmacy / chemist", "vi": "hiệu thuốc", "ex": "the local pharmacy"}, {"w": "clinic", "vi": "phòng khám", "ex": "a health clinic"}, {"w": "playground", "vi": "sân chơi", "ex": "a children's playground"}, {"w": "park", "vi": "công viên", "ex": "a large public park"}, {"w": "green space", "vi": "không gian xanh", "ex": "plenty of green space"}, {"w": "public library", "vi": "thư viện công cộng", "ex": "a well-stocked public library"}, {"w": "fire station", "vi": "trạm cứu hỏa", "ex": "the nearest fire station"}, {"w": "police station", "vi": "đồn cảnh sát", "ex": "report it at the police station"}]}, {"name": "Neighbourhood Vocabulary", "words": [{"w": "community", "vi": "cộng đồng", "ex": "a strong sense of community"}, {"w": "resident", "vi": "cư dân", "ex": "local residents"}, {"w": "local", "vi": "người / thứ thuộc địa phương", "ex": "ask a local for directions"}, {"w": "tight-knit community", "vi": "cộng đồng gắn bó", "ex": "a tight-knit community"}, {"w": "gentrification", "vi": "sự thượng lưu hóa khu phố", "ex": "rapid gentrification"}, {"w": "urban sprawl", "vi": "sự bành trướng đô thị", "ex": "uncontrolled urban sprawl"}, {"w": "green belt", "vi": "vành đai xanh", "ex": "protect the green belt"}, {"w": "regeneration", "vi": "sự tái phát triển", "ex": "urban regeneration"}, {"w": "crime rate", "vi": "tỷ lệ tội phạm", "ex": "a low crime rate"}, {"w": "cost of living", "vi": "chi phí sinh hoạt", "ex": "a high cost of living"}, {"w": "quality of life", "vi": "chất lượng cuộc sống", "ex": "a good quality of life"}, {"w": "densely populated", "vi": "đông dân", "ex": "a densely populated area"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Place idioms · home collocations", "groups": [{"name": "Place Idioms", "words": [{"w": "home sweet home", "vi": "nhà là tổ ấm", "ex": "Home sweet home!"}, {"w": "there's no place like home", "vi": "không đâu bằng nhà", "ex": "There's no place like home."}, {"w": "feel at home", "vi": "cảm thấy như ở nhà", "ex": "make guests feel at home"}, {"w": "a home away from home", "vi": "ngôi nhà thứ hai", "ex": "the café is a home away from home"}, {"w": "in the middle of nowhere", "vi": "nơi khỉ ho cò gáy", "ex": "a cabin in the middle of nowhere"}, {"w": "off the beaten track", "vi": "nơi ít người biết đến", "ex": "get off the beaten track"}, {"w": "a stone's throw away", "vi": "rất gần", "ex": "the sea is a stone's throw away"}, {"w": "the back of beyond", "vi": "nơi hẻo lánh xa xôi", "ex": "live in the back of beyond"}, {"w": "a ghost town", "vi": "thị trấn vắng tanh", "ex": "the resort becomes a ghost town in winter"}, {"w": "the hustle and bustle", "vi": "sự nhộn nhịp hối hả", "ex": "escape the hustle and bustle"}, {"w": "a concrete jungle", "vi": "rừng bê tông (đô thị)", "ex": "the city is a concrete jungle"}, {"w": "put (a place) on the map", "vi": "làm nơi nào nổi tiếng", "ex": "the festival put the town on the map"}, {"w": "a change of scenery", "vi": "thay đổi khung cảnh", "ex": "I needed a change of scenery"}, {"w": "my neck of the woods", "vi": "khu vực của tôi", "ex": "not much happens in my neck of the woods"}]}, {"name": "Home & Place Collocations", "words": [{"w": "move house", "vi": "chuyển nhà", "ex": "move house next month"}, {"w": "settle down", "vi": "an cư lạc nghiệp", "ex": "settle down in a small town"}, {"w": "do up a house", "vi": "sửa sang nhà cửa", "ex": "do up an old house"}, {"w": "put down roots", "vi": "bén rễ, định cư lâu dài", "ex": "put down roots in the city"}, {"w": "commute to work", "vi": "đi làm xa (mỗi ngày)", "ex": "commute to work by train"}, {"w": "a built-up area", "vi": "khu vực đông đúc, xây dựng nhiều", "ex": "drive slowly in a built-up area"}, {"w": "a residential neighbourhood", "vi": "khu dân cư", "ex": "a quiet residential neighbourhood"}, {"w": "a sparsely populated area", "vi": "khu vực thưa dân", "ex": "a sparsely populated area"}, {"w": "a stone's throw from the centre", "vi": "cách trung tâm một quãng ngắn", "ex": "a stone's throw from the centre"}, {"w": "relocate abroad", "vi": "chuyển ra nước ngoài sống", "ex": "relocate abroad for work"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Places & Spaces`;
+$('foot').innerHTML = 'POLARIS · Places — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
