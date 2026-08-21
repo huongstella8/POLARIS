@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Health & Medicine Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · HEALTH & MEDICINE</div>
+  <h1>Health &amp; Medicine — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "The Body & Symptoms", "sub": "Body & aches · symptoms", "groups": [{"name": "Body & Aches", "words": [{"w": "headache", "vi": "đau đầu", "ex": "a splitting headache"}, {"w": "stomachache", "vi": "đau bụng", "ex": "a bad stomachache"}, {"w": "toothache", "vi": "đau răng", "ex": "suffer from toothache"}, {"w": "backache", "vi": "đau lưng", "ex": "chronic backache"}, {"w": "sore throat", "vi": "viêm/đau họng", "ex": "a sore throat"}, {"w": "stiff neck", "vi": "cứng cổ", "ex": "wake up with a stiff neck"}, {"w": "muscle ache", "vi": "đau cơ", "ex": "muscle aches after exercise"}, {"w": "chest pain", "vi": "đau ngực", "ex": "sudden chest pain"}, {"w": "earache", "vi": "đau tai", "ex": "an earache"}, {"w": "cramp", "vi": "chuột rút", "ex": "get cramp in your leg"}]}, {"name": "Symptoms", "words": [{"w": "symptom", "vi": "triệu chứng", "ex": "the first symptoms"}, {"w": "fever / temperature", "vi": "sốt", "ex": "run a fever"}, {"w": "cough", "vi": "ho", "ex": "a persistent cough"}, {"w": "sneeze", "vi": "hắt hơi", "ex": "sneeze repeatedly"}, {"w": "runny nose", "vi": "chảy nước mũi", "ex": "a runny nose"}, {"w": "dizzy", "vi": "chóng mặt", "ex": "feel dizzy"}, {"w": "nausea", "vi": "buồn nôn", "ex": "a wave of nausea"}, {"w": "rash", "vi": "phát ban", "ex": "an itchy rash"}, {"w": "swelling", "vi": "sưng", "ex": "reduce the swelling"}, {"w": "fatigue", "vi": "mệt mỏi, kiệt sức", "ex": "chronic fatigue"}, {"w": "shortness of breath", "vi": "khó thở", "ex": "shortness of breath"}, {"w": "numbness", "vi": "tê cứng", "ex": "numbness in the fingers"}]}]}, {"letter": "B", "title": "Illnesses & Conditions", "sub": "Common illnesses · serious conditions", "groups": [{"name": "Common Illnesses", "words": [{"w": "a cold", "vi": "cảm lạnh", "ex": "catch a cold"}, {"w": "the flu", "vi": "cúm", "ex": "come down with the flu"}, {"w": "cough / chesty cough", "vi": "ho", "ex": "a chesty cough"}, {"w": "infection", "vi": "nhiễm trùng", "ex": "a chest infection"}, {"w": "allergy", "vi": "dị ứng", "ex": "a food allergy"}, {"w": "food poisoning", "vi": "ngộ độc thực phẩm", "ex": "get food poisoning"}, {"w": "migraine", "vi": "đau nửa đầu", "ex": "suffer from migraines"}, {"w": "indigestion", "vi": "khó tiêu", "ex": "mild indigestion"}, {"w": "hay fever", "vi": "viêm mũi dị ứng phấn hoa", "ex": "seasonal hay fever"}, {"w": "chickenpox", "vi": "bệnh thủy đậu", "ex": "catch chickenpox"}]}, {"name": "Serious Conditions", "words": [{"w": "disease", "vi": "bệnh (nói chung)", "ex": "an infectious disease"}, {"w": "illness", "vi": "bệnh tật, ốm đau", "ex": "a serious illness"}, {"w": "cancer", "vi": "ung thư", "ex": "diagnosed with cancer"}, {"w": "heart attack", "vi": "cơn đau tim", "ex": "have a heart attack"}, {"w": "stroke", "vi": "đột quỵ", "ex": "suffer a stroke"}, {"w": "diabetes", "vi": "tiểu đường", "ex": "type 2 diabetes"}, {"w": "asthma", "vi": "hen suyễn", "ex": "an asthma attack"}, {"w": "high blood pressure", "vi": "huyết áp cao", "ex": "high blood pressure"}, {"w": "pneumonia", "vi": "viêm phổi", "ex": "develop pneumonia"}, {"w": "chronic illness", "vi": "bệnh mãn tính", "ex": "a chronic illness"}, {"w": "mental illness", "vi": "bệnh tâm thần", "ex": "tackle mental illness"}, {"w": "obesity", "vi": "béo phì", "ex": "childhood obesity"}]}]}, {"letter": "C", "title": "At the Doctor's", "sub": "Getting help · diagnosis", "groups": [{"name": "Getting Help", "words": [{"w": "appointment", "vi": "cuộc hẹn khám", "ex": "make an appointment"}, {"w": "GP / family doctor", "vi": "bác sĩ gia đình", "ex": "see your GP"}, {"w": "consultation", "vi": "buổi khám, tư vấn", "ex": "a medical consultation"}, {"w": "clinic", "vi": "phòng khám", "ex": "a local clinic"}, {"w": "surgery", "vi": "phòng khám bác sĩ (Anh)", "ex": "the doctor's surgery"}, {"w": "waiting room", "vi": "phòng chờ", "ex": "sit in the waiting room"}, {"w": "referral", "vi": "giấy giới thiệu (chuyển tuyến)", "ex": "get a referral"}, {"w": "medical history", "vi": "tiền sử bệnh", "ex": "your medical history"}, {"w": "check-up", "vi": "khám tổng quát", "ex": "an annual check-up"}, {"w": "second opinion", "vi": "ý kiến thứ hai (bác sĩ khác)", "ex": "get a second opinion"}]}, {"name": "Diagnosis & Tests", "words": [{"w": "diagnose", "vi": "chẩn đoán", "ex": "diagnose the illness"}, {"w": "diagnosis", "vi": "sự chẩn đoán", "ex": "an early diagnosis"}, {"w": "examine", "vi": "khám, kiểm tra", "ex": "examine the patient"}, {"w": "symptom", "vi": "triệu chứng", "ex": "describe your symptoms"}, {"w": "blood test", "vi": "xét nghiệm máu", "ex": "have a blood test"}, {"w": "X-ray", "vi": "chụp X-quang", "ex": "take an X-ray"}, {"w": "scan", "vi": "chụp chiếu (quét)", "ex": "a brain scan"}, {"w": "test results", "vi": "kết quả xét nghiệm", "ex": "wait for the test results"}, {"w": "screening", "vi": "tầm soát, sàng lọc", "ex": "cancer screening"}, {"w": "check your pulse", "vi": "đo mạch", "ex": "check your pulse"}]}]}, {"letter": "D", "title": "Treatment & Medicine", "sub": "Treatments · medicines", "groups": [{"name": "Treatments", "words": [{"w": "treatment", "vi": "sự điều trị", "ex": "a course of treatment"}, {"w": "prescription", "vi": "đơn thuốc", "ex": "write a prescription"}, {"w": "prescribe", "vi": "kê đơn", "ex": "prescribe antibiotics"}, {"w": "cure", "vi": "chữa khỏi, cách chữa", "ex": "find a cure"}, {"w": "recover", "vi": "hồi phục", "ex": "recover fully"}, {"w": "recovery", "vi": "sự hồi phục", "ex": "a speedy recovery"}, {"w": "surgery / operation", "vi": "phẫu thuật", "ex": "undergo surgery"}, {"w": "therapy", "vi": "liệu pháp, trị liệu", "ex": "physical therapy"}, {"w": "rehabilitation", "vi": "phục hồi chức năng", "ex": "cardiac rehabilitation"}, {"w": "transplant", "vi": "cấy ghép", "ex": "a heart transplant"}, {"w": "physiotherapy", "vi": "vật lý trị liệu", "ex": "need physiotherapy"}, {"w": "stitches", "vi": "khâu (vết thương)", "ex": "have stitches"}]}, {"name": "Medicines", "words": [{"w": "medicine / medication", "vi": "thuốc", "ex": "take your medication"}, {"w": "painkiller", "vi": "thuốc giảm đau", "ex": "take a painkiller"}, {"w": "antibiotics", "vi": "thuốc kháng sinh", "ex": "a course of antibiotics"}, {"w": "tablet / pill", "vi": "viên thuốc", "ex": "swallow a tablet"}, {"w": "capsule", "vi": "viên nang", "ex": "a capsule"}, {"w": "dose / dosage", "vi": "liều lượng", "ex": "the correct dose"}, {"w": "vaccine", "vi": "vắc-xin", "ex": "a flu vaccine"}, {"w": "vaccination", "vi": "sự tiêm chủng", "ex": "vaccination programme"}, {"w": "ointment / cream", "vi": "thuốc mỡ, kem bôi", "ex": "apply the ointment"}, {"w": "syrup", "vi": "siro (thuốc)", "ex": "cough syrup"}, {"w": "side effect", "vi": "tác dụng phụ", "ex": "possible side effects"}, {"w": "over-the-counter", "vi": "thuốc không kê đơn", "ex": "over-the-counter medicine"}]}]}, {"letter": "E", "title": "Healthcare System", "sub": "Places & staff · systems", "groups": [{"name": "Places & Staff", "words": [{"w": "hospital", "vi": "bệnh viện", "ex": "admitted to hospital"}, {"w": "ward", "vi": "khoa, buồng bệnh", "ex": "a maternity ward"}, {"w": "emergency room / A&E", "vi": "phòng cấp cứu", "ex": "rushed to A&E"}, {"w": "intensive care (ICU)", "vi": "phòng chăm sóc đặc biệt", "ex": "in intensive care"}, {"w": "pharmacy", "vi": "hiệu thuốc", "ex": "the hospital pharmacy"}, {"w": "surgeon", "vi": "bác sĩ phẫu thuật", "ex": "a heart surgeon"}, {"w": "specialist / consultant", "vi": "bác sĩ chuyên khoa", "ex": "see a specialist"}, {"w": "nurse", "vi": "y tá", "ex": "a ward nurse"}, {"w": "paramedic", "vi": "nhân viên cấp cứu", "ex": "a trained paramedic"}, {"w": "pharmacist", "vi": "dược sĩ", "ex": "ask the pharmacist"}, {"w": "ambulance", "vi": "xe cứu thương", "ex": "call an ambulance"}]}, {"name": "Healthcare Systems", "words": [{"w": "public healthcare", "vi": "y tế công", "ex": "free public healthcare"}, {"w": "private healthcare", "vi": "y tế tư nhân", "ex": "private healthcare"}, {"w": "health insurance", "vi": "bảo hiểm y tế", "ex": "health insurance"}, {"w": "free at the point of use", "vi": "miễn phí khi sử dụng", "ex": "free at the point of use"}, {"w": "underfunded", "vi": "thiếu kinh phí", "ex": "an underfunded hospital"}, {"w": "waiting list", "vi": "danh sách chờ", "ex": "a long waiting list"}, {"w": "healthcare provider", "vi": "đơn vị cung cấp dịch vụ y tế", "ex": "a healthcare provider"}, {"w": "medical costs", "vi": "chi phí y tế", "ex": "rising medical costs"}, {"w": "understaffed", "vi": "thiếu nhân lực", "ex": "understaffed wards"}, {"w": "access to healthcare", "vi": "khả năng tiếp cận y tế", "ex": "equal access to healthcare"}]}]}, {"letter": "F", "title": "Prevention & Wellbeing", "sub": "Staying healthy · mental health", "groups": [{"name": "Staying Healthy", "words": [{"w": "prevention", "vi": "sự phòng ngừa", "ex": "prevention is better than cure"}, {"w": "immune system", "vi": "hệ miễn dịch", "ex": "boost the immune system"}, {"w": "immunity", "vi": "khả năng miễn dịch", "ex": "build up immunity"}, {"w": "hygiene", "vi": "vệ sinh", "ex": "good personal hygiene"}, {"w": "balanced diet", "vi": "chế độ ăn cân bằng", "ex": "eat a balanced diet"}, {"w": "exercise", "vi": "tập thể dục", "ex": "regular exercise"}, {"w": "preventive care", "vi": "chăm sóc phòng ngừa", "ex": "preventive care"}, {"w": "checkup", "vi": "khám định kỳ", "ex": "a regular checkup"}, {"w": "healthy lifestyle", "vi": "lối sống lành mạnh", "ex": "a healthy lifestyle"}, {"w": "stay fit", "vi": "giữ sức khỏe", "ex": "stay fit and active"}]}, {"name": "Mental Health & Wellbeing", "words": [{"w": "mental health", "vi": "sức khỏe tâm thần", "ex": "look after your mental health"}, {"w": "wellbeing", "vi": "sự khỏe mạnh, an lạc", "ex": "emotional wellbeing"}, {"w": "stress", "vi": "căng thẳng", "ex": "under a lot of stress"}, {"w": "anxiety", "vi": "sự lo âu", "ex": "suffer from anxiety"}, {"w": "depression", "vi": "trầm cảm", "ex": "battle depression"}, {"w": "burnout", "vi": "kiệt sức", "ex": "suffer burnout"}, {"w": "counselling", "vi": "tư vấn tâm lý", "ex": "seek counselling"}, {"w": "therapy", "vi": "trị liệu tâm lý", "ex": "start therapy"}, {"w": "mindfulness", "vi": "chánh niệm", "ex": "practise mindfulness"}, {"w": "self-care", "vi": "tự chăm sóc bản thân", "ex": "prioritise self-care"}]}]}, {"letter": "G", "title": "Lifestyle & Health Issues", "sub": "Bad habits · public health", "groups": [{"name": "Bad Habits & Risks", "words": [{"w": "smoking", "vi": "hút thuốc", "ex": "give up smoking"}, {"w": "alcohol", "vi": "rượu bia", "ex": "excessive alcohol"}, {"w": "addiction", "vi": "sự nghiện", "ex": "drug addiction"}, {"w": "sedentary lifestyle", "vi": "lối sống ít vận động", "ex": "a sedentary lifestyle"}, {"w": "junk food", "vi": "đồ ăn vặt không lành mạnh", "ex": "too much junk food"}, {"w": "sleep deprivation", "vi": "thiếu ngủ", "ex": "chronic sleep deprivation"}, {"w": "overweight", "vi": "thừa cân", "ex": "slightly overweight"}, {"w": "malnutrition", "vi": "suy dinh dưỡng", "ex": "suffer from malnutrition"}, {"w": "risk factor", "vi": "yếu tố nguy cơ", "ex": "a major risk factor"}, {"w": "substance abuse", "vi": "lạm dụng chất kích thích", "ex": "substance abuse"}]}, {"name": "Public Health", "words": [{"w": "epidemic", "vi": "dịch bệnh", "ex": "a flu epidemic"}, {"w": "pandemic", "vi": "đại dịch", "ex": "a global pandemic"}, {"w": "outbreak", "vi": "đợt bùng phát", "ex": "a disease outbreak"}, {"w": "contagious", "vi": "dễ lây", "ex": "a contagious virus"}, {"w": "quarantine", "vi": "cách ly", "ex": "under quarantine"}, {"w": "isolate", "vi": "cách ly (bản thân)", "ex": "self-isolate"}, {"w": "spread", "vi": "lây lan", "ex": "stop the spread"}, {"w": "immunise", "vi": "tiêm chủng, gây miễn dịch", "ex": "immunise children"}, {"w": "life expectancy", "vi": "tuổi thọ", "ex": "rising life expectancy"}, {"w": "mortality rate", "vi": "tỷ lệ tử vong", "ex": "a high mortality rate"}]}]}, {"letter": "H", "title": "Describing Health", "sub": "Positive & negative states", "groups": [{"name": "Positive / Healthy", "words": [{"w": "healthy", "vi": "khỏe mạnh", "ex": "stay healthy"}, {"w": "fit", "vi": "sung sức, khỏe khoắn", "ex": "keep fit"}, {"w": "well", "vi": "khỏe", "ex": "feel well again"}, {"w": "recovered", "vi": "đã hồi phục", "ex": "fully recovered"}, {"w": "in good shape", "vi": "có sức khỏe tốt", "ex": "in good shape"}, {"w": "energetic", "vi": "tràn đầy năng lượng", "ex": "feel energetic"}, {"w": "robust", "vi": "cường tráng, khỏe mạnh", "ex": "a robust constitution"}, {"w": "full of energy", "vi": "tràn đầy năng lượng", "ex": "full of energy"}, {"w": "on the mend", "vi": "đang bình phục", "ex": "she's on the mend"}, {"w": "as fit as a fiddle", "vi": "khỏe như vâm", "ex": "as fit as a fiddle"}]}, {"name": "Negative / Unwell", "words": [{"w": "ill / sick", "vi": "ốm, bệnh", "ex": "feel ill"}, {"w": "unwell", "vi": "không khỏe", "ex": "feel unwell"}, {"w": "poorly", "vi": "hơi ốm (Anh)", "ex": "feeling a bit poorly"}, {"w": "under the weather", "vi": "hơi mệt, khó ở", "ex": "a bit under the weather"}, {"w": "frail", "vi": "yếu ớt, mảnh khảnh", "ex": "a frail old man"}, {"w": "weak", "vi": "yếu", "ex": "feel weak"}, {"w": "exhausted", "vi": "kiệt sức", "ex": "utterly exhausted"}, {"w": "run-down", "vi": "mệt mỏi, suy nhược", "ex": "feel run-down"}, {"w": "bedridden", "vi": "liệt giường", "ex": "bedridden for weeks"}, {"w": "in critical condition", "vi": "trong tình trạng nguy kịch", "ex": "in critical condition"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Health idioms · collocations", "groups": [{"name": "Health Idioms", "words": [{"w": "under the weather", "vi": "hơi ốm, khó ở", "ex": "feeling under the weather"}, {"w": "as fit as a fiddle", "vi": "khỏe như vâm", "ex": "he's as fit as a fiddle"}, {"w": "back on your feet", "vi": "hồi phục, đứng dậy được", "ex": "back on your feet soon"}, {"w": "a clean bill of health", "vi": "giấy chứng nhận sức khỏe tốt", "ex": "given a clean bill of health"}, {"w": "on the mend", "vi": "đang bình phục", "ex": "she's on the mend"}, {"w": "out of sorts", "vi": "không được khỏe, không ổn", "ex": "feel out of sorts"}, {"w": "run yourself into the ground", "vi": "làm việc đến kiệt sức", "ex": "don't run yourself into the ground"}, {"w": "prevention is better than cure", "vi": "phòng bệnh hơn chữa bệnh", "ex": "prevention is better than cure"}, {"w": "an apple a day keeps the doctor away", "vi": "ăn uống lành mạnh giúp khỏe", "ex": "an apple a day keeps the doctor away"}, {"w": "at death's door", "vi": "gần đất xa trời, thập tử nhất sinh", "ex": "at death's door"}, {"w": "nurse someone back to health", "vi": "chăm cho ai khỏe lại", "ex": "nurse him back to health"}, {"w": "pull through", "vi": "vượt qua (bệnh nặng)", "ex": "she pulled through after surgery"}]}, {"name": "Common Collocations", "words": [{"w": "catch a cold", "vi": "bị cảm", "ex": "catch a cold"}, {"w": "come down with", "vi": "mắc (bệnh nhẹ)", "ex": "come down with the flu"}, {"w": "get over an illness", "vi": "khỏi bệnh", "ex": "get over the flu"}, {"w": "make a full recovery", "vi": "hồi phục hoàn toàn", "ex": "make a full recovery"}, {"w": "take medicine", "vi": "uống thuốc", "ex": "take your medicine"}, {"w": "see a doctor", "vi": "đi khám bác sĩ", "ex": "see a doctor"}, {"w": "suffer from", "vi": "mắc, bị (bệnh)", "ex": "suffer from asthma"}, {"w": "put on weight", "vi": "tăng cân", "ex": "put on weight"}, {"w": "break a leg / bone", "vi": "gãy chân/xương", "ex": "break a leg"}, {"w": "boost your immune system", "vi": "tăng cường miễn dịch", "ex": "boost your immune system"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Body, Illness & Healthcare`;
+$('foot').innerHTML = 'POLARIS · Health & Medicine — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
