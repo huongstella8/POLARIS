@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Shopping & Money Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · SHOPPING & MONEY</div>
+  <h1>Shopping &amp; Money — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "Shops & Shopping", "sub": "Places to shop · shopping activities", "groups": [{"name": "Places to Shop", "words": [{"w": "shopping centre / mall", "vi": "trung tâm mua sắm", "ex": "a huge shopping mall"}, {"w": "department store", "vi": "cửa hàng bách hóa", "ex": "a luxury department store"}, {"w": "supermarket", "vi": "siêu thị", "ex": "do the weekly supermarket shop"}, {"w": "grocery store", "vi": "cửa hàng tạp hóa", "ex": "a local grocery store"}, {"w": "boutique", "vi": "cửa hàng thời trang nhỏ", "ex": "a designer boutique"}, {"w": "market stall", "vi": "quầy hàng ở chợ", "ex": "a busy market stall"}, {"w": "corner shop", "vi": "cửa hàng tạp hóa nhỏ ở góc phố", "ex": "pop to the corner shop"}, {"w": "outlet", "vi": "cửa hàng bán giá gốc/giảm giá", "ex": "a factory outlet"}, {"w": "pharmacy / chemist", "vi": "hiệu thuốc", "ex": "the local pharmacy"}, {"w": "newsagent", "vi": "quầy báo, tạp hóa nhỏ", "ex": "buy a paper at the newsagent"}, {"w": "wholesaler", "vi": "người/nơi bán buôn", "ex": "buy from a wholesaler"}, {"w": "retailer", "vi": "nhà bán lẻ", "ex": "a major retailer"}]}, {"name": "Shopping Activities", "words": [{"w": "browse", "vi": "xem lướt (không nhất định mua)", "ex": "browse the shelves"}, {"w": "try on", "vi": "mặc thử", "ex": "try on the jacket"}, {"w": "queue / line up", "vi": "xếp hàng", "ex": "queue at the till"}, {"w": "checkout / till", "vi": "quầy thanh toán", "ex": "pay at the checkout"}, {"w": "trolley / cart", "vi": "xe đẩy hàng", "ex": "fill the trolley"}, {"w": "basket", "vi": "giỏ mua hàng", "ex": "a shopping basket"}, {"w": "receipt", "vi": "hóa đơn (biên lai)", "ex": "keep the receipt"}, {"w": "refund", "vi": "hoàn tiền", "ex": "ask for a refund"}, {"w": "exchange", "vi": "đổi hàng", "ex": "exchange the item"}, {"w": "window shopping", "vi": "ngắm đồ (không mua)", "ex": "go window shopping"}, {"w": "online shopping", "vi": "mua sắm trực tuyến", "ex": "prefer online shopping"}, {"w": "add to cart", "vi": "thêm vào giỏ", "ex": "add to cart"}]}]}, {"letter": "B", "title": "Prices & Value", "sub": "Cost & pricing · describing value", "groups": [{"name": "Cost & Pricing", "words": [{"w": "price tag", "vi": "nhãn giá", "ex": "check the price tag"}, {"w": "cost", "vi": "chi phí, giá", "ex": "the total cost"}, {"w": "charge", "vi": "tính phí", "ex": "charge extra for delivery"}, {"w": "worth", "vi": "đáng giá", "ex": "worth every penny"}, {"w": "discount", "vi": "giảm giá", "ex": "a 20% discount"}, {"w": "sale", "vi": "đợt giảm giá", "ex": "the summer sale"}, {"w": "bargain", "vi": "món hời", "ex": "grab a bargain"}, {"w": "offer / deal", "vi": "ưu đãi", "ex": "a special offer"}, {"w": "half price", "vi": "nửa giá", "ex": "half price on Fridays"}, {"w": "markdown", "vi": "hạ giá", "ex": "a big markdown"}, {"w": "marked up", "vi": "bị đội giá", "ex": "the price was marked up"}, {"w": "surcharge", "vi": "phụ phí", "ex": "a fuel surcharge"}]}, {"name": "Describing Value", "words": [{"w": "expensive", "vi": "đắt", "ex": "far too expensive"}, {"w": "cheap", "vi": "rẻ", "ex": "cheap and cheerful"}, {"w": "affordable", "vi": "phải chăng, vừa túi tiền", "ex": "affordable prices"}, {"w": "overpriced", "vi": "bị hét giá, đắt quá mức", "ex": "hopelessly overpriced"}, {"w": "reasonable", "vi": "hợp lý", "ex": "a reasonable price"}, {"w": "value for money", "vi": "đáng đồng tiền", "ex": "great value for money"}, {"w": "a rip-off", "vi": "vụ chặt chém", "ex": "that's a rip-off"}, {"w": "pricey", "vi": "hơi đắt", "ex": "a bit pricey"}, {"w": "competitive", "vi": "cạnh tranh (về giá)", "ex": "competitive prices"}, {"w": "exorbitant", "vi": "cắt cổ, quá đắt", "ex": "exorbitant fees"}]}]}, {"letter": "C", "title": "Paying & Transactions", "sub": "Ways to pay · at the till", "groups": [{"name": "Ways to Pay", "words": [{"w": "cash", "vi": "tiền mặt", "ex": "pay in cash"}, {"w": "card", "vi": "thẻ", "ex": "pay by card"}, {"w": "credit card", "vi": "thẻ tín dụng", "ex": "use a credit card"}, {"w": "debit card", "vi": "thẻ ghi nợ", "ex": "a debit card"}, {"w": "contactless", "vi": "thanh toán không chạm", "ex": "tap to pay contactless"}, {"w": "bank transfer", "vi": "chuyển khoản ngân hàng", "ex": "a bank transfer"}, {"w": "e-wallet", "vi": "ví điện tử", "ex": "top up an e-wallet"}, {"w": "instalments", "vi": "trả góp", "ex": "pay in instalments"}, {"w": "in advance", "vi": "trả trước", "ex": "pay in advance"}, {"w": "on credit", "vi": "mua chịu, trả sau", "ex": "buy on credit"}]}, {"name": "At the Till & Beyond", "words": [{"w": "change", "vi": "tiền thối lại", "ex": "keep the change"}, {"w": "balance", "vi": "số dư", "ex": "check your balance"}, {"w": "transaction", "vi": "giao dịch", "ex": "a secure transaction"}, {"w": "invoice", "vi": "hóa đơn (bán buôn)", "ex": "send an invoice"}, {"w": "warranty / guarantee", "vi": "bảo hành", "ex": "a two-year warranty"}, {"w": "delivery", "vi": "giao hàng", "ex": "free delivery"}, {"w": "out of stock", "vi": "hết hàng", "ex": "the item is out of stock"}, {"w": "in stock", "vi": "còn hàng", "ex": "back in stock"}, {"w": "loyalty card", "vi": "thẻ khách hàng thân thiết", "ex": "collect loyalty points"}, {"w": "voucher", "vi": "phiếu giảm giá", "ex": "redeem a voucher"}]}]}, {"letter": "D", "title": "Earning & Income", "sub": "Income · earning money", "groups": [{"name": "Income", "words": [{"w": "salary", "vi": "lương (tháng/năm)", "ex": "a monthly salary"}, {"w": "wage", "vi": "lương (theo giờ/tuần)", "ex": "the minimum wage"}, {"w": "income", "vi": "thu nhập", "ex": "a steady income"}, {"w": "earnings", "vi": "tiền kiếm được", "ex": "annual earnings"}, {"w": "pay slip", "vi": "phiếu lương", "ex": "check your pay slip"}, {"w": "net income", "vi": "thu nhập ròng (sau thuế)", "ex": "net income"}, {"w": "gross income", "vi": "thu nhập gộp (trước thuế)", "ex": "gross income"}, {"w": "bonus", "vi": "tiền thưởng", "ex": "a Christmas bonus"}, {"w": "commission", "vi": "tiền hoa hồng", "ex": "earn commission on sales"}, {"w": "pension", "vi": "lương hưu", "ex": "draw a pension"}, {"w": "allowance", "vi": "tiền trợ cấp, tiền tiêu vặt", "ex": "a weekly allowance"}]}, {"name": "Earning Money", "words": [{"w": "earn a living", "vi": "kiếm sống", "ex": "earn a decent living"}, {"w": "make money", "vi": "kiếm tiền", "ex": "make money online"}, {"w": "side hustle", "vi": "nghề tay trái", "ex": "start a side hustle"}, {"w": "freelance", "vi": "làm tự do", "ex": "freelance work"}, {"w": "breadwinner", "vi": "trụ cột kinh tế gia đình", "ex": "the family breadwinner"}, {"w": "well-off", "vi": "khá giả", "ex": "a well-off family"}, {"w": "wealthy / affluent", "vi": "giàu có", "ex": "a wealthy investor"}, {"w": "broke", "vi": "cháy túi, hết tiền", "ex": "completely broke"}, {"w": "hard up", "vi": "túng thiếu", "ex": "a bit hard up this month"}, {"w": "livelihood", "vi": "kế sinh nhai", "ex": "lose their livelihood"}]}]}, {"letter": "E", "title": "Spending & Saving", "sub": "Spending habits · saving money", "groups": [{"name": "Spending Habits", "words": [{"w": "spend", "vi": "tiêu, chi", "ex": "spend money on clothes"}, {"w": "splurge", "vi": "tiêu hoang, vung tiền", "ex": "splurge on a holiday"}, {"w": "overspend", "vi": "tiêu quá tay", "ex": "tend to overspend"}, {"w": "impulse buy", "vi": "mua bốc đồng", "ex": "an impulse buy"}, {"w": "shopaholic", "vi": "người nghiện mua sắm", "ex": "she's a shopaholic"}, {"w": "extravagant", "vi": "xa hoa, hoang phí", "ex": "an extravagant lifestyle"}, {"w": "thrifty", "vi": "tằn tiện, tiết kiệm", "ex": "a thrifty shopper"}, {"w": "frugal", "vi": "dè sẻn, đạm bạc", "ex": "live a frugal life"}, {"w": "stingy / tight", "vi": "keo kiệt", "ex": "too stingy to tip"}, {"w": "live within your means", "vi": "sống trong khả năng", "ex": "live within your means"}, {"w": "live beyond your means", "vi": "tiêu quá khả năng", "ex": "live beyond your means"}]}, {"name": "Saving Money", "words": [{"w": "save up", "vi": "để dành, tiết kiệm", "ex": "save up for a car"}, {"w": "savings", "vi": "tiền tiết kiệm", "ex": "dip into your savings"}, {"w": "budget", "vi": "ngân sách, lập ngân sách", "ex": "stick to a budget"}, {"w": "cut back on", "vi": "cắt giảm", "ex": "cut back on spending"}, {"w": "nest egg", "vi": "khoản tiền dành dụm", "ex": "build up a nest egg"}, {"w": "rainy day", "vi": "phòng lúc khó khăn", "ex": "save for a rainy day"}, {"w": "piggy bank", "vi": "heo đất tiết kiệm", "ex": "fill a piggy bank"}, {"w": "make ends meet", "vi": "xoay xở đủ sống", "ex": "struggle to make ends meet"}, {"w": "tighten your belt", "vi": "thắt lưng buộc bụng", "ex": "tighten your belt"}, {"w": "emergency fund", "vi": "quỹ dự phòng khẩn cấp", "ex": "an emergency fund"}]}]}, {"letter": "F", "title": "Banking & Finance", "sub": "Banking · loans & credit", "groups": [{"name": "Banking", "words": [{"w": "bank account", "vi": "tài khoản ngân hàng", "ex": "open a bank account"}, {"w": "current account", "vi": "tài khoản vãng lai", "ex": "a current account"}, {"w": "savings account", "vi": "tài khoản tiết kiệm", "ex": "a savings account"}, {"w": "deposit", "vi": "gửi tiền, tiền đặt cọc", "ex": "make a deposit"}, {"w": "withdraw", "vi": "rút tiền", "ex": "withdraw cash"}, {"w": "ATM / cash machine", "vi": "máy rút tiền", "ex": "use an ATM"}, {"w": "statement", "vi": "sao kê", "ex": "a bank statement"}, {"w": "overdraft", "vi": "thấu chi (rút vượt số dư)", "ex": "go into overdraft"}, {"w": "interest", "vi": "tiền lãi", "ex": "earn interest"}, {"w": "interest rate", "vi": "lãi suất", "ex": "a low interest rate"}, {"w": "exchange rate", "vi": "tỷ giá hối đoái", "ex": "the exchange rate"}]}, {"name": "Loans & Credit", "words": [{"w": "loan", "vi": "khoản vay", "ex": "take out a loan"}, {"w": "mortgage", "vi": "khoản vay mua nhà", "ex": "pay off the mortgage"}, {"w": "borrow", "vi": "vay, mượn", "ex": "borrow money from a bank"}, {"w": "lend", "vi": "cho vay", "ex": "lend money to a friend"}, {"w": "debt", "vi": "nợ", "ex": "get into debt"}, {"w": "in debt", "vi": "đang nợ", "ex": "deeply in debt"}, {"w": "repay / pay off", "vi": "trả nợ", "ex": "repay the loan"}, {"w": "credit score", "vi": "điểm tín dụng", "ex": "a good credit score"}, {"w": "bankrupt", "vi": "phá sản", "ex": "go bankrupt"}, {"w": "bad debt", "vi": "nợ xấu", "ex": "write off bad debt"}]}]}, {"letter": "G", "title": "Economy & Trade", "sub": "The economy · money & the state", "groups": [{"name": "The Economy", "words": [{"w": "the economy", "vi": "nền kinh tế", "ex": "boost the economy"}, {"w": "inflation", "vi": "lạm phát", "ex": "rising inflation"}, {"w": "recession", "vi": "suy thoái kinh tế", "ex": "a deep recession"}, {"w": "cost of living", "vi": "chi phí sinh hoạt", "ex": "the rising cost of living"}, {"w": "supply and demand", "vi": "cung và cầu", "ex": "supply and demand"}, {"w": "stock market", "vi": "thị trường chứng khoán", "ex": "the stock market crashed"}, {"w": "shares / stocks", "vi": "cổ phiếu", "ex": "invest in shares"}, {"w": "invest", "vi": "đầu tư", "ex": "invest in property"}, {"w": "profit", "vi": "lợi nhuận", "ex": "make a profit"}, {"w": "loss", "vi": "khoản lỗ", "ex": "run at a loss"}, {"w": "currency", "vi": "tiền tệ", "ex": "a strong currency"}, {"w": "GDP", "vi": "tổng sản phẩm quốc nội", "ex": "GDP growth"}]}, {"name": "Money & the State", "words": [{"w": "tax", "vi": "thuế", "ex": "pay income tax"}, {"w": "taxpayer", "vi": "người nộp thuế", "ex": "funded by taxpayers"}, {"w": "subsidy", "vi": "trợ cấp, trợ giá", "ex": "a government subsidy"}, {"w": "welfare / benefits", "vi": "phúc lợi, trợ cấp xã hội", "ex": "claim benefits"}, {"w": "poverty", "vi": "nghèo đói", "ex": "live in poverty"}, {"w": "the poverty line", "vi": "ngưỡng nghèo", "ex": "below the poverty line"}, {"w": "wealth gap", "vi": "khoảng cách giàu nghèo", "ex": "a widening wealth gap"}, {"w": "charity", "vi": "hoạt động từ thiện", "ex": "donate to charity"}, {"w": "donation", "vi": "khoản quyên góp", "ex": "a generous donation"}, {"w": "funding", "vi": "nguồn tài trợ", "ex": "government funding"}]}]}, {"letter": "H", "title": "Deals & Consumer Life", "sub": "Bargaining · consumer issues", "groups": [{"name": "Bargaining & Deals", "words": [{"w": "haggle", "vi": "mặc cả", "ex": "haggle over the price"}, {"w": "negotiate", "vi": "thương lượng", "ex": "negotiate a discount"}, {"w": "knock off", "vi": "bớt giá", "ex": "knock off ten percent"}, {"w": "throw in", "vi": "tặng kèm", "ex": "throw in free delivery"}, {"w": "clearance sale", "vi": "xả hàng thanh lý", "ex": "a clearance sale"}, {"w": "buy one get one free", "vi": "mua 1 tặng 1", "ex": "buy one get one free"}, {"w": "cashback", "vi": "hoàn tiền (khuyến mãi)", "ex": "get cashback"}, {"w": "loyalty scheme", "vi": "chương trình khách hàng thân thiết", "ex": "join a loyalty scheme"}, {"w": "second-hand", "vi": "đồ cũ, đã qua sử dụng", "ex": "a second-hand car"}, {"w": "brand new", "vi": "mới tinh", "ex": "brand new, still boxed"}]}, {"name": "Consumer Issues", "words": [{"w": "consumer", "vi": "người tiêu dùng", "ex": "protect the consumer"}, {"w": "faulty / defective", "vi": "lỗi, hỏng", "ex": "a faulty product"}, {"w": "complaint", "vi": "lời khiếu nại", "ex": "file a complaint"}, {"w": "counterfeit / fake", "vi": "hàng giả, hàng nhái", "ex": "counterfeit goods"}, {"w": "scam", "vi": "trò lừa đảo", "ex": "fall for a scam"}, {"w": "overcharge", "vi": "tính giá quá cao", "ex": "overcharge customers"}, {"w": "consumer rights", "vi": "quyền lợi người tiêu dùng", "ex": "know your consumer rights"}, {"w": "returns policy", "vi": "chính sách đổi trả", "ex": "a generous returns policy"}, {"w": "hidden costs", "vi": "chi phí ẩn", "ex": "beware of hidden costs"}, {"w": "small print", "vi": "điều khoản in nhỏ", "ex": "read the small print"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Money idioms · collocations", "groups": [{"name": "Money Idioms", "words": [{"w": "cost an arm and a leg", "vi": "đắt cắt cổ", "ex": "it cost an arm and a leg"}, {"w": "break the bank", "vi": "tốn quá nhiều tiền", "ex": "a holiday that won't break the bank"}, {"w": "tighten your belt", "vi": "thắt lưng buộc bụng", "ex": "we had to tighten our belts"}, {"w": "save for a rainy day", "vi": "để dành phòng thân", "ex": "save for a rainy day"}, {"w": "live from hand to mouth", "vi": "sống lay lắt qua ngày", "ex": "live from hand to mouth"}, {"w": "money doesn't grow on trees", "vi": "tiền không tự nhiên mà có", "ex": "money doesn't grow on trees"}, {"w": "a rip-off", "vi": "vụ chặt chém", "ex": "the ticket was a rip-off"}, {"w": "splash out", "vi": "vung tiền, chi mạnh", "ex": "splash out on a car"}, {"w": "be rolling in it", "vi": "giàu nứt đố đổ vách", "ex": "he's absolutely rolling in it"}, {"w": "pay through the nose", "vi": "trả giá cắt cổ", "ex": "pay through the nose for parking"}, {"w": "foot the bill", "vi": "chi trả (hóa đơn)", "ex": "foot the bill for the party"}, {"w": "a nest egg", "vi": "khoản tiền dành dụm", "ex": "build up a nest egg"}, {"w": "in the red", "vi": "thâm hụt, âm tiền", "ex": "the account is in the red"}, {"w": "in the black", "vi": "có lãi, dương tiền", "ex": "back in the black"}]}, {"name": "Common Collocations", "words": [{"w": "do the shopping", "vi": "đi mua sắm", "ex": "do the weekly shopping"}, {"w": "pay in cash", "vi": "trả tiền mặt", "ex": "pay in cash"}, {"w": "go on a shopping spree", "vi": "đi mua sắm thả ga", "ex": "go on a shopping spree"}, {"w": "make a purchase", "vi": "mua hàng", "ex": "make a purchase online"}, {"w": "get value for money", "vi": "đáng đồng tiền", "ex": "get good value for money"}, {"w": "open an account", "vi": "mở tài khoản", "ex": "open a bank account"}, {"w": "take out a loan", "vi": "vay tiền", "ex": "take out a loan"}, {"w": "run up a debt", "vi": "gánh nợ, mắc nợ", "ex": "run up a huge debt"}, {"w": "set a budget", "vi": "lập ngân sách", "ex": "set a monthly budget"}, {"w": "make a profit", "vi": "kiếm lời", "ex": "make a healthy profit"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Shopping, Money & Finance`;
+$('foot').innerHTML = 'POLARIS · Shopping & Money — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>

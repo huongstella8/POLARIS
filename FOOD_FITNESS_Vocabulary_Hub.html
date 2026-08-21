@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Food & Fitness Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · FOOD & FITNESS</div>
+  <h1>Food &amp; Fitness — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "Food & Ingredients", "sub": "Food groups · ingredients & produce", "groups": [{"name": "Food Groups & Types", "words": [{"w": "carbohydrates / carbs", "vi": "tinh bột, carbohydrate", "ex": "cut down on carbs"}, {"w": "protein", "vi": "chất đạm", "ex": "a good source of protein"}, {"w": "dairy products", "vi": "sản phẩm từ sữa", "ex": "avoid dairy products"}, {"w": "poultry", "vi": "thịt gia cầm", "ex": "lean poultry"}, {"w": "seafood", "vi": "hải sản", "ex": "fresh seafood"}, {"w": "pulses / legumes", "vi": "các loại đậu", "ex": "beans and other pulses"}, {"w": "wholegrains", "vi": "ngũ cốc nguyên hạt", "ex": "eat more wholegrains"}, {"w": "produce", "vi": "nông sản (rau củ quả)", "ex": "fresh local produce"}, {"w": "staple food", "vi": "thực phẩm chủ yếu", "ex": "rice is a staple food"}, {"w": "condiment", "vi": "gia vị (nước chấm, sốt)", "ex": "add a condiment"}, {"w": "seasoning", "vi": "gia vị nêm", "ex": "a pinch of seasoning"}, {"w": "leftovers", "vi": "đồ ăn thừa", "ex": "reheat the leftovers"}]}, {"name": "Taste & Texture", "words": [{"w": "savoury", "vi": "mặn, đậm đà (không ngọt)", "ex": "a savoury snack"}, {"w": "sweet", "vi": "ngọt", "ex": "too sweet for me"}, {"w": "sour", "vi": "chua", "ex": "a sour taste"}, {"w": "bitter", "vi": "đắng", "ex": "bitter chocolate"}, {"w": "spicy", "vi": "cay", "ex": "a spicy curry"}, {"w": "bland", "vi": "nhạt nhẽo", "ex": "the soup is bland"}, {"w": "rich", "vi": "béo ngậy, đậm", "ex": "a rich sauce"}, {"w": "crispy", "vi": "giòn", "ex": "crispy bacon"}, {"w": "tender", "vi": "mềm (thịt)", "ex": "tender beef"}, {"w": "stale", "vi": "cũ, thiu (bánh mì)", "ex": "stale bread"}, {"w": "ripe", "vi": "chín (quả)", "ex": "a ripe mango"}, {"w": "juicy", "vi": "mọng nước", "ex": "a juicy peach"}]}]}, {"letter": "B", "title": "Cooking & Preparation", "sub": "Cooking methods · in the kitchen", "groups": [{"name": "Cooking Methods", "words": [{"w": "boil", "vi": "luộc, đun sôi", "ex": "boil the eggs"}, {"w": "steam", "vi": "hấp", "ex": "steam the vegetables"}, {"w": "fry", "vi": "chiên, rán", "ex": "fry the onions"}, {"w": "stir-fry", "vi": "xào", "ex": "stir-fry the noodles"}, {"w": "deep-fry", "vi": "chiên ngập dầu", "ex": "deep-fry the chicken"}, {"w": "grill", "vi": "nướng (vỉ)", "ex": "grill the fish"}, {"w": "roast", "vi": "quay, nướng (lò)", "ex": "roast a chicken"}, {"w": "bake", "vi": "nướng bánh", "ex": "bake a cake"}, {"w": "simmer", "vi": "ninh nhỏ lửa", "ex": "let it simmer"}, {"w": "marinate", "vi": "ướp", "ex": "marinate the meat overnight"}, {"w": "season", "vi": "nêm gia vị", "ex": "season with salt"}, {"w": "whisk", "vi": "đánh (trứng, kem)", "ex": "whisk the eggs"}, {"w": "chop", "vi": "cắt, băm", "ex": "chop the herbs"}, {"w": "peel", "vi": "gọt vỏ", "ex": "peel the potatoes"}]}, {"name": "In the Kitchen", "words": [{"w": "recipe", "vi": "công thức nấu ăn", "ex": "follow a recipe"}, {"w": "ingredient", "vi": "nguyên liệu", "ex": "fresh ingredients"}, {"w": "utensils", "vi": "dụng cụ nấu ăn", "ex": "kitchen utensils"}, {"w": "frying pan", "vi": "chảo rán", "ex": "a non-stick frying pan"}, {"w": "saucepan", "vi": "nồi (có tay cầm)", "ex": "a large saucepan"}, {"w": "chopping board", "vi": "thớt", "ex": "use a chopping board"}, {"w": "oven", "vi": "lò nướng", "ex": "preheat the oven"}, {"w": "blender", "vi": "máy xay sinh tố", "ex": "blend in a blender"}, {"w": "portion", "vi": "khẩu phần", "ex": "a small portion"}, {"w": "dish", "vi": "món ăn", "ex": "a traditional dish"}]}]}, {"letter": "C", "title": "Eating & Meals", "sub": "Meals & eating out", "groups": [{"name": "Meals & Habits", "words": [{"w": "breakfast", "vi": "bữa sáng", "ex": "skip breakfast"}, {"w": "brunch", "vi": "bữa nửa buổi (sáng-trưa)", "ex": "have brunch"}, {"w": "snack", "vi": "đồ ăn vặt", "ex": "a healthy snack"}, {"w": "appetiser / starter", "vi": "món khai vị", "ex": "order a starter"}, {"w": "main course", "vi": "món chính", "ex": "the main course"}, {"w": "dessert", "vi": "món tráng miệng", "ex": "have dessert"}, {"w": "side dish", "vi": "món ăn kèm", "ex": "a side dish of salad"}, {"w": "nibble", "vi": "nhấm nháp", "ex": "nibble on nuts"}, {"w": "devour", "vi": "ăn ngấu nghiến", "ex": "devour the meal"}, {"w": "grab a bite", "vi": "ăn nhanh chút gì", "ex": "grab a bite to eat"}]}, {"name": "Eating Out", "words": [{"w": "restaurant", "vi": "nhà hàng", "ex": "book a restaurant"}, {"w": "canteen", "vi": "căng-tin", "ex": "the school canteen"}, {"w": "street food", "vi": "đồ ăn đường phố", "ex": "try local street food"}, {"w": "takeaway / takeout", "vi": "đồ ăn mang về", "ex": "order a takeaway"}, {"w": "menu", "vi": "thực đơn", "ex": "look at the menu"}, {"w": "dine out", "vi": "đi ăn ngoài", "ex": "dine out on weekends"}, {"w": "waiter / waitress", "vi": "phục vụ bàn", "ex": "tip the waiter"}, {"w": "the bill / check", "vi": "hóa đơn", "ex": "ask for the bill"}, {"w": "book a table", "vi": "đặt bàn", "ex": "book a table for two"}, {"w": "cuisine", "vi": "ẩm thực, nền ẩm thực", "ex": "Italian cuisine"}]}]}, {"letter": "D", "title": "Nutrition & Diet", "sub": "Nutrition · diets & habits", "groups": [{"name": "Nutrition", "words": [{"w": "nutrient", "vi": "chất dinh dưỡng", "ex": "essential nutrients"}, {"w": "vitamins", "vi": "vitamin", "ex": "rich in vitamins"}, {"w": "minerals", "vi": "khoáng chất", "ex": "iron and other minerals"}, {"w": "fibre", "vi": "chất xơ", "ex": "high in fibre"}, {"w": "calories", "vi": "calo", "ex": "count calories"}, {"w": "saturated fat", "vi": "chất béo bão hòa", "ex": "reduce saturated fat"}, {"w": "additives", "vi": "phụ gia", "ex": "artificial additives"}, {"w": "preservatives", "vi": "chất bảo quản", "ex": "free from preservatives"}, {"w": "balanced diet", "vi": "chế độ ăn cân bằng", "ex": "eat a balanced diet"}, {"w": "nutritious", "vi": "bổ dưỡng", "ex": "a nutritious meal"}, {"w": "wholesome", "vi": "lành mạnh, bổ dưỡng", "ex": "wholesome home cooking"}, {"w": "processed food", "vi": "thực phẩm chế biến sẵn", "ex": "avoid processed food"}]}, {"name": "Diets & Eating Habits", "words": [{"w": "vegetarian", "vi": "người ăn chay (còn ăn trứng/sữa)", "ex": "a strict vegetarian"}, {"w": "vegan", "vi": "người ăn thuần chay", "ex": "a vegan diet"}, {"w": "go on a diet", "vi": "ăn kiêng", "ex": "go on a diet"}, {"w": "cut down on", "vi": "giảm bớt", "ex": "cut down on sugar"}, {"w": "cut out", "vi": "loại bỏ hoàn toàn", "ex": "cut out junk food"}, {"w": "crave", "vi": "thèm", "ex": "crave chocolate"}, {"w": "overeat", "vi": "ăn quá nhiều", "ex": "tend to overeat"}, {"w": "intolerance", "vi": "chứng không dung nạp", "ex": "lactose intolerance"}, {"w": "allergy", "vi": "dị ứng", "ex": "a nut allergy"}, {"w": "portion control", "vi": "kiểm soát khẩu phần", "ex": "practise portion control"}]}]}, {"letter": "E", "title": "Exercise & Training", "sub": "Types of exercise · at the gym", "groups": [{"name": "Types of Exercise", "words": [{"w": "aerobic exercise", "vi": "bài tập nhịp điệu (cardio)", "ex": "aerobic exercise"}, {"w": "cardio", "vi": "bài tập tim mạch", "ex": "do some cardio"}, {"w": "strength training", "vi": "tập tăng sức mạnh", "ex": "strength training"}, {"w": "weightlifting", "vi": "cử tạ", "ex": "weightlifting"}, {"w": "workout", "vi": "buổi tập luyện", "ex": "a tough workout"}, {"w": "warm-up", "vi": "khởi động", "ex": "a proper warm-up"}, {"w": "cool-down", "vi": "hạ nhiệt (sau tập)", "ex": "a gentle cool-down"}, {"w": "stretching", "vi": "giãn cơ", "ex": "do some stretching"}, {"w": "jogging", "vi": "chạy bộ chậm", "ex": "go jogging"}, {"w": "cycling", "vi": "đạp xe", "ex": "cycling to work"}, {"w": "swimming", "vi": "bơi lội", "ex": "swimming laps"}, {"w": "yoga", "vi": "yoga", "ex": "a yoga class"}, {"w": "pilates", "vi": "pilates", "ex": "a pilates session"}, {"w": "HIIT", "vi": "tập cường độ cao ngắt quãng", "ex": "a HIIT workout"}]}, {"name": "At the Gym", "words": [{"w": "treadmill", "vi": "máy chạy bộ", "ex": "run on the treadmill"}, {"w": "dumbbells", "vi": "tạ tay", "ex": "lift dumbbells"}, {"w": "reps", "vi": "số lần lặp lại", "ex": "ten reps per set"}, {"w": "set", "vi": "hiệp (tập)", "ex": "three sets of squats"}, {"w": "personal trainer", "vi": "huấn luyện viên cá nhân", "ex": "hire a personal trainer"}, {"w": "membership", "vi": "thẻ hội viên", "ex": "a gym membership"}, {"w": "routine", "vi": "lịch tập, bài tập cố định", "ex": "a daily routine"}, {"w": "posture", "vi": "tư thế", "ex": "good posture"}, {"w": "stamina", "vi": "sức bền, thể lực", "ex": "build up stamina"}, {"w": "endurance", "vi": "sức chịu đựng, bền bỉ", "ex": "improve endurance"}]}]}, {"letter": "F", "title": "Body & Fitness Levels", "sub": "Body & fitness descriptions", "groups": [{"name": "Body & Physique", "words": [{"w": "muscular", "vi": "cơ bắp", "ex": "a muscular build"}, {"w": "toned", "vi": "săn chắc", "ex": "toned arms"}, {"w": "lean", "vi": "gọn gàng, ít mỡ", "ex": "a lean physique"}, {"w": "slim", "vi": "mảnh mai, thon", "ex": "stay slim"}, {"w": "stocky", "vi": "thấp đậm, chắc nịch", "ex": "a stocky frame"}, {"w": "overweight", "vi": "thừa cân", "ex": "slightly overweight"}, {"w": "obese", "vi": "béo phì", "ex": "clinically obese"}, {"w": "underweight", "vi": "thiếu cân", "ex": "dangerously underweight"}, {"w": "flexible", "vi": "dẻo dai", "ex": "flexible joints"}, {"w": "build", "vi": "vóc dáng", "ex": "an athletic build"}, {"w": "metabolism", "vi": "sự trao đổi chất", "ex": "a fast metabolism"}]}, {"name": "Fitness Levels & States", "words": [{"w": "fit", "vi": "khỏe mạnh, sung sức", "ex": "keep fit"}, {"w": "in shape", "vi": "có phong độ, giữ dáng", "ex": "get in shape"}, {"w": "out of shape", "vi": "xuống phong độ", "ex": "feel out of shape"}, {"w": "unfit", "vi": "yếu, kém thể lực", "ex": "dangerously unfit"}, {"w": "energetic", "vi": "tràn đầy năng lượng", "ex": "feel energetic"}, {"w": "sluggish", "vi": "uể oải, chậm chạp", "ex": "feel sluggish"}, {"w": "exhausted", "vi": "kiệt sức", "ex": "exhausted after a run"}, {"w": "well-being", "vi": "sức khỏe tổng thể, hạnh phúc", "ex": "physical well-being"}, {"w": "sedentary", "vi": "ít vận động", "ex": "a sedentary lifestyle"}, {"w": "active", "vi": "năng động, vận động nhiều", "ex": "stay active"}]}]}, {"letter": "G", "title": "Health & Lifestyle", "sub": "Healthy habits · problems", "groups": [{"name": "Healthy Habits", "words": [{"w": "stay hydrated", "vi": "uống đủ nước", "ex": "stay hydrated"}, {"w": "get enough sleep", "vi": "ngủ đủ giấc", "ex": "get enough sleep"}, {"w": "in moderation", "vi": "điều độ, vừa phải", "ex": "eat sweets in moderation"}, {"w": "boost immunity", "vi": "tăng cường miễn dịch", "ex": "boost your immunity"}, {"w": "prevent illness", "vi": "phòng bệnh", "ex": "prevent illness"}, {"w": "healthy lifestyle", "vi": "lối sống lành mạnh", "ex": "adopt a healthy lifestyle"}, {"w": "burn calories", "vi": "đốt calo", "ex": "burn calories"}, {"w": "lose weight", "vi": "giảm cân", "ex": "lose weight gradually"}, {"w": "gain weight", "vi": "tăng cân", "ex": "gain healthy weight"}, {"w": "keep in shape", "vi": "giữ dáng", "ex": "keep in shape"}]}, {"name": "Health Problems", "words": [{"w": "obesity", "vi": "bệnh béo phì", "ex": "tackle childhood obesity"}, {"w": "junk food", "vi": "đồ ăn vặt không lành mạnh", "ex": "cut out junk food"}, {"w": "fast food", "vi": "đồ ăn nhanh", "ex": "too much fast food"}, {"w": "malnutrition", "vi": "suy dinh dưỡng", "ex": "suffer from malnutrition"}, {"w": "eating disorder", "vi": "rối loạn ăn uống", "ex": "an eating disorder"}, {"w": "dehydration", "vi": "mất nước", "ex": "risk of dehydration"}, {"w": "high blood pressure", "vi": "huyết áp cao", "ex": "high blood pressure"}, {"w": "heart disease", "vi": "bệnh tim", "ex": "the risk of heart disease"}, {"w": "diabetes", "vi": "bệnh tiểu đường", "ex": "type 2 diabetes"}, {"w": "injury", "vi": "chấn thương", "ex": "a sports injury"}]}]}, {"letter": "H", "title": "Sports & Activities", "sub": "Sports · people & places", "groups": [{"name": "Sports & Games", "words": [{"w": "team sport", "vi": "môn thể thao đồng đội", "ex": "a popular team sport"}, {"w": "martial arts", "vi": "võ thuật", "ex": "practise martial arts"}, {"w": "athletics", "vi": "điền kinh", "ex": "compete in athletics"}, {"w": "marathon", "vi": "cuộc chạy marathon", "ex": "run a marathon"}, {"w": "tournament", "vi": "giải đấu", "ex": "win a tournament"}, {"w": "championship", "vi": "giải vô địch", "ex": "the world championship"}, {"w": "opponent", "vi": "đối thủ", "ex": "a tough opponent"}, {"w": "referee", "vi": "trọng tài", "ex": "the referee blew the whistle"}, {"w": "score", "vi": "ghi điểm, tỷ số", "ex": "score a goal"}, {"w": "defeat", "vi": "đánh bại, thất bại", "ex": "a narrow defeat"}]}, {"name": "People & Places", "words": [{"w": "athlete", "vi": "vận động viên", "ex": "a professional athlete"}, {"w": "coach", "vi": "huấn luyện viên", "ex": "a football coach"}, {"w": "spectator", "vi": "khán giả", "ex": "cheering spectators"}, {"w": "amateur", "vi": "nghiệp dư", "ex": "an amateur player"}, {"w": "professional", "vi": "chuyên nghiệp", "ex": "turn professional"}, {"w": "gym", "vi": "phòng tập gym", "ex": "go to the gym"}, {"w": "stadium", "vi": "sân vận động", "ex": "a packed stadium"}, {"w": "pitch / court", "vi": "sân (bóng, tennis)", "ex": "a football pitch"}, {"w": "track", "vi": "đường chạy", "ex": "an athletics track"}, {"w": "teammate", "vi": "đồng đội", "ex": "support your teammates"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Food & fitness idioms · collocations", "groups": [{"name": "Food & Fitness Idioms", "words": [{"w": "have a sweet tooth", "vi": "hảo ngọt", "ex": "she has a sweet tooth"}, {"w": "a couch potato", "vi": "người lười vận động", "ex": "don't be a couch potato"}, {"w": "full of beans", "vi": "tràn đầy năng lượng", "ex": "the kids are full of beans"}, {"w": "a piece of cake", "vi": "dễ như ăn kẹo", "ex": "the test was a piece of cake"}, {"w": "bite off more than you can chew", "vi": "ôm đồm quá sức", "ex": "he bit off more than he could chew"}, {"w": "in good shape", "vi": "có phong độ tốt", "ex": "the team is in good shape"}, {"w": "go cold turkey", "vi": "bỏ hẳn đột ngột", "ex": "go cold turkey on sugar"}, {"w": "eat like a horse", "vi": "ăn rất khỏe", "ex": "he eats like a horse"}, {"w": "the icing on the cake", "vi": "điều tuyệt vời thêm vào", "ex": "winning was the icing on the cake"}, {"w": "burn the candle at both ends", "vi": "làm việc kiệt sức cả ngày lẫn đêm", "ex": "stop burning the candle at both ends"}, {"w": "second wind", "vi": "lấy lại sức, hồi sức", "ex": "get a second wind"}, {"w": "no pain, no gain", "vi": "có khổ luyện mới thành công", "ex": "no pain, no gain"}]}, {"name": "Common Collocations", "words": [{"w": "go for a run", "vi": "đi chạy bộ", "ex": "go for a morning run"}, {"w": "work out", "vi": "tập luyện", "ex": "work out three times a week"}, {"w": "break a sweat", "vi": "đổ mồ hôi (vận động)", "ex": "break a sweat"}, {"w": "do exercise", "vi": "tập thể dục", "ex": "do regular exercise"}, {"w": "skip a meal", "vi": "bỏ bữa", "ex": "skip a meal"}, {"w": "eat healthily", "vi": "ăn uống lành mạnh", "ex": "learn to eat healthily"}, {"w": "stick to a diet", "vi": "tuân theo chế độ ăn", "ex": "stick to a diet"}, {"w": "put on weight", "vi": "tăng cân", "ex": "put on weight over winter"}, {"w": "build muscle", "vi": "tăng cơ bắp", "ex": "build muscle"}, {"w": "stay in shape", "vi": "giữ vóc dáng", "ex": "stay in shape all year"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Food, Diet & Exercise`;
+$('foot').innerHTML = 'POLARIS · Food & Fitness — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
