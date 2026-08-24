@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oxford Practice Grammar · Intermediate Exit Test</title>
+
+<!--
+  =========================================================================
+  GOOGLE SHEET AUTO-SYNC — ONE-TIME SETUP (read this before using the test)
+  =========================================================================
+  This file can push autosaves + the final result to your Google Sheet:
+  https://docs.google.com/spreadsheets/d/1ucFEgmmN-OX-8B4dWMDMTJhfpm0502IEZ1mZ0eXvHb4/edit
+
+  Google Sheets has no public write API a browser can call directly, so the
+  bridge is a small Apps Script "Web App". Steps (5 minutes, one-time):
+
+  1. Open the Sheet above → Extensions → Apps Script.
+  2. Delete any placeholder code and paste the contents of the companion
+     file "apps_script_backend.gs" (shared alongside this file).
+  3. Click Deploy → New deployment → gear icon → "Web app".
+       - Execute as: Me
+       - Who has access: Anyone
+  4. Click Deploy, authorize it, then copy the "Web app URL" it gives you
+     (ends in /exec).
+  5. Paste that URL into GAS_WEB_APP_URL below, replacing the placeholder.
+  6. Re-open this HTML file (or refresh it) — autosave + results will now
+     appear as rows in the Sheet automatically.
+
+  Until you do this, the test still works fully offline (timer, scoring,
+  PDF download) — it just won't sync to the Sheet, and the status dot in
+  the header will show "Sheet sync: not configured".
+  =========================================================================
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#f5f1e6;
+    --paper-2:#efe9da;
+    --ink:#1f2a44;
+    --ink-soft:#4a5573;
+    --rule:#d9d0b8;
+    --red:#a5312a;
+    --red-soft:#c24a3e;
+    --gold:#a1802f;
+    --green:#3d6b4f;
+    --shadow: 0 1px 0 rgba(31,42,68,.05), 0 12px 30px -18px rgba(31,42,68,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #fbf8f0 0%, var(--paper) 45%) fixed,
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image: repeating-linear-gradient(180deg, transparent 0 38px, rgba(31,42,68,.035) 38px 39px);
+    mask-image: linear-gradient(180deg, transparent, black 120px);
+  }
+  .wrap{position:relative; z-index:1; max-width:860px; margin:0 auto; padding:28px 20px 90px;}
+
+  h1,h2,h3{font-family:'Lora',serif; font-weight:700; color:var(--ink); margin:0;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft);}
+
+  /* ---------- Letterhead ---------- */
+  .letterhead{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+    border-bottom:2px solid var(--ink); padding-bottom:14px; margin-bottom:22px;
+  }
+  .letterhead .mark{
+    width:44px;height:44px;border-radius:50%;
+    border:2px solid var(--ink); display:flex;align-items:center;justify-content:center;
+    font-family:'Lora',serif; font-weight:700; color:var(--ink); font-size:15px; flex:0 0 auto;
+  }
+  .letterhead h1{font-size:22px; line-height:1.2;}
+  .letterhead .sub{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+  .sync-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft);
+    display:flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+  .sync-dot{width:7px;height:7px;border-radius:50%; background:#b7ad8f;}
+  .sync-dot.ok{background:var(--green);}
+  .sync-dot.bad{background:var(--red);}
+
+  /* ---------- Card ---------- */
+  .card{
+    background:#fffdf7; border:1px solid var(--rule); border-radius:3px;
+    box-shadow:var(--shadow); padding:30px 32px;
+  }
+  @media (max-width:600px){ .card{padding:22px 18px;} }
+
+  /* ---------- Start screen ---------- */
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px;}
+  .field input{
+    width:100%; padding:11px 12px; font-size:15px; font-family:'Inter',sans-serif;
+    border:1px solid var(--rule); border-radius:2px; background:var(--paper-2); color:var(--ink);
+  }
+  .field input:focus{outline:2px solid var(--ink); outline-offset:1px; background:#fff;}
+  .rules-box{
+    border-left:3px solid var(--gold); background:#faf6ea; padding:14px 16px; margin:18px 0 24px;
+    font-size:13.5px; color:var(--ink-soft); line-height:1.6;
+  }
+  .rules-box b{color:var(--ink);}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:.04em; text-transform:uppercase;
+    border:1.5px solid var(--ink); background:var(--ink); color:var(--paper);
+    padding:13px 22px; border-radius:2px; cursor:pointer; transition:transform .12s ease, opacity .12s ease;
+  }
+  .btn:hover{opacity:.88;}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.4; cursor:not-allowed;}
+  .btn.ghost{background:transparent; color:var(--ink);}
+  .btn.red{border-color:var(--red); background:var(--red); color:#fff;}
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;}
+
+  /* ---------- Timer ---------- */
+  .timer-badge{
+    position:fixed; top:18px; right:18px; z-index:50;
+    background:var(--ink); color:var(--paper); font-family:'IBM Plex Mono',monospace;
+    font-size:15px; font-weight:600; letter-spacing:.03em;
+    padding:9px 14px; border-radius:2px; box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:8px;
+  }
+  .timer-badge .dotpulse{width:7px;height:7px;border-radius:50%; background:#7fd19a; animation:pulse 1.4s infinite;}
+  .timer-badge.warn{background:var(--red);}
+  .timer-badge.warn .dotpulse{background:#ffd9d4;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  @media (max-width:600px){ .timer-badge{top:10px; right:10px; font-size:13px; padding:7px 10px;} }
+
+  /* ---------- Progress ---------- */
+  .progress-track{position:sticky; top:0; z-index:40; height:4px; background:var(--rule); margin:-1px -1px 24px -1px;}
+  .progress-fill{height:100%; background:var(--red); width:0%; transition:width .25s ease;}
+
+  /* ---------- Sections / Questions ---------- */
+  .section-head{
+    display:flex; align-items:baseline; gap:10px; margin:36px 0 14px;
+  }
+  .section-head:first-child{margin-top:0;}
+  .section-head .num{font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:12px;}
+  .section-head h2{font-size:16px; text-transform:uppercase; letter-spacing:.03em;}
+  .section-head::after{content:""; flex:1; border-bottom:1px dashed var(--rule); transform:translateY(-4px);}
+
+  .q{padding:16px 0; border-bottom:1px solid var(--rule);}
+  .q:last-child{border-bottom:none;}
+  .q-head{display:flex; gap:10px; margin-bottom:10px;}
+  .q-num{font-family:'IBM Plex Mono',monospace; color:var(--ink-soft); font-size:13px; min-width:26px;}
+  .q-text{font-size:15.5px; line-height:1.5;}
+  .q-text .blank{border-bottom:1.5px solid var(--ink); padding:0 6px;}
+  .options{display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; padding-left:36px;}
+  @media (max-width:520px){ .options{grid-template-columns:1fr;} }
+  .opt{
+    display:flex; align-items:flex-start; gap:9px; padding:8px 10px; border-radius:2px;
+    border:1px solid transparent; cursor:pointer; font-size:14.5px;
+  }
+  .opt:hover{background:var(--paper-2);}
+  .opt input{margin-top:3px; accent-color:var(--ink);}
+  .opt.checked{background:#eef1e9; border-color:var(--rule);}
+  .opt .letter{font-family:'IBM Plex Mono',monospace; color:var(--ink-soft); font-weight:600;}
+
+  .submit-bar{
+    position:sticky; bottom:0; margin-top:30px; padding:16px 0 4px; background:linear-gradient(180deg, rgba(255,253,247,0) 0%, #fffdf7 40%);
+    display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .answered-count{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-soft);}
+
+  /* ---------- Results ---------- */
+  .stamp-row{display:flex; align-items:center; gap:24px; flex-wrap:wrap; margin-bottom:22px;}
+  .stamp{
+    width:118px;height:118px;border-radius:50%; border:3px solid var(--red); color:var(--red);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transform:rotate(-8deg); font-family:'Caveat',cursive; flex:0 0 auto;
+    box-shadow: inset 0 0 0 2px rgba(165,49,42,.15);
+  }
+  .stamp .pct{font-size:34px; font-weight:700; line-height:1;}
+  .stamp .lbl{font-size:15px; text-transform:uppercase; letter-spacing:.03em;}
+  .stamp-meta{font-size:14px; color:var(--ink-soft); line-height:1.7;}
+  .stamp-meta b{color:var(--ink); font-family:'IBM Plex Mono',monospace;}
+
+  .section-scorebar{display:grid; grid-template-columns:1fr auto; gap:4px 10px; font-size:13px; margin-bottom:5px; align-items:center;}
+  .section-scorebar .bar{grid-column:1/3; height:6px; background:var(--paper-2); border-radius:3px; overflow:hidden;}
+  .section-scorebar .bar span{display:block; height:100%; background:var(--gold);}
+
+  table.review{width:100%; border-collapse:collapse; margin-top:10px; font-size:13.5px;}
+  table.review th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--ink-soft); border-bottom:1.5px solid var(--ink); padding:8px 8px;
+  }
+  table.review td{padding:9px 8px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  table.review tr.wrong td{background:#fdf4f2;}
+  .mark-ok{color:var(--green); font-weight:700;}
+  .mark-x{color:var(--red); font-weight:700;}
+  .redpen{font-family:'Caveat',cursive; color:var(--red-soft); font-size:16px;}
+  .pill-unit{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); background:var(--paper-2); padding:2px 6px; border-radius:10px; white-space:nowrap;}
+
+  .hidden{display:none !important;}
+  footer.note{font-size:12px; color:var(--ink-soft); text-align:center; margin-top:26px; font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="letterhead">
+    <div style="display:flex; align-items:flex-end; gap:12px;">
+      <div class="mark">OPG</div>
+      <div>
+        <div class="eyebrow">Oxford Practice Grammar · Intermediate</div>
+        <h1>Exit Test</h1>
+        <div class="sub">100 questions · four sections of grammar practice</div>
+      </div>
+    </div>
+    <div class="sync-pill"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">Sheet sync: checking…</span></div>
+  </div>
+
+  <!-- ============================= START SCREEN ============================= -->
+  <div class="card" id="screenStart">
+    <h2 style="font-size:19px; margin-bottom:4px;">Before you begin</h2>
+    <p style="color:var(--ink-soft); font-size:14px; margin-top:6px;">Enter your details, then start the clock. Good luck.</p>
+
+    <div class="field">
+      <label for="stuName">Full name</label>
+      <input id="stuName" type="text" autocomplete="name" placeholder="e.g. Nguyen Van A">
+    </div>
+    <div class="field">
+      <label for="stuEmail">Email address</label>
+      <input id="stuEmail" type="email" autocomplete="email" placeholder="you@example.com">
+    </div>
+
+    <div class="rules-box">
+      <b>How this works —</b> You have <b>20 minutes</b> once you press start; the time left is shown top-right and turns red in the final 2 minutes.
+      Your progress <b>autosaves every 10 seconds</b> to the answer sheet. When you submit (or time runs out) you'll get an instant score with a
+      detailed, question-by-question comparison against the answer key, and you can download the result as a PDF.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="btnStart">Start the test →</button>
+    </div>
+  </div>
+
+  <!-- ============================= TEST SCREEN ============================= -->
+  <div class="hidden" id="screenTest">
+    <div class="timer-badge" id="timerBadge"><span class="dotpulse"></span><span id="timerText">20:00</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="card" id="questionsMount"></div>
+
+    <div class="submit-bar">
+      <div class="answered-count" id="answeredCount">0 / 100 answered</div>
+      <button class="btn red" id="btnSubmit">Submit test</button>
+    </div>
+  </div>
+
+  <!-- ============================= RESULTS SCREEN ============================= -->
+  <div class="hidden" id="screenResults">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:6px;">Result</div>
+      <div class="stamp-row">
+        <div class="stamp"><span class="pct" id="resPct">0%</span><span class="lbl">grade</span></div>
+        <div class="stamp-meta">
+          <div><b id="resName">—</b> · <span id="resEmail">—</span></div>
+          <div><b id="resScore">0 / 100</b> correct</div>
+          <div><b id="resTime">—</b> time used · submitted <span id="resWhen">—</span></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:10px;">Score by section</h3>
+      <div id="sectionScores"></div>
+
+      <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:.04em; margin:26px 0 6px;">Detailed comparison</h3>
+      <p style="font-size:12.5px; color:var(--ink-soft); margin-top:0;">Every question, your answer vs. the answer key, and the book unit(s) to review.</p>
+      <table class="review" id="reviewTable"><thead>
+        <tr><th>#</th><th>Your answer</th><th>Key</th><th>Unit</th><th></th></tr>
+      </thead><tbody></tbody></table>
+
+      <div class="btn-row" style="margin-top:26px;">
+        <button class="btn" id="btnDownloadPdf">Download PDF</button>
+        <button class="btn ghost" id="btnRestart">Take again</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="note">Oxford Practice Grammar · Intermediate — Photocopiable © Oxford University Press 2019 · digital exit test</footer>
+</div>
+
+<script>
+/* =========================================================================
+   0. CONFIG — paste your Apps Script Web App URL here (see comment at top
+      of this file / apps_script_backend.gs for setup steps).
+   ========================================================================= */
+const GAS_WEB_APP_URL = "PASTE_YOUR_WEB_APP_URL_HERE"; // ends in /exec
+const TEST_DURATION_SECONDS = 20 * 60;
+const AUTOSAVE_INTERVAL_MS = 10 * 1000;
+
+/* =========================================================================
+   1. DATA — sections, questions, answer key (from the printed Exit Test)
+   ========================================================================= */
+const SECTIONS = [
+  {name:"Words and sentences", start:1, end:1},
+  {name:"Verbs", start:2, end:22},
+  {name:"Questions, negatives and answers", start:23, end:29},
+  {name:"Modal verbs", start:30, end:35},
+  {name:"The passive", start:36, end:39},
+  {name:"The infinitive and the -ing form", start:40, end:49},
+  {name:"Nouns and articles (a/an and the)", start:50, end:58},
+  {name:"This, my, some, a lot of, all, etc.", start:59, end:63},
+  {name:"Pronouns", start:64, end:67},
+  {name:"Adjectives and adverbs", start:68, end:76},
+  {name:"Prepositions", start:77, end:82},
+  {name:"Verbs with prepositions and adverbs", start:83, end:85},
+  {name:"Reported speech", start:86, end:89},
+  {name:"Relative clauses", start:90, end:94},
+  {name:"Conditionals and wish", start:95, end:98},
+  {name:"Linking words", start:99, end:100},
+];
+function sectionFor(n){ return SECTIONS.find(s => n>=s.start && n<=s.end); }
+
+// Each row: [n, question text ("___" = gap), a, b, c, d, correctLetter, unit(s)]
+const RAW = [
+[1,"We gave ___ a meal.","at the visitors","for the visitors","the visitors","to the visitors","c","3"],
+[2,"I'm busy at the moment. ___ on the computer.","I work","I'm work","I'm working","I working","c","4, 6"],
+[3,"My friend ___ the answer to the question.","is know","know","knowing","knows","d","5, 6"],
+[4,"I think I'll buy these shoes. ___ really well.","They fit","They have fit","They're fitting","They were fitting","a","7"],
+[5,"Where ___ the car?","did you park","did you parked","parked you","you parked","a","8"],
+[6,"At nine o'clock yesterday morning we ___ for the bus.","wait","waiting","was waiting","were waiting","d","9"],
+[7,"When I looked round the door, the baby ___ quietly.","is sleeping","slept","was sleeping","were sleeping","c","9, 10"],
+[8,"Here's my report. ___ it at last.","I finish","I finished","I'm finished","I've finished","d","11"],
+[9,"I've ___ made some coffee. It's in the kitchen.","ever","just","never","yet","b","12, 13"],
+[10,"We ___ to Ireland for our holidays last year.","goes","going","have gone","went","d","14"],
+[11,"Rob ___ ill for three weeks. He's still in hospital.","had been","has been","is","was","b","15"],
+[12,"My arms are aching now because ___ since two o'clock.","I'm swimming","I swam","I swim","I've been swimming","d","16"],
+[13,"I'm very tired. ___ over 400 miles today.","I drive","I'm driving","I've been driving","I've driven","d","17"],
+[14,"When Martin ___ the car, he took it out for a drive.","had repaired","has repaired","repaired","was repairing","a","18, 19"],
+[15,"Jessica was out of breath because ___.","she'd been running","she did run","she's been running","she's run","a","20"],
+[16,"Don't worry. I ___ be here to help you.","not","shall","willn't","won't","b","23"],
+[17,"Our friends ___ meet us at the airport tonight.","are","are going to","go to","will be to","b","24, 25"],
+[18,"___ a party next Saturday. We've sent out the invitations.","We had","We have","We'll have","We're having","d","26"],
+[19,"I'll tell Anna all the news when ___ her.","I'll see","I'm going to see","I see","I shall see","c","27"],
+[20,"At this time tomorrow ___ over the Atlantic.","we flying","we'll be flying","we'll fly","we to fly","b","28"],
+[21,"Where's Rob? ___ a shower?","Does he have","Has he","Has he got","Is he having","d","31"],
+[22,"A: I like that coat. It's really nice.  B: So ___ I.","am","do","very","yes","b","33"],
+[23,"What's the weather like in Canada? How often ___ there?","does it snow","does it snows","snow it","snows it","a","34, 36"],
+[24,"Which team ___ the game?","did it win","did they win","won","won it","c","37"],
+[25,"What did you leave the meeting early ___? ~ I didn't feel very well.","away","because","for","like","c","38"],
+[26,"Unfortunately the driver ___ the red light.","didn't saw","didn't see","no saw","saw not","b","40"],
+[27,"You haven't eaten your pudding. ___ it?","Are you no want","Do you no want","Don't want you","Don't you want","d","41"],
+[28,"I really enjoyed the party. It was great, ___?","is it","isn't it","was it","wasn't it","d","42"],
+[29,"Are we going the right way? ~ I think ___.","indeed","it","so","yes","c","43"],
+[30,"The chemist's was open, so luckily I ___ buy some aspirin.","can","can't","did can","was able to","d","44"],
+[31,"Lucy has to work very hard. I ___ do her job, I'm sure.","can't","couldn't","don't","shouldn't","b","46"],
+[32,"We had a party last night. ___ spend all morning clearing up the mess.","I must have","I've been to","I've had to","I've must","c","47"],
+[33,"There was no one else at the box office. I ___ in a queue.","didn't need to wait","mustn't wait","needn't have waited","needn't wait","a","48"],
+[34,"___ I carry that bag for you? ~ Oh, thank you.","Do","Shall","Will","Would","b","51, 52"],
+[35,"I've lost the key. I ought ___ it in a safe place.","that I put","to be putting","to have put","to put","c","49, 53"],
+[36,"We can't go along here because the road is ___.","been repaired","being repaired","repair","repaired","b","54"],
+[37,"The story I've just read ___ a friend of mine.","was written","was written by","was written from","wrote","b","55, 56"],
+[38,"Some film stars ___ be difficult to work with.","are said","are said to","say","say to","b","57"],
+[39,"I'm going to go out and ___.","have cut my hair","have my hair cut","let my hair cut","my hair be cut","b","58"],
+[40,"The driver was arrested for failing ___ an accident.","of report","report","reporting","to report","d","60, 62"],
+[41,"Someone suggested ___ for a walk.","go","going","of going","to go","b","61, 62"],
+[42,"I can remember ___ voices in the middle of the night.","hear","heard","hearing","to hear","c","64"],
+[43,"The police want ___ anything suspicious.","that we report","us reporting","us to report","we report","c","65"],
+[44,"We weren't sure ___ or just walk in.","should knock","to knock","whether knock","whether to knock","d","66"],
+[45,"It was too cold ___ outside.","the guests eating","for the guests to eat","that the guests should eat","that the guests eat","b","68"],
+[46,"Did you congratulate Tessa ___ her exam?","of passing","on passing","passing","to pass","b","70"],
+[47,"I didn't like it in the city at first. But now ___ here.","I got used to living","I'm used to living","I used to live","I used to living","b","72"],
+[48,"They raised the money simply ___ for it. It was easy.","asking","by asking","of asking","with asking","b","73"],
+[49,"As we walked past, we saw Dan ___ his car.","in washing","to wash","wash","washing","d","74"],
+[50,"I need to buy ___.","a bread","a loaf bread","a loaf of bread","breads","c","76, 77"],
+[51,"My father is not only the town mayor, he runs ___, too.","a business","a piece of business","business","some business","a","78"],
+[52,"The ___ produced at our factory in Scotland.","good are","good is","goods are","goods is","c","80"],
+[53,"I'm looking for ___ to cut this string.","a pair scissors","a scissor","a scissors","some scissors","d","81"],
+[54,"I was watching TV at home when suddenly ___ rang.","a doorbell","an doorbell","doorbell","the doorbell","d","83, 84"],
+[55,"I've always liked ___.","Chinese food","food of China","some food of China","the Chinese food","a","86"],
+[56,"In England most children go ___ at the age of five.","school","to school","to some schools","to the school","b","87"],
+[57,"We haven't had a holiday for ___ time.","a so long","so a long","such a long","such long","c","89"],
+[58,"Our friends have a house in ___.","a West London","the West London","West London","West of London","c","90"],
+[59,"It's so boring here. Nothing ever happens in ___ place.","that","these","this","those","c","91"],
+[60,"Is that my key, or is it ___?","the yours","the your's","your","yours","d","92"],
+[61,"Adrian takes no interest in clothes. He'll wear ___.","a thing","anything","something","thing","b","94"],
+[62,"There's ___ use in complaining. They probably won't do anything about it.","a few","a little","few","little","d","95"],
+[63,"I don't want to buy any of these books. I've got ___.","all","all them","everything","them all","d","96"],
+[64,"Let's stop and have a coffee. ___ a café over there, look.","Is","It's","There","There's","d","99"],
+[65,"Everyone in the group shook hands with ___.","each other","one other","one the other","themselves","a","100, 101"],
+[66,"The washing machine has broken down again. I think we should get ___.","a new","a new one","new","new one","b","102"],
+[67,"All the guests were dancing. ___ having a good time.","All were","Every was","Everyone was","Someone were","c","103"],
+[68,"The house was ___ building.","a nice old stone","a nice stone old","a stone old nice","an old nice stone","a","105"],
+[69,"The government is doing nothing to help ___.","poor","the poor","the poors","the poor ones","b","106"],
+[70,"The young man seems very ___.","sensible","sensiblely","sensibley","sensibly","a","108"],
+[71,"I ___ missed the bus. I was only just in time to catch it.","mostly","near","nearest","nearly","d","109"],
+[72,"This detailed map is ___ the atlas.","more useful as","more useful than","usefuller as","usefuller than","b","110, 111"],
+[73,"This place gets ___ crowded with tourists every summer.","always more","crowded and more","from more to more","more and more","d","112"],
+[74,"Yes, I have got the report. ___ it.","I just am reading","I'm just reading","I'm reading just","Just I'm reading","b","113"],
+[75,"I've read this paragraph three times, and I ___ understand it.","can't still","can't yet","still can't","yet can't","c","114"],
+[76,"We're really sorry. We regret what happened ___.","a bit","much","very","very much","d","115"],
+[77,"The village is ___ Sheffield. It's only six miles away.","along","by","near","next","c","118"],
+[78,"You can see the details ___ the screen.","at","by","in","on","d","119"],
+[79,"I've got a meeting ___ Thursday afternoon.","at","in","on","to","c","120"],
+[80,"We've lived in this flat ___ five years.","ago","already","for","since","c","121"],
+[81,"This car is ___, if you're interested in buying it.","for sale","in sale","at sale","to sell","a","123"],
+[82,"Polly wants to cycle round the world. She's really keen ___ the idea.","about","for","on","with","c","124, 125"],
+[83,"I prefer dogs ___ cats. I hate cats.","from","over","than","to","d","126, 127"],
+[84,"My father used the money he won to set ___ his own company.","forward","on","out","up","d","128–130"],
+[85,"Don't go too fast. I can't keep ___ you.","on to","on with","up to","up with","d","131"],
+[86,"Someone ___ the tickets are free.","said me","said me that","told me","told to me","c","132"],
+[87,"Last week Justin said 'I'll do it tomorrow.' He said he would do it ___.","the following day","the previous day","tomorrow","yesterday","a","133"],
+[88,"I don't know why Isabelle didn't go to the meeting. She said she ___ definitely going.","be","is","was","would","c","134"],
+[89,"The librarian asked us ___ so much noise.","don't make","not make","not making","not to make","d","136"],
+[90,"What's the name of the man ___ gave us a lift?","he","what","which","who","d","137"],
+[91,"What was that notice ___?","at that you were looking","you were looking at","you were looking at it","which you were looking","b","139"],
+[92,"Lucy is the woman ___ husband is in hospital.","her","hers the","whose","whose the","c","140"],
+[93,"York, ___ last year, is a nice old city.","I visited","that I visited","which I visited","whom I visited","c","141, 142"],
+[94,"The accident was seen by some people ___ at a bus stop.","waited","waiting","were waiting","who waiting","b","143"],
+[95,"If ___ my passport, I'll be in trouble.","I lose","I'll lose","I lost","I would lose","a","144, 147"],
+[96,"I haven't got a ticket. If ___ one, I could get in.","I'd have","I had","I have","I've got","b","145, 147"],
+[97,"If the bus to the airport hadn't been so late, we ___ the plane.","caught","had caught","would catch","would have caught","d","146, 147"],
+[98,"If only people ___ keep sending me bills!","don't","shouldn't","weren't","wouldn't","d","149"],
+[99,"I just had to take the dog out ___ the awful weather.","although","despite","even though","in spite","b","150"],
+[100,"Anna put the electric fire on ___ warm.","for getting","in order get","so she gets","to get","d","151"],
+];
+const QUESTIONS = RAW.map(r => ({
+  n:r[0], text:r[1], options:{a:r[2],b:r[3],c:r[4],d:r[5]}, correct:r[6], unit:r[7]
+}));
+const KEY = {}; QUESTIONS.forEach(q => KEY[q.n] = q);
+
+/* =========================================================================
+   2. STATE
+   ========================================================================= */
+let state = {
+  sessionId: null, name:"", email:"", answers:{}, startedAt:null,
+  secondsLeft: TEST_DURATION_SECONDS, timerHandle:null, autosaveHandle:null,
+  submitted:false
+};
+
+function uuid(){
+  if (crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, c=>{
+    const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16);
+  });
+}
+
+/* =========================================================================
+   3. GOOGLE SHEET SYNC
+   ========================================================================= */
+async function syncToSheet(payload){
+  if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.indexOf("PASTE_YOUR") === 0){
+    setSyncStatus(false, "Sheet sync: not configured");
+    return;
+  }
+  try{
+    await fetch(GAS_WEB_APP_URL, {
+      method:"POST",
+      mode:"no-cors", // Apps Script web apps don't return readable CORS headers; fire-and-forget
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify(payload)
+    });
+    setSyncStatus(true, payload.type === "final" ? "Sheet sync: result saved" : "Sheet sync: autosaved just now");
+  }catch(err){
+    setSyncStatus(false, "Sheet sync: failed (offline?)");
+  }
+}
+function setSyncStatus(ok, label){
+  document.getElementById('syncLabel').textContent = label;
+  const dot = document.getElementById('syncDot');
+  dot.classList.remove('ok','bad');
+  dot.classList.add(ok ? 'ok' : 'bad');
+}
+// Initial status
+window.addEventListener('DOMContentLoaded', ()=>{
+  if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.indexOf("PASTE_YOUR") === 0){
+    setSyncStatus(false, "Sheet sync: not configured");
+  } else {
+    setSyncStatus(true, "Sheet sync: ready");
+  }
+});
+
+/* =========================================================================
+   4. RENDER — questions
+   ========================================================================= */
+function renderQuestions(){
+  const mount = document.getElementById('questionsMount');
+  let html = "";
+  let currentSection = null;
+  QUESTIONS.forEach(q => {
+    const sec = sectionFor(q.n);
+    if (sec !== currentSection){
+      currentSection = sec;
+      html += `<div class="section-head"><span class="num">${sec.start}${sec.end>sec.start? '–'+sec.end:''}</span><h2>${sec.name}</h2></div>`;
+    }
+    html += `<div class="q" data-q="${q.n}">
+      <div class="q-head"><span class="q-num">${q.n}.</span><span class="q-text">${q.text.replace('___','<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</span></div>
+      <div class="options">
+        ${['a','b','c','d'].map(letter => `
+          <label class="opt" data-letter="${letter}">
+            <input type="radio" name="q${q.n}" value="${letter}">
+            <span><span class="letter">${letter})</span> ${q.options[letter]}</span>
+          </label>`).join('')}
+      </div>
+    </div>`;
+  });
+  mount.innerHTML = html;
+
+  mount.addEventListener('change', e => {
+    if (e.target.type !== 'radio') return;
+    const qBlock = e.target.closest('.q');
+    const n = qBlock.getAttribute('data-q');
+    state.answers[n] = e.target.value;
+    qBlock.querySelectorAll('.opt').forEach(o => o.classList.toggle('checked', o.getAttribute('data-letter') === e.target.value));
+    updateAnsweredCount();
+  });
+}
+function updateAnsweredCount(){
+  const c = Object.keys(state.answers).length;
+  document.getElementById('answeredCount').textContent = `${c} / 100 answered`;
+  document.getElementById('progressFill').style.width = (c/100*100) + "%";
+}
+
+/* =========================================================================
+   5. TIMER
+   ========================================================================= */
+function fmt(s){
+  const m = Math.floor(s/60), sec = s%60;
+  return String(m).padStart(2,'0') + ":" + String(sec).padStart(2,'0');
+}
+function startTimer(){
+  const badge = document.getElementById('timerBadge');
+  const text = document.getElementById('timerText');
+  state.timerHandle = setInterval(()=>{
+    state.secondsLeft--;
+    text.textContent = fmt(Math.max(state.secondsLeft,0));
+    if (state.secondsLeft <= 120) badge.classList.add('warn');
+    if (state.secondsLeft <= 0){
+      clearInterval(state.timerHandle);
+      finishTest(true);
+    }
+  }, 1000);
+}
+
+/* =========================================================================
+   6. START / SUBMIT FLOW
+   ========================================================================= */
+document.getElementById('btnStart').addEventListener('click', () => {
+  const name = document.getElementById('stuName').value.trim();
+  const email = document.getElementById('stuEmail').value.trim();
+  if (!name || !email){
+    alert("Please enter both your name and email address to start.");
+    return;
+  }
+  state.sessionId = uuid();
+  state.name = name; state.email = email;
+  state.startedAt = new Date();
+  state.secondsLeft = TEST_DURATION_SECONDS;
+
+  document.getElementById('screenStart').classList.add('hidden');
+  document.getElementById('screenTest').classList.remove('hidden');
+  renderQuestions();
+  updateAnsweredCount();
+  startTimer();
+
+  state.autosaveHandle = setInterval(()=>{
+    syncToSheet({
+      type:"autosave", sessionId: state.sessionId, name: state.name, email: state.email,
+      answers: state.answers, timeRemaining: state.secondsLeft,
+      total: 100, timestamp: new Date().toISOString()
+    });
+  }, AUTOSAVE_INTERVAL_MS);
+});
+
+document.getElementById('btnSubmit').addEventListener('click', () => {
+  const answered = Object.keys(state.answers).length;
+  if (answered < 100){
+    if (!confirm(`You've answered ${answered} of 100 questions. Submit anyway?`)) return;
+  }
+  finishTest(false);
+});
+
+function finishTest(timeUp){
+  if (state.submitted) return;
+  state.submitted = true;
+  clearInterval(state.timerHandle);
+  clearInterval(state.autosaveHandle);
+
+  const timeUsed = TEST_DURATION_SECONDS - Math.max(state.secondsLeft,0);
+  const detail = QUESTIONS.map(q => {
+    const given = state.answers[q.n] || null;
+    return { n:q.n, given, correct:q.correct, unit:q.unit, isCorrect: given === q.correct, section: sectionFor(q.n).name };
+  });
+  const correctCount = detail.filter(d=>d.isCorrect).length;
+  const pct = Math.round(correctCount/100*100);
+
+  syncToSheet({
+    type:"final", sessionId: state.sessionId, name: state.name, email: state.email,
+    answers: state.answers, correctCount, total:100, scorePercent: pct,
+    timeUsedSeconds: timeUsed, timeUp, timestamp: new Date().toISOString()
+  });
+
+  renderResults({correctCount, pct, timeUsed, timeUp, detail});
+
+  document.getElementById('screenTest').classList.add('hidden');
+  document.getElementById('screenResults').classList.remove('hidden');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* =========================================================================
+   7. RESULTS RENDER
+   ========================================================================= */
+let lastResult = null;
+
+function renderResults({correctCount, pct, timeUsed, timeUp, detail}){
+  lastResult = {correctCount, pct, timeUsed, timeUp, detail};
+
+  document.getElementById('resPct').textContent = pct + "%";
+  document.getElementById('resName').textContent = state.name;
+  document.getElementById('resEmail').textContent = state.email;
+  document.getElementById('resScore').textContent = `${correctCount} / 100`;
+  document.getElementById('resTime').textContent = fmt(timeUsed) + (timeUp ? " (time expired)" : "");
+  document.getElementById('resWhen').textContent = new Date().toLocaleString();
+
+  // Section breakdown
+  const secWrap = document.getElementById('sectionScores');
+  secWrap.innerHTML = SECTIONS.map(sec => {
+    const items = detail.filter(d => d.n >= sec.start && d.n <= sec.end);
+    const ok = items.filter(d=>d.isCorrect).length;
+    const total = items.length;
+    const p = Math.round(ok/total*100);
+    return `<div class="section-scorebar">
+      <div>${sec.name}</div><div><b>${ok}/${total}</b></div>
+      <div class="bar"><span style="width:${p}%"></span></div>
+    </div>`;
+  }).join('');
+
+  // Detailed comparison table
+  const tbody = document.querySelector('#reviewTable tbody');
+  tbody.innerHTML = detail.map(d => {
+    const q = KEY[d.n];
+    const givenText = d.given ? `${d.given}) ${q.options[d.given]}` : '<em>— no answer —</em>';
+    const correctText = `${d.correct}) ${q.options[d.correct]}`;
+    return `<tr class="${d.isCorrect ? '' : 'wrong'}">
+      <td>${d.n}</td>
+      <td>${givenText}</td>
+      <td>${correctText}</td>
+      <td><span class="pill-unit">Unit ${d.unit}</span></td>
+      <td>${d.isCorrect ? '<span class="mark-ok">✓</span>' : `<span class="mark-x">✗</span> <span class="redpen">check Unit ${d.unit}</span>`}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* =========================================================================
+   8. PDF EXPORT
+   ========================================================================= */
+document.getElementById('btnDownloadPdf').addEventListener('click', () => {
+  if (!lastResult) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:'pt', format:'a4'});
+  const pageW = doc.internal.pageSize.getWidth();
+  const margin = 40;
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(17); doc.setTextColor(31,42,68);
+  doc.text('Oxford Practice Grammar · Intermediate — Exit Test', margin, 50);
+  doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(74,85,115);
+  doc.text(`Name: ${state.name}    Email: ${state.email}`, margin, 68);
+  doc.text(`Submitted: ${new Date().toLocaleString()}    Time used: ${fmt(lastResult.timeUsed)}${lastResult.timeUp ? ' (time expired)' : ''}`, margin, 82);
+
+  doc.setDrawColor(165,49,42); doc.setLineWidth(1.4);
+  doc.circle(pageW-72, 66, 30);
+  doc.setTextColor(165,49,42); doc.setFont('helvetica','bold'); doc.setFontSize(18);
+  doc.text(`${lastResult.pct}%`, pageW-72, 62, {align:'center'});
+  doc.setFontSize(8);
+  doc.text(`${lastResult.correctCount}/100`, pageW-72, 75, {align:'center'});
+
+  doc.setDrawColor(217,208,184); doc.line(margin, 96, pageW-margin, 96);
+
+  // Section summary line
+  doc.setTextColor(31,42,68); doc.setFont('helvetica','bold'); doc.setFontSize(11);
+  doc.text('Score by section', margin, 116);
+  let y = 132;
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(74,85,115);
+  SECTIONS.forEach(sec => {
+    const items = lastResult.detail.filter(d => d.n >= sec.start && d.n <= sec.end);
+    const ok = items.filter(d=>d.isCorrect).length;
+    doc.text(`${sec.name}: ${ok}/${items.length}`, margin, y);
+    y += 13;
+    if (y > 760){ doc.addPage(); y = 50; }
+  });
+
+  // Detailed table
+  const rows = lastResult.detail.map(d => {
+    const q = KEY[d.n];
+    return [
+      d.n,
+      d.given ? `${d.given}) ${q.options[d.given]}` : '—',
+      `${d.correct}) ${q.options[d.correct]}`,
+      d.unit,
+      d.isCorrect ? 'Correct' : 'Incorrect'
+    ];
+  });
+  doc.autoTable({
+    startY: y + 8,
+    head: [['#','Your answer','Answer key','Unit','Result']],
+    body: rows,
+    styles:{ fontSize:8, cellPadding:4, textColor:[31,42,68] },
+    headStyles:{ fillColor:[31,42,68], textColor:[245,241,230] },
+    didParseCell: function(data){
+      if (data.section === 'body' && data.column.index === 4){
+        if (data.cell.raw === 'Incorrect'){ data.cell.styles.textColor = [165,49,42]; data.cell.styles.fontStyle='bold'; }
+        else { data.cell.styles.textColor = [61,107,79]; }
+      }
+    },
+    margin:{left:margin, right:margin}
+  });
+
+  doc.save(`ExitTest_${state.name.replace(/\s+/g,'_')}_${lastResult.pct}pct.pdf`);
+});
+
+/* =========================================================================
+   9. RESTART
+   ========================================================================= */
+document.getElementById('btnRestart').addEventListener('click', () => {
+  state = { sessionId:null, name:"", email:"", answers:{}, startedAt:null,
+    secondsLeft:TEST_DURATION_SECONDS, timerHandle:null, autosaveHandle:null, submitted:false };
+  document.getElementById('stuName').value = "";
+  document.getElementById('stuEmail').value = "";
+  document.getElementById('timerBadge').classList.remove('warn');
+  document.getElementById('timerText').textContent = fmt(TEST_DURATION_SECONDS);
+  document.getElementById('screenResults').classList.add('hidden');
+  document.getElementById('screenTest').classList.add('hidden');
+  document.getElementById('screenStart').classList.remove('hidden');
+  window.scrollTo({top:0});
+});
+</script>
+</body>
+</html>
