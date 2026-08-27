@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLARIS · Sport Vocabulary Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#d76b34; --sage:#7f9a76; --cream:#f1efe7; --paper:#ffffff; --ink:#232321;
+    --muted:#6f6e66; --line:#e7e3d7; --pink:#e05a86; --blue:#3f7ad6; --green:#2fa564;
+    --shadow:0 1px 2px rgba(30,28,22,.04),0 6px 20px rgba(30,28,22,.06);
+    --shadow-lg:0 4px 30px rgba(30,28,22,.10);
+    --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,-apple-system,sans-serif; --rad:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--fb);background:var(--cream);color:var(--ink);line-height:1.6;
+    font-size:15px;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--fh);margin:0;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  header.top{background:radial-gradient(120% 140% at 0% 0%,#33322d 0%,#1f1e1b 55%,#191814 100%);
+    color:#fff;padding:20px 28px 22px;position:relative;overflow:hidden}
+  header.top::after{content:"";position:absolute;right:-60px;top:-70px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(215,107,52,.30),transparent 70%);pointer-events:none}
+  header .paradigm{font-family:var(--fh);font-weight:600;font-size:15px;letter-spacing:6px;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:10px;margin-bottom:12px}
+  header .brand{font-size:12px;letter-spacing:4px;color:#e7a173;font-weight:700}
+  header h1{font-size:30px;margin:3px 0 5px}
+  header p{margin:0;color:#d3d0c6;font-size:13.5px}
+  nav.tabs{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:3px;padding:9px 14px;
+    box-shadow:0 2px 14px rgba(30,28,22,.05)}
+  nav.tabs button{border:0;background:transparent;font:inherit;font-weight:600;color:var(--muted);
+    padding:8px 13px;border-radius:10px;cursor:pointer;font-size:13.5px;white-space:nowrap;transition:.15s}
+  nav.tabs button:hover{background:var(--cream);color:var(--ink)}
+  nav.tabs button.active{background:var(--ink);color:#fff}
+  nav.tabs button .l{font-family:var(--fh);font-weight:700;margin-right:6px;color:var(--orange)}
+  nav.tabs button.active .l{color:#ffb47f}
+  main{max-width:1120px;margin:0 auto;padding:22px 20px 90px}
+  .searchbar{margin:0 0 18px;position:relative}
+  .searchbar input{width:100%;padding:13px 16px 13px 46px;border:1px solid var(--line);border-radius:12px;
+    font:inherit;font-size:15px;background:var(--paper);box-shadow:var(--shadow)}
+  .searchbar input:focus{outline:none;border-color:var(--orange)}
+  .searchbar .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+  .modhead{display:flex;align-items:center;gap:16px;margin:6px 0 18px}
+  .modhead .badge{width:58px;height:58px;border-radius:15px;background:linear-gradient(150deg,var(--orange),#c05a26);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:26px;font-weight:700;
+    box-shadow:0 6px 16px rgba(199,90,40,.28);flex-shrink:0}
+  .modhead h2{font-size:26px}
+  .modhead p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+  .sub{font-family:var(--fh);font-size:14px;font-weight:600;color:#8a5a2c;display:flex;align-items:center;gap:9px;margin:22px 0 12px}
+  .sub::before{content:"";width:22px;height:3px;background:var(--orange);border-radius:2px}
+  .sub .cnt{font-family:var(--fb);font-weight:600;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+  .card{border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:var(--paper);
+    box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .card .w{font-family:var(--fh);font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+  .card .spk{margin-left:auto;border:1px solid var(--line);background:var(--cream);border-radius:8px;
+    cursor:pointer;font-size:14px;padding:2px 9px;color:var(--muted)}
+  .card .spk:hover{border-color:var(--orange);color:var(--orange)}
+  .card .vi{color:var(--orange);font-size:13.6px;margin-top:5px;font-weight:600}
+  .card .ex{color:var(--muted);font-size:13px;margin-top:5px;font-style:italic;border-left:3px solid var(--line);padding-left:9px}
+  .card .ex b{color:var(--ink);font-style:normal}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;font-size:15px}
+  /* quiz */
+  .quizwrap{max-width:620px;margin:0 auto}
+  .qcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--rad);padding:24px;box-shadow:var(--shadow);text-align:center}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;color:var(--muted);font-size:13px}
+  .qtop .score{color:var(--green)}
+  .qprompt-label{font-weight:800;letter-spacing:.5px;color:var(--orange);font-size:13px;text-transform:uppercase;margin-top:12px}
+  .qprompt{font-family:var(--fh);font-size:34px;font-weight:700;margin:8px 0 22px}
+  .qopts{display:flex;flex-direction:column;gap:12px}
+  .qopts button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:16px;font:inherit;
+    font-weight:600;font-size:18px;cursor:pointer;transition:.12s;text-align:left;display:flex;align-items:center;gap:12px}
+  .qopts button:hover{border-color:var(--sage)}
+  .qopts button .k{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:var(--cream);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:700}
+  .qopts button.correct{background:#e4f6ea;border-color:var(--green)}
+  .qopts button.correct .k{background:var(--green);color:#fff}
+  .qopts button.wrong{background:#fbe4e4;border-color:#e05a5a}
+  .qopts button.wrong .k{background:#e05a5a;color:#fff}
+  .qopts button:disabled{cursor:default}
+  .qctrl{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btn{border:0;border-radius:11px;font:inherit;font-weight:700;font-size:14px;padding:11px 18px;cursor:pointer}
+  .btn.p{background:var(--orange);color:#fff}
+  .btn.g{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
+  select{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-weight:600}
+  .qreveal{margin-top:16px;font-size:14px;color:var(--muted);min-height:24px}
+  .qreveal b{color:var(--ink)}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.qprompt{font-size:28px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="paradigm">HUONG STELLA PARADIGM</div>
+  <div class="brand">POLARIS · SPORT</div>
+  <h1>Sport — Vocabulary Hub</h1>
+  <p id="headsub"></p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<div class="foot" id="foot"></div>
+
+<script>
+const DATA = [{"letter": "A", "title": "Types of Sport", "sub": "Team & individual sports", "groups": [{"name": "Team Sports", "words": [{"w": "football / soccer", "vi": "bóng đá", "ex": "play football"}, {"w": "basketball", "vi": "bóng rổ", "ex": "a basketball game"}, {"w": "volleyball", "vi": "bóng chuyền", "ex": "beach volleyball"}, {"w": "rugby", "vi": "bóng bầu dục", "ex": "a rugby match"}, {"w": "cricket", "vi": "cricket (bóng gậy)", "ex": "a cricket team"}, {"w": "hockey", "vi": "khúc côn cầu", "ex": "ice hockey"}, {"w": "baseball", "vi": "bóng chày", "ex": "a baseball game"}, {"w": "handball", "vi": "bóng ném", "ex": "play handball"}, {"w": "water polo", "vi": "bóng nước", "ex": "a water polo team"}, {"w": "team sport", "vi": "môn thể thao đồng đội", "ex": "a popular team sport"}]}, {"name": "Individual Sports", "words": [{"w": "athletics", "vi": "điền kinh", "ex": "compete in athletics"}, {"w": "swimming", "vi": "bơi lội", "ex": "competitive swimming"}, {"w": "tennis", "vi": "quần vợt", "ex": "a tennis match"}, {"w": "badminton", "vi": "cầu lông", "ex": "play badminton"}, {"w": "golf", "vi": "gôn", "ex": "a round of golf"}, {"w": "boxing", "vi": "quyền anh", "ex": "a boxing match"}, {"w": "cycling", "vi": "đua xe đạp", "ex": "road cycling"}, {"w": "gymnastics", "vi": "thể dục dụng cụ", "ex": "artistic gymnastics"}, {"w": "martial arts", "vi": "võ thuật", "ex": "practise martial arts"}, {"w": "archery", "vi": "bắn cung", "ex": "Olympic archery"}, {"w": "skiing", "vi": "trượt tuyết", "ex": "go skiing"}, {"w": "surfing", "vi": "lướt sóng", "ex": "big-wave surfing"}]}]}, {"letter": "B", "title": "People in Sport", "sub": "Players & staff", "groups": [{"name": "Players & Athletes", "words": [{"w": "athlete", "vi": "vận động viên", "ex": "a professional athlete"}, {"w": "player", "vi": "cầu thủ, người chơi", "ex": "a star player"}, {"w": "captain", "vi": "đội trưởng", "ex": "the team captain"}, {"w": "teammate", "vi": "đồng đội", "ex": "support your teammates"}, {"w": "opponent", "vi": "đối thủ", "ex": "a tough opponent"}, {"w": "competitor", "vi": "người thi đấu", "ex": "a fierce competitor"}, {"w": "professional", "vi": "chuyên nghiệp", "ex": "turn professional"}, {"w": "amateur", "vi": "nghiệp dư", "ex": "an amateur player"}, {"w": "substitute", "vi": "cầu thủ dự bị", "ex": "bring on a substitute"}, {"w": "striker", "vi": "tiền đạo", "ex": "a lethal striker"}, {"w": "goalkeeper", "vi": "thủ môn", "ex": "a brilliant goalkeeper"}, {"w": "underdog", "vi": "kèo dưới, đội yếu hơn", "ex": "the underdog won"}]}, {"name": "Coaches & Officials", "words": [{"w": "coach", "vi": "huấn luyện viên", "ex": "a football coach"}, {"w": "manager", "vi": "người quản lý đội", "ex": "the team manager"}, {"w": "referee", "vi": "trọng tài (chính)", "ex": "the referee blew the whistle"}, {"w": "umpire", "vi": "trọng tài (tennis, cricket)", "ex": "the tennis umpire"}, {"w": "linesman", "vi": "trọng tài biên", "ex": "the linesman flagged offside"}, {"w": "physio", "vi": "chuyên viên vật lý trị liệu", "ex": "the team physio"}, {"w": "scout", "vi": "người tuyển trạch", "ex": "a talent scout"}, {"w": "commentator", "vi": "bình luận viên", "ex": "a TV commentator"}, {"w": "sponsor", "vi": "nhà tài trợ", "ex": "a major sponsor"}, {"w": "spectator", "vi": "khán giả", "ex": "cheering spectators"}]}]}, {"letter": "C", "title": "Competitions & Events", "sub": "Competitions · results", "groups": [{"name": "Competitions & Events", "words": [{"w": "match / game", "vi": "trận đấu", "ex": "a football match"}, {"w": "tournament", "vi": "giải đấu", "ex": "win a tournament"}, {"w": "championship", "vi": "giải vô địch", "ex": "the world championship"}, {"w": "league", "vi": "giải đấu (theo mùa)", "ex": "top of the league"}, {"w": "the Olympics", "vi": "Thế vận hội", "ex": "host the Olympics"}, {"w": "the World Cup", "vi": "World Cup", "ex": "qualify for the World Cup"}, {"w": "final", "vi": "trận chung kết", "ex": "reach the final"}, {"w": "semi-final", "vi": "bán kết", "ex": "the semi-final"}, {"w": "qualifier", "vi": "vòng loại", "ex": "a World Cup qualifier"}, {"w": "fixture", "vi": "trận đấu (theo lịch)", "ex": "a home fixture"}, {"w": "marathon", "vi": "chạy marathon", "ex": "run a marathon"}, {"w": "season", "vi": "mùa giải", "ex": "the new season"}]}, {"name": "Results & Outcomes", "words": [{"w": "win", "vi": "thắng, chiến thắng", "ex": "a narrow win"}, {"w": "lose", "vi": "thua", "ex": "lose the match"}, {"w": "draw / tie", "vi": "hòa", "ex": "end in a draw"}, {"w": "defeat", "vi": "đánh bại, thất bại", "ex": "a heavy defeat"}, {"w": "victory", "vi": "chiến thắng", "ex": "a famous victory"}, {"w": "beat", "vi": "đánh bại (ai)", "ex": "beat the champions"}, {"w": "thrash", "vi": "đè bẹp, thắng đậm", "ex": "thrash their rivals"}, {"w": "knock out", "vi": "loại (khỏi giải)", "ex": "knocked out in the first round"}, {"w": "comeback", "vi": "sự lội ngược dòng", "ex": "a stunning comeback"}, {"w": "upset", "vi": "kết quả bất ngờ", "ex": "a huge upset"}]}]}, {"letter": "D", "title": "Playing & Training", "sub": "In-game actions · training", "groups": [{"name": "In-Game Actions", "words": [{"w": "score a goal", "vi": "ghi bàn", "ex": "score a goal"}, {"w": "score a point", "vi": "ghi điểm", "ex": "score a point"}, {"w": "pass", "vi": "chuyền bóng", "ex": "a perfect pass"}, {"w": "tackle", "vi": "tranh cướp bóng, cản phá", "ex": "a hard tackle"}, {"w": "dribble", "vi": "rê bóng", "ex": "dribble past defenders"}, {"w": "save", "vi": "cản phá (cứu thua)", "ex": "a great save"}, {"w": "foul", "vi": "phạm lỗi", "ex": "commit a foul"}, {"w": "penalty", "vi": "quả phạt đền", "ex": "miss a penalty"}, {"w": "serve", "vi": "giao bóng", "ex": "a powerful serve"}, {"w": "kick off", "vi": "bắt đầu trận đấu", "ex": "kick off at 3 p.m."}, {"w": "whistle", "vi": "tiếng còi", "ex": "the final whistle"}, {"w": "offside", "vi": "việt vị", "ex": "caught offside"}]}, {"name": "Training & Preparation", "words": [{"w": "training", "vi": "luyện tập", "ex": "daily training"}, {"w": "warm up", "vi": "khởi động", "ex": "warm up before a match"}, {"w": "work out", "vi": "tập luyện", "ex": "work out at the gym"}, {"w": "get in shape", "vi": "lấy lại phong độ", "ex": "get in shape for the season"}, {"w": "stamina", "vi": "sức bền", "ex": "build up stamina"}, {"w": "fitness", "vi": "thể lực, sự sung sức", "ex": "peak fitness"}, {"w": "coaching", "vi": "sự huấn luyện", "ex": "expert coaching"}, {"w": "drill", "vi": "bài tập lặp lại", "ex": "a passing drill"}, {"w": "pre-season", "vi": "giai đoạn tiền mùa giải", "ex": "pre-season training"}, {"w": "skill", "vi": "kỹ năng", "ex": "technical skill"}]}]}, {"letter": "E", "title": "Equipment & Places", "sub": "Kit & gear · venues", "groups": [{"name": "Kit & Equipment", "words": [{"w": "kit", "vi": "trang phục, dụng cụ thi đấu", "ex": "the home kit"}, {"w": "boots", "vi": "giày thể thao (đá bóng)", "ex": "football boots"}, {"w": "trainers", "vi": "giày thể thao", "ex": "a pair of trainers"}, {"w": "racket", "vi": "vợt", "ex": "a tennis racket"}, {"w": "net", "vi": "lưới", "ex": "hit the net"}, {"w": "goal", "vi": "khung thành", "ex": "score into an empty goal"}, {"w": "helmet", "vi": "mũ bảo hiểm", "ex": "wear a helmet"}, {"w": "gloves", "vi": "găng tay", "ex": "goalkeeper gloves"}, {"w": "whistle", "vi": "còi", "ex": "blow the whistle"}, {"w": "medal", "vi": "huy chương", "ex": "win a gold medal"}, {"w": "trophy", "vi": "cúp vô địch", "ex": "lift the trophy"}]}, {"name": "Venues & Places", "words": [{"w": "stadium", "vi": "sân vận động", "ex": "a packed stadium"}, {"w": "pitch", "vi": "sân (bóng đá)", "ex": "a muddy pitch"}, {"w": "court", "vi": "sân (tennis, bóng rổ)", "ex": "a tennis court"}, {"w": "track", "vi": "đường chạy", "ex": "an athletics track"}, {"w": "gym", "vi": "phòng tập", "ex": "go to the gym"}, {"w": "pool", "vi": "hồ bơi", "ex": "an Olympic pool"}, {"w": "changing room", "vi": "phòng thay đồ", "ex": "the changing room"}, {"w": "dugout", "vi": "khu kỹ thuật (băng ghế)", "ex": "shout from the dugout"}, {"w": "terraces", "vi": "khán đài (đứng)", "ex": "fans on the terraces"}, {"w": "finish line", "vi": "vạch đích", "ex": "cross the finish line"}]}]}, {"letter": "F", "title": "Fans & Attitudes", "sub": "Supporters · sportsmanship", "groups": [{"name": "Supporters & Atmosphere", "words": [{"w": "fan", "vi": "người hâm mộ", "ex": "a die-hard fan"}, {"w": "supporter", "vi": "cổ động viên", "ex": "home supporters"}, {"w": "crowd", "vi": "đám đông khán giả", "ex": "a roaring crowd"}, {"w": "cheer", "vi": "cổ vũ, reo hò", "ex": "cheer for your team"}, {"w": "chant", "vi": "hô vang, cổ vũ", "ex": "football chants"}, {"w": "boo", "vi": "la ó", "ex": "the crowd booed"}, {"w": "atmosphere", "vi": "bầu không khí", "ex": "an electric atmosphere"}, {"w": "home advantage", "vi": "lợi thế sân nhà", "ex": "enjoy home advantage"}, {"w": "rivalry", "vi": "sự kình địch", "ex": "a fierce rivalry"}, {"w": "derby", "vi": "trận derby (đại chiến địa phương)", "ex": "a local derby"}]}, {"name": "Sportsmanship & Attitudes", "words": [{"w": "sportsmanship", "vi": "tinh thần thể thao", "ex": "show good sportsmanship"}, {"w": "fair play", "vi": "chơi đẹp, công bằng", "ex": "a symbol of fair play"}, {"w": "competitive", "vi": "có tính cạnh tranh", "ex": "highly competitive"}, {"w": "determined", "vi": "quyết tâm", "ex": "a determined player"}, {"w": "dedicated", "vi": "tận tâm, cống hiến", "ex": "a dedicated athlete"}, {"w": "team spirit", "vi": "tinh thần đồng đội", "ex": "strong team spirit"}, {"w": "perseverance", "vi": "sự bền bỉ, kiên trì", "ex": "show perseverance"}, {"w": "cheat", "vi": "gian lận", "ex": "cheat to win"}, {"w": "doping", "vi": "sử dụng doping", "ex": "banned for doping"}, {"w": "bad loser", "vi": "người thua cuộc cay cú", "ex": "a bad loser"}]}]}, {"letter": "G", "title": "Sport & Society", "sub": "Benefits · problems", "groups": [{"name": "Benefits of Sport", "words": [{"w": "keep fit", "vi": "giữ dáng, khỏe mạnh", "ex": "play sport to keep fit"}, {"w": "physical health", "vi": "sức khỏe thể chất", "ex": "improve physical health"}, {"w": "mental health", "vi": "sức khỏe tinh thần", "ex": "good for mental health"}, {"w": "discipline", "vi": "tính kỷ luật", "ex": "teach discipline"}, {"w": "teamwork", "vi": "làm việc nhóm", "ex": "learn teamwork"}, {"w": "stress relief", "vi": "giảm căng thẳng", "ex": "sport as stress relief"}, {"w": "build character", "vi": "rèn luyện nhân cách", "ex": "sport builds character"}, {"w": "bring people together", "vi": "gắn kết mọi người", "ex": "sport brings people together"}, {"w": "role model", "vi": "hình mẫu", "ex": "athletes as role models"}, {"w": "self-confidence", "vi": "sự tự tin", "ex": "boost self-confidence"}]}, {"name": "Problems in Sport", "words": [{"w": "injury", "vi": "chấn thương", "ex": "a serious injury"}, {"w": "doping / drugs", "vi": "sử dụng chất cấm", "ex": "a doping scandal"}, {"w": "match-fixing", "vi": "dàn xếp tỷ số", "ex": "a match-fixing scandal"}, {"w": "hooliganism", "vi": "nạn hooligan (bạo lực bóng đá)", "ex": "football hooliganism"}, {"w": "corruption", "vi": "tham nhũng", "ex": "corruption in sport"}, {"w": "commercialisation", "vi": "sự thương mại hóa", "ex": "the commercialisation of sport"}, {"w": "overpaid", "vi": "được trả lương quá cao", "ex": "overpaid footballers"}, {"w": "burnout", "vi": "kiệt sức", "ex": "athlete burnout"}, {"w": "pressure", "vi": "áp lực", "ex": "under intense pressure"}, {"w": "violence", "vi": "bạo lực", "ex": "violence on the pitch"}]}]}, {"letter": "H", "title": "Describing Performance", "sub": "Positive & negative descriptions", "groups": [{"name": "Positive Descriptions", "words": [{"w": "skilful", "vi": "điêu luyện, khéo léo", "ex": "a skilful player"}, {"w": "talented", "vi": "tài năng", "ex": "a talented young athlete"}, {"w": "athletic", "vi": "có tố chất thể thao", "ex": "an athletic build"}, {"w": "world-class", "vi": "đẳng cấp thế giới", "ex": "a world-class team"}, {"w": "unbeatable", "vi": "bất khả chiến bại", "ex": "almost unbeatable"}, {"w": "in form", "vi": "đang phong độ cao", "ex": "the striker is in form"}, {"w": "promising", "vi": "đầy triển vọng", "ex": "a promising talent"}, {"w": "dominant", "vi": "áp đảo, thống trị", "ex": "a dominant performance"}, {"w": "clinical", "vi": "hiệu quả, sắc bén", "ex": "a clinical finish"}, {"w": "outstanding", "vi": "xuất sắc", "ex": "an outstanding season"}]}, {"name": "Negative Descriptions", "words": [{"w": "out of form", "vi": "mất phong độ", "ex": "out of form lately"}, {"w": "clumsy", "vi": "vụng về", "ex": "a clumsy tackle"}, {"w": "sluggish", "vi": "chậm chạp, uể oải", "ex": "a sluggish start"}, {"w": "injury-prone", "vi": "hay chấn thương", "ex": "an injury-prone player"}, {"w": "outclassed", "vi": "bị vượt trội hoàn toàn", "ex": "completely outclassed"}, {"w": "underperform", "vi": "chơi dưới sức", "ex": "the team underperformed"}, {"w": "erratic", "vi": "thất thường", "ex": "an erratic performance"}, {"w": "overrated", "vi": "bị đánh giá quá cao", "ex": "an overrated striker"}, {"w": "lacklustre", "vi": "nhạt nhòa, thiếu sức sống", "ex": "a lacklustre display"}, {"w": "exhausted", "vi": "kiệt sức", "ex": "exhausted by full-time"}]}]}, {"letter": "I", "title": "Idioms & Collocations", "sub": "Sport idioms · collocations", "groups": [{"name": "Sport Idioms", "words": [{"w": "the ball is in your court", "vi": "đến lượt bạn quyết định", "ex": "the ball is in your court"}, {"w": "a level playing field", "vi": "sân chơi công bằng", "ex": "create a level playing field"}, {"w": "move the goalposts", "vi": "thay đổi luật chơi giữa chừng", "ex": "they keep moving the goalposts"}, {"w": "a game-changer", "vi": "yếu tố thay đổi cục diện", "ex": "a real game-changer"}, {"w": "throw in the towel", "vi": "bỏ cuộc, đầu hàng", "ex": "refuse to throw in the towel"}, {"w": "hit below the belt", "vi": "chơi xấu, đánh dưới thắt lưng", "ex": "that remark hit below the belt"}, {"w": "jump the gun", "vi": "hành động vội vàng, nóng vội", "ex": "don't jump the gun"}, {"w": "neck and neck", "vi": "ngang tài ngang sức", "ex": "the two teams are neck and neck"}, {"w": "kick off", "vi": "bắt đầu (sự việc)", "ex": "the campaign kicks off today"}, {"w": "on the ball", "vi": "nhanh nhạy, tỉnh táo", "ex": "she's really on the ball"}, {"w": "raise the bar", "vi": "nâng cao chuẩn mực", "ex": "they raised the bar"}, {"w": "win hands down", "vi": "thắng dễ dàng", "ex": "win hands down"}]}, {"name": "Common Collocations", "words": [{"w": "play a match", "vi": "chơi một trận", "ex": "play a home match"}, {"w": "win a medal", "vi": "giành huy chương", "ex": "win a gold medal"}, {"w": "break a record", "vi": "phá kỷ lục", "ex": "break a world record"}, {"w": "beat an opponent", "vi": "đánh bại đối thủ", "ex": "beat a strong opponent"}, {"w": "score a goal", "vi": "ghi bàn", "ex": "score the winning goal"}, {"w": "get injured", "vi": "bị chấn thương", "ex": "get injured in training"}, {"w": "keep fit", "vi": "giữ sức khỏe", "ex": "keep fit all year"}, {"w": "support a team", "vi": "cổ vũ một đội", "ex": "support your local team"}, {"w": "set a record", "vi": "lập kỷ lục", "ex": "set a new record"}, {"w": "train hard", "vi": "luyện tập chăm chỉ", "ex": "train hard every day"}]}]}];
+
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let TOTAL=0; DATA.forEach(m=>m.groups.forEach(g=>TOTAL+=g.words.length));
+$('headsub').textContent = `${TOTAL} từ vựng · ${DATA.length} module · Games, Athletes & Competition`;
+$('foot').innerHTML = 'POLARIS · Sport — adapted from HUONG STELLA extended vocabulary. Bấm 🔊 để nghe phát âm (giọng Anh–Anh).';
+
+/* ---- British voice ---- */
+let voice=null;
+function pick(){const vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+  const pref=["Google UK English Female","Microsoft Sonia Online (Natural) - English (United Kingdom)","Microsoft Libby Online (Natural) - English (United Kingdom)","Kate","Serena","Daniel"];
+  for(const n of pref){const v=vs.find(x=>x.name===n);if(v)return v;}
+  return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/United Kingdom/i.test(v.name))||null;}
+if('speechSynthesis' in window){voice=pick();speechSynthesis.onvoiceschanged=()=>{voice=pick();};}
+function say(w){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=.9;u.pitch=1.05;if(!voice)voice=pick();if(voice)u.voice=voice;
+  speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* ---- tabs ---- */
+const tabsEl=$('tabs'), mainEl=$('main');
+const TABS=[{id:'all',label:'🔎 Tất cả'}]
+  .concat(DATA.map(m=>({id:'m'+m.letter,label:m.letter+' · '+m.title,letter:m.letter})))
+  .concat([{id:'quiz',label:'🎮 Quiz'}]);
+let cur='all';
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{const b=document.createElement('button');b.id='tab-'+t.id;
+    b.innerHTML = t.letter?`<span class="l">${t.letter}</span>${esc(t.label.split('· ')[1]||t.label)}`:t.label;
+    b.onclick=()=>show(t.id);tabsEl.appendChild(b);});
+  const a=$('tab-'+cur); if(a)a.classList.add('active');
+}
+function show(id){cur=id;
+  tabsEl.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  const a=$('tab-'+id);if(a)a.classList.add('active');
+  if(id==='quiz') renderQuiz(); else renderList(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- word card ---- */
+function card(e){
+  return `<div class="card">
+    <div class="w"><span>${esc(e.w)}</span>
+      <button class="spk" title="Nghe" onclick="say('${e.w.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="vi">${esc(e.vi)}</div>
+    <div class="ex">e.g. ${esc(e.ex)}</div></div>`;
+}
+function groupHTML(g){
+  return `<div class="sub">${esc(g.name)} <span class="cnt">· ${g.words.length}</span></div>
+    <div class="grid">${g.words.map(card).join('')}</div>`;
+}
+
+/* ---- list / search views ---- */
+function renderList(id){
+  let out='';
+  if(id==='all'){
+    out=`<div class="searchbar"><span class="ic">🔎</span>
+      <input id="q" placeholder="Tìm từ, nghĩa hoặc ví dụ… (VD: mother-in-law, hào phóng)" oninput="filter(this.value)"></div>
+      <div id="results"></div>`;
+    mainEl.innerHTML=out; renderAll(''); setTimeout(()=>$('q')&&$('q').focus(),50); return;
+  }
+  const m=DATA.find(x=>'m'+x.letter===id);
+  out=`<div class="modhead"><div class="badge">${m.letter}</div>
+      <div><h2>${esc(m.title)}</h2><p>${esc(m.sub)}</p></div></div>`;
+  out+=m.groups.map(groupHTML).join('');
+  mainEl.innerHTML=out;
+}
+function renderAll(q){
+  q=(q||'').toLowerCase().trim();
+  const box=$('results'); if(!box)return;
+  let html='', shown=0;
+  DATA.forEach(m=>{
+    let inner='';
+    m.groups.forEach(g=>{
+      const ws=g.words.filter(e=>!q || (e.w+' '+e.vi+' '+e.ex).toLowerCase().includes(q));
+      if(ws.length){ shown+=ws.length;
+        inner+=`<div class="sub">${esc(g.name)} <span class="cnt">· ${ws.length}</span></div>
+          <div class="grid">${ws.map(card).join('')}</div>`; }
+    });
+    if(inner) html+=`<div class="modhead" style="margin-top:24px"><div class="badge">${m.letter}</div>
+        <div><h2>${esc(m.title)}</h2></div></div>`+inner;
+  });
+  box.innerHTML = shown? html : `<div class="empty">Không tìm thấy từ nào cho “${esc(q)}”.</div>`;
+}
+function filter(v){ renderAll(v); }
+
+/* ---- quiz (Vietnamese meaning -> English word) ---- */
+const ALLWORDS=[]; DATA.forEach(m=>m.groups.forEach(g=>g.words.forEach(w=>ALLWORDS.push(Object.assign({topic:m.title},w)))));
+let quiz={pool:[],i:0,score:0,answered:false};
+function renderQuiz(){
+  mainEl.innerHTML=`<div class="quizwrap">
+    <div class="qctrl" style="justify-content:center;margin:0 0 16px">
+      <select id="qscope"><option value="all">Tất cả module</option>${DATA.map(m=>`<option value="m${m.letter}">${m.letter} · ${esc(m.title)}</option>`).join('')}</select>
+      <button class="btn p" onclick="startQuiz()">Bắt đầu / Làm lại</button>
+    </div>
+    <div id="qbody"></div></div>`;
+  startQuiz();
+}
+function startQuiz(){
+  const sc=$('qscope').value;
+  let pool = sc==='all'?ALLWORDS.slice():ALLWORDS.filter(w=>{const m=DATA.find(x=>'m'+x.letter===sc);return m && m.title===w.topic;});
+  pool=pool.sort(()=>Math.random()-.5).slice(0,10);
+  quiz={pool,i:0,score:0,answered:false};
+  drawQ();
+}
+function drawQ(){
+  const body=$('qbody'); const q=quiz.pool[quiz.i];
+  if(!q){ body.innerHTML=`<div class="qcard"><div class="qprompt-label">Kết quả</div>
+    <div class="qprompt">${quiz.score}/${quiz.pool.length}</div>
+    <div class="qctrl"><button class="btn p" onclick="startQuiz()">↻ Làm lại</button></div></div>`; return; }
+  const others=ALLWORDS.filter(w=>w.w!==q.w).sort(()=>Math.random()-.5).slice(0,3).map(w=>w.w);
+  const opts=[q.w,...others].sort(()=>Math.random()-.5);
+  quiz.answered=false;
+  body.innerHTML=`<div class="qcard">
+    <div class="qtop"><span>Câu ${quiz.i+1}/${quiz.pool.length}</span><span class="score">⭐ ${quiz.score}</span></div>
+    <div class="qprompt-label">How do you say it in English?</div>
+    <div class="qprompt">${esc(q.vi)}</div>
+    <div class="qopts" id="qopts">${opts.map((o,i)=>`<button data-o="${encodeURIComponent(o)}" onclick="answer(this)">
+        <span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="qreveal" id="qreveal"></div>
+    <div class="qctrl"><button class="btn g" id="qnext" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>
+  </div>`;
+}
+function answer(btn){
+  if(quiz.answered)return; quiz.answered=true;
+  const q=quiz.pool[quiz.i]; const chosen=decodeURIComponent(btn.dataset.o);
+  document.querySelectorAll('#qopts button').forEach(b=>{
+    const o=decodeURIComponent(b.dataset.o); b.disabled=true;
+    if(o===q.w)b.classList.add('correct'); else if(o===chosen)b.classList.add('wrong');
+  });
+  if(chosen===q.w)quiz.score++;
+  say(q.w);
+  $('qreveal').innerHTML=`<b>${esc(q.w)}</b> — ${esc(q.ex)}`;
+  $('qnext').style.display='inline-block';
+}
+function nextQ(){ quiz.i++; drawQ(); }
+
+renderTabs(); show('all');
+</script>
+</body>
+</html>
