@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Verb Patterns | Huong Stella Paradigm – Grammar Series</title>
+<style>
+:root{--bg:#f0f4ff;--side:#1e1b4b;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--accent:#4f46e5;--green:#16a34a;--red:#dc2626;--amber:#b45309}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+#sidebar{width:240px;min-width:240px;background:var(--side);color:#fff;display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow-y:auto}
+.logo{padding:20px 16px 14px;border-bottom:1px solid rgba(255,255,255,.12)}
+.logo-title{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.1em}
+.logo-sub{font-size:13px;font-weight:700;margin-top:3px;color:#a5b4fc}
+.logo-tag{font-size:11px;opacity:.6;margin-top:2px}
+.nav-section{padding:14px 16px 4px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.4}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;cursor:pointer;font-size:12px;opacity:.65;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:rgba(255,255,255,.07);opacity:1}
+.nav-item.active{background:rgba(255,255,255,.11);opacity:1}
+.nav-item[data-mod="1"].active{border-left-color:#7c3aed}
+.nav-item[data-mod="2"].active{border-left-color:#0284c7}
+.nav-item[data-mod="3"].active{border-left-color:#b45309}
+.nav-item[data-mod="4"].active{border-left-color:#047857}
+.nav-item .lv{margin-left:auto;font-size:9px;background:rgba(255,255,255,.13);padding:1px 6px;border-radius:8px}
+#main{flex:1;padding:28px 32px;max-width:900px;width:100%;margin:0 auto}
+.view{display:none}.view.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:18px}
+.hero{background:linear-gradient(135deg,#1e1b4b 0%,#4f46e5 100%);color:#fff;border-radius:16px;padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
+.hero::after{content:'V';position:absolute;right:-24px;top:-24px;font-size:200px;font-weight:900;opacity:.05;font-family:serif}
+.hero h1{font-size:24px;font-weight:800;margin-bottom:6px}
+.hero p{opacity:.8;font-size:13px;max-width:480px;line-height:1.7}
+.hero-badges{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.hbadge{background:rgba(255,255,255,.15);padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600}
+.mod-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.mod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.mod-card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.mod-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
+.mod-card h3{font-size:13px;font-weight:700;margin-bottom:3px}
+.mod-card p{font-size:11px;color:var(--muted);line-height:1.5}
+.mod-lv{font-size:10px;font-weight:700;margin-top:6px;padding:2px 8px;border-radius:7px;display:inline-block}
+.input-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.input-row input{flex:1;min-width:160px;padding:9px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card)}
+.tab-bar{display:flex;gap:3px;background:var(--bg);border-radius:8px;padding:4px;margin-bottom:18px}
+.tab-btn{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .15s}
+.tab-btn.active{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.section-tag{padding:4px 12px;border-radius:16px;font-size:11px;font-weight:700;color:#fff}
+.learn-content{line-height:1.85;font-size:14px}
+.learn-content h3{font-size:16px;font-weight:700;margin:18px 0 8px}
+.learn-content h4{font-size:14px;font-weight:600;margin:12px 0 5px;color:var(--accent)}
+.rule-box{background:#f0f4ff;border-left:4px solid var(--accent);padding:11px 15px;border-radius:0 8px 8px 0;margin:10px 0;font-family:monospace;font-size:13.5px;line-height:1.7}
+.tip-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13px}
+.tip-box strong{color:#92400e}
+.danger-box{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13px}
+.danger-box strong{color:#991b1b}
+.verb-grid{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.vchip{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600}
+.vchip.a1{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+.vchip.a2{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+.vchip.b1{background:#faf5ff;border-color:#e9d5ff;color:#6b21a8}
+.vchip.b2{background:#fff7ed;border-color:#fed7aa;color:#c2410c}
+.vchip.c1{background:#f0f9ff;border-color:#bae6fd;color:#0369a1}
+.vchip.special{background:#fefce8;border-color:#fde047;color:#854d0e}
+.ptable{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+.ptable th{background:#f1f5f9;padding:8px 11px;text-align:left;font-weight:600;border:1px solid var(--border);font-size:13px}
+.ptable td{padding:8px 11px;border:1px solid var(--border);vertical-align:top;line-height:1.6;font-size:13px}
+.ptable tr:nth-child(even) td{background:#fafbff}
+.tick{color:var(--green);font-weight:700}
+.cross{color:var(--red);font-weight:700}
+.pbr-outer{height:5px;background:var(--border);border-radius:3px;margin:6px 0}
+.pbr-inner{height:5px;border-radius:3px;transition:width .4s}
+.mcq-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+.mcq-q{font-size:14px;font-weight:600;margin-bottom:9px;line-height:1.6}
+.mcq-opts{display:flex;flex-direction:column;gap:5px}
+.mcq-opt{padding:8px 13px;border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s}
+.mcq-opt:hover:not(.locked){border-color:var(--accent);background:#f0f4ff}
+.mcq-opt.selected{border-color:#6366f1;background:#eef2ff}
+.mcq-opt.correct{border-color:var(--green)!important;background:#f0fdf4!important}
+.mcq-opt.wrong{border-color:var(--red)!important;background:#fef2f2!important}
+.mcq-exp{font-size:12px;color:var(--muted);margin-top:8px;padding:8px 11px;background:#f8faff;border-radius:6px;display:none}
+.mcq-exp.show{display:block}
+.trans-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+.trans-vn{font-size:14px;color:var(--accent);font-weight:600;margin-bottom:6px}
+.trans-hint{font-size:12px;color:var(--muted);margin-bottom:8px}
+.trans-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:7px;font-size:14px;resize:vertical;min-height:60px}
+.trans-model{font-size:13px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;padding:10px 12px;margin-top:8px;display:none}
+.trans-model.show{display:block}
+.trans-note{font-size:12px;color:#16a34a;margin-top:4px}
+.ec-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+.ec-instr{font-size:12px;color:var(--muted);margin-bottom:9px}
+.ec-sent{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.ec-part{padding:6px 13px;border:2px solid var(--border);border-radius:16px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s;user-select:none}
+.ec-part:hover{border-color:var(--accent);background:#f0f4ff}
+.ec-part.correct-hl{border-color:var(--green)!important;background:#f0fdf4!important;color:var(--green)!important}
+.ec-part.wrong-hl{border-color:var(--red)!important;background:#fef2f2!important;color:var(--red)!important}
+.ec-part.sel-ec{border-color:#6366f1!important;background:#eef2ff!important}
+.ec-res{font-size:12px;padding:8px 12px;border-radius:6px;margin-top:6px;display:none}
+.ec-res.show{display:block}
+.ec-res.ok{background:#f0fdf4;color:#15803d;border:1px solid #86efac}
+.ec-res.bad{background:#fef2f2;color:#dc2626;border:1px solid #fca5a5}
+.writ-prompt{background:#f8faff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.writ-ta{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;min-height:120px;resize:vertical;font-family:inherit}
+.crit-list{list-style:none;padding:0}
+.crit-list li{font-size:13px;padding:3px 0;color:var(--muted)}
+.crit-list li::before{content:"▸ ";color:var(--accent)}
+.model-ans{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:13px;font-size:13px;display:none;margin-top:8px}
+.model-ans.show{display:block}
+.takeaway{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;font-size:13px;margin-top:8px;display:none}
+.takeaway.show{display:block}
+.btn{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:var(--border);color:var(--text)}
+.btn-success{background:var(--green);color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn:hover{opacity:.87}
+.btn-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.score-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:16px;font-size:12px;font-weight:700}
+.score-badge.high{background:#f0fdf4;color:var(--green)}
+.score-badge.mid{background:#fffbeb;color:#b45309}
+.score-badge.low{background:#fef2f2;color:var(--red)}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.stat-num{font-size:30px;font-weight:800;margin-bottom:3px}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.mod-result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.mod-result h3{font-size:14px;font-weight:700;margin-bottom:10px}
+.sec-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.sec-row:last-child{border-bottom:none}
+.err-log{background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;margin-top:10px}
+.err-item{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #fecaca;font-size:12px}
+.err-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.err-q{font-weight:600;color:#991b1b}
+.err-d{color:var(--muted);margin-top:3px}
+@media(max-width:680px){#sidebar{display:none}#main{padding:14px}.mod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<aside id="sidebar">
+  <div class="logo">
+    <div class="logo-title">Huong Stella Paradigm</div>
+    <div class="logo-sub">Grammar Series · Vol.4</div>
+    <div class="logo-tag">Verb Patterns A1–C1</div>
+  </div>
+  <div class="nav-section">Navigation</div>
+  <div class="nav-item active" data-sid="s0" onclick="goSection('s0')">📋 Overview</div>
+  <div class="nav-section">Module 1 · Core (A1–B1)</div>
+  <div class="nav-item" data-sid="s1" data-mod="1" onclick="goSection('s1')">1 · Verb + to-inf<span class="lv">A1</span></div>
+  <div class="nav-item" data-sid="s2" data-mod="1" onclick="goSection('s2')">2 · Verb + V-ing<span class="lv">A2</span></div>
+  <div class="nav-item" data-sid="s3" data-mod="1" onclick="goSection('s3')">3 · Both / No change<span class="lv">B1</span></div>
+  <div class="nav-section">Module 2 · Object &amp; Prep (B1–B2)</div>
+  <div class="nav-item" data-sid="s4" data-mod="2" onclick="goSection('s4')">4 · Obj + to-inf<span class="lv">B1</span></div>
+  <div class="nav-item" data-sid="s5" data-mod="2" onclick="goSection('s5')">5 · Prep + V-ing<span class="lv">B1</span></div>
+  <div class="nav-item" data-sid="s6" data-mod="2" onclick="goSection('s6')">6 · it + adj + to-inf<span class="lv">B2</span></div>
+  <div class="nav-section">Module 3 · Meaning (B2)</div>
+  <div class="nav-item" data-sid="s7" data-mod="3" onclick="goSection('s7')">7 · Meaning change<span class="lv">B2</span></div>
+  <div class="nav-item" data-sid="s8" data-mod="3" onclick="goSection('s8')">8 · Bare infinitive<span class="lv">B2</span></div>
+  <div class="nav-section">Module 4 · Advanced (C1)</div>
+  <div class="nav-item" data-sid="s9" data-mod="4" onclick="goSection('s9')">9 · Perfect &amp; Passive<span class="lv">C1</span></div>
+  <div class="nav-item" data-sid="s10" data-mod="4" onclick="goSection('s10')">10 · Fixed Expressions<span class="lv">C1</span></div>
+  <div style="margin-top:auto;padding:16px;border-top:1px solid rgba(255,255,255,.1)">
+    <div onclick="showResults()" style="cursor:pointer;font-size:12px;opacity:.6;text-align:center">📊 View Results</div>
+  </div>
+</aside>
+<main id="main">
+<!-- HOME VIEW -->
+<div id="view-home" class="view active">
+  <div class="hero">
+    <h1>Verb Patterns</h1>
+    <p>Master to-infinitive, V-ing, bare infinitive and all major verb patterns from A1 to C1 — with memory aids, exercises, and instant feedback.</p>
+    <div class="hero-badges">
+      <span class="hbadge">10 Sections</span>
+      <span class="hbadge">60 MCQ</span>
+      <span class="hbadge">40 Error Corrections</span>
+      <span class="hbadge">40 Translations</span>
+      <span class="hbadge">PDF Report</span>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:18px">
+    <h2 style="margin-bottom:12px;font-size:15px">Student Information</h2>
+    <div class="input-row">
+      <input id="inp-name" placeholder="Full name" />
+      <input id="inp-class" placeholder="Class (e.g. PO-1)" />
+    </div>
+  </div>
+  <div class="mod-grid">
+    <div class="mod-card" onclick="goSection('s1')">
+      <div class="mod-icon" style="background:#f3e8ff">🔵</div>
+      <h3>Module 1: Core Patterns</h3>
+      <p>Verb + to-inf · Verb + V-ing · Both with no change</p>
+      <span class="mod-lv" style="background:#f3e8ff;color:#6b21a8">A1 – B1</span>
+    </div>
+    <div class="mod-card" onclick="goSection('s4')">
+      <div class="mod-icon" style="background:#e0f2fe">🔷</div>
+      <h3>Module 2: Object &amp; Preposition</h3>
+      <p>Obj + to-inf · Prep + V-ing · it + adj + to-inf</p>
+      <span class="mod-lv" style="background:#e0f2fe;color:#0369a1">B1 – B2</span>
+    </div>
+    <div class="mod-card" onclick="goSection('s7')">
+      <div class="mod-icon" style="background:#fff7ed">🔶</div>
+      <h3>Module 3: Meaning Contrasts</h3>
+      <p>Verbs that change meaning · Bare infinitive patterns</p>
+      <span class="mod-lv" style="background:#fff7ed;color:#c2410c">B2</span>
+    </div>
+    <div class="mod-card" onclick="goSection('s9')">
+      <div class="mod-icon" style="background:#f0fdf4">🟢</div>
+      <h3>Module 4: Advanced Patterns</h3>
+      <p>Perfect &amp; passive forms · Fixed expressions &amp; idioms</p>
+      <span class="mod-lv" style="background:#f0fdf4;color:#166534">B2 – C1</span>
+    </div>
+  </div>
+</div>
+<!-- SECTION VIEW -->
+<div id="view-section" class="view">
+  <div class="section-header">
+    <div id="sec-tag" class="section-tag"></div>
+    <div>
+      <div id="sec-title" style="font-size:18px;font-weight:800"></div>
+      <div id="sec-subtitle" style="font-size:12px;color:var(--muted)"></div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('learn')">📖 Learn</button>
+    <button class="tab-btn" onclick="switchTab('practice')">✏️ Practice</button>
+  </div>
+  <!-- LEARN TAB -->
+  <div id="tab-learn">
+    <div id="learn-s0" class="learn-content" style="display:none">
+      <h3>What Are Verb Patterns?</h3>
+      <p>Every English verb that is followed by another verb has a <strong>fixed pattern</strong> — you must use either <em>to-infinitive</em>, <em>V-ing (gerund)</em>, or <em>bare infinitive</em>. There are no shortcuts; you must memorise which form each verb requires.</p>
+      <div class="rule-box">
+        enjoy + <strong>swimming</strong> ✓ &nbsp;&nbsp; enjoy + <strong>to swim</strong> ✗<br>
+        want + <strong>to swim</strong> ✓ &nbsp;&nbsp; want + <strong>swimming</strong> ✗<br>
+        can + <strong>swim</strong> (bare) ✓ &nbsp;&nbsp; can + <strong>to swim</strong> ✗
+      </div>
+      <h3>Pattern Overview</h3>
+      <table class="ptable">
+        <tr><th>Pattern</th><th>Example verbs</th><th>Example sentence</th></tr>
+        <tr><td><strong>Verb + to-inf</strong></td><td>want, hope, decide, plan</td><td>I want <strong>to go</strong> home.</td></tr>
+        <tr><td><strong>Verb + V-ing</strong></td><td>enjoy, avoid, finish, keep</td><td>I enjoy <strong>swimming</strong>.</td></tr>
+        <tr><td><strong>Both (no change)</strong></td><td>like, love, begin, start</td><td>She likes <strong>to cook</strong> / <strong>cooking</strong>.</td></tr>
+        <tr><td><strong>Verb + obj + to-inf</strong></td><td>want, ask, tell, make*</td><td>He asked her <strong>to help</strong>.</td></tr>
+        <tr><td><strong>Prep + V-ing</strong></td><td>look forward to, good at</td><td>I look forward <strong>to seeing</strong> you.</td></tr>
+        <tr><td><strong>Bare inf (modal)</strong></td><td>can, must, would rather</td><td>She <strong>can speak</strong> French.</td></tr>
+        <tr><td><strong>Meaning change</strong></td><td>stop, remember, try</td><td><em>stop to eat</em> ≠ <em>stop eating</em></td></tr>
+        <tr><td><strong>Perfect/Passive</strong></td><td>to have done / being done</td><td>She seems <strong>to have left</strong>.</td></tr>
+      </table>
+      <div class="tip-box"><strong>🧠 Memory tip:</strong> Group verbs by pattern and learn them in sets. This workbook is organised from the most common (A1) to the most advanced (C1).</div>
+    </div>
+    <div id="learn-s1" class="learn-content" style="display:none">
+      <h3>Pattern: Verb + to-infinitive</h3>
+      <div class="rule-box">Subject + <strong>[verb]</strong> + <strong>to</strong> + base verb<br>
+      "I <strong>want</strong> <strong>to go</strong> home." &nbsp; "She <strong>decided</strong> <strong>to stay</strong>."</div>
+      <div class="danger-box"><strong>❌ Never use V-ing:</strong> "I want going" ✗ &nbsp; "She decided staying" ✗</div>
+      <h4>A1 – Core verbs</h4>
+      <div class="verb-grid">
+        <span class="vchip a1">want</span><span class="vchip a1">need</span><span class="vchip a1">like</span><span class="vchip a1">would like</span><span class="vchip a1">try</span><span class="vchip a1">help</span>
+      </div>
+      <h4>A2 – Common verbs</h4>
+      <div class="verb-grid">
+        <span class="vchip a2">hope</span><span class="vchip a2">wish</span><span class="vchip a2">decide</span><span class="vchip a2">choose</span><span class="vchip a2">learn</span><span class="vchip a2">ask</span><span class="vchip a2">plan</span><span class="vchip a2">promise</span>
+      </div>
+      <h4>B1 – Extended list</h4>
+      <div class="verb-grid">
+        <span class="vchip b1">agree</span><span class="vchip b1">refuse</span><span class="vchip b1">manage</span><span class="vchip b1">fail</span><span class="vchip b1">seem</span><span class="vchip b1">appear</span><span class="vchip b1">tend</span><span class="vchip b1">afford</span><span class="vchip b1">pretend</span><span class="vchip b1">expect</span><span class="vchip b1">offer</span><span class="vchip b1">arrange</span><span class="vchip b1">prepare</span><span class="vchip b1">threaten</span><span class="vchip b1">deserve</span><span class="vchip b1">aim</span><span class="vchip b1">happen</span>
+      </div>
+      <div class="tip-box"><strong>🧠 Pattern tip:</strong> Verbs about <em>thoughts, plans, and intentions</em> almost always take to-infinitive: decide, plan, intend, hope, promise, agree, refuse.</div>
+    </div>
+    <div id="learn-s2" class="learn-content" style="display:none">
+      <h3>Pattern: Verb + V-ing (Gerund)</h3>
+      <div class="rule-box">Subject + <strong>[verb]</strong> + <strong>V-ing</strong><br>
+      "I <strong>enjoy</strong> <strong>swimming</strong>." &nbsp; "She <strong>avoids</strong> <strong>making</strong> eye contact."</div>
+      <div class="danger-box"><strong>❌ Never use to-inf:</strong> "I enjoy to swim" ✗ &nbsp; "She avoids to make" ✗</div>
+      <h4>A2 – Core verbs</h4>
+      <div class="verb-grid">
+        <span class="vchip a2">enjoy</span><span class="vchip a2">mind</span><span class="vchip a2">stop</span><span class="vchip a2">finish</span><span class="vchip a2">keep</span>
+      </div>
+      <h4>B1 – Main list</h4>
+      <div class="verb-grid">
+        <span class="vchip b1">avoid</span><span class="vchip b1">consider</span><span class="vchip b1">suggest</span><span class="vchip b1">admit</span><span class="vchip b1">deny</span><span class="vchip b1">imagine</span><span class="vchip b1">miss</span><span class="vchip b1">practise</span><span class="vchip b1">risk</span><span class="vchip b1">fancy</span><span class="vchip b1">give up</span><span class="vchip b1">put off</span><span class="vchip b1">delay</span><span class="vchip b1">can't stand</span><span class="vchip b1">involve</span><span class="vchip b1">resist</span>
+      </div>
+      <div class="tip-box"><strong>🧠 Pattern tip:</strong> Verbs about <em>feelings, habits, and actions in progress</em> often take V-ing: enjoy, avoid, finish, keep, miss, practise.</div>
+      <div class="tip-box"><strong>💡 Gerund = noun:</strong> The V-ing form acts as a <em>noun</em> here. "I enjoy <strong>swimming</strong>" = "I enjoy <strong>it</strong>." You can test this by replacing the gerund with a pronoun.</div>
+    </div>
+    <div id="learn-s3" class="learn-content" style="display:none">
+      <h3>Pattern: Verb + to-inf OR V-ing (No meaning change)</h3>
+      <div class="rule-box">These verbs take EITHER form — meaning is the same:<br>
+      "She <strong>loves cooking</strong>." = "She <strong>loves to cook</strong>."<br>
+      "It <strong>started raining</strong>." = "It <strong>started to rain</strong>."</div>
+      <h4>B1 – Both forms accepted</h4>
+      <div class="verb-grid">
+        <span class="vchip b1">like</span><span class="vchip b1">love</span><span class="vchip b1">hate</span><span class="vchip b1">prefer</span><span class="vchip b1">begin</span><span class="vchip b1">start</span><span class="vchip b1">continue</span><span class="vchip b1">cease</span><span class="vchip b1">attempt</span><span class="vchip b1">bother</span><span class="vchip b1">can't bear</span>
+      </div>
+      <div class="danger-box"><strong>⚠️ Exception — would + like/love/hate/prefer:</strong> After <em>would</em>, ALWAYS use to-infinitive:<br>
+      "I <strong>would like to have</strong> coffee." ✓ &nbsp;&nbsp; "I would like having…" ✗</div>
+      <div class="tip-box"><strong>⚠️ Exception — prefer…to:</strong> "She prefers reading <strong>to</strong> watching TV." (not 'than')</div>
+    </div>
+    <div id="learn-s4" class="learn-content" style="display:none">
+      <h3>Pattern: Verb + Object + to-infinitive</h3>
+      <div class="rule-box">Subject + <strong>[verb]</strong> + <strong>object</strong> + <strong>to</strong> + base verb<br>
+      "My teacher <strong>encouraged</strong> <strong>me</strong> <strong>to study</strong> harder."<br>
+      "She <strong>asked</strong> <strong>him</strong> <strong>to wait</strong> outside."</div>
+      <h4>B1 – Common verbs (+ obj + to-inf)</h4>
+      <div class="verb-grid">
+        <span class="vchip b1">want</span><span class="vchip b1">ask</span><span class="vchip b1">tell</span><span class="vchip b1">advise</span><span class="vchip b1">allow</span><span class="vchip b1">encourage</span><span class="vchip b1">expect</span><span class="vchip b1">force</span><span class="vchip b1">invite</span><span class="vchip b1">order</span><span class="vchip b1">persuade</span><span class="vchip b1">remind</span><span class="vchip b1">warn</span><span class="vchip b1">need</span>
+      </div>
+      <h3>Special Group: Bare Infinitive (no 'to')</h3>
+      <div class="rule-box">make / let / have + obj + <strong>bare infinitive</strong><br>
+      "She <strong>made</strong> him <strong>apologize</strong>." &nbsp; "Let me <strong>help</strong> you."</div>
+      <div class="danger-box"><strong>❌ Common error:</strong> "She made him <strong>to</strong> apologize." ✗ — no 'to' after make/let/have!</div>
+      <h4>Perception verbs: see/hear/watch/feel + obj</h4>
+      <div class="rule-box">+ bare inf (complete action) OR + V-ing (action in progress)<br>
+      "I saw her <strong>cross</strong> the road." (complete) &nbsp; "I saw her <strong>crossing</strong> the road." (in progress)</div>
+    </div>
+    <div id="learn-s5" class="learn-content" style="display:none">
+      <h3>Pattern: Verb/Adjective + Preposition + V-ing</h3>
+      <div class="rule-box">After a <strong>preposition</strong>, always use <strong>V-ing</strong> (never to-inf)<br>
+      "She is good <strong>at</strong> <strong>speaking</strong> French." ✓<br>
+      "She is good at <strong>to speak</strong> French." ✗</div>
+      <div class="danger-box"><strong>⚠️ KEY TRAP — "look forward to":</strong> The 'to' here is a <strong>PREPOSITION</strong>, not an infinitive marker!<br>
+      "I look forward <strong>to seeing</strong> you." ✓ &nbsp;&nbsp; "I look forward to see you." ✗</div>
+      <h4>B1 – Common expressions (+ preposition + V-ing)</h4>
+      <table class="ptable">
+        <tr><th>Expression</th><th>Preposition</th><th>Example</th></tr>
+        <tr><td>look forward to</td><td>to</td><td>look forward to <strong>meeting</strong> you</td></tr>
+        <tr><td>be used to</td><td>to</td><td>be used to <strong>working</strong> long hours</td></tr>
+        <tr><td>object to</td><td>to</td><td>object to <strong>being</strong> ignored</td></tr>
+        <tr><td>insist on</td><td>on</td><td>insist on <strong>paying</strong></td></tr>
+        <tr><td>apologize for</td><td>for</td><td>apologize for <strong>being</strong> late</td></tr>
+        <tr><td>succeed in</td><td>in</td><td>succeed in <strong>passing</strong></td></tr>
+        <tr><td>be good/bad at</td><td>at</td><td>be good at <strong>listening</strong></td></tr>
+        <tr><td>think of/about</td><td>of/about</td><td>think about <strong>changing</strong> jobs</td></tr>
+        <tr><td>be interested in</td><td>in</td><td>interested in <strong>learning</strong></td></tr>
+        <tr><td>be tired of</td><td>of</td><td>tired of <strong>waiting</strong></td></tr>
+        <tr><td>instead of</td><td>of</td><td>instead of <strong>taking</strong> a taxi</td></tr>
+        <tr><td>without</td><td>—</td><td>left without <strong>saying</strong> goodbye</td></tr>
+      </table>
+    </div>
+    <div id="learn-s6" class="learn-content" style="display:none">
+      <h3>Pattern: it + be + adjective + to-infinitive</h3>
+      <div class="rule-box">It is <strong>[adjective]</strong> + <strong>to</strong> + base verb<br>
+      "It is <strong>important</strong> <strong>to check</strong> your work."<br>
+      "It was <strong>difficult</strong> <strong>to find</strong> a parking space."</div>
+      <h4>B1–B2 Common adjectives</h4>
+      <div class="verb-grid">
+        <span class="vchip b1">important</span><span class="vchip b1">necessary</span><span class="vchip b1">easy</span><span class="vchip b1">difficult</span><span class="vchip b1">hard</span><span class="vchip b1">possible</span><span class="vchip b1">impossible</span><span class="vchip b1">dangerous</span><span class="vchip b1">safe</span><span class="vchip b2">essential</span><span class="vchip b2">vital</span><span class="vchip b2">unusual</span><span class="vchip b2">natural</span><span class="vchip b2">common</span><span class="vchip b2">helpful</span><span class="vchip b2">useful</span>
+      </div>
+      <h3>Contrast: worth / no point / no use → V-ing!</h3>
+      <div class="rule-box">it's worth + <strong>V-ing</strong> &nbsp;&nbsp; "It's worth <strong>trying</strong>."<br>
+      there's no point (in) + <strong>V-ing</strong> &nbsp;&nbsp; "There's no point <strong>waiting</strong>."<br>
+      it's no use + <strong>V-ing</strong> &nbsp;&nbsp; "It's no use <strong>crying</strong> over it."</div>
+      <div class="danger-box"><strong>❌ Common error:</strong> "It's worth <strong>to try</strong>." ✗ — always V-ing after 'worth'!</div>
+      <h3>Time expressions</h3>
+      <div class="rule-box">It's time + <strong>to-inf</strong>: "It's time <strong>to go</strong>." (general)<br>
+      It's (high) time + <strong>past simple</strong>: "It's high time you <strong>went</strong>." (urgent/subjunctive)</div>
+    </div>
+    <div id="learn-s7" class="learn-content" style="display:none">
+      <h3>Verbs with Meaning Change</h3>
+      <p>These verbs change meaning depending on which form follows. Both are grammatically correct, but they mean different things.</p>
+      <table class="ptable">
+        <tr><th>Verb</th><th>+ to-infinitive</th><th>+ V-ing</th></tr>
+        <tr><td><strong>stop</strong></td><td>pause <em>in order to</em> do sth<br>"She stopped <strong>to buy</strong> water." (= paused)</td><td>quit / no longer do<br>"She stopped <strong>buying</strong> water." (= quit habit)</td></tr>
+        <tr><td><strong>remember</strong></td><td>don't forget (future/pending action)<br>"Remember <strong>to lock</strong> the door." (= don't forget)</td><td>recall a past action<br>"I remember <strong>locking</strong> the door." (= I recall doing it)</td></tr>
+        <tr><td><strong>forget</strong></td><td>not remember to do (action not done)<br>"I forgot <strong>to post</strong> the letter." (= I didn't post it)</td><td>not recall doing (action was done)<br>"I'll never forget <strong>meeting</strong> you." (= I always remember it)</td></tr>
+        <tr><td><strong>try</strong></td><td>make an effort / attempt<br>"He tried <strong>to lift</strong> the box." (= made effort)</td><td>experiment / test as solution<br>"Try <strong>adding</strong> some salt." (= see if it helps)</td></tr>
+        <tr><td><strong>regret</strong></td><td>sorry to say sth now (formal)<br>"We regret <strong>to inform</strong> you…" (present announcement)</td><td>sorry about a past action<br>"I regret <strong>saying</strong> that." (= sorry I said it)</td></tr>
+        <tr><td><strong>go on</strong></td><td>move to a new / different activity<br>"He went on <strong>to become</strong> a doctor."</td><td>continue the same activity<br>"She went on <strong>talking</strong> for an hour."</td></tr>
+        <tr><td><strong>mean</strong></td><td>intend to do<br>"I didn't mean <strong>to hurt</strong> you."</td><td>involve / result in<br>"This means <strong>working</strong> overtime."</td></tr>
+      </table>
+      <div class="tip-box"><strong>🧠 Memory tip for stop/remember/forget:</strong> If the action comes <em>after</em> the stopping/remembering → to-inf. If the action happened <em>before</em> → V-ing.</div>
+    </div>
+    <div id="learn-s8" class="learn-content" style="display:none">
+      <h3>Pattern: Bare Infinitive</h3>
+      <p>The bare infinitive is the base form of the verb <strong>without 'to'</strong>.</p>
+      <h3>1. Modal verbs + bare infinitive</h3>
+      <div class="rule-box">can / could / will / would / may / might / shall / should / must + <strong>bare inf</strong><br>
+      "She <strong>can speak</strong> French." &nbsp; "You <strong>should see</strong> a doctor."</div>
+      <div class="verb-grid">
+        <span class="vchip special">can</span><span class="vchip special">could</span><span class="vchip special">will</span><span class="vchip special">would</span><span class="vchip special">may</span><span class="vchip special">might</span><span class="vchip special">shall</span><span class="vchip special">should</span><span class="vchip special">must</span>
+      </div>
+      <h3>2. make / let / have + object + bare inf</h3>
+      <div class="rule-box">"She <strong>made</strong> him <strong>clean</strong> his room." (no 'to'!)<br>
+      "Let her <strong>speak</strong>." &nbsp; "I had the technician <strong>fix</strong> it."</div>
+      <h3>3. would rather / had better + bare inf</h3>
+      <div class="rule-box">"I <strong>would rather stay</strong> home tonight." (not 'to stay')<br>
+      "You <strong>had better see</strong> a doctor." (not 'to see')</div>
+      <div class="danger-box"><strong>❌ Common error:</strong> "You had better <strong>to</strong> go." ✗ &nbsp; "I'd rather <strong>to</strong> stay." ✗</div>
+      <h3>4. Perception verbs + bare inf vs. V-ing</h3>
+      <div class="rule-box">see / hear / watch / feel + obj + bare inf <em>(complete action)</em><br>
+      see / hear / watch / feel + obj + V-ing <em>(action in progress)</em><br>
+      "I saw her <strong>cross</strong> the road." (= the whole action)<br>
+      "I saw her <strong>crossing</strong> the road." (= in the middle of it)</div>
+    </div>
+    <div id="learn-s9" class="learn-content" style="display:none">
+      <h3>Perfect &amp; Passive Infinitive / Gerund</h3>
+      <h4>1. Perfect infinitive: to have + past participle</h4>
+      <div class="rule-box">Use when the action happened <em>before</em> the main verb time:<br>
+      "She seems <strong>to have left</strong> already." (she left before now)<br>
+      "He is said <strong>to have been</strong> a great artist." (past reference)</div>
+      <h4>2. Perfect gerund: having + past participle</h4>
+      <div class="rule-box">Same idea, after verbs/prepositions that take -ing:<br>
+      "<strong>Having finished</strong> the work, she went home."<br>
+      "He regrets <strong>having told</strong> her the truth."</div>
+      <h4>3. Passive infinitive: to be + past participle</h4>
+      <div class="rule-box">Subject receives the action:<br>
+      "She wants <strong>to be promoted</strong>."<br>
+      "The project needs <strong>to be completed</strong> by Friday."</div>
+      <h4>4. Passive gerund: being + past participle</h4>
+      <div class="rule-box">After verbs/prepositions that take -ing:<br>
+      "She hates <strong>being interrupted</strong> during meetings."<br>
+      "I remember <strong>being told</strong> this story as a child."</div>
+      <div class="tip-box"><strong>🧠 Summary:</strong> Perfect = action <em>before</em> main time. Passive = subject is <em>acted upon</em>. Combine: "She seems <strong>to have been told</strong>." = Perfect + Passive infinitive.</div>
+    </div>
+    <div id="learn-s10" class="learn-content" style="display:none">
+      <h3>Fixed Expressions with Verb Patterns</h3>
+      <h4>Always + V-ing</h4>
+      <table class="ptable">
+        <tr><th>Expression</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td>can't help + V-ing</td><td>can't stop, uncontrollable</td><td>"I can't help <strong>laughing</strong>."</td></tr>
+        <tr><td>can't stand + V-ing</td><td>hate strongly</td><td>"I can't stand <strong>waiting</strong>."</td></tr>
+        <tr><td>feel like + V-ing</td><td>want to do</td><td>"I feel like <strong>going</strong> out."</td></tr>
+        <tr><td>end up + V-ing</td><td>finally do (often unexpectedly)</td><td>"We ended up <strong>walking</strong>."</td></tr>
+        <tr><td>it's worth + V-ing</td><td>deserves the effort</td><td>"It's worth <strong>trying</strong>."</td></tr>
+        <tr><td>there's no point + V-ing</td><td>useless</td><td>"There's no point <strong>arguing</strong>."</td></tr>
+        <tr><td>it's no use + V-ing</td><td>futile</td><td>"It's no use <strong>crying</strong>."</td></tr>
+      </table>
+      <h4>Always + bare infinitive</h4>
+      <div class="verb-grid">
+        <span class="vchip c1">be supposed to</span><span class="vchip c1">be bound to</span><span class="vchip c1">be about to</span><span class="vchip c1">happen to</span>
+      </div>
+      <h4>⚠️ used to vs. be used to vs. get used to</h4>
+      <table class="ptable">
+        <tr><th>Expression</th><th>Form after</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><strong>used to</strong></td><td>bare infinitive</td><td>past habit (no longer true)</td><td>"She used to <strong>live</strong> in Paris."</td></tr>
+        <tr><td><strong>be used to</strong></td><td>V-ing</td><td>be accustomed to</td><td>"She is used to <strong>living</strong> abroad."</td></tr>
+        <tr><td><strong>get used to</strong></td><td>V-ing</td><td>become accustomed to</td><td>"She's getting used to <strong>waking</strong> up early."</td></tr>
+      </table>
+      <div class="danger-box"><strong>❌ Classic error:</strong> "She used to <strong>living</strong> in Paris." ✗ → "She used to <strong>live</strong>." ✓<br>
+      "She is used to <strong>live</strong> in Paris." ✗ → "She is used to <strong>living</strong>." ✓</div>
+    </div>
+  </div>
+  <!-- PRACTICE TAB -->
+  <div id="tab-practice" style="display:none">
+    <div id="ex-container"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="scoreSection()">✅ Check Answers</button>
+      <button class="btn btn-secondary" onclick="switchTab('learn')">📖 Back to Theory</button>
+    </div>
+    <div id="sec-score" style="margin-top:14px;display:none"></div>
+  </div>
+</div>
+<!-- RESULTS VIEW -->
+<div id="view-results" class="view">
+  <div class="card">
+    <h2 style="margin-bottom:4px">📊 Full Results</h2>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Complete your name and class on the home screen before generating the report.</p>
+    <div class="results-grid" id="res-stats"></div>
+    <div id="res-modules"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generatePDF()">📄 Download PDF Report</button>
+      <button class="btn btn-success" onclick="sendToTeacher()">📧 Send to Teacher</button>
+      <button class="btn btn-secondary" onclick="goSection('s0')">← Back</button>
+    </div>
+    <div id="email-status" style="margin-top:10px;font-size:12px"></div>
+  </div>
+</div>
+</main>
+
+<script>
+const SECTIONS = {
+  s0:{
+    title:"Overview – Verb Patterns",subtitle:"Diagnostic | All patterns",color:"#4f46e5",level:"A1–C1",
+    qa:[
+      {q:"'I enjoy ___ to music while studying.' — Correct form?",opts:["to listen","listening","listen","listened"],ans:1,exp:"'enjoy' requires V-ing (gerund). Enjoy listening. NEVER: enjoy to listen."},
+      {q:"'She promised ___ us the next day.' — Correct form?",opts:["calling","call","to call","called"],ans:2,exp:"'promise' requires to-infinitive. Promised to call."},
+      {q:"'He made her ___ the report again.' — Correct form?",opts:["to rewrite","rewriting","rewrite","rewrote"],ans:2,exp:"'make + object' uses BARE infinitive — no 'to'. Made her rewrite."},
+      {q:"'I look forward to ___ from you.' — Correct form?",opts:["hear","to hear","heard","hearing"],ans:3,exp:"'look forward TO' — 'to' is a PREPOSITION here, not infinitive marker. Use V-ing after prepositions. Look forward to hearing."},
+      {q:"'She stopped ___ a newspaper on her way home.' (She paused in order to buy it.) — Correct form?",opts:["buying","buy","to buy","bought"],ans:2,exp:"'stop + to-inf' = pause in order to do something new. Stopped to buy."},
+      {q:"'This book is worth ___.' — Correct form?",opts:["to read","read","reading","be read"],ans:2,exp:"'be worth' is ALWAYS followed by V-ing. Worth reading."},
+    ],
+    qb:[
+      {vn:"Tôi không thể tránh gặp cô ấy ở văn phòng.",hint:"avoid + ?",model:"I can't avoid meeting her at the office.",note:"avoid + V-ing (gerund)"},
+      {vn:"Họ muốn anh ấy hoàn thành dự án sớm hơn.",hint:"want sb to ?",model:"They want him to finish the project sooner.",note:"want + object + to-infinitive"},
+      {vn:"Tôi rất mong được gặp lại bạn.",hint:"look forward to + ?",model:"I'm looking forward to meeting you again.",note:"look forward to + V-ing ('to' is a preposition)"},
+      {vn:"Cuốn sách này rất đáng đọc.",hint:"worth + ?",model:"This book is worth reading.",note:"be worth + V-ing"},
+    ],
+    qe:[
+      {s:"She enjoys to dance at parties.",parts:["She enjoys","to dance","at parties","(whole sentence)"],wrong:1,fix:"dancing",exp:"'enjoy' requires V-ing. Enjoys dancing. NEVER: enjoy to dance."},
+      {s:"He made her to resubmit the report.",parts:["He made her","to resubmit","the report","(whole sentence)"],wrong:1,fix:"resubmit",exp:"'make + object' uses BARE infinitive (no 'to'). Made her resubmit."},
+      {s:"I look forward to see you next week.",parts:["I look forward","to see","you next week","(whole sentence)"],wrong:1,fix:"to seeing",exp:"'look forward TO' — 'to' is a preposition here, so V-ing follows. Look forward to seeing."},
+      {s:"It's worth to try this new restaurant.",parts:["It's worth","to try","this new restaurant","(whole sentence)"],wrong:1,fix:"trying",exp:"'be worth' + V-ing. Never to-infinitive. Worth trying."},
+    ],
+    wc:{prompt:"Write 5 sentences using 5 different verb patterns: (1) verb+to-inf, (2) verb+V-ing, (3) verb+obj+to-inf, (4) prep+V-ing, (5) 'worth' or 'can't help'.",hints:"I hope to... / I enjoy... / My teacher asked me to... / I look forward to... / It's worth...",criteria:["Each sentence uses a different verb pattern","No incorrect mixing of to-inf and V-ing","Natural, meaningful sentences","At least one negative form"],model:"1) I hope to visit Japan one day. 2) She enjoys cooking for her family. 3) My teacher encouraged me to read more. 4) I'm looking forward to the holiday. 5) This film is worth watching.",takeaway:"Verb patterns are FIXED. Each verb has its own required form. Memorise them in groups!"}
+  },
+  s1:{
+    title:"Verb + to-infinitive",subtitle:"Module 1 | A1–B1",color:"#7c3aed",level:"A1–B1",
+    qa:[
+      {q:"'She decided ___ the job offer.' — Correct form?",opts:["accepting","accept","to accept","accepted"],ans:2,exp:"'decide' requires to-infinitive. Decided to accept."},
+      {q:"'He refused ___ the truth.' — Correct form?",opts:["to admit","admitting","admit","admitted"],ans:0,exp:"'refuse' requires to-infinitive. Refused to admit."},
+      {q:"'They managed ___ the last two tickets.' — Correct form?",opts:["getting","get","to get","to getting"],ans:2,exp:"'manage' requires to-infinitive. Managed to get."},
+      {q:"'I can't afford ___ a new car right now.' — Correct form?",opts:["buying","to buy","buy","bought"],ans:1,exp:"'afford' requires to-infinitive. Can't afford to buy."},
+      {q:"'She tends ___ a lot when she is nervous.' — Correct form?",opts:["to talk","talking","talk","talked"],ans:0,exp:"'tend' requires to-infinitive. Tends to talk."},
+      {q:"Which verb does NOT take to-infinitive?",opts:["promise","hope","enjoy","expect"],ans:2,exp:"'enjoy' takes V-ing: enjoy swimming. All others take to-infinitive."},
+    ],
+    qb:[
+      {vn:"Tôi quyết định học tiếng Anh chăm chỉ hơn.",hint:"decide + ?",model:"I decided to study English harder.",note:"decide + to-infinitive"},
+      {vn:"Cô ấy dường như rất vui về điều đó.",hint:"seem + ?",model:"She seems to be very happy about it.",note:"seem + to-infinitive"},
+      {vn:"Chúng tôi đề nghị giúp đỡ họ.",hint:"offer + ?",model:"We offered to help them.",note:"offer + to-infinitive"},
+      {vn:"Anh ta đe dọa sẽ rời bỏ công ty.",hint:"threaten + ?",model:"He threatened to leave the company.",note:"threaten + to-infinitive"},
+    ],
+    qe:[
+      {s:"I hope seeing you at the conference next month.",parts:["I hope","seeing you","at the conference","next month."],wrong:1,fix:"to see you",exp:"'hope' requires to-infinitive. Hope to see. Common error: confusing hope with enjoy."},
+      {s:"She promised calling me back right away.",parts:["She promised","calling me back","right away","(whole sentence)"],wrong:1,fix:"to call me back",exp:"'promise' requires to-infinitive. Promised to call me back."},
+      {s:"He failed passing the final exam.",parts:["He failed","passing","the final exam","(whole sentence)"],wrong:1,fix:"to pass",exp:"'fail' requires to-infinitive. Failed to pass. Fail to do = did not succeed in doing."},
+      {s:"We arranged meeting at the cafe at nine.",parts:["We arranged","meeting","at the cafe","at nine."],wrong:1,fix:"to meet",exp:"'arrange' requires to-infinitive. Arranged to meet."},
+    ],
+    wc:{prompt:"Write 5 sentences about plans, hopes, or decisions using to-inf verbs (want, decide, hope, plan, promise, manage, refuse, afford, seem).",hints:"I hope to... / I decided to... / I can't afford to... / I managed to... / I refused to...",criteria:["Use at least 4 different to-inf verbs","All followed by to-infinitive","At least one negative form","Personal and meaningful"],model:"I've decided to apply for a scholarship. I hope to improve my English. I managed to finish the report before the deadline. I can't afford to miss this opportunity. She seemed to be very confident.",takeaway:"KEY LIST: want / hope / decide / plan / promise / agree / refuse / manage / fail / seem / afford / threaten / offer / arrange — ALL take TO-INFINITIVE."}
+  },
+  s2:{
+    title:"Verb + V-ing (Gerund)",subtitle:"Module 1 | A2–B1",color:"#7c3aed",level:"A2–B1",
+    qa:[
+      {q:"'I enjoy ___ in the park on weekends.' — Correct form?",opts:["to walk","walking","walk","walked"],ans:1,exp:"'enjoy' requires V-ing. Enjoy walking. Never: enjoy to walk."},
+      {q:"'Would you mind ___ the window, please?' — Correct form?",opts:["to close","close","closing","closed"],ans:2,exp:"'mind' requires V-ing. Mind closing."},
+      {q:"'She avoided ___ eye contact during the interview.' — Correct form?",opts:["to make","make","making","made"],ans:2,exp:"'avoid' requires V-ing. Avoid making."},
+      {q:"'He keeps ___ the same mistake over and over.' — Correct form?",opts:["making","to make","make","made"],ans:0,exp:"'keep' requires V-ing. Keep making. Keep doing = do repeatedly."},
+      {q:"'I can't stand ___ in traffic for hours.' — Correct form?",opts:["to wait","wait","waiting","waited"],ans:2,exp:"'can't stand' requires V-ing. Can't stand waiting."},
+      {q:"'They considered ___ to a bigger office.' — Correct form?",opts:["to move","move","moved","moving"],ans:3,exp:"'consider' requires V-ing. Considered moving. Also: imagine, suggest, avoid, deny."},
+    ],
+    qb:[
+      {vn:"Anh ấy thừa nhận đã nói dối mọi người.",hint:"admit + ?",model:"He admitted lying to everyone.",note:"admit + V-ing"},
+      {vn:"Tôi rất nhớ sống ở Hà Nội.",hint:"miss + ?",model:"I really miss living in Hanoi.",note:"miss + V-ing"},
+      {vn:"Bạn có thể tránh đến muộn không?",hint:"avoid + ?",model:"Can you avoid being late?",note:"avoid + V-ing"},
+      {vn:"Cô ấy gợi ý đi ăn tối cùng nhau.",hint:"suggest + ?",model:"She suggested going out for dinner together.",note:"suggest + V-ing"},
+    ],
+    qe:[
+      {s:"She finished to write the report just before the deadline.",parts:["She finished","to write","the report","just before the deadline."],wrong:1,fix:"writing",exp:"'finish' requires V-ing. Finished writing."},
+      {s:"He admitted to steal the money from the register.",parts:["He admitted","to steal","the money","from the register."],wrong:1,fix:"stealing",exp:"'admit' requires V-ing. Admitted stealing."},
+      {s:"I really miss to see my family back home.",parts:["I really miss","to see","my family","back home."],wrong:1,fix:"seeing",exp:"'miss' requires V-ing. Miss seeing."},
+      {s:"They put off to make a final decision for weeks.",parts:["They put off","to make","a final decision","for weeks."],wrong:1,fix:"making",exp:"'put off' requires V-ing. Put off making. Put off = delay."},
+    ],
+    wc:{prompt:"Write 5 sentences about activities you enjoy, avoid, or have finished using V-ing verbs (enjoy, avoid, keep, consider, miss, suggest, can't stand, practise).",hints:"I enjoy... / I avoid... / She kept... / I miss... / He suggested...",criteria:["Use at least 4 different V-ing verbs","All correctly followed by V-ing","Include positive and negative sentences","Natural, personal sentences"],model:"I enjoy listening to music while cooking. She avoids making eye contact when nervous. He kept asking the same question. I miss living close to the beach. They suggested moving the meeting to the afternoon.",takeaway:"KEY LIST: enjoy / mind / avoid / finish / keep / consider / suggest / admit / deny / miss / practise / risk / give up / put off / can't stand — ALL take V-ING."}
+  },
+  s3:{
+    title:"Verb + Both Forms (No Meaning Change)",subtitle:"Module 1 | B1",color:"#7c3aed",level:"B1",
+    qa:[
+      {q:"'She loves ___ in the morning.' — Which is CORRECT?",opts:["to jog only","jogging only","to jog OR jogging — both correct","neither"],ans:2,exp:"'love' can take EITHER form with no change in meaning. Both are correct."},
+      {q:"'It began ___ when we were halfway there.' — Which is CORRECT?",opts:["to rain only","raining only","to rain OR raining — both correct","neither"],ans:2,exp:"'begin/start' can take EITHER form with no significant meaning change."},
+      {q:"'I would like ___ some water, please.' — Correct form?",opts:["having","to have","having or to have","have"],ans:1,exp:"After 'WOULD like/love/hate/prefer', ALWAYS use to-infinitive. Would like to have."},
+      {q:"'She continued ___ even after the warning.' — Which is CORRECT?",opts:["to drive only","driving only","both are correct","driven"],ans:2,exp:"'continue' can take either form with no meaning change."},
+      {q:"'I hate ___ early on weekends.' — Which is CORRECT?",opts:["to get up only","getting up only","to get up OR getting up — both correct","get up only"],ans:2,exp:"'hate' (without 'would') can take either form. BUT: 'would hate to get up' = to-inf only."},
+      {q:"'She prefers coffee ___ tea.' — Correct structure?",opts:["...than...","...rather than...","...to...","...more than..."],ans:2,exp:"'prefer X TO Y' — use 'to', not 'than'. Prefers coffee to tea."},
+    ],
+    qb:[
+      {vn:"Cô ấy thích đọc sách vào buổi tối.",hint:"like + to-inf or V-ing",model:"She likes to read / reading books in the evenings.",note:"like + either form — both correct"},
+      {vn:"Trời bắt đầu mưa khi chúng tôi đang đi bộ.",hint:"begin + ?",model:"It began to rain / raining while we were walking.",note:"begin + to-inf or V-ing"},
+      {vn:"Tôi muốn có một tách cà phê, làm ơn.",hint:"would like + ?",model:"I would like to have a cup of coffee, please.",note:"WOULD like + to-infinitive only"},
+      {vn:"Cô ấy thích trà hơn cà phê.",hint:"prefer X to Y",model:"She prefers tea to coffee.",note:"prefer X TO Y (not 'than')"},
+    ],
+    qe:[
+      {s:"I would love going with you to the concert tonight.",parts:["I","would love","going","to the concert tonight."],wrong:2,fix:"to go",exp:"After 'WOULD love/like/hate/prefer', always use to-infinitive. Would love to go."},
+      {s:"She prefers reading than watching TV in the evenings.",parts:["She prefers","reading","than","watching TV."],wrong:2,fix:"to",exp:"'prefer X TO Y' — use 'to', not 'than'. Prefers reading to watching TV."},
+      {s:"They ceased to making any progress in the negotiations.",parts:["They ceased","to making","any progress","in the negotiations."],wrong:1,fix:"making / to make",exp:"'cease' takes to-inf OR V-ing — but NEVER 'to + V-ing'. Ceased making / ceased to make."},
+      {s:"He can't be bothered to doing his homework every day.",parts:["He can't be bothered","to doing","his homework","every day."],wrong:1,fix:"to do",exp:"'can't be bothered' + to-infinitive (NOT 'to + V-ing'). Can't be bothered to do."},
+    ],
+    wc:{prompt:"Write 5 sentences using 'both forms' verbs (like, love, hate, prefer, begin, start, continue). Try using both forms in some. Remember the 'would like/prefer/hate' exception!",hints:"She loves to cook / cooking... / I prefer reading to watching... / Would you like to...?",criteria:["Use at least 3 'both forms' verbs","Show both to-inf and V-ing versions where possible","Include one 'would like/prefer' sentence with to-inf","Natural sentences"],model:"I love to exercise / exercising in the morning. She began to feel / feeling nervous before the interview. He continued working / to work despite the interruptions. I prefer cycling to driving. I would like to have a word with you after the meeting.",takeaway:"BOTH OK: like / love / hate / prefer / begin / start / continue / attempt / bother. EXCEPTION: would like/love/hate/prefer — ALWAYS to-infinitive!"}
+  },
+  s4:{
+    title:"Verb + Object + to-infinitive",subtitle:"Module 2 | B1–B2",color:"#0284c7",level:"B1–B2",
+    qa:[
+      {q:"'My teacher encouraged me ___ harder.' — Correct form?",opts:["study","to study","studying","studied"],ans:1,exp:"encourage + obj + to-infinitive. Encouraged me to study."},
+      {q:"'She made her son ___ his room.' — Correct form?",opts:["to clean","cleaning","clean","cleaned"],ans:2,exp:"'make + object' uses BARE infinitive (no 'to'). Made her son clean. Also: let, have."},
+      {q:"'He asked his friend ___ him move the furniture.' — Correct form?",opts:["help","helping","to help","helped"],ans:2,exp:"'ask + obj + to-inf'. Asked his friend to help."},
+      {q:"'I saw him ___ the car and drive away.' (complete action) — Correct form?",opts:["to enter","entering","enter","has entered"],ans:2,exp:"Perception verbs (see/hear/watch) + obj + BARE inf for complete actions. Saw him enter."},
+      {q:"'They warned us ___ near the lake after dark.' — Correct form?",opts:["not go","not to go","not going","not gone"],ans:1,exp:"warn + obj + NOT to-inf. Warned us not to go. The negative goes BEFORE 'to'."},
+      {q:"'Let me ___ you with that heavy box.' — Correct form?",opts:["to help","helping","help","helped"],ans:2,exp:"'let + obj' uses BARE infinitive (no 'to'). Let me help. Same for: make, have."},
+    ],
+    qb:[
+      {vn:"Giáo viên khuyến khích chúng tôi nói tiếng Anh mỗi ngày.",hint:"encourage sb to ?",model:"The teacher encouraged us to speak English every day.",note:"encourage + obj + to-infinitive"},
+      {vn:"Mẹ tôi không cho tôi ra ngoài muộn.",hint:"let sb ?",model:"My mother doesn't let me go out late.",note:"let + obj + bare infinitive (no 'to')"},
+      {vn:"Họ thuyết phục anh ấy ở lại thêm một tuần nữa.",hint:"persuade sb to ?",model:"They persuaded him to stay for another week.",note:"persuade + obj + to-infinitive"},
+      {vn:"Tôi nghe thấy cô ấy đang hát trong phòng bên cạnh.",hint:"hear sb + V-ing",model:"I heard her singing in the next room.",note:"hear + obj + V-ing (action in progress)"},
+    ],
+    qe:[
+      {s:"She made him to apologize in front of the whole class.",parts:["She made him","to apologize","in front of","the whole class."],wrong:1,fix:"apologize",exp:"'make + obj' uses BARE infinitive — no 'to'. Made him apologize."},
+      {s:"My boss let me to leave early on Friday afternoon.",parts:["My boss","let me to leave","early","on Friday afternoon."],wrong:1,fix:"let me leave",exp:"'let + obj' uses BARE infinitive. Let me leave. No 'to' after let."},
+      {s:"He told her not going out alone late at night.",parts:["He told her","not going","out alone","late at night."],wrong:1,fix:"not to go",exp:"tell + obj + NOT TO-infinitive. Told her not to go."},
+      {s:"They expected him passing the difficult entrance test.",parts:["They expected him","passing","the entrance test","(whole sentence)"],wrong:1,fix:"to pass",exp:"'expect + obj + to-infinitive'. Expected him to pass."},
+    ],
+    wc:{prompt:"Write 5 sentences about asking, telling, or encouraging others to do things. Include one with make/let/have (bare infinitive). Use: want, ask, tell, advise, encourage, expect, force, persuade, remind, warn, make, let.",hints:"My manager asked me to... / She encouraged her students to... / The teacher made us... / He let her...",criteria:["Use at least 4 different verbs","Include one make/let/have + bare inf sentence","Include a negative (warned not to / told not to)","Natural, professional-context sentences"],model:"The supervisor encouraged the team to submit reports on time. She asked me to check the figures. The teacher made us rewrite the essay. My doctor told me not to work too much. The manager let us leave early on Friday.",takeaway:"PATTERN: verb + obj + to-inf (want, ask, tell, advise, encourage, warn, force, persuade). EXCEPTION — bare inf: make, let, have. EXCEPTION — bare inf or V-ing: see, hear, watch, feel."}
+  },
+  s5:{
+    title:"Verb + Preposition + V-ing",subtitle:"Module 2 | B1–B2",color:"#0284c7",level:"B1–B2",
+    qa:[
+      {q:"'I look forward to ___ you again next month.' — Correct form?",opts:["see","to see","seeing","seen"],ans:2,exp:"'look forward TO' — 'to' is a PREPOSITION. After a preposition, use V-ing. Look forward to seeing."},
+      {q:"'She is used to ___ long hours every week.' — Correct form?",opts:["work","to work","working","worked"],ans:2,exp:"'be used to' — 'to' is a preposition. Used to working. NOT: used to work (= past habit)."},
+      {q:"'He apologized for ___ late to the meeting.' — Correct form?",opts:["to be","be","being","been"],ans:2,exp:"'apologize FOR' — 'for' is a preposition. After any preposition, use V-ing. Apologized for being."},
+      {q:"'She succeeded in ___ the international competition.' — Correct form?",opts:["win","to win","won","winning"],ans:3,exp:"'succeed IN' — 'in' is a preposition. Succeeded in winning."},
+      {q:"'Instead of ___ a taxi, we decided to walk.' — Correct form?",opts:["take","to take","taking","taken"],ans:2,exp:"'Instead OF' — 'of' is a preposition. Instead of taking."},
+      {q:"'I'm very interested in ___ abroad next year.' — Correct form?",opts:["study","to study","studied","studying"],ans:3,exp:"'interested IN' — 'in' is a preposition. Interested in studying."},
+    ],
+    qb:[
+      {vn:"Tôi rất háo hức được gặp lại bạn.",hint:"look forward to + ?",model:"I'm looking forward to seeing you again.",note:"look forward TO + V-ing ('to' is a preposition)"},
+      {vn:"Cô ấy đã quen với việc làm việc một mình.",hint:"be used to + ?",model:"She is used to working alone.",note:"be used to + V-ing (accustomed to)"},
+      {vn:"Anh ấy xin lỗi vì đã đến muộn.",hint:"apologize for + ?",model:"He apologized for being late.",note:"apologize FOR + V-ing"},
+      {vn:"Thay vì gọi taxi, họ đã đi bộ về nhà.",hint:"instead of + ?",model:"Instead of taking a taxi, they walked home.",note:"instead OF + V-ing"},
+    ],
+    qe:[
+      {s:"She's looking forward to see her family next month.",parts:["She's looking forward","to see","her family","next month."],wrong:1,fix:"to seeing",exp:"'look forward TO' — 'to' is a preposition, so V-ing follows. Looking forward to seeing."},
+      {s:"He insisted on to pay the bill for the whole table.",parts:["He insisted on","to pay","the bill","for the whole table."],wrong:1,fix:"paying",exp:"'insist ON' — 'on' is a preposition. After a preposition, use V-ing. Insisted on paying."},
+      {s:"I'm not very good at to remember people's names.",parts:["I'm not very good at","to remember","people's names","(whole sentence)"],wrong:1,fix:"remembering",exp:"'good AT' — 'at' is a preposition. Good at remembering. Never: good at to remember."},
+      {s:"She left without to say goodbye to anyone at the party.",parts:["She left without","to say","goodbye","to anyone."],wrong:1,fix:"saying",exp:"'without' is a preposition. After a preposition, use V-ing. Left without saying."},
+    ],
+    wc:{prompt:"Write 5 sentences using verb/adj + preposition + V-ing patterns. Use: look forward to, be used to, apologize for, insist on, succeed in, be good at, be interested in, instead of, without.",hints:"I look forward to...ing / She's used to...ing / I apologized for...ing / He insisted on...ing / Instead of...ing",criteria:["Use at least 4 different prep+V-ing expressions","'To' used as preposition in at least one","Include a negative (without...ing) or contrast (instead of...ing)","Natural sentences"],model:"I look forward to hearing from you soon. She's used to dealing with difficult customers. He apologized for interrupting the meeting. Instead of taking the bus, I cycled to work. I'm really interested in learning about digital marketing.",takeaway:"RULE: preposition + V-ING (never to-inf). KEY TRAP: 'look forward TO seeing' — the 'to' is a preposition! Also: be used TO doing / object TO / insist ON / apologize FOR / succeed IN / good AT."}
+  },
+  s6:{
+    title:"it + adjective + to-infinitive",subtitle:"Module 2 | B2",color:"#0284c7",level:"B2",
+    qa:[
+      {q:"'It is essential ___ your passport with you at all times.' — Correct form?",opts:["carrying","to carry","carry","for carrying"],ans:1,exp:"'It is [adj] + to-infinitive'. It is essential to carry. The 'it' is a dummy subject."},
+      {q:"'It's worth ___ this restaurant — the food is excellent.' — Correct form?",opts:["to try","try","trying","tried"],ans:2,exp:"'be worth' + V-ing (NOT to-inf). Worth trying. Common error: worth to try."},
+      {q:"'There's no point ___ if the office is already closed.' — Correct form?",opts:["to call","call","called","calling"],ans:3,exp:"'there's no point (in)' + V-ing. No point calling. Also: it's no use + V-ing."},
+      {q:"'It was difficult ___ a good hotel in the city centre.' — Correct form?",opts:["finding","find","to find","found"],ans:2,exp:"'It is difficult + to-infinitive'. It was difficult to find."},
+      {q:"'It's no use ___ — what's done is done.' — Correct form?",opts:["to worry","worrying","worry","worried"],ans:1,exp:"'it's no use' + V-ing. It's no use worrying. Never: it's no use to worry."},
+      {q:"'It's time ___ the final decision on this project.' — Correct form?",opts:["making","make","to make","made"],ans:2,exp:"'it's time + to-infinitive'. It's time to make."},
+    ],
+    qb:[
+      {vn:"Điều quan trọng là phải thực hành mỗi ngày.",hint:"It is important to ?",model:"It is important to practise every day.",note:"it is [adj] + to-infinitive"},
+      {vn:"Cuốn sách này rất đáng đọc.",hint:"worth + ?",model:"This book is worth reading.",note:"be worth + V-ing (not to-infinitive)"},
+      {vn:"Không có ích gì khi lo lắng về điều đó.",hint:"there's no point / it's no use + ?",model:"There's no point worrying about it. / It's no use worrying about it.",note:"no point / no use + V-ing"},
+      {vn:"Rất khó để tìm chỗ đậu xe ở đây vào giờ cao điểm.",hint:"It is difficult to ?",model:"It is difficult to find a parking space here during rush hour.",note:"it is difficult + to-infinitive"},
+    ],
+    qe:[
+      {s:"It's worth to visit the old quarter of the city.",parts:["It's worth","to visit","the old quarter","of the city."],wrong:1,fix:"visiting",exp:"'be worth' + V-ing. NEVER to-infinitive. Worth visiting."},
+      {s:"There's no point to argue about this any further.",parts:["There's no point","to argue","about this","any further."],wrong:1,fix:"arguing",exp:"'there's no point (in)' + V-ing. No point arguing. Never: no point to argue."},
+      {s:"It is important studying grammar rules carefully every day.",parts:["It is important","studying","grammar rules","carefully every day."],wrong:1,fix:"to study",exp:"'it is [adj]' + TO-INFINITIVE. It is important to study. Not: important studying."},
+      {s:"It's no use to try to convince him — his mind is made up.",parts:["It's no use","to try","to convince him","his mind is made up."],wrong:1,fix:"trying",exp:"'it's no use' + V-ing. It's no use trying. Never: it's no use to try."},
+    ],
+    wc:{prompt:"Write 5 sentences using 'it + adj + to-inf' patterns. Include at least one using 'worth', 'no point', or 'no use' (with V-ing). Use adjectives: important, necessary, difficult, easy, possible, essential, unusual, helpful.",hints:"It is important to... / It was difficult to... / It's worth...ing / There's no point...ing / It's no use...ing",criteria:["Use 'it + is/was + adj + to-inf' structure correctly","Include at least one worth/no point/no use + V-ing","Varied adjectives","Real-world examples"],model:"It is essential to back up your data regularly. It was difficult to find tickets for the concert. It's worth spending time on pronunciation. There's no point arguing if neither side will listen. It's no use waiting — the flight has been cancelled.",takeaway:"PATTERN: It is [adj] TO DO (important, necessary, easy, difficult, possible, essential). CONTRAST: be worth / no point / no use → V-ING (not to-inf)!"}
+  },
+  s7:{
+    title:"Meaning Change Verbs",subtitle:"Module 3 | B2",color:"#b45309",level:"B2",
+    qa:[
+      {q:"'She stopped ___ when she saw the accident.' (She paused to go and help.)",opts:["to help","helping","help","helped"],ans:0,exp:"'stop + to-inf' = pause in order to do something NEW. Stopped to help."},
+      {q:"'I remember ___ this film when I was about ten.' (Past memory)",opts:["to watch","watching","watch","watched"],ans:1,exp:"'remember + V-ing' = recall a past action. Remember watching. The watching happened in the past."},
+      {q:"'Remember ___ the door before you leave tonight.' (Future reminder)",opts:["locking","lock","to lock","locked"],ans:2,exp:"'remember + to-inf' = don't forget to do (future/pending action). Remember to lock."},
+      {q:"'We regret ___ that your application has been unsuccessful.' (Formal announcement)",opts:["to inform","informing","inform","informed"],ans:0,exp:"'regret + to-inf' = sorry to say something NOW. Used in formal announcements. Regret to inform."},
+      {q:"'He tried ___ some lemon juice on the stain to see if it helped.' (Experiment)",opts:["to add","add","adding","added"],ans:2,exp:"'try + V-ing' = experiment with a solution to see if it works. Tried adding."},
+      {q:"'Going on holiday this year would mean ___ a lot of money.' (Involve)",opts:["to spend","spending","spend","spent"],ans:1,exp:"'mean + V-ing' = involve, result in. Mean spending. 'Mean to do' = intend."},
+    ],
+    qb:[
+      {vn:"Tôi nhớ đã gặp anh ấy một lần ở Đà Nẵng.",hint:"remember + V-ing (past recall)",model:"I remember meeting him once in Da Nang.",note:"remember + V-ing = recall a past action"},
+      {vn:"Nhớ tắt đèn trước khi ra ngoài nhé.",hint:"remember + to-inf (future reminder)",model:"Remember to turn off the lights before you go out.",note:"remember + to-inf = don't forget to do"},
+      {vn:"Cô ấy dừng lại để hỏi đường.",hint:"stop + to-inf (paused in order to)",model:"She stopped to ask for directions.",note:"stop + to-inf = pause in order to do sth new"},
+      {vn:"Chúng tôi tiếc phải thông báo rằng sự kiện đã bị hủy.",hint:"regret + to-inf (formal announcement)",model:"We regret to inform you that the event has been cancelled.",note:"regret + to-inf = sorry to say (formal, now)"},
+    ],
+    qe:[
+      {s:"She stopped to smoke ten years ago — she's a non-smoker now.",parts:["She stopped","to smoke","ten years ago","she's a non-smoker now."],wrong:1,fix:"smoking",exp:"'stop + V-ing' = quit a habit. Stopped smoking. 'Stop to smoke' would mean she paused to go have a cigarette."},
+      {s:"I forgot locking the door, so I had to go back and check.",parts:["I forgot","locking","the door,","so I had to go back."],wrong:1,fix:"to lock",exp:"'forget + to-inf' = not remember to do it (the action was NOT done). Forgot to lock."},
+      {s:"We regret informing you that your application was unsuccessful.",parts:["We regret","informing","you that","your application was unsuccessful."],wrong:1,fix:"to inform",exp:"'regret + to-inf' = sorry to say something formally RIGHT NOW. Regret to inform."},
+      {s:"He went on to complain for an hour about the same issue.",parts:["He went on","to complain","for an hour","about the same issue."],wrong:1,fix:"complaining",exp:"'go on + V-ing' = continue the same activity. Went on complaining. 'Go on to do' = move to a NEW different activity."},
+    ],
+    wc:{prompt:"Write 4 pairs of sentences showing the meaning contrast for TWO of these verbs: stop / remember / forget / try / regret / go on. Each pair shows how meaning changes with to-inf vs. V-ing.",hints:"She stopped to... (paused) vs. She stopped ...ing (quit) / Remember to... (don't forget) vs. I remember ...ing (I recall)",criteria:["2 verbs shown, each with 2 contrasting sentences","Meaning difference is clear from context","Both forms grammatically correct","Natural, real-world examples"],model:"She stopped to get some coffee on the way to work. (paused to get it) / She stopped drinking coffee after her doctor's advice. (quit the habit) || Remember to submit your assignment by Friday. (don't forget) / I remember submitting that assignment last month. (I recall doing it)",takeaway:"KEY PAIRS: stop TO do (pause) vs. stop doing (quit) / remember TO do (future) vs. remember doing (past) / forget TO do (action not done) vs. forget doing (can't recall) / try TO do (attempt) vs. try doing (experiment) / regret TO say (now, formal) vs. regret doing (past)."}
+  },
+  s8:{
+    title:"Bare Infinitive Patterns",subtitle:"Module 3 | B2",color:"#b45309",level:"B2",
+    qa:[
+      {q:"'You had better ___ a doctor about that cough.' — Correct form?",opts:["seeing","to see","see","seen"],ans:2,exp:"'had better' + bare infinitive (no 'to'). Had better see. Never: had better to see."},
+      {q:"'I'd rather ___ home tonight than go out in the rain.' — Correct form?",opts:["staying","to stay","stayed","stay"],ans:3,exp:"'would rather' + bare infinitive. I'd rather stay. Never: I'd rather to stay."},
+      {q:"'She watched him ___ the car and speed away.' (complete action) — Correct form?",opts:["enter","to enter","entered","entering"],ans:0,exp:"Perception verbs + obj + BARE inf for complete actions. Watched him enter. V-ing shows action in progress."},
+      {q:"'They made us ___ outside for an hour in the cold.' — Correct form?",opts:["to wait","waiting","wait","waited"],ans:2,exp:"'make + obj' + bare infinitive. Made us wait. Same pattern: let, have."},
+      {q:"'She needs ___ this finished before noon today.' — Correct form?",opts:["finishing","to finish","finish","finished"],ans:1,exp:"'need' as a regular verb + to-infinitive. Needs to finish."},
+      {q:"'I'd rather you ___ tell anyone about what I said.' — Correct form?",opts:["don't","didn't","won't","not to"],ans:1,exp:"'would rather + different subject' + PAST SIMPLE (subjunctive). I'd rather you didn't tell. B2/C1 structure."},
+    ],
+    qb:[
+      {vn:"Thà tôi ở nhà còn hơn đi ra ngoài trời mưa.",hint:"I'd rather + bare inf",model:"I'd rather stay home than go out in the rain.",note:"would rather + bare infinitive (no 'to')"},
+      {vn:"Bạn nên đi khám bác sĩ ngay.",hint:"had better + bare inf",model:"You had better see a doctor right away.",note:"had better + bare infinitive (no 'to')"},
+      {vn:"Mẹ tôi để tôi tự quyết định.",hint:"let sb + bare inf",model:"My mother let me make my own decisions.",note:"let + obj + bare infinitive (no 'to')"},
+      {vn:"Chúng tôi nghe thấy ai đó đang gõ cửa.",hint:"hear sb + V-ing",model:"We heard someone knocking at the door.",note:"hear + obj + V-ing (action in progress)"},
+    ],
+    qe:[
+      {s:"You had better to leave now or you'll miss the last train.",parts:["You had better","to leave","now","or you'll miss the last train."],wrong:1,fix:"leave",exp:"'had better' + BARE infinitive — no 'to'. Had better leave. Very common error!"},
+      {s:"She made him to clean the whole house by himself.",parts:["She made him","to clean","the whole house","by himself."],wrong:1,fix:"clean",exp:"'make + obj' + BARE infinitive. Made him clean. Same rule for let and have."},
+      {s:"I'd rather to stay home this evening, if that's OK.",parts:["I","would rather","to stay home","this evening."],wrong:2,fix:"stay home",exp:"'would rather' + BARE infinitive — no 'to'. I'd rather stay home."},
+      {s:"They had us to sign all the documents immediately.",parts:["They had us","to sign","all the documents","immediately."],wrong:1,fix:"sign",exp:"'have + obj' + BARE infinitive. Had us sign. Causative 'have' = arrange for sb to do sth."},
+    ],
+    wc:{prompt:"Write 5 sentences using bare infinitive patterns. Include: (1) a modal verb, (2) would rather, (3) had better, (4) make or let + obj, (5) a perception verb (see/hear/watch + obj).",hints:"She can... / I'd rather... / You had better... / He made me... / I heard her...",criteria:["5 different bare infinitive patterns","No 'to' where bare inf is required","One sentence with would rather (different subject) using past simple","Natural context"],model:"She can speak three languages fluently. I'd rather take the train than drive in this traffic. You had better call ahead to check if they're open. He made me wait outside for twenty minutes. I heard someone singing in the courtyard.",takeaway:"BARE INFINITIVE after: all modals / would rather / had better / make+obj / let+obj / have+obj / perception verbs (see/hear/watch/feel) for complete actions."}
+  },
+  s9:{
+    title:"Perfect & Passive Infinitive / Gerund",subtitle:"Module 4 | C1",color:"#047857",level:"C1",
+    qa:[
+      {q:"'She claims ___ the CEO at a conference last year.' (past event) — Correct form?",opts:["to meet","to have met","meeting","to be met"],ans:1,exp:"Perfect infinitive = to have + p.p. Used when the action happened BEFORE the main verb time. To have met."},
+      {q:"'___ to the new city, she gradually felt more settled.' — Correct form?",opts:["Moving","Having moved","To move","To have moved"],ans:1,exp:"Perfect gerund = having + p.p. Shows the action happened BEFORE the main clause. Having moved."},
+      {q:"'The report needs ___ before the 9 a.m. meeting.' (passive) — Correct form?",opts:["checking","to check","to be checked","being checked"],ans:2,exp:"Passive infinitive = to be + p.p. The report doesn't check itself. To be checked."},
+      {q:"'She hates ___ during important meetings.' (others interrupt her) — Correct form?",opts:["interrupting","to interrupt","being interrupted","to be interrupted"],ans:2,exp:"Passive gerund = being + p.p. After 'hate', subject receives the action. Being interrupted."},
+      {q:"'He regrets ___ her the truth last night.' (sorry about past action) — Correct form?",opts:["to tell","telling","to have told","having told"],ans:3,exp:"Perfect gerund = having + p.p. The telling happened in the past; he now regrets it. Having told."},
+      {q:"'___ the project, the team celebrated with a dinner.' — Correct form?",opts:["Finished","Having finished","To have finished","Being finished"],ans:1,exp:"Perfect gerund as adverbial: 'Having finished the project' = after they finished. Having finished."},
+    ],
+    qb:[
+      {vn:"Cô ấy dường như đã gặp anh ấy trước đây.",hint:"seem + perfect inf",model:"She seems to have met him before.",note:"seem + to have + past participle (perfect infinitive)"},
+      {vn:"Sau khi hoàn thành báo cáo, anh ấy nghỉ ngơi một chút.",hint:"having + p.p. ...",model:"Having finished the report, he took a short break.",note:"perfect gerund = having + past participle"},
+      {vn:"Tôi ghét bị gián đoạn khi đang làm việc.",hint:"hate + being + p.p.",model:"I hate being interrupted while working.",note:"passive gerund = being + past participle"},
+      {vn:"Căn phòng cần được dọn sạch trước khi khách đến.",hint:"need + to be + p.p.",model:"The room needs to be cleaned before the guests arrive.",note:"passive infinitive = to be + past participle"},
+    ],
+    qe:[
+      {s:"She seems to be won the prize for best design last year.",parts:["She seems","to be won","the prize","last year."],wrong:1,fix:"to have won",exp:"'seem + to-inf' for past reference = PERFECT infinitive: to have + p.p. Seems to have won."},
+      {s:"He regrets having been telling her the secret at the party.",parts:["He regrets","having been telling","her the secret","at the party."],wrong:1,fix:"having told",exp:"Perfect gerund = 'having + p.p.' Regrets having told. 'Having been telling' is incorrect here."},
+      {s:"The job needs to complete by the end of this week.",parts:["The job needs","to complete","by the end","of this week."],wrong:1,fix:"to be completed",exp:"The job doesn't complete itself — passive needed. Needs to be completed (passive infinitive: to be + p.p.)."},
+      {s:"I remember to be taken to the park every Sunday as a child.",parts:["I remember","to be taken","to the park","as a child."],wrong:1,fix:"being taken",exp:"'remember' for past recollection + V-ing. Passive action = PASSIVE GERUND: being + p.p. Remember being taken."},
+    ],
+    wc:{prompt:"Write 4 sentences, one for each advanced form: (1) perfect infinitive (to have done), (2) perfect gerund (having done), (3) passive infinitive (to be done), (4) passive gerund (being done).",hints:"She seems to have... / Having finished... / The work needs to be... / She hates being...",criteria:["One sentence per advanced form (4 total)","Correct use of perfect (before) vs. passive (received action)","Natural, professional-level language","Clear context showing why the form is used"],model:"1. He appears to have made a mistake in the calculations. 2. Having completed the course, she applied for several jobs. 3. The proposal needs to be reviewed by the board before Friday. 4. Nobody likes being kept waiting without explanation.",takeaway:"FOUR ADVANCED FORMS: to have done (perfect inf) / having done (perfect gerund) / to be done (passive inf) / being done (passive gerund). Combine them: 'to have been told' = perfect + passive infinitive."}
+  },
+  s10:{
+    title:"Fixed Expressions & Idioms",subtitle:"Module 4 | B2–C1",color:"#047857",level:"B2–C1",
+    qa:[
+      {q:"'She can't help ___ when she watches sad films.' — Correct form?",opts:["to cry","crying","cry","cried"],ans:1,exp:"'can't help' + V-ing = cannot stop oneself. Can't help crying. Never: can't help to cry."},
+      {q:"'used to + ___' describes a past habit that no longer happens.",opts:["V-ing","to-infinitive","bare infinitive","past participle"],ans:2,exp:"'used to' + BARE infinitive = past habit (no longer true). She used to live in Paris."},
+      {q:"'He ended up ___ the whole project himself.' — Correct form?",opts:["to do","do","doing","done"],ans:2,exp:"'end up' + V-ing = finally do (often unexpectedly). Ended up doing."},
+      {q:"'She is supposed ___ at 8. Where is she?' — Correct form?",opts:["arriving","arrive","to arrive","arrived"],ans:2,exp:"'be supposed to' + bare infinitive. Supposed to arrive. Expected or required to do."},
+      {q:"'I can't stand ___ when I'm trying to concentrate.' — Correct form?",opts:["being disturbed","to be disturbed","disturb","disturbed"],ans:0,exp:"'can't stand' + V-ing. Subject receives action = passive gerund. Can't stand being disturbed."},
+      {q:"'Are you getting used to ___ in such a large city?' — Correct form?",opts:["live","to live","lived","living"],ans:3,exp:"'get used to' + V-ing = become accustomed to. Getting used to living. 'To' here is a preposition."},
+    ],
+    qb:[
+      {vn:"Tôi không thể nhịn cười khi xem anh ấy nhảy.",hint:"can't help + ?",model:"I can't help laughing when I watch him dance.",note:"can't help + V-ing"},
+      {vn:"Cô ấy đã quen với việc thức khuya để làm việc.",hint:"be used to + ?",model:"She is used to staying up late to work.",note:"be used to + V-ing (accustomed to)"},
+      {vn:"Cuối cùng chúng tôi đặt phòng khách sạn vào phút chót.",hint:"end up + ?",model:"We ended up booking the hotel at the last minute.",note:"end up + V-ing"},
+      {vn:"Bạn nên đến sớm hơn để có chỗ ngồi tốt.",hint:"had better + bare inf",model:"You had better arrive earlier to get a good seat.",note:"had better + bare infinitive (no 'to')"},
+    ],
+    qe:[
+      {s:"She used to living in a small town before moving to Hanoi.",parts:["She","used to living","in a small town","before moving to Hanoi."],wrong:1,fix:"used to live",exp:"'used to' (past habit) + BARE INFINITIVE. Used to live. 'Be used to living' = accustomed to (different meaning)."},
+      {s:"I can't help but feeling nervous before every presentation.",parts:["I can't help","but","feeling","nervous before every presentation."],wrong:2,fix:"feel",exp:"'can't help but' + BARE INFINITIVE. Can't help but feel. OR: can't help feeling (no 'but' needed)."},
+      {s:"He is bound to making the same mistakes again.",parts:["He is bound","to making","the same mistakes","again."],wrong:1,fix:"to make",exp:"'be bound to' + BARE INFINITIVE. Bound to make. 'To' here is part of the expression, not a preposition."},
+      {s:"We ended up to taking the longer route home in the end.",parts:["We ended up","to taking","the longer route","home."],wrong:1,fix:"taking",exp:"'end up' + V-ING. Ended up taking. Never: ended up to take."},
+    ],
+    wc:{prompt:"Write a short paragraph (6–8 sentences) about habits and routines using at least 4 fixed expressions: can't help, used to, be/get used to, end up, feel like, be supposed to, be bound to, there's no point.",hints:"I used to... / I'm used to...ing / I can't help...ing / I end up...ing / There's no point...ing",criteria:["At least 4 different fixed expressions","Correct verb form after each expression","Show contrast between 'used to' (past) and 'be used to' (present habit)","Meaningful narrative about real habits/routines"],model:"I used to sleep in until 9 a.m., but I've completely changed my routine. Now I'm used to waking up at 6 — I can't help feeling energised in the morning. I'm supposed to exercise three times a week, but I often end up skipping the gym on Fridays. There's no point feeling guilty about it — I just try again the next day.",takeaway:"V-ING group: can't help / can't stand / feel like / end up / be worth / no point / no use. BARE INF group: be supposed to / be bound to / be about to / had better / would rather. TRICKY: used to (bare inf, past habit) vs. be used to (V-ing, accustomed to) vs. get used to (V-ing, becoming accustomed)."}
+  }
+};
+
+const modules = {
+  "Module 1: Core Patterns (A1–B1)":["s1","s2","s3"],
+  "Module 2: Object & Preposition (B1–B2)":["s4","s5","s6"],
+  "Module 3: Meaning Contrasts (B2)":["s7","s8"],
+  "Module 4: Advanced Patterns (B2–C1)":["s9","s10"]
+};
+const modColors = {s1:"#7c3aed",s2:"#7c3aed",s3:"#7c3aed",s4:"#0284c7",s5:"#0284c7",s6:"#0284c7",s7:"#b45309",s8:"#b45309",s9:"#047857",s10:"#047857"};
+
+const state = {opts:{},errs:{},trans:{},writings:{},scores:{},attempts:{},lockedA:{},lockedC:{},currentSid:"s0"};
+
+function goSection(sid){
+  state.currentSid = sid;
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.sid===sid));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-section').classList.add('active');
+  const S = SECTIONS[sid];
+  document.getElementById('sec-tag').textContent = S.level;
+  document.getElementById('sec-tag').style.background = S.color;
+  document.getElementById('sec-title').textContent = S.title;
+  document.getElementById('sec-subtitle').textContent = S.subtitle;
+  document.querySelectorAll('[id^="learn-"]').forEach(el=>el.style.display='none');
+  const lt = document.getElementById('learn-'+sid);
+  if(lt) lt.style.display='block';
+  switchTab('learn');
+  if(!state.attempts[sid]) state.attempts[sid]=0;
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',(i===0&&tab==='learn')||(i===1&&tab==='practice'));
+  });
+  document.getElementById('tab-learn').style.display = tab==='learn'?'block':'none';
+  document.getElementById('tab-practice').style.display = tab==='practice'?'block':'none';
+  if(tab==='practice'){
+    state.attempts[state.currentSid]=(state.attempts[state.currentSid]||0)+1;
+    buildExercises(state.currentSid);
+  }
+  document.getElementById('sec-score').style.display='none';
+}
+
+function buildExercises(sid){
+  const S = SECTIONS[sid];
+  const c = document.getElementById('ex-container');
+  const aLocked=!!state.lockedA[sid];
+  const cLocked=!!state.lockedC[sid];
+  let h='';
+  // ── Part A: MCQ ──
+  h+='<h3 style="font-size:16px;font-weight:700;margin-bottom:14px">Part A &middot; Multiple Choice</h3>';
+  S.qa.forEach((q,qi)=>{
+    const k=sid+'_'+qi;
+    const chosen=state.opts[k];
+    h+=`<div class="mcq-item" id="mcq-${k}"><div class="mcq-q">${qi+1}. ${q.q}</div><div class="mcq-opts">`;
+    q.opts.forEach((o,oi)=>{
+      let cls='';
+      if(aLocked){
+        cls+=' locked';
+        if(oi===q.ans) cls+=' correct';
+        else if(chosen!==undefined && oi===chosen && oi!==q.ans) cls+=' wrong';
+      } else if(chosen===oi){
+        cls+=' selected';
+      }
+      h+=`<div class="mcq-opt${cls}" onclick="selectOpt('${sid}',${qi},${oi})">${['A','B','C','D'][oi]}. ${o}</div>`;
+    });
+    const expShow=aLocked?' show':'';
+    h+=`</div><div class="mcq-exp${expShow}" id="exp-${k}">${q.exp}</div></div>`;
+  });
+  const aBtnTxt=aLocked?'✅ Part A Checked':'✅ Check Part A';
+  h+=`<div class="btn-row" style="margin:10px 0 18px"><button id="check-a-${sid}" class="btn btn-primary" onclick="checkPartA('${sid}')" ${aLocked?'disabled':''}>${aBtnTxt}</button></div>`;
+  // ── Part B: Translation ──
+  h+='<h3 style="font-size:16px;font-weight:700;margin:18px 0 14px">Part B &middot; Vietnamese &rarr; English</h3>';
+  S.qb.forEach((q,qi)=>{
+    const k=sid+'_'+qi;
+    h+=`<div class="trans-item"><div class="trans-vn">${qi+1}. ${q.vn}</div>
+    <div class="trans-hint">&#128161; Hint: ${q.hint}</div>
+    <textarea class="trans-input" id="trans-${k}" placeholder="Write your English sentence here...">${state.trans[k]||''}</textarea>
+    <div class="btn-row"><button class="btn btn-secondary" style="padding:6px 14px;font-size:13px" onclick="revealTrans('${sid}',${qi})">Show Answer</button></div>
+    <div class="trans-model" id="tmod-${k}">&#9989; Model: <strong>${q.model}</strong><div class="trans-note">&#128204; Pattern: ${q.note}</div></div></div>`;
+  });
+  // ── Part C: Error Correction ──
+  h+='<h3 style="font-size:16px;font-weight:700;margin:18px 0 14px">Part C &middot; Click the Error</h3>';
+  S.qe.forEach((q,qi)=>{
+    const k=sid+'_'+qi;
+    const sel=state.errs[k];
+    h+=`<div class="ec-item" id="ec-${k}"><div class="ec-instr">&#128432; Select the part of the sentence that contains the error:</div><div class="ec-sent">`;
+    q.parts.forEach((p,pi)=>{
+      let cls='';
+      if(cLocked){
+        if(pi===q.wrong) cls=' correct-hl';
+        else if(sel!==undefined && pi===sel && pi!==q.wrong) cls=' wrong-hl';
+      } else if(sel!==undefined && pi===sel){
+        cls=' sel-ec';
+      }
+      h+=`<span class="ec-part${cls}" onclick="selectError('${sid}',${qi},${pi})">${p}</span>`;
+    });
+    h+=`</div>`;
+    if(cLocked && sel!==undefined){
+      const ok=sel===q.wrong;
+      h+=`<div class="ec-res show ${ok?'ok':'bad'}">${ok?'&#9989; Correct!':'&#10060; Incorrect.'} Fix: <strong>${q.fix}</strong><br><em>${q.exp}</em></div>`;
+    }
+    h+=`</div>`;
+  });
+  const cBtnTxt=cLocked?'✅ Part C Checked':'✅ Check Part C';
+  h+=`<div class="btn-row" style="margin:10px 0 18px"><button id="check-c-${sid}" class="btn btn-primary" onclick="checkPartC('${sid}')" ${cLocked?'disabled':''}>${cBtnTxt}</button></div>`;
+  // ── Part D: Writing ──
+  const wk=sid+'_w';
+  h+='<h3 style="font-size:16px;font-weight:700;margin:18px 0 14px">Part D &middot; Writing Practice</h3>';
+  h+=`<div class="writ-prompt"><p style="font-size:14px;font-weight:600;margin-bottom:8px">${S.wc.prompt}</p>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:8px">&#128161; ${S.wc.hints}</div>
+  <ul class="crit-list" style="margin-bottom:10px">`;
+  S.wc.criteria.forEach(cr=>{h+=`<li>${cr}</li>`;});
+  h+=`</ul><textarea class="writ-ta" id="writ-${wk}" placeholder="Write your answer here...">${state.writings[sid]||''}</textarea>
+  <div class="btn-row"><button class="btn btn-secondary" style="padding:6px 14px;font-size:13px" onclick="revealWriting('${sid}')">Show Model Answer</button></div>
+  <div class="model-ans" id="moda-${sid}"><strong>&#128203; Model Answer:</strong><br>${S.wc.model}</div>
+  <div class="takeaway" id="tkwy-${sid}"><strong>&#128273; Key Takeaway:</strong> ${S.wc.takeaway}</div></div>`;
+  c.innerHTML=h;
+}
+
+function selectOpt(sid,qi,oi){
+  if(state.lockedA[sid]) return;
+  const k=sid+'_'+qi;
+  state.opts[k]=oi;
+  const container=document.getElementById('mcq-'+k);
+  if(!container) return;
+  container.querySelectorAll('.mcq-opt').forEach((el,i)=>{
+    el.classList.toggle('selected', i===oi);
+  });
+}
+
+function checkPartA(sid){
+  if(state.lockedA[sid]) return;
+  state.lockedA[sid]=true;
+  const S=SECTIONS[sid];
+  S.qa.forEach((q,qi)=>{
+    const k=sid+'_'+qi;
+    const container=document.getElementById('mcq-'+k);
+    if(!container) return;
+    const chosen=state.opts[k];
+    container.querySelectorAll('.mcq-opt').forEach((el,i)=>{
+      el.classList.remove('selected');
+      el.classList.add('locked');
+      if(i===q.ans) el.classList.add('correct');
+      else if(chosen!==undefined && i===chosen && i!==q.ans) el.classList.add('wrong');
+    });
+    const exp=document.getElementById('exp-'+k);
+    if(exp) exp.classList.add('show');
+  });
+  const btn=document.getElementById('check-a-'+sid);
+  if(btn){btn.textContent='✅ Part A Checked';btn.disabled=true;}
+}
+
+function revealTrans(sid,qi){
+  const k=sid+'_'+qi;
+  const ta=document.getElementById('trans-'+k);
+  if(ta) state.trans[k]=ta.value;
+  document.getElementById('tmod-'+k).classList.add('show');
+}
+
+function selectError(sid,qi,pi){
+  if(state.lockedC[sid]) return;
+  const k=sid+'_'+qi;
+  state.errs[k]=pi;
+  const ecItem=document.getElementById('ec-'+k);
+  if(!ecItem) return;
+  ecItem.querySelectorAll('.ec-part').forEach((el,i)=>{
+    el.classList.remove('sel-ec');
+    if(i===pi) el.classList.add('sel-ec');
+  });
+}
+
+function checkPartC(sid){
+  if(state.lockedC[sid]) return;
+  state.lockedC[sid]=true;
+  const S=SECTIONS[sid];
+  S.qe.forEach((q,qi)=>{
+    const k=sid+'_'+qi;
+    const ecItem=document.getElementById('ec-'+k);
+    if(!ecItem) return;
+    const sel=state.errs[k];
+    ecItem.querySelectorAll('.ec-part').forEach((el,i)=>{
+      el.classList.remove('sel-ec');
+      if(i===q.wrong) el.classList.add('correct-hl');
+      else if(sel!==undefined && i===sel && i!==q.wrong) el.classList.add('wrong-hl');
+    });
+    if(sel!==undefined){
+      let res=ecItem.querySelector('.ec-res');
+      if(!res){res=document.createElement('div');res.className='ec-res';ecItem.appendChild(res);}
+      const ok=sel===q.wrong;
+      res.className='ec-res show '+(ok?'ok':'bad');
+      res.innerHTML=(ok?'&#9989; Correct!':'&#10060; Incorrect.')+' Fix: <strong>'+q.fix+'</strong><br><em>'+q.exp+'</em>';
+    }
+  });
+  const btn=document.getElementById('check-c-'+sid);
+  if(btn){btn.textContent='✅ Part C Checked';btn.disabled=true;}
+}
+
+function revealWriting(sid){
+  document.getElementById('moda-'+sid).classList.add('show');
+  document.getElementById('tkwy-'+sid).classList.add('show');
+  const ta=document.getElementById('writ-'+sid+'_w');
+  if(ta) state.writings[sid]=ta.value;
+}
+
+function scoreSection(){
+  const sid=state.currentSid;
+  checkPartA(sid);
+  checkPartC(sid);
+  const S=SECTIONS[sid];
+  let correct=0;
+  S.qa.forEach((q,qi)=>{if(state.opts[sid+'_'+qi]===q.ans) correct++;});
+  let ecCorrect=0;
+  S.qe.forEach((q,qi)=>{if(state.errs[sid+'_'+qi]===q.wrong) ecCorrect++;});
+  state.scores[sid]={mcqCorrect:correct,mcqTotal:S.qa.length,ecCorrect,ecTotal:S.qe.length};
+  const pct=Math.round(correct/S.qa.length*100);
+  const cls=pct>=80?'high':pct>=60?'mid':'low';
+  const el=document.getElementById('sec-score');
+  el.style.display='block';
+  el.innerHTML=`<div class="score-badge ${cls}">MCQ: ${correct}/${S.qa.length} (${pct}%)</div>
+  <span style="font-size:13px;color:var(--muted);margin-left:10px">Error Correction: ${ecCorrect}/${S.qe.length}</span>`;
+  updateResults();
+}
+
+function showResults(){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-results').classList.add('active');
+  updateResults();
+}
+
+function updateResults(){
+  let tMCQ=0,cMCQ=0,tEC=0,cEC=0,att=0;
+  Object.keys(state.scores).forEach(sid=>{const sc=state.scores[sid];tMCQ+=sc.mcqTotal;cMCQ+=sc.mcqCorrect;tEC+=sc.ecTotal;cEC+=sc.ecCorrect;});
+  Object.keys(state.attempts).forEach(sid=>{att+=state.attempts[sid];});
+  const pct=tMCQ>0?Math.round(cMCQ/tMCQ*100):0;
+  document.getElementById('res-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-num" style="color:var(--accent)">${pct}%</div><div class="stat-lbl">MCQ Score</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${cMCQ}<span style="font-size:16px;font-weight:400">/${tMCQ}</span></div><div class="stat-lbl">MCQ Correct</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">${cEC}<span style="font-size:16px;font-weight:400">/${tEC}</span></div><div class="stat-lbl">Error Correction</div></div>
+    <div class="stat-card"><div class="stat-num">${att}</div><div class="stat-lbl">Attempts</div></div>`;
+  let modH='';
+  Object.entries(modules).forEach(([mname,sids])=>{
+    const col=modColors[sids[0]]||'#4f46e5';
+    let mc=0,mt=0,ec=0,et=0;
+    sids.forEach(sid=>{if(state.scores[sid]){mc+=state.scores[sid].mcqCorrect;mt+=state.scores[sid].mcqTotal;ec+=state.scores[sid].ecCorrect;et+=state.scores[sid].ecTotal;}});
+    const mp=mt>0?Math.round(mc/mt*100):0;
+    modH+=`<div class="mod-result"><h3 style="border-left:3px solid ${col};padding-left:8px">${mname}</h3>
+    <div class="pbr-outer"><div class="pbr-inner" style="width:${mp}%;background:${col}"></div></div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px">MCQ: ${mc}/${mt} &middot; EC: ${ec}/${et}</div>`;
+    sids.forEach(sid=>{
+      const S=SECTIONS[sid];const sc=state.scores[sid];
+      if(sc){const sp=Math.round(sc.mcqCorrect/sc.mcqTotal*100);const badge=sp>=80?'high':sp>=60?'mid':'low';
+        modH+=`<div class="sec-row"><span>${S.title}</span><span class="score-badge ${badge}">${sc.mcqCorrect}/${sc.mcqTotal} MCQ &middot; ${sc.ecCorrect}/${sc.ecTotal} EC</span></div>`;
+      } else {modH+=`<div class="sec-row"><span>${S.title}</span><span style="font-size:11px;color:var(--muted)">Not attempted</span></div>`;}
+    });
+    let hasErr=false;
+    sids.forEach(sid=>{
+      const S=SECTIONS[sid];
+      S.qa.forEach((q,qi)=>{
+        const k=sid+'_'+qi;
+        if(state.opts[k]!==undefined&&state.opts[k]!==q.ans){
+          if(!hasErr){modH+='<div class="err-log"><strong style="font-size:12px;color:#991b1b">Error Log</strong>';hasErr=true;}
+          modH+=`<div class="err-item"><div class="err-q">MCQ: ${q.q}</div>
+          <div class="err-d">Your answer: ${q.opts[state.opts[k]]} &nbsp;|&nbsp; Correct: ${q.opts[q.ans]}</div>
+          <div class="err-d" style="color:#b45309">${q.exp}</div></div>`;
+        }
+      });
+      S.qe.forEach((q,qi)=>{
+        const k=sid+'_'+qi;
+        if(state.errs[k]!==undefined&&state.errs[k]!==q.wrong){
+          if(!hasErr){modH+='<div class="err-log"><strong style="font-size:12px;color:#991b1b">Error Log</strong>';hasErr=true;}
+          modH+=`<div class="err-item"><div class="err-q">EC: ${q.s}</div>
+          <div class="err-d">You clicked: "${q.parts[state.errs[k]]}" &nbsp;|&nbsp; Error was in: "${q.parts[q.wrong]}"</div>
+          <div class="err-d" style="color:#b45309">Fix: ${q.fix} — ${q.exp}</div></div>`;
+        }
+      });
+    });
+    if(hasErr) modH+='</div>';
+    modH+='</div>';
+  });
+  document.getElementById('res-modules').innerHTML=modH;
+}
+
+function generatePDF(){
+  const name=document.getElementById('inp-name').value||'Student';
+  const cls=document.getElementById('inp-class').value||'—';
+  const date=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload=()=>{
+    const {jsPDF}=window.jspdf;const doc=new jsPDF();const pw=doc.internal.pageSize.getWidth();let y=18;
+    doc.setFillColor(30,27,75);doc.rect(0,0,pw,28,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');
+    doc.text('Huong Stella Paradigm – Grammar Series · Vol.4',pw/2,10,{align:'center'});
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text('Verb Patterns A1–C1 · Practice Report',pw/2,18,{align:'center'});
+    y=36;doc.setTextColor(30,41,59);doc.setFontSize(9);
+    doc.text(`Student: ${name}  |  Class: ${cls}  |  Date: ${date}`,14,y);y+=10;
+    let tMCQ=0,cMCQ=0,tEC=0,cEC=0;
+    Object.keys(state.scores).forEach(sid=>{const sc=state.scores[sid];tMCQ+=sc.mcqTotal;cMCQ+=sc.mcqCorrect;tEC+=sc.ecTotal;cEC+=sc.ecCorrect;});
+    const pct=tMCQ>0?Math.round(cMCQ/tMCQ*100):0;
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('OVERALL SUMMARY',14,y);y+=6;
+    doc.setFont('helvetica','normal');doc.setFontSize(9);
+    doc.text(`Total MCQ Score: ${cMCQ}/${tMCQ} (${pct}%)  |  Error Correction: ${cEC}/${tEC}`,14,y);y+=10;
+    Object.entries(modules).forEach(([mname,sids])=>{
+      if(y>260){doc.addPage();y=14;}
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(mname,14,y);y+=5;
+      doc.setFont('helvetica','normal');doc.setFontSize(8);
+      sids.forEach(sid=>{
+        if(y>270){doc.addPage();y=14;}
+        const S=SECTIONS[sid];const sc=state.scores[sid];
+        if(sc){
+          const sp=Math.round(sc.mcqCorrect/sc.mcqTotal*100);
+          doc.text(`  ${S.title}: MCQ ${sc.mcqCorrect}/${sc.mcqTotal} (${sp}%) | EC ${sc.ecCorrect}/${sc.ecTotal}`,14,y);y+=5;
+          S.qa.forEach((q,qi)=>{
+            const k=sid+'_'+qi;
+            if(state.opts[k]!==undefined&&state.opts[k]!==q.ans){
+              if(y>268){doc.addPage();y=14;}
+              doc.setTextColor(180,0,0);
+              const lines=doc.splitTextToSize(`    X Q${qi+1}: ${q.q}`,pw-28);
+              lines.forEach(l=>{doc.text(l,14,y);y+=4;});
+              const al=doc.splitTextToSize(`      Your: ${q.opts[state.opts[k]]}  Correct: ${q.opts[q.ans]}`,pw-28);
+              al.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(100,116,139);
+              const el=doc.splitTextToSize(`      ${q.exp}`,pw-28);
+              el.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(30,41,59);y+=1;
+            }
+          });
+          S.qe.forEach((q,qi)=>{
+            const k=sid+'_'+qi;
+            if(state.errs[k]!==undefined&&state.errs[k]!==q.wrong){
+              if(y>268){doc.addPage();y=14;}
+              doc.setTextColor(180,0,0);
+              const lines=doc.splitTextToSize(`    X EC${qi+1}: ${q.s}`,pw-28);
+              lines.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(100,116,139);
+              const fl=doc.splitTextToSize(`      Fix: ${q.fix} — ${q.exp}`,pw-28);
+              fl.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(30,41,59);y+=1;
+            }
+          });
+          S.qb.forEach((q,qi)=>{
+            const k=sid+'_'+qi;
+            const student=state.trans[k];
+            if(student){
+              if(y>268){doc.addPage();y=14;}
+              doc.setTextColor(100,116,139);
+              const vl=doc.splitTextToSize(`    VN: ${q.vn}`,pw-28);
+              vl.forEach(l=>{doc.text(l,14,y);y+=4;});
+              const yl=doc.splitTextToSize(`    Your: ${student}`,pw-28);
+              yl.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(22,163,74);
+              const ml=doc.splitTextToSize(`    Model: ${q.model}`,pw-28);
+              ml.forEach(l=>{doc.text(l,14,y);y+=4;});
+              doc.setTextColor(30,41,59);y+=2;
+            }
+          });
+        } else {doc.text(`  ${S.title}: Not attempted`,14,y);y+=5;}
+      });
+      y+=4;
+    });
+    // Writing section
+    if(y>260){doc.addPage();y=14;}
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('WRITING RESPONSES',14,y);y+=6;
+    doc.setFont('helvetica','normal');doc.setFontSize(8);
+    Object.keys(state.writings).forEach(sid=>{
+      const w=state.writings[sid];
+      if(w&&w.trim()){
+        if(y>270){doc.addPage();y=14;}
+        doc.setFont('helvetica','bold');
+        doc.text(`${SECTIONS[sid].title}:`,14,y);y+=4;
+        doc.setFont('helvetica','normal');doc.setTextColor(100,116,139);
+        const wl=doc.splitTextToSize(w,pw-28);
+        wl.forEach(l=>{if(y>272){doc.addPage();y=14;}doc.text(l,14,y);y+=4;});
+        doc.setTextColor(30,41,59);y+=4;
+      }
+    });
+    const pages=doc.internal.getNumberOfPages();
+    for(let i=1;i<=pages;i++){
+      doc.setPage(i);doc.setFontSize(7);doc.setTextColor(150,150,150);
+      doc.text(`Huong Stella Paradigm – Grammar Series | Page ${i} of ${pages}`,pw/2,doc.internal.pageSize.getHeight()-6,{align:'center'});
+    }
+    doc.save(`VerbPatterns_${name.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`);
+  };
+  document.head.appendChild(s);
+}
+
+function sendToTeacher(){
+  const name=document.getElementById('inp-name').value||'Student';
+  const cls=document.getElementById('inp-class').value||'—';
+  const el=document.getElementById('email-status');
+  el.textContent='Sending...';
+  let tMCQ=0,cMCQ=0,tEC=0,cEC=0;
+  Object.keys(state.scores).forEach(sid=>{const sc=state.scores[sid];tMCQ+=sc.mcqTotal;cMCQ+=sc.mcqCorrect;tEC+=sc.ecTotal;cEC+=sc.ecCorrect;});
+  const pct=tMCQ>0?Math.round(cMCQ/tMCQ*100):0;
+  let errLog='ERROR LOG:\n\n';
+  Object.keys(state.scores).forEach(sid=>{
+    const S=SECTIONS[sid];
+    S.qa.forEach((q,qi)=>{
+      const k=sid+'_'+qi;
+      if(state.opts[k]!==undefined&&state.opts[k]!==q.ans){
+        errLog+=`[${S.title}] Q${qi+1}: ${q.q}\nYour answer: ${q.opts[state.opts[k]]}\nCorrect: ${q.opts[q.ans]}\n${q.exp}\n\n`;
+      }
+    });
+    S.qe.forEach((q,qi)=>{
+      const k=sid+'_'+qi;
+      if(state.errs[k]!==undefined&&state.errs[k]!==q.wrong){
+        errLog+=`[${S.title}] EC${qi+1}: ${q.s}\nYou clicked: "${q.parts[state.errs[k]]}"\nError was in: "${q.parts[q.wrong]}"\nFix: ${q.fix}\n\n`;
+      }
+    });
+  });
+  const body=`Student: ${name}\nClass: ${cls}\nDate: ${new Date().toLocaleDateString()}\nMCQ: ${cMCQ}/${tMCQ} (${pct}%)\nEC: ${cEC}/${tEC}\n\n${errLog}`;
+  fetch('https://formsubmit.co/ajax/huongstella8@gmail.com',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({name,email:'noreply@verbpatterns.edu',_subject:`[Verb Patterns] ${name} - ${cls} - ${pct}%`,message:body,_captcha:'false'})
+  }).then(r=>r.json())
+  .then(()=>{el.style.color='var(--green)';el.textContent='Results sent to teacher successfully!';})
+  .catch(()=>{el.style.color='var(--red)';el.textContent='Could not send. Please share your PDF with your teacher directly.';});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('view-home').classList.add('active');
+});
+</script>
+</body>
+</html>
